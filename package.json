@@ -1,0 +1,29 @@
+{
+  "name": "tech-interview-prep",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build-content.mjs && node scripts/build-index.mjs && node scripts/dev.mjs",
+    "dev:web": "vite",
+    "rag": "node server/index.mjs",
+    "content": "node scripts/build-content.mjs",
+    "index": "node scripts/build-content.mjs && node scripts/build-index.mjs",
+    "s3:upload": "npm run index && sh scripts/upload-s3.sh",
+    "test": "node --test server/rag-core.test.mjs",
+    "build": "node scripts/build-content.mjs && node scripts/build-index.mjs && tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "lucide-react": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}
