@@ -1,5 +1,5 @@
 import { FormEvent, useRef, useState } from 'react'
-import { Database, ExternalLink, LoaderCircle, MessageCircle, Send, Sparkles, X } from 'lucide-react'
+import { Database, LoaderCircle, MessageCircle, Send, Sparkles, X } from 'lucide-react'
 import { fetchQuestionIndex, fetchQuestions } from './dataClient'
 import type { Question, RagResponse } from './types'
 import s from './ChatBot.module.css'
@@ -170,9 +170,10 @@ export function ChatBot() {
                       <div className={s.msgText}>
                         {msg.text.split('\n\n')[0].split('\n').filter(Boolean).map((line, j) => <p key={j}>{line}</p>)}
                         {msg.sources && msg.sources.length > 0 && (
-                          <a className={s.cardLink} href={`#question/${msg.sources[0].id}`} onClick={() => setOpen(false)}>
+                          <button className={s.cardLink}
+                            onClick={() => { setOpen(false); window.location.hash = `question/${msg.sources![0].id}` }}>
                             Читать полностью →
-                          </a>
+                          </button>
                         )}
                       </div>
                     )}
@@ -180,10 +181,11 @@ export function ChatBot() {
                       <div className={s.sources}>
                         <small>Связанные вопросы</small>
                         {msg.sources.slice(1).map((src) => (
-                          <a href={`#question/${src.id}`} key={src.id} onClick={() => setOpen(false)}>
+                          <button key={src.id}
+                            className={s.sourceBtn}
+                            onClick={() => { setOpen(false); window.location.hash = `question/${src.id}` }}>
                             {src.companies[0]} — {src.title}
-                            <ExternalLink size={12} />
-                          </a>
+                          </button>
                         ))}
                       </div>
                     )}

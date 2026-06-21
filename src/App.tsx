@@ -257,18 +257,23 @@ function App() {
           <div className={s['question-grid']}>
             {visibleQuestions.map((question) => (
               <article className={s['question-card']} key={question.id}>
-                <div className={s['card-topline']}>
-                  <div className={s['company-context']}>
-                    <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
-                    <span><b>{question.companies.join(', ')}</b><small>{question.roles[0]} · {question.level}</small></span>
+                <div className={s['card-top']}>
+                  <div className={s['card-left']}>
+                    <h3>{question.title}</h3>
+                    <div className={s['company-context']}>
+                      <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
+                      <span><b>{question.companies.join(', ')}</b><small>{question.roles[0]} · {question.level}</small></span>
+                    </div>
                   </div>
-                </div>
-                <span className={s.stage}>{question.stage}</span>
-                <h3>{question.title}</h3>
-                <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                <div className={s.difficulty}>
-                  <span>Сложность</span>
-                  <div>{[1, 2, 3, 4, 5].map((dot) => <i className={dot <= question.difficulty ? s.filled : ''} key={dot} />)}</div>
+                  <div className={s['card-meta']}>
+                    <div className={s['card-meta-row']}>
+                      <span className={s.stage}>{question.stage}</span>
+                      <span className={`${s.difficulty} ${question.difficulty <= 2 ? s.easy : question.difficulty <= 3 ? s.medium : s.hard}`}>
+                        {question.difficulty <= 2 ? 'easy' : question.difficulty <= 3 ? 'medium' : 'hard'}
+                      </span>
+                    </div>
+                    <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                  </div>
                 </div>
                 <div className={s['card-footer']}>
                   <span><Users size={15} /> {videoFrequency(question)} видео</span>

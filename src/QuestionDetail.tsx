@@ -60,7 +60,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
         <div><small>Уровень</small><strong>{question.level}</strong></div>
         <div><small>Время на решение</small><strong><Clock3 size={15} /> {question.duration}</strong></div>
         <div><small>Языки</small><strong>{question.languages.slice(0, 4).join(' · ') || 'Любой'}</strong></div>
-        <div><small>Сложность</small><strong>{question.difficulty} / 5</strong></div>
+        <div><small>Сложность</small><strong>{question.difficulty <= 2 ? 'Easy' : question.difficulty <= 3 ? 'Medium' : 'Hard'}</strong></div>
       </div>
 
       <div className={s['detail-layout']}>
