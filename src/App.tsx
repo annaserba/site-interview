@@ -284,6 +284,7 @@ function App() {
                   </div>
                   <div className={s['card-left']}>
                     <h3>{question.title}</h3>
+                    <p className={s['card-answer']}>{question.answer.slice(0, 120)}{question.answer.length > 120 ? '...' : ''}</p>
                     <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                   </div>
                 </div>
