@@ -256,7 +256,7 @@ function App() {
 
           <div className={s['question-grid']}>
             {visibleQuestions.map((question) => (
-              <article className={s['question-card']} key={question.id}>
+              <article className={s['question-card']} key={question.id} onClick={() => openQuestion(question.id)} style={{ cursor: 'pointer' }}>
                 <div className={s['card-top']}>
                   <div className={s['card-left']}>
                     <h3>{question.title}</h3>
@@ -278,7 +278,7 @@ function App() {
                 <div className={s['card-footer']}>
                   <span><Users size={15} /> {videoFrequency(question)} видео</span>
                   <span>{question.languages.length ? `${question.languages.length} языков` : 'Любой язык'}</span>
-                  <button aria-label="Открыть вопрос" onClick={() => openQuestion(question.id)}><ArrowRight size={18} /></button>
+                  <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); openQuestion(question.id); }}><ArrowRight size={18} /></button>
                 </div>
               </article>
             ))}
