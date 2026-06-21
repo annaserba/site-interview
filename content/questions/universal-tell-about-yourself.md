@@ -1,6 +1,7 @@
 ---
 id: universal-tell-about-yourself
 title: Расскажите о себе и своём опыте
+aliases: ["Расскажите о своём опыте", "Расскажите о себе"]
 category: Behavioral
 scope: universal
 languages: []

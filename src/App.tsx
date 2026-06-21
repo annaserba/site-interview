@@ -1,16 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  ArrowRight,
-  Menu,
-  Search,
-  Users,
-  X,
-} from 'lucide-react'
+import { ArrowRight, Menu, Search, Users, X } from 'lucide-react'
 import { RagAssistant } from './RagAssistant'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
 import { fetchQuestions } from './dataClient'
 import type { Question } from './types'
+import s from './App.module.css'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
   'Яндекс': { mark: 'Я', color: '#ffcc00' },
@@ -71,10 +66,32 @@ function App() {
     return () => controller.abort()
   }, [])
 
+  const applyHashFilters = (hash: string) => {
+    const path = hash.replace(/^#/, '')
+    if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
+    setSelectedQuestionId('')
+    if (path.startsWith('topic/')) {
+      const topicId = path.slice(6)
+      if (topicDefinitions.some((t) => t.id === topicId)) {
+        setActiveTopic(topicId); setActiveCompany('Все компании'); setActiveRole('Все роли'); return
+      }
+    }
+    if (path.startsWith('company/')) {
+      const name = decodeURIComponent(path.slice(8))
+      if (companyOrder.includes(name)) {
+        setActiveCompany(name); setActiveTopic('Все темы'); setActiveRole('Все роли'); return
+      }
+    }
+    if (path.startsWith('role/')) {
+      setActiveRole(decodeURIComponent(path.slice(5))); setActiveTopic('Все темы'); setActiveCompany('Все компании'); return
+    }
+  }
+
   useEffect(() => {
-    const readQuestionFromHash = () => setSelectedQuestionId(window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
-    window.addEventListener('hashchange', readQuestionFromHash)
-    return () => window.removeEventListener('hashchange', readQuestionFromHash)
+    const readHash = () => applyHashFilters(window.location.hash)
+    readHash()
+    window.addEventListener('hashchange', readHash)
+    return () => window.removeEventListener('hashchange', readHash)
   }, [])
 
   const filtered = useMemo(() => {
@@ -115,9 +132,7 @@ function App() {
   const universalCount = questions.filter((question) => question.scope === 'universal').length
   const visibleQuestions = filtered.slice(0, visibleCount)
 
-  useEffect(() => {
-    setVisibleCount(4)
-  }, [activeCompany, activeRole, activeTopic, sortMode])
+  useEffect(() => { setVisibleCount(4) }, [activeCompany, activeRole, activeTopic, sortMode])
 
   useEffect(() => {
     const sentinel = feedSentinelRef.current
@@ -132,26 +147,24 @@ function App() {
   const selectedQuestion = questions.find((question) => question.id === selectedQuestionId)
   const openQuestion = (id: string) => { window.location.hash = `question/${id}` }
   const closeQuestion = () => { window.location.hash = 'questions' }
-  const filterFromFooter = (filter: 'topic' | 'role', value: string) => {
-    if (filter === 'topic') setActiveTopic(value)
-    if (filter === 'role') setActiveRole(value)
-    window.location.hash = 'questions'
-  }
+  const navigateTopic = (topicId: string) => { window.location.hash = topicId ? `topic/${topicId}` : 'questions' }
+  const navigateCompany = (company: string) => { window.location.hash = company !== 'Все компании' ? `company/${encodeURIComponent(company)}` : 'questions' }
+  const navigateRole = (role: string) => { window.location.hash = role !== 'Все роли' ? `role/${encodeURIComponent(role)}` : 'questions' }
 
   return (
-    <div className="app-shell">
-      <header className="topbar">
+    <div className={s['app-shell']}>
+      <header className={s.topbar}>
         <a className="brand" href="#top" aria-label="in.depth — на главную">
           <span className="brand-mark">i<span>/</span>d</span>
           <span>in.depth</span>
         </a>
-        <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
-          <a className="active" href="#questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
+        <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
+          <a href="#questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#companies" onClick={() => setMenuOpen(false)}>Компании</a>
           <a href="#rag" onClick={() => setMenuOpen(false)}>AI-поиск</a>
         </nav>
-        <div className="header-actions">
-          <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
+        <div className={s['header-actions']}>
+          <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -159,39 +172,38 @@ function App() {
 
       <main id="top">
         {selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="eyebrow"><span className="pulse" /> {questions.length} вопросов в базе</div>
+        <section className={s.hero}>
+          <div className={s['hero-copy']}>
+            <div className={s.eyebrow}><span className={s.pulse} /> {questions.length} вопросов в базе</div>
             <h1>Знай, что<br />тебя <em>спросят.</em></h1>
             <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
             <RagAssistant variant="hero" />
           </div>
-
-          <div className="hero-stats">
+          <div className={s['hero-stats']}>
             <div><strong>{questions.length}</strong><span>вопросов в базе</span></div>
             <div><strong>{companyCount}</strong><span>компаний в данных</span></div>
             <div><strong>{universalCount}</strong><span>универсальный вопрос</span></div>
           </div>
         </section>
 
-        <section className="company-strip" id="companies">
-          <div className="company-strip-head">
+        <section className={s['company-strip']} id="companies">
+          <div className={s['company-strip-head']}>
             <div className="section-kicker">Компании в базе</div>
-            <div className="video-infographic" aria-label="Статистика источников из видео">
+            <div className={s['video-infographic']} aria-label="Статистика источников из видео">
               <div><strong>{videoStats.uniqueVideos}</strong><span>уникальных видео</span></div>
               <div><strong>{videoStats.questionsWithVideo}</strong><span>вопросов из видео</span></div>
-              <div className="video-coverage">
+              <div className={s['video-coverage']}>
                 <span><b>{videoStats.coverage}%</b> базы подтверждено видео</span>
                 <i><em style={{ width: `${videoStats.coverage}%` }} /></i>
               </div>
             </div>
           </div>
-          <div className="company-row">
+          <div className={s['company-row']}>
             {companies.map((company) => (
               <button
-                className={activeCompany === company.name ? 'company-pill selected' : 'company-pill'}
+                className={`${s['company-pill']} ${activeCompany === company.name ? s.selected : ''}`}
                 key={company.name}
-                onClick={() => setActiveCompany(activeCompany === company.name ? 'Все компании' : company.name)}
+                onClick={() => navigateCompany(activeCompany === company.name ? 'Все компании' : company.name)}
               >
                 <span className="company-logo" style={{ background: company.color }}>{company.mark}</span>
                 <span><b>{company.name}</b><small>{company.count} {questionWord(company.count)}</small></span>
@@ -200,14 +212,14 @@ function App() {
           </div>
         </section>
 
-        <section className="question-section" id="questions">
-          <div className="section-heading">
+        <section className={s['question-section']} id="questions">
+          <div className={s['section-heading']}>
             <div>
               <span className="section-index">01 / БАЗА ЗНАНИЙ</span>
               <h2>Свежие вопросы</h2>
               <p>Восстановлены кандидатами после реальных интервью</p>
             </div>
-            <div className="filters">
+            <div className={s.filters}>
               <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
                 { value: 'Все компании', label: 'Все компании' },
                 ...companies.map((company) => ({ value: company.name, label: company.name })),
@@ -230,23 +242,23 @@ function App() {
             </div>
           </div>
 
-          <div className="question-grid">
+          <div className={s['question-grid']}>
             {visibleQuestions.map((question) => (
-              <article className="question-card" key={question.id}>
-                <div className="card-topline">
-                  <div className="company-context">
+              <article className={s['question-card']} key={question.id}>
+                <div className={s['card-topline']}>
+                  <div className={s['company-context']}>
                     <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
                     <span><b>{question.companies.join(', ')}</b><small>{question.roles[0]} · {question.level}</small></span>
                   </div>
                 </div>
-                <span className="stage">{question.stage}</span>
+                <span className={s.stage}>{question.stage}</span>
                 <h3>{question.title}</h3>
-                <div className="tags">{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                <div className="difficulty">
+                <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                <div className={s.difficulty}>
                   <span>Сложность</span>
-                  <div>{[1, 2, 3, 4, 5].map((dot) => <i className={dot <= question.difficulty ? 'filled' : ''} key={dot} />)}</div>
+                  <div>{[1, 2, 3, 4, 5].map((dot) => <i className={dot <= question.difficulty ? s.filled : ''} key={dot} />)}</div>
                 </div>
-                <div className="card-footer">
+                <div className={s['card-footer']}>
                   <span><Users size={15} /> {videoFrequency(question)} видео</span>
                   <span>{question.languages.length ? `${question.languages.length} языков` : 'Любой язык'}</span>
                   <button aria-label="Открыть вопрос" onClick={() => openQuestion(question.id)}><ArrowRight size={18} /></button>
@@ -255,22 +267,22 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className="empty-state"><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы') }}>Сбросить фильтры</button></div>
+            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
-          {visibleCount < filtered.length && <div className="feed-sentinel" ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
-          {filtered.length > 0 && visibleCount >= filtered.length && <div className="feed-end">Все вопросы загружены · {filtered.length}</div>}
+          {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
+          {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}
         </section>
         </>}
       </main>
 
       <footer>
-        <div className="footer-intro">
+        <div className={s['footer-intro']}>
           <div className="brand"><span className="brand-mark">i<span>/</span>d</span><span>in.depth</span></div>
           <p>Сложные интервью становятся понятнее.</p>
         </div>
-        <div className="footer-nav">
-          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => filterFromFooter('topic', topic.id)}>{topic.label}</button>)}</div>
-          <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => filterFromFooter('role', role)}>{role}</button>)}</div>
+        <div className={s['footer-nav']}>
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
+          <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => navigateRole(role)}>{role}</button>)}</div>
         </div>
         <span>© 2026 in.depth</span>
       </footer>

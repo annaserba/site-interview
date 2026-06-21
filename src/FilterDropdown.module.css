@@ -1,0 +1,50 @@
+.filter-dropdown { position: relative; min-width: 155px; flex: 0 0 auto; }
+.filter-dropdown:last-child { min-width: 178px; }
+
+.filter-trigger {
+  width: 100%; min-height: 48px;
+  padding: 8px 13px 7px 14px;
+  border: 1px solid rgba(0,0,0,0.07); border-radius: var(--radius);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  text-align: left;
+  transition: border-color .2s var(--ease-out), background .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+
+.filter-trigger:hover { border-color: rgba(0,0,0,0.13); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+.open .filter-trigger { border-color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+.filter-trigger > span { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.filter-trigger small { color: #92938d; font: 7px 'DM Mono'; text-transform: uppercase; letter-spacing: .08em; }
+.filter-trigger b { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; font-weight: 600; }
+.filter-trigger svg { flex: 0 0 auto; color: #74756f; transition: transform .2s var(--ease-out); }
+.open .filter-trigger svg { transform: rotate(180deg); }
+
+.filter-menu {
+  position: absolute; top: calc(100% + 7px); left: 0;
+  min-width: 100%; width: max-content; max-width: 260px;
+  padding: 6px; z-index: 30;
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-line); border-radius: var(--radius);
+  box-shadow: 0 16px 40px rgba(0,0,0,.25);
+}
+
+.filter-menu button {
+  width: 100%; min-height: 38px; padding: 8px 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: #b8bab1;
+  text-align: left; font-size: 11px; white-space: nowrap;
+  transition: background .15s var(--ease-out), color .15s var(--ease-out);
+}
+
+.filter-menu button:hover { background: #2a2c27; color: white; }
+.filter-menu button.selected { background: var(--acid); color: #171814; font-weight: 700; }
+.filter-menu button svg { flex: 0 0 auto; }
+
+/* Desktop — wider fixed-width dropdowns */
+@media (min-width: 761px) {
+  .filter-dropdown { min-width: 154px; flex: auto; }
+  .filter-dropdown:last-child { min-width: 178px; }
+}

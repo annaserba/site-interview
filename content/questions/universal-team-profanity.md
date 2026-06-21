@@ -6,13 +6,13 @@ category: Behavioral
 scope: universal
 languages: []
 roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "Data Analyst", "Data Scientist", "QA", "DevOps", "Mobile-разработчик", "Tech Lead"]
-companies: ["Несколько компаний"]
+companies: ["Яндекс"]
 level: Senior
 stage: Ситуационное интервью
 tags: ["Communication", "Conflict", "Psychological safety"]
 duration: 7 мин
 difficulty: 3
-sourceCompany: Несколько компаний
+sourceCompany: Яндекс
 sourceType: candidate-report
 sourceUrl: ""
 ---

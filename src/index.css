@@ -1,0 +1,51 @@
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #0d0e0c; background: #f8f6f0;
+  font-synthesis: none; text-rendering: optimizeLegibility;
+  --ink: #0d0e0c;
+  --acid: #c9ff32;
+  --acid-glow: rgba(201, 255, 50, 0.18);
+  --paper: #f8f6f0;
+  --paper-dim: #efede6;
+  --muted: #6b6c66;
+  --line: #ddd9d0;
+  --surface: #ffffff;
+  --dark: #111210;
+  --dark-surface: #1b1c18;
+  --dark-line: #2c2e29;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: var(--paper); }
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--acid); color: var(--ink); }
+
+/* Shared classes used across multiple components */
+.company-logo { width: 30px; height: 30px; flex: 0 0 30px; display: grid; place-items: center; color: #121310; font-weight: 800; font-size: 10px; border-radius: var(--radius-sm); }
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.04em; font-size: 20px; }
+.brand-mark { width: 36px; height: 36px; display: grid; place-items: center; background: var(--ink); color: white; font-family: 'DM Mono'; font-size: 13px; letter-spacing: -.14em; border-radius: var(--radius-sm); }
+.brand-mark span { color: var(--acid); }
+.section-index { font: 10px 'DM Mono'; letter-spacing: .12em; color: var(--muted); }
+.section-kicker { font: 10px 'DM Mono'; letter-spacing: .12em; text-transform: uppercase; color: #83857d; margin-bottom: 19px; }
+
+/* Element defaults */
+h1 { font-size: clamp(52px, 16vw, 74px); line-height: .88; margin: 0; letter-spacing: -.065em; font-weight: 700; text-wrap: balance; }
+h1 em { font-family: Georgia, serif; font-weight: 400; font-style: italic; background: linear-gradient(135deg, var(--ink) 30%, color-mix(in srgb, var(--ink) 60%, var(--acid) 40%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Keyframes */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes feed-pulse { to { height: 7px; opacity: .35; } }
+@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 5px rgba(67,189,98,.14); } 50% { box-shadow: 0 0 0 10px rgba(67,189,98,.05); } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}

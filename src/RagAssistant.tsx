@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react'
 import { Database, ExternalLink, LoaderCircle, MessageCircle, Send, Sparkles } from 'lucide-react'
 import { fetchQuestionIndex, fetchQuestions } from './dataClient'
 import type { Question, RagResponse } from './types'
+import s from './RagAssistant.module.css'
 
 const synonymGroups = [
   ['go', 'golang'],
@@ -44,39 +45,25 @@ async function browserEmbedding(text: string) {
     ...Array.from({ length: Math.max(0, compact.length - 2) }, (_, index) => compact.slice(index, index + 3)),
   ]
   const digests = await Promise.all(features.map((feature) => crypto.subtle.digest('SHA-256', new TextEncoder().encode(feature))))
-
   for (const digest of digests) {
     const bytes = new Uint8Array(digest)
     const index = ((bytes[0] << 8) | bytes[1]) % size
     vector[index] += bytes[2] % 2 === 0 ? 1 : -1
   }
-
   const length = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0)) || 1
   return vector.map((value) => value / length)
 }
 
 const questionText = (question: Question) => [
-  question.title,
-  ...(question.aliases || []),
-  question.answer,
-  question.context || '',
-  question.codeSnippet || '',
-  question.category,
-  question.stage,
-  ...question.tags,
-  ...question.languages,
-  ...question.roles,
-  ...question.companies,
+  question.title, ...(question.aliases || []), question.answer, question.context || '',
+  question.codeSnippet || '', question.category, question.stage,
+  ...question.tags, ...question.languages, ...question.roles, ...question.companies,
   ...(question.keyPoints || []).flatMap((point) => [point.title, point.text]),
-  ...(question.pitfalls || []),
-  ...(question.followUps || []),
+  ...(question.pitfalls || []), ...(question.followUps || []),
 ].join(' ')
 
 async function staticRag(query: string): Promise<RagResponse> {
-  const [questions, index] = await Promise.all([
-    fetchQuestions(),
-    fetchQuestionIndex(),
-  ])
+  const [questions, index] = await Promise.all([fetchQuestions(), fetchQuestionIndex()])
   const queryVector = await browserEmbedding(query)
   const embeddings = new Map(index.documents.map((document) => [document.id, document.embedding]))
   const queryTokenSet = new Set(ragTokens(query))
@@ -111,9 +98,7 @@ async function staticRag(query: string): Promise<RagResponse> {
   return { answer, mode: 'local', sources: relevant }
 }
 
-type RagAssistantProps = {
-  variant?: 'hero' | 'section'
-}
+type RagAssistantProps = { variant?: 'hero' | 'section' }
 
 export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
   const [prompt, setPrompt] = useState('')
@@ -127,7 +112,6 @@ export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
     if (question.length < 2 || loading) return
     setLoading(true)
     setError('')
-
     try {
       const response = await fetch('/api/rag/ask', {
         method: 'POST',
@@ -138,63 +122,48 @@ export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
       if (!response.ok) throw new Error('API недоступен')
       setResult(await response.json())
     } catch {
-      try {
-        setResult(await staticRag(question))
-      } catch {
-        setError('Не удалось прочитать JSON-индекс. Запустите npm run index.')
-      }
-    } finally {
-      setLoading(false)
-    }
+      try { setResult(await staticRag(question)) }
+      catch { setError('Не удалось прочитать JSON-индекс. Запустите npm run index.') }
+    } finally { setLoading(false) }
   }
 
   if (variant === 'hero') {
     return (
-      <div className="hero-rag" id="rag">
-        <div className="hero-rag-head">
+      <div className={s['hero-rag']} id="rag">
+        <div className={s['hero-rag-head']}>
           <span><Sparkles size={15} /> AI-помощник</span>
           <small><i /> JSON RAG</small>
         </div>
-        <form className="hero-rag-form" onSubmit={ask}>
+        <form className={s['hero-rag-form']} onSubmit={ask}>
           <MessageCircle size={20} />
-          <textarea
-            value={prompt}
-            onChange={(event) => setPrompt(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault()
-                event.currentTarget.form?.requestSubmit()
-              }
-            }}
-            placeholder="Спросите, что ждёт вас на интервью…"
-            aria-label="Вопрос AI-помощнику"
-            rows={1}
-          />
+          <textarea value={prompt} onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }}
+            placeholder="Спросите, что ждёт вас на интервью…" aria-label="Вопрос AI-помощнику" rows={1} />
           <button type="submit" disabled={loading || prompt.trim().length < 2}>
             {loading ? <LoaderCircle size={18} /> : <><span>Спросить</span><Send size={17} /></>}
           </button>
         </form>
-        {error && <div className="hero-rag-error">{error}</div>}
+        {error && <div className={s['hero-rag-error']}>{error}</div>}
         {result && !loading && (
-          <div className="hero-rag-result" aria-live="polite">
-            <div className="hero-rag-answer">
+          <div className={s['hero-rag-result']} aria-live="polite">
+            <div className={s['hero-rag-answer']}>
               <span>Ответ по базе</span>
               {result.answer.split('\n').filter(Boolean).map((line, index) => <p key={`${line}-${index}`}>{line}</p>)}
             </div>
-            <div className="hero-rag-sources">
+            <div className={s['hero-rag-sources']}>
               <small>Источники · {result.sources.length}</small>
               {result.sources.map((source) => <a href={`#question/${source.id}`} key={source.id}>{source.companies[0]} — {source.title}<ExternalLink size={13} /></a>)}
             </div>
           </div>
         )}
-        {!result && <div className="hero-rag-examples"><span>Например:</span><button type="button" onClick={() => setPrompt('Как отвечать на вопрос «Расскажите о себе»?')}>Расскажите о себе</button><button type="button" onClick={() => setPrompt('Что спрашивают по конкурентности в Go?')}>Конкурентность в Go</button></div>}
+        {!result && <div className={s['hero-rag-examples']}><span>Например:</span><button type="button" onClick={() => setPrompt('Как отвечать на вопрос «Расскажите о себе»?')}>Расскажите о себе</button><button type="button" onClick={() => setPrompt('Что спрашивают по конкурентности в Go?')}>Конкурентность в Go</button></div>}
       </div>
     )
   }
 
   return (
-    <section className="rag-section" id="rag">
-      <div className="rag-heading">
+    <section className={s['rag-section']} id="rag">
+      <div className={s['rag-heading']}>
         <div>
           <span className="section-index">02 / RAG-ПОИСК</span>
           <h2>Спроси базу.<br /><em>Не гадай.</em></h2>
@@ -202,52 +171,42 @@ export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
         <p>Вопрос превращается в вектор, сравнивается с JSON-индексом и получает ответ только из найденных материалов.</p>
       </div>
 
-      <div className="rag-workspace">
-        <div className="rag-console">
-          <div className="rag-console-head">
+      <div className={s['rag-workspace']}>
+        <div className={s['rag-console']}>
+          <div className={s['rag-console-head']}>
             <span><MessageCircle size={17} /> AI-помощник</span>
-            <span className="rag-status"><i /> JSON подключён</span>
+            <span className={s['rag-status']}><i /> JSON подключён</span>
           </div>
-          <div className="rag-answer" aria-live="polite">
+          <div className={s['rag-answer']} aria-live="polite">
             {!result && !loading && (
-              <div className="rag-placeholder">
+              <div className={s['rag-placeholder']}>
                 <Database size={32} />
                 <h3>Что хотите узнать?</h3>
                 <p>Например: «Как отвечать на расскажите о себе?» или «Что спрашивают по конкурентности в Go?»</p>
               </div>
             )}
-            {loading && <div className="rag-loading"><LoaderCircle size={22} /> Ищу фрагменты и собираю ответ…</div>}
-            {error && <div className="rag-error">{error}</div>}
+            {loading && <div className={s['rag-loading']}><LoaderCircle size={22} /> Ищу фрагменты и собираю ответ…</div>}
+            {error && <div className={s['rag-error']}>{error}</div>}
             {result && !loading && (
               <>
-                <div className="rag-mode">Лёгкий режим · браузер + JSON</div>
+                <div className={s['rag-mode']}>Лёгкий режим · браузер + JSON</div>
                 {result.answer.split('\n').map((line, index) => line ? <p key={`${line}-${index}`}>{line}</p> : <br key={index} />)}
               </>
             )}
           </div>
-          <form className="rag-form" onSubmit={ask}>
-            <textarea
-              value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                  event.preventDefault()
-                  event.currentTarget.form?.requestSubmit()
-                }
-              }}
-              placeholder="Задайте вопрос по интервью…"
-              aria-label="Вопрос базе знаний"
-              rows={2}
-            />
+          <form className={s['rag-form']} onSubmit={ask}>
+            <textarea value={prompt} onChange={(event) => setPrompt(event.target.value)}
+              onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }}
+              placeholder="Задайте вопрос по интервью…" aria-label="Вопрос базе знаний" rows={2} />
             <button type="submit" disabled={loading || prompt.trim().length < 2} aria-label="Отправить вопрос"><Send size={18} /></button>
           </form>
         </div>
 
-        <aside className="rag-sources">
-          <div className="rag-sources-head"><span>Найденные источники</span><b>{result?.sources.length || 0}</b></div>
+        <aside className={s['rag-sources']}>
+          <div className={s['rag-sources-head']}><span>Найденные источники</span><b>{result?.sources.length || 0}</b></div>
           {result?.sources.map((source, index) => (
             <article key={source.id}>
-              <span className="source-number">0{index + 1}</span>
+              <span className={s['source-number']}>0{index + 1}</span>
               <div>
                 <small>{source.companies.join(', ')} · {source.stage}</small>
                 <h3>{source.title}</h3>
@@ -256,7 +215,7 @@ export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
               {source.sources[0]?.url && <a href={source.sources[0].url} target="_blank" rel="noreferrer" aria-label="Открыть источник"><ExternalLink size={15} /></a>}
             </article>
           ))}
-          {!result && <p className="sources-empty">Здесь появятся вопросы, на которых основан ответ.</p>}
+          {!result && <p className={s['sources-empty']}>Здесь появятся вопросы, на которых основан ответ.</p>}
         </aside>
       </div>
     </section>
