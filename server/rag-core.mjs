@@ -14,13 +14,15 @@ const synonymGroups = [
   ['конкурентность', 'параллелизм', 'concurrency', 'многопоточность'],
   ['очередь', 'queue', 'задачи', 'воркеры'],
   ['самопрезентация', 'знакомство', 'себе', 'опыт'],
-  ['кеш', 'кэш', 'cache', 'кэширование'],
+  ['кеш', 'кэш', 'cache', 'кешировать', 'кэшировать', 'кеширование', 'кэширование'],
   ['архитектура', 'проектирование', 'design', 'system'],
   ['данные', 'etl', 'pipeline', 'пайплайн'],
   ['ограничение', 'лимит', 'rate', 'limiter'],
+  ['переобучение', 'переобучением', 'overfitting', 'generalization'],
 ]
 
 const synonymMap = new Map(synonymGroups.flatMap((group) => group.map((word) => [word, group])))
+const stopWords = new Set(['что', 'как', 'когда', 'где', 'зачем', 'почему', 'какой', 'какая', 'какие', 'такое', 'нужен', 'нужна', 'нужно', 'можно', 'между'])
 
 function stem(token) {
   if (/^[а-я]+$/u.test(token) && token.length > 5) {
@@ -31,7 +33,7 @@ function stem(token) {
 }
 
 export const tokenize = (text = '') => {
-  const raw = text.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').match(/[a-zа-я0-9+#.]+/giu) || []
+  const raw = (text.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').match(/[a-zа-я0-9+#.]+/giu) || []).filter((token) => !stopWords.has(token))
   return [...new Set(raw.flatMap((token) => {
     const normalized = stem(token)
     const synonyms = synonymMap.get(token) || synonymMap.get(normalized) || []
@@ -66,8 +68,10 @@ function normalize(vector) {
 export function questionText(question) {
   return [
     question.title,
+    ...(question.aliases || []),
     question.answer,
     question.context,
+    question.codeSnippet || '',
     question.category,
     question.stage,
     ...question.tags,
@@ -107,10 +111,12 @@ function cosineSimilarity(left, right) {
 function lexicalScore(query, question) {
   const queryTokens = new Set(tokenize(query))
   if (!queryTokens.size) return 0
-  const titleTokens = new Set(tokenize(`${question.title} ${question.category} ${question.tags.join(' ')}`))
+  const titleTokens = new Set(tokenize(`${question.title} ${(question.aliases || []).join(' ')} ${question.category} ${question.tags.join(' ')}`))
   const documentTokens = new Set(tokenize(questionText(question)))
   const overlap = (tokens) => [...queryTokens].filter((token) => tokens.has(token)).length / queryTokens.size
-  return overlap(titleTokens) * 0.65 + overlap(documentTokens) * 0.35
+  const normalize = (value) => value.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').replace(/[^a-zа-я0-9+#.]+/giu, ' ').trim()
+  const exactTitleBonus = [question.title, ...(question.aliases || [])].some((title) => normalize(query) === normalize(title)) ? 0.35 : 0
+  return overlap(titleTokens) * 0.65 + overlap(documentTokens) * 0.35 + exactTitleBonus
 }
 
 function metadataBoost(query, question) {
@@ -136,7 +142,7 @@ export async function retrieve(query, filters = {}, limit = 4) {
     .map((question) => {
       const lexical = lexicalScore(query, question)
       const vector = Math.max(0, cosineSimilarity(queryVector, embeddings.get(question.id)))
-      return { ...question, score: vector * 0.5 + lexical * 0.5 + metadataBoost(query, question) }
+      return { ...question, score: vector * 0.35 + lexical * 0.65 + metadataBoost(query, question) }
     })
     .sort((left, right) => right.score - left.score)
     .slice(0, limit)

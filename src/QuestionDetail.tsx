@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Check, Clock3, Code2, Layers3, ShieldAlert, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Clock3, Code2, ExternalLink, Layers3, ShieldAlert, Users } from 'lucide-react'
 import type { Question } from './types'
 
 type QuestionDetailProps = {
@@ -13,9 +13,43 @@ const companyStyles: Record<string, { mark: string; color: string }> = {
   'Т-Банк': { mark: 'T', color: '#ffdc2d' },
 }
 
+function answerChecklist(question: Question) {
+  const category = question.category.toLocaleLowerCase('ru-RU')
+  const stage = question.stage.toLocaleLowerCase('ru-RU')
+  const tags = question.tags.join(' ').toLocaleLowerCase('ru-RU')
+
+  if (category === 'behavioral' || /hr|знакомство|командное|ситуационное/.test(stage)) {
+    return ['Привёл конкретную ситуацию', 'Обозначил свою роль', 'Объяснил действия и выбор', 'Назвал измеримый результат', 'Сформулировал вывод']
+  }
+
+  if (/system design|architecture|архитектура/.test(`${category} ${stage}`)) {
+    return ['Уточнил требования и нагрузку', 'Определил API и модель данных', 'Разделил систему на компоненты', 'Разобрал сбои и масштабирование', 'Назвал компромиссы и метрики']
+  }
+
+  if (question.codeSnippet || /algorithms|алгоритмы|live coding/.test(`${category} ${stage}`)) {
+    return ['Уточнил входные данные и ограничения', 'Проговорил решение до кода', 'Оценил время и память', 'Проверил крайние случаи', 'Предложил тесты и улучшения']
+  }
+
+  if (/machine learning|statistics|analytics|bi|experimentation|data quality/.test(category)) {
+    return ['Определил задачу и целевую метрику', 'Назвал допущения и ограничения', 'Объяснил метод и альтернативы', 'Проверил качество и ошибки', 'Связал результат с бизнес-решением']
+  }
+
+  if (/data engineering/.test(category)) {
+    return ['Уточнил источники и контракт данных', 'Описал поток и преобразования', 'Разобрал качество и идемпотентность', 'Учёл сбои и повторную обработку', 'Добавил мониторинг и SLA']
+  }
+
+  if (/performance/.test(`${category} ${tags}`)) {
+    return ['Назвал измеряемую метрику', 'Нашёл вероятное узкое место', 'Предложил способ диагностики', 'Объяснил оптимизацию и цену', 'Проверил эффект измерениями']
+  }
+
+  return ['Дал точное определение', 'Объяснил механизм работы', 'Привёл практический пример', 'Назвал ограничения и альтернативы', 'Указал типичные ошибки']
+}
+
 export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   const company = question.companies[0]
   const visual = companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
+  const videoFrequency = question.videoFrequency ?? new Set(question.sources.filter((source) => source.type === 'youtube').map((source) => source.url)).size
+  const checklist = answerChecklist(question)
 
   return (
     <article className="detail-page">
@@ -59,16 +93,15 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
             </div>
           </section>
 
-          <section className="architecture-sketch">
-            <div className="sketch-head"><Code2 size={17} /> Базовая схема</div>
-            <div className="sketch-flow">
-              <span>API</span><ArrowRight /><span>Storage</span><ArrowRight /><span>Scheduler</span><ArrowRight /><span>Workers</span>
-            </div>
-            <code>task → pending → leased → completed</code>
-          </section>
+          {question.codeSnippet && (
+            <section className="interview-code">
+              <div className="interview-code-head"><Code2 size={17} /><span>Код из интервью</span><small>{question.codeLanguage}</small></div>
+              <pre><code>{question.codeSnippet}</code></pre>
+            </section>
+          )}
 
           <section className="detail-section">
-            <span className="detail-index">03</span>
+            <span className="detail-index">{question.codeSnippet ? '04' : '03'}</span>
             <div>
               <h2>Частые ошибки</h2>
               <ul className="pitfall-list">
@@ -78,7 +111,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           </section>
 
           <section className="detail-section">
-            <span className="detail-index">04</span>
+            <span className="detail-index">{question.codeSnippet ? '05' : '04'}</span>
             <div>
               <h2>Что могут спросить дальше</h2>
               <ol className="followup-list">
@@ -91,12 +124,22 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
         <aside className="detail-sidebar">
           <div className="sidebar-card ready-card">
             <span><Layers3 size={18} /> Чек-лист ответа</span>
-            {['Уточнил требования', 'Назвал структуру данных', 'Обсудил конкурентность', 'Разобрал сбои', 'Добавил мониторинг'].map((item) => <label key={item}><i><Check size={12} /></i>{item}</label>)}
+            {checklist.map((item) => <label key={item}><i><Check size={12} /></i>{item}</label>)}
           </div>
           <div className="sidebar-card">
             <span><Users size={18} /> Источник</span>
-            <p>{question.sources[0]?.company || company}</p>
-            <small>{question.sources[0]?.type === 'candidate-report' ? 'Восстановлено по отчёту кандидата' : 'Агрегированный материал'}</small>
+            <p className="source-frequency">Встречается в {videoFrequency} видео</p>
+            {(question.sources.length ? question.sources : [{ company, url: '', type: 'aggregated' }]).map((source) => (
+              <div className="source-item" key={`${source.company}-${source.url}`}>
+                <p>{source.company}</p>
+                <small>{source.type === 'youtube' ? 'Запись технического интервью' : source.type === 'candidate-report' ? 'Восстановлено по отчёту кандидата' : 'Агрегированный материал'}</small>
+                {source.url && (
+                  <a className="source-link" href={source.url} target="_blank" rel="noreferrer">
+                    {source.type === 'youtube' ? 'Смотреть видео' : 'Открыть источник'} <ExternalLink size={13} />
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
           <div className="sidebar-note">Не заучивайте готовую архитектуру. На интервью важнее показать ход мысли и проговаривать компромиссы.</div>
         </aside>

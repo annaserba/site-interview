@@ -48,6 +48,22 @@ function parseList(section = '') {
   return section.split(/\r?\n/).map((line) => line.match(/^[-*]\s+(.+)$/)?.[1]).filter(Boolean)
 }
 
+function parseCode(section = '') {
+  const match = section.trim().match(/^```([\w+-]*)\r?\n([\s\S]*?)\r?\n```$/)
+  return match ? { language: match[1] || 'text', code: match[2] } : { language: 'text', code: section.trim() }
+}
+
+function youtubeVideoId(url = '') {
+  try {
+    const parsed = new URL(url)
+    if (parsed.hostname.includes('youtu.be')) return parsed.pathname.split('/').filter(Boolean)[0] || ''
+    if (parsed.hostname.includes('youtube.com')) return parsed.searchParams.get('v') || parsed.pathname.match(/\/(?:shorts|embed)\/([^/?]+)/)?.[1] || ''
+  } catch {
+    return ''
+  }
+  return ''
+}
+
 function questionFromMarkdown(source, filename) {
   const { metadata, body } = parseFrontmatter(source, filename)
   const sections = parseSections(body)
@@ -57,29 +73,56 @@ function questionFromMarkdown(source, filename) {
   const answer = sections.get('Короткий ответ')
   if (!answer) throw new Error(`${filename}: section "Короткий ответ" is missing`)
 
+  const code = parseCode(sections.get('Код из интервью') || '')
+  const legacySource = {
+    company: metadata.sourceCompany || metadata.companies[0],
+    url: metadata.sourceUrl || '',
+    type: metadata.sourceType || 'candidate-report',
+  }
+  const videoSources = Array.isArray(metadata.sourceVideos)
+    ? metadata.sourceVideos.map((source) => ({ ...source, type: 'youtube' }))
+    : []
+  const reportSources = Array.isArray(metadata.sourceReports)
+    ? metadata.sourceReports.map((source) => ({ ...source, url: source.url || '', type: 'candidate-report' }))
+    : []
+  const collectedSources = [...videoSources, ...reportSources, legacySource].filter((source, index, list) => (
+    list.findIndex((candidate) => `${candidate.type}:${candidate.url || candidate.company}` === `${source.type}:${source.url || source.company}`) === index
+  ))
+  const sources = collectedSources.some((source) => source.company && source.company !== 'Несколько компаний')
+    ? collectedSources.filter((source) => source.company !== 'Несколько компаний')
+    : collectedSources
+  const collectedCompanies = [...new Set([
+    ...metadata.companies,
+    ...videoSources.map((source) => source.company).filter((company) => company && company !== 'Frontend-интервью'),
+    ...reportSources.map((source) => source.company).filter(Boolean),
+  ])]
+  const companies = collectedCompanies.length > 1
+    ? collectedCompanies.filter((company) => company !== 'Несколько компаний')
+    : collectedCompanies
+  const videoFrequency = new Set(sources.filter((source) => source.type === 'youtube').map((source) => youtubeVideoId(source.url)).filter(Boolean)).size
   return {
     id: metadata.id,
     title: metadata.title,
+    aliases: metadata.aliases || [],
     answer,
     context: sections.get('Контекст') || '',
     keyPoints: parseKeyPoints(sections.get('Как строить ответ')),
     pitfalls: parseList(sections.get('Частые ошибки')),
     followUps: parseList(sections.get('Дополнительные вопросы')),
+    codeSnippet: code.code || undefined,
+    codeLanguage: code.code ? code.language : undefined,
     category: metadata.category,
     scope: metadata.scope,
     languages: metadata.languages,
     roles: metadata.roles,
-    companies: metadata.companies,
+    companies,
     level: metadata.level,
     stage: metadata.stage,
     tags: metadata.tags,
     duration: metadata.duration,
     difficulty: metadata.difficulty,
-    sources: [{
-      company: metadata.sourceCompany || metadata.companies[0],
-      url: metadata.sourceUrl || '',
-      type: metadata.sourceType || 'candidate-report',
-    }],
+    sources,
+    videoFrequency,
   }
 }
 

@@ -1,11 +1,14 @@
 export type Question = {
   id: string
   title: string
+  aliases?: string[]
   answer: string
   context?: string
   keyPoints?: Array<{ title: string; text: string }>
   pitfalls?: string[]
   followUps?: string[]
+  codeSnippet?: string
+  codeLanguage?: string
   category: string
   scope: 'universal' | 'multi-language' | 'language-specific'
   languages: string[]
@@ -18,6 +21,7 @@ export type Question = {
   difficulty: number
   fresh?: string
   sources: Array<{ company: string; url: string; type: string }>
+  videoFrequency?: number
   score?: number
   retrieval?: string
 }

@@ -8,13 +8,15 @@ const synonymGroups = [
   ['конкурентность', 'параллелизм', 'concurrency', 'многопоточность'],
   ['очередь', 'queue', 'задачи', 'воркеры'],
   ['самопрезентация', 'знакомство', 'себе', 'опыт'],
-  ['кеш', 'кэш', 'cache', 'кэширование'],
+  ['кеш', 'кэш', 'cache', 'кешировать', 'кэшировать', 'кеширование', 'кэширование'],
   ['архитектура', 'проектирование', 'design', 'system'],
   ['данные', 'etl', 'pipeline', 'пайплайн'],
   ['ограничение', 'лимит', 'rate', 'limiter'],
+  ['переобучение', 'переобучением', 'overfitting', 'generalization'],
 ]
 
 const synonymMap = new Map(synonymGroups.flatMap((group) => group.map((word) => [word, group])))
+const stopWords = new Set(['что', 'как', 'когда', 'где', 'зачем', 'почему', 'какой', 'какая', 'какие', 'такое', 'нужен', 'нужна', 'нужно', 'можно', 'между'])
 
 const stem = (token: string) => {
   if (/^[а-я]+$/u.test(token) && token.length > 5) return token.replace(/(иями|ями|ами|ого|ему|ому|ыми|ими|иях|ах|ях|ов|ев|ей|ий|ый|ой|ая|яя|ое|ее|ые|ие|ам|ям|ом|ем|ами|ями|у|ю|а|я|ы|и|е)$/u, '')
@@ -23,7 +25,7 @@ const stem = (token: string) => {
 }
 
 const ragTokens = (text = '') => {
-  const raw = text.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').match(/[a-zа-я0-9+#.]+/giu) || []
+  const raw = (text.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').match(/[a-zа-я0-9+#.]+/giu) || []).filter((token) => !stopWords.has(token))
   return [...new Set(raw.flatMap((token) => {
     const normalized = stem(token)
     const synonyms = synonymMap.get(token) || synonymMap.get(normalized) || []
@@ -55,8 +57,10 @@ async function browserEmbedding(text: string) {
 
 const questionText = (question: Question) => [
   question.title,
+  ...(question.aliases || []),
   question.answer,
   question.context || '',
+  question.codeSnippet || '',
   question.category,
   question.stage,
   ...question.tags,
@@ -83,13 +87,15 @@ async function staticRag(query: string): Promise<RagResponse> {
     const cosine = vector.length === queryVector.length
       ? Math.max(0, vector.reduce((sum, value, position) => sum + value * queryVector[position], 0))
       : 0
-    const titleTokens = new Set(ragTokens(`${question.title} ${question.category} ${question.tags.join(' ')}`))
+    const titleTokens = new Set(ragTokens(`${question.title} ${(question.aliases || []).join(' ')} ${question.category} ${question.tags.join(' ')}`))
     const documentTokens = new Set(ragTokens(questionText(question)))
     const overlap = (tokens: Set<string>) => queryTokenSet.size ? [...queryTokenSet].filter((token) => tokens.has(token)).length / queryTokenSet.size : 0
-    const lexical = overlap(titleTokens) * 0.65 + overlap(documentTokens) * 0.35
+    const normalize = (value: string) => value.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').replace(/[^a-zа-я0-9+#.]+/giu, ' ').trim()
+    const exactTitleBonus = [question.title, ...(question.aliases || [])].some((title) => normalize(query) === normalize(title)) ? 0.35 : 0
+    const lexical = overlap(titleTokens) * 0.65 + overlap(documentTokens) * 0.35 + exactTitleBonus
     const metadata = [...question.companies, ...question.languages, ...question.roles, question.level]
       .some((value) => value && normalizedQuery.includes(value.toLocaleLowerCase('ru-RU'))) ? 0.12 : 0
-    return { ...question, score: cosine * 0.5 + lexical * 0.5 + metadata, retrieval: 'browser-json' }
+    return { ...question, score: cosine * 0.35 + lexical * 0.65 + metadata, retrieval: 'browser-json' }
   }).sort((left, right) => (right.score || 0) - (left.score || 0)).slice(0, 4)
 
   const threshold = sources.length ? Math.max(0.1, (sources[0].score || 0) * 0.38) : 1

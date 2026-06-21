@@ -18,17 +18,43 @@ const companyStyles: Record<string, { mark: string; color: string }> = {
   Avito: { mark: 'A', color: '#9b4dff' },
   'Т-Банк': { mark: 'T', color: '#ffdc2d' },
   VK: { mark: 'VK', color: '#2787f5' },
+  Wildberries: { mark: 'WB', color: '#a73afd' },
+  Okko: { mark: 'OK', color: '#35d07f' },
+  Сбер: { mark: 'С', color: '#21a038' },
+  Гознак: { mark: 'Г', color: '#d6b05e' },
 }
 
 const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
-const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK']
+const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK', 'Wildberries', 'Okko', 'Сбер', 'Гознак']
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
+const videoFrequency = (question: Question) => question.videoFrequency ?? new Set(question.sources
+  .filter((source) => source.type === 'youtube')
+  .map((source) => {
+    try { return new URL(source.url).searchParams.get('v') || source.url }
+    catch { return source.url }
+  })).size
+const youtubeVideoId = (url: string) => {
+  try {
+    const parsed = new URL(url)
+    return parsed.hostname.includes('youtu.be')
+      ? parsed.pathname.split('/').filter(Boolean)[0] || ''
+      : parsed.searchParams.get('v') || ''
+  } catch { return '' }
+}
+const topicDefinitions = [
+  { id: 'system-design', label: 'Системный дизайн', terms: ['architecture', 'архитектур', 'system design', 'distributed', 'scalability'] },
+  { id: 'algorithms', label: 'Алгоритмы', terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
+  { id: 'frontend', label: 'Frontend', terms: ['frontend', 'browser', 'javascript', 'typescript', 'react', 'css', 'web platform'] },
+  { id: 'data-ml', label: 'Данные и ML', terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
+  { id: 'behavioral', label: 'Карьера и команда', terms: ['behavioral', 'career', 'leadership', 'collaboration', 'mentoring'] },
+]
 
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeRole, setActiveRole] = useState('Все роли')
+  const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
@@ -55,16 +81,19 @@ function App() {
     const result = questions.filter((item) => {
       const companyMatch = activeCompany === 'Все компании' || item.companies.includes(activeCompany)
       const roleMatch = activeRole === 'Все роли' || item.roles.includes(activeRole)
-      return companyMatch && roleMatch
+      const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
+      const topicText = `${item.category} ${item.tags.join(' ')}`.toLocaleLowerCase('ru-RU')
+      const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
+      return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
       if (sortMode === 'difficulty-desc') return right.difficulty - left.difficulty
       if (sortMode === 'difficulty-asc') return left.difficulty - right.difficulty
       if (sortMode === 'company') return left.companies[0].localeCompare(right.companies[0], 'ru')
       if (sortMode === 'title') return left.title.localeCompare(right.title, 'ru')
-      return 0
+      return videoFrequency(right) - videoFrequency(left)
     })
-  }, [activeCompany, activeRole, sortMode, questions])
+  }, [activeCompany, activeRole, activeTopic, sortMode, questions])
 
   const companies = useMemo(() => companyOrder.map((name) => ({
     name,
@@ -72,14 +101,23 @@ function App() {
     ...companyStyle(name),
   })).filter((company) => company.count > 0), [questions])
 
-  const companyCount = useMemo(() => new Set(questions.flatMap((question) => question.companies)).size, [questions])
+  const companyCount = useMemo(() => new Set(questions.flatMap((question) => question.companies).filter((company) => company !== 'Несколько компаний')).size, [questions])
+  const videoStats = useMemo(() => {
+    const uniqueVideos = new Set(questions.flatMap((question) => question.sources)
+      .filter((source) => source.type === 'youtube')
+      .map((source) => youtubeVideoId(source.url))
+      .filter(Boolean)).size
+    const questionsWithVideo = questions.filter((question) => videoFrequency(question) > 0).length
+    const coverage = questions.length ? Math.round((questionsWithVideo / questions.length) * 100) : 0
+    return { uniqueVideos, questionsWithVideo, coverage }
+  }, [questions])
   const roles = useMemo(() => [...new Set(questions.flatMap((question) => question.roles))].sort((left, right) => left.localeCompare(right, 'ru')), [questions])
   const universalCount = questions.filter((question) => question.scope === 'universal').length
   const visibleQuestions = filtered.slice(0, visibleCount)
 
   useEffect(() => {
     setVisibleCount(4)
-  }, [activeCompany, activeRole, sortMode])
+  }, [activeCompany, activeRole, activeTopic, sortMode])
 
   useEffect(() => {
     const sentinel = feedSentinelRef.current
@@ -94,6 +132,11 @@ function App() {
   const selectedQuestion = questions.find((question) => question.id === selectedQuestionId)
   const openQuestion = (id: string) => { window.location.hash = `question/${id}` }
   const closeQuestion = () => { window.location.hash = 'questions' }
+  const filterFromFooter = (filter: 'topic' | 'role', value: string) => {
+    if (filter === 'topic') setActiveTopic(value)
+    if (filter === 'role') setActiveRole(value)
+    window.location.hash = 'questions'
+  }
 
   return (
     <div className="app-shell">
@@ -132,7 +175,17 @@ function App() {
         </section>
 
         <section className="company-strip" id="companies">
-          <div className="section-kicker">Компании, представленные в текущей базе</div>
+          <div className="company-strip-head">
+            <div className="section-kicker">Компании в базе</div>
+            <div className="video-infographic" aria-label="Статистика источников из видео">
+              <div><strong>{videoStats.uniqueVideos}</strong><span>уникальных видео</span></div>
+              <div><strong>{videoStats.questionsWithVideo}</strong><span>вопросов из видео</span></div>
+              <div className="video-coverage">
+                <span><b>{videoStats.coverage}%</b> базы подтверждено видео</span>
+                <i><em style={{ width: `${videoStats.coverage}%` }} /></i>
+              </div>
+            </div>
+          </div>
           <div className="company-row">
             {companies.map((company) => (
               <button
@@ -144,7 +197,6 @@ function App() {
                 <span><b>{company.name}</b><small>{company.count} {questionWord(company.count)}</small></span>
               </button>
             ))}
-            <button className="all-companies" onClick={() => setActiveCompany('Все компании')}>Все компании <ArrowRight size={17} /></button>
           </div>
         </section>
 
@@ -164,8 +216,12 @@ function App() {
                 { value: 'Все роли', label: 'Все роли' },
                 ...roles.map((role) => ({ value: role, label: role })),
               ]} />
+              <FilterDropdown label="Тема" value={activeTopic} onChange={setActiveTopic} options={[
+                { value: 'Все темы', label: 'Все темы' },
+                ...topicDefinitions.map((topic) => ({ value: topic.id, label: topic.label })),
+              ]} />
               <FilterDropdown label="Сортировка" value={sortMode} onChange={setSortMode} options={[
-                { value: 'default', label: 'По умолчанию' },
+                { value: 'default', label: 'По частоте в видео' },
                 { value: 'difficulty-desc', label: 'Сложные сначала' },
                 { value: 'difficulty-asc', label: 'Простые сначала' },
                 { value: 'company', label: 'По компании' },
@@ -191,7 +247,7 @@ function App() {
                   <div>{[1, 2, 3, 4, 5].map((dot) => <i className={dot <= question.difficulty ? 'filled' : ''} key={dot} />)}</div>
                 </div>
                 <div className="card-footer">
-                  <span><Users size={15} /> {question.sources.length} источ.</span>
+                  <span><Users size={15} /> {videoFrequency(question)} видео</span>
                   <span>{question.languages.length ? `${question.languages.length} языков` : 'Любой язык'}</span>
                   <button aria-label="Открыть вопрос" onClick={() => openQuestion(question.id)}><ArrowRight size={18} /></button>
                 </div>
@@ -199,7 +255,7 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className="empty-state"><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли') }}>Сбросить фильтры</button></div>
+            <div className="empty-state"><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы') }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className="feed-sentinel" ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
           {filtered.length > 0 && visibleCount >= filtered.length && <div className="feed-end">Все вопросы загружены · {filtered.length}</div>}
@@ -208,8 +264,14 @@ function App() {
       </main>
 
       <footer>
-        <div className="brand"><span className="brand-mark">i<span>/</span>d</span><span>in.depth</span></div>
-        <p>Сложные интервью становятся понятнее.</p>
+        <div className="footer-intro">
+          <div className="brand"><span className="brand-mark">i<span>/</span>d</span><span>in.depth</span></div>
+          <p>Сложные интервью становятся понятнее.</p>
+        </div>
+        <div className="footer-nav">
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => filterFromFooter('topic', topic.id)}>{topic.label}</button>)}</div>
+          <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => filterFromFooter('role', role)}>{role}</button>)}</div>
+        </div>
         <span>© 2026 in.depth</span>
       </footer>
     </div>
