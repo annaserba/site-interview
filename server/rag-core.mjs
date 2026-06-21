@@ -84,11 +84,34 @@ export function questionText(question) {
   ].join(' ')
 }
 
+const DATA_URL = process.env.DATA_URL || 'https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data'
+
 export async function loadQuestions() {
+  if (DATA_URL) {
+    const res = await fetch(`${DATA_URL.replace(/\/$/, '')}/questions.json`)
+    if (!res.ok) throw new Error(`Failed to fetch questions: ${res.status}`)
+    return res.json()
+  }
   return JSON.parse(await readFile(questionsPath, 'utf8'))
 }
 
 export async function loadIndex() {
+  if (DATA_URL) {
+    try {
+      const res = await fetch(`${DATA_URL.replace(/\/$/, '')}/questions-index.json`)
+      if (!res.ok) throw new Error(`Failed to fetch index: ${res.status}`)
+      return res.json()
+    } catch {
+      const questions = await loadQuestions()
+      return {
+        provider: 'local-hash',
+        model: 'hybrid-token-trigram-512',
+        dimensions: VECTOR_SIZE,
+        generatedAt: null,
+        documents: questions.map((question) => ({ id: question.id, embedding: localEmbedding(questionText(question)) })),
+      }
+    }
+  }
   try {
     return JSON.parse(await readFile(indexPath, 'utf8'))
   } catch {
