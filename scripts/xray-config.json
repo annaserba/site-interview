@@ -46,28 +46,35 @@
         "network": "h2",
         "security": "tls",
         "tlsSettings": {
-          "serverName": "example.com",
-          "allowInsecure": false
+          "serverName": "3xui",
+          "allowInsecure": true
         },
         "httpSettings": {
           "path": "/",
           "host": [
-            "example.com"
+            "3xui"
           ]
         }
       }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
     }
   ],
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "type": "field",
-        "inboundTag": [
-          "socks-in",
-          "http-in"
+        "domain": [
+          "api.telegram.org"
         ],
         "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct"
       }
     ]
   }

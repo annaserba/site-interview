@@ -1,8 +1,8 @@
 import { answerQuestion, retrieve, loadQuestions } from './rag-core.mjs'
-import { ProxyAgent, setGlobalDispatcher } from 'undici'
+import { ProxyAgent } from 'undici'
 
 const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:1081'
-setGlobalDispatcher(new ProxyAgent(PROXY_URL))
+const proxyAgent = new ProxyAgent(PROXY_URL)
 
 const TOKEN = process.env.BOT_TOKEN
 if (!TOKEN) {
@@ -18,6 +18,7 @@ async function api(method, body = {}) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    dispatcher: proxyAgent,
   })
   return res.json()
 }

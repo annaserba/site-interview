@@ -88,9 +88,13 @@ const DATA_URL = process.env.DATA_URL || 'https://s3.twcstorage.ru/5f60ae52-8657
 
 export async function loadQuestions() {
   if (DATA_URL) {
-    const res = await fetch(`${DATA_URL.replace(/\/$/, '')}/questions.json`)
-    if (!res.ok) throw new Error(`Failed to fetch questions: ${res.status}`)
-    return res.json()
+    try {
+      const res = await fetch(`${DATA_URL.replace(/\/$/, '')}/questions.json`)
+      if (!res.ok) throw new Error(`Failed to fetch questions: ${res.status}`)
+      return res.json()
+    } catch {
+      console.warn('S3 fetch failed, using local questions.json')
+    }
   }
   return JSON.parse(await readFile(questionsPath, 'utf8'))
 }
