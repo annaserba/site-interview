@@ -7,20 +7,20 @@ import { fetchQuestions } from './dataClient'
 import type { Question } from './types'
 import s from './App.module.css'
 
-const companyStyles: Record<string, { mark: string; color: string; logo: string }> = {
-  'Яндекс': { mark: 'Я', color: '#ffcc00', logo: '/logos/yandex.svg' },
-  Ozon: { mark: 'O', color: '#005BFF', logo: '/logos/ozon.svg' },
-  Avito: { mark: 'A', color: '#00AAFF', logo: '/logos/avito.svg' },
-  'Т-Банк': { mark: 'T', color: '#FFDD2D', logo: '/logos/tbank.svg' },
-  VK: { mark: 'VK', color: '#0077FF', logo: '/logos/vk.svg' },
-  Wildberries: { mark: 'WB', color: '#EC238D', logo: '/logos/wildberries.png' },
-  Okko: { mark: 'OK', color: '#4B0A9A', logo: '/logos/okko.svg' },
-  Сбер: { mark: 'С', color: '#92CB6D', logo: '/logos/sber.svg' },
-  Гознак: { mark: 'Г', color: '#003366', logo: '/logos/goznak.svg' },
-  'Лига Ставок': { mark: 'Л', color: '#FF6600', logo: '/logos/liga.svg' },
+const companyStyles: Record<string, { mark: string; color: string }> = {
+  'Яндекс': { mark: 'Я', color: '#FFCC00' },
+  Ozon: { mark: 'O', color: '#005BFF' },
+  Avito: { mark: 'A', color: '#00AAFF' },
+  'Т-Банк': { mark: 'Т', color: '#FFDD2D' },
+  VK: { mark: 'VK', color: '#0077FF' },
+  Wildberries: { mark: 'WB', color: '#EC238D' },
+  Okko: { mark: 'О', color: '#4B0A9A' },
+  Сбер: { mark: 'С', color: '#21A038' },
+  Гознак: { mark: 'Г', color: '#003366' },
+  'Лига Ставок': { mark: 'Л', color: '#FF6600' },
 }
 
-const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32', logo: '' }
+const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
 const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK', 'Wildberries', 'Okko', 'Сбер', 'Гознак']
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
@@ -208,9 +208,7 @@ function App() {
                 key={company.name}
                 onClick={() => navigateCompany(activeCompany === company.name ? 'Все компании' : company.name)}
               >
-                <span className="company-logo" style={{ background: company.color }}>
-                  {company.logo ? <img src={company.logo} alt={company.name} /> : company.mark}
-                </span>
+                <span className="company-logo" style={{ background: company.color }}>{company.mark}</span>
                 <span><b>{company.name}</b><small>{company.count} {questionWord(company.count)}</small></span>
               </button>
             ))}
@@ -276,9 +274,7 @@ function App() {
                             <span>{realCompanies.join(', ')}</span>
                             <div className={s['card-company-logos']}>
                               {realCompanies.map((c) => (
-                                <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>
-                                  {companyStyle(c).logo ? <img src={companyStyle(c).logo} alt={c} /> : companyStyle(c).mark}
-                                </span>
+                                <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
                               ))}
                             </div>
                           </>

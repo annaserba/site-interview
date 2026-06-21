@@ -1,13 +1,12 @@
 services:
-  app:
-    build: .
-    container_name: interview-app
+  web:
+    image: nginx:alpine
+    container_name: interview-web
     ports:
       - "80:80"
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN}
-      - DATA_URL=${DATA_URL:-}
-      - PROXY_URL=http://127.0.0.1:1081
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     restart: unless-stopped
     logging:
       driver: json-file
