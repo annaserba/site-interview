@@ -260,12 +260,12 @@ function App() {
                 <div className={s['card-top']}>
                   <div className={s['card-left']}>
                     <h3>{question.title}</h3>
-                    <div className={s['company-context']}>
-                      <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
-                      <span><b>{question.companies.join(', ')}</b><small>{question.roles[0]} · {question.level}</small></span>
-                    </div>
                   </div>
                   <div className={s['card-meta']}>
+                    <div className={s['card-company']}>
+                      <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
+                      <span>{question.companies.join(', ')}</span>
+                    </div>
                     <div className={s['card-meta-row']}>
                       <span className={s.stage}>{question.stage}</span>
                       <span className={`${s.difficulty} ${question.difficulty <= 2 ? s.easy : question.difficulty <= 3 ? s.medium : s.hard}`}>

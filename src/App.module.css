@@ -114,6 +114,7 @@
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .card-left { flex: 1; min-width: 0; padding-bottom: 12px; }
 .card-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; min-width: 120px; max-width: 180px; }
+.card-company { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #555; white-space: nowrap; }
 .card-meta-row { display: flex; align-items: center; gap: 6px; }
 
 .company-context { display: flex; gap: 8px; align-items: center; min-width: 0; margin-top: 8px; }
