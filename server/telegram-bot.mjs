@@ -6,7 +6,7 @@ if (!TOKEN) {
   process.exit(1)
 }
 
-const API = `https://api.telegram.org/bot${TOKEN}`
+const API = process.env.TELEGRAM_API || `https://api.telegram.org/bot${TOKEN}`
 let offset = 0
 
 async function api(method, body = {}) {
