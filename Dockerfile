@@ -17,4 +17,7 @@ COPY dist/ ./dist/
 COPY server/ ./server/
 COPY scripts/xray-config.json ./xray-config.json
 
-CMD ["sh", "-c", "xray run -c /app/xray-config.json & sleep 3 && serve -s /app/dist -l 80 & exec node /app/server/telegram-bot.mjs"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
