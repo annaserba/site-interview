@@ -203,8 +203,8 @@ async function poll() {
       }
     }
   } catch (error) {
-    console.error('Poll error:', error.message)
-    await new Promise((r) => setTimeout(r, 3000))
+    console.error('Poll error:', error.message, error.cause?.code || '')
+    await new Promise((r) => setTimeout(r, 5000))
   }
 }
 
