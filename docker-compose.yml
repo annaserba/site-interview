@@ -2,12 +2,7 @@ services:
   app:
     build: .
     container_name: interview-app
-    ports:
-      - "80:80"
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-      - 1.1.1.1
+    network_mode: host
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - DATA_URL=${DATA_URL:-}
