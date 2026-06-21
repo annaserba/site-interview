@@ -26,6 +26,10 @@
   ],
   "outbounds": [
     {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
       "tag": "proxy",
       "protocol": "vless",
       "settings": {
@@ -56,10 +60,6 @@
           ]
         }
       }
-    },
-    {
-      "tag": "direct",
-      "protocol": "freedom"
     }
   ],
   "routing": {
@@ -71,10 +71,6 @@
           "api.telegram.org"
         ],
         "outboundTag": "proxy"
-      },
-      {
-        "type": "field",
-        "outboundTag": "direct"
       }
     ]
   }
