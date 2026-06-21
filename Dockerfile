@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-RUN apk add --no-cache ca-certificates curl
+RUN apk add --no-cache ca-certificates curl unzip
 
 # Install xray
 RUN curl -fsSL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip -o /tmp/xray.zip \
@@ -8,10 +8,13 @@ RUN curl -fsSL https://github.com/XTLS/Xray-core/releases/latest/download/Xray-l
     && chmod +x /usr/local/bin/xray \
     && rm /tmp/xray.zip
 
+# Install serve globally
+RUN npm install -g serve
+
 WORKDIR /app
 
 COPY dist/ ./dist/
 COPY server/ ./server/
 COPY scripts/xray-config.json ./xray-config.json
 
-CMD ["sh", "-c", "xray run -c /app/xray-config.json & sleep 2 && npx -y serve -s /app/dist -l 80 & exec node /app/server/telegram-bot.mjs"]
+CMD ["sh", "-c", "xray run -c /app/xray-config.json & sleep 3 && serve -s /app/dist -l 80 & exec node /app/server/telegram-bot.mjs"]
