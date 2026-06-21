@@ -258,20 +258,31 @@ function App() {
             {visibleQuestions.map((question) => (
               <article className={s['question-card']} key={question.id} onClick={() => openQuestion(question.id)} style={{ cursor: 'pointer' }}>
                 <div className={s['card-top']}>
-                  <div className={s['card-left']}>
-                    <h3>{question.title}</h3>
-                  </div>
                   <div className={s['card-meta']}>
-                    <div className={s['card-company']}>
-                      <span className="company-logo" style={{ background: companyStyle(question.companies[0]).color }}>{companyStyle(question.companies[0]).mark}</span>
-                      <span>{question.companies.join(', ')}</span>
-                    </div>
                     <div className={s['card-meta-row']}>
                       <span className={s.stage}>{question.stage}</span>
                       <span className={`${s.difficulty} ${question.difficulty <= 2 ? s.easy : question.difficulty <= 3 ? s.medium : s.hard}`}>
                         {question.difficulty <= 2 ? 'easy' : question.difficulty <= 3 ? 'medium' : 'hard'}
                       </span>
                     </div>
+                    <div className={s['card-company']}>
+                      {(() => {
+                        const realCompanies = question.companies.filter(c => c !== 'Несколько компаний')
+                        return realCompanies.length > 0 && (
+                          <>
+                            <span>{realCompanies.join(', ')}</span>
+                            <div className={s['card-company-logos']}>
+                              {realCompanies.map((c) => (
+                                <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
+                              ))}
+                            </div>
+                          </>
+                        )
+                      })()}
+                    </div>
+                  </div>
+                  <div className={s['card-left']}>
+                    <h3>{question.title}</h3>
                     <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                   </div>
                 </div>
