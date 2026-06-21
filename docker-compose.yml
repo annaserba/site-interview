@@ -1,23 +1,9 @@
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
-    container_name: interview-web
+  app:
+    build: .
+    container_name: interview-app
     ports:
       - "80:80"
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  telegram-bot:
-    build:
-      context: .
-      dockerfile: Dockerfile.bot
-    container_name: interview-bot
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
     restart: unless-stopped
