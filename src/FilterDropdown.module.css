@@ -1,5 +1,5 @@
-.filter-dropdown { position: relative; min-width: 155px; flex: 0 0 auto; }
-.filter-dropdown:last-child { min-width: 178px; }
+.filter-dropdown { position: relative; min-width: 130px; flex: 0 0 auto; }
+.filter-dropdown:last-child { min-width: 150px; }
 
 .filter-trigger {
   width: 100%; min-height: 48px;
@@ -45,6 +45,12 @@
 
 /* Desktop — wider fixed-width dropdowns */
 @media (min-width: 761px) {
+  .filter-dropdown { min-width: 120px; flex: 1 1 auto; }
+  .filter-dropdown:last-child { min-width: 130px; }
+}
+
+/* Desktop large */
+@media (min-width: 1101px) {
   .filter-dropdown { min-width: 154px; flex: auto; }
   .filter-dropdown:last-child { min-width: 178px; }
 }

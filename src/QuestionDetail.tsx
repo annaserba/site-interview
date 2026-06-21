@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight, Check, Clock3, Code2, ExternalLink, Layers3, ShieldAlert, Users } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import type { Question } from './types'
 import s from './QuestionDetail.module.css'
 
@@ -36,6 +37,11 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   const visual = companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
   const videoCount = question.videoFrequency ?? new Set(question.sources.filter((source) => source.type === 'youtube').map((source) => source.url)).size
   const checklist = answerChecklist(question)
+  const introRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [question.id])
 
   return (
     <article className={s['detail-page']}>
@@ -59,7 +65,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
 
       <div className={s['detail-layout']}>
         <div className={s['detail-content']}>
-          <section className={`${s['detail-section']} ${s['detail-intro']}`}>
+          <section className={`${s['detail-section']} ${s['detail-intro']}`} ref={introRef}>
             <span className={s['detail-index']}>01</span>
             <div><h2>Что от вас хотят</h2><p>{question.context || question.answer}</p></div>
           </section>

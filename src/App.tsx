@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Menu, Search, Users, X } from 'lucide-react'
-import { RagAssistant } from './RagAssistant'
+import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
 import { fetchQuestions } from './dataClient'
@@ -38,11 +38,9 @@ const youtubeVideoId = (url: string) => {
   } catch { return '' }
 }
 const topicDefinitions = [
-  { id: 'system-design', label: 'Системный дизайн', terms: ['architecture', 'архитектур', 'system design', 'distributed', 'scalability'] },
   { id: 'algorithms', label: 'Алгоритмы', terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
   { id: 'frontend', label: 'Frontend', terms: ['frontend', 'browser', 'javascript', 'typescript', 'react', 'css', 'web platform'] },
   { id: 'data-ml', label: 'Данные и ML', terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
-  { id: 'behavioral', label: 'Карьера и команда', terms: ['behavioral', 'career', 'leadership', 'collaboration', 'mentoring'] },
 ]
 
 function App() {
@@ -51,6 +49,8 @@ function App() {
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
+  const [showBehavioral, setShowBehavioral] = useState(true)
+  const [showSystemDesign, setShowSystemDesign] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
@@ -101,6 +101,10 @@ function App() {
       const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
       const topicText = `${item.category} ${item.tags.join(' ')}`.toLocaleLowerCase('ru-RU')
       const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
+      const isBehavioral = item.category === 'Behavioral'
+      const isSystemDesign = /architecture|архитектур|system design|distributed|scalability/i.test(`${item.category} ${item.tags.join(' ')}`)
+      if (isBehavioral) return companyMatch && roleMatch && showBehavioral
+      if (isSystemDesign) return companyMatch && roleMatch && showSystemDesign
       return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
@@ -108,9 +112,10 @@ function App() {
       if (sortMode === 'difficulty-asc') return left.difficulty - right.difficulty
       if (sortMode === 'company') return left.companies[0].localeCompare(right.companies[0], 'ru')
       if (sortMode === 'title') return left.title.localeCompare(right.title, 'ru')
-      return videoFrequency(right) - videoFrequency(left)
+      const frequency = (question: Question) => videoFrequency(question) + question.companies.filter((company) => company !== 'Несколько компаний').length
+      return frequency(right) - frequency(left)
     })
-  }, [activeCompany, activeRole, activeTopic, sortMode, questions])
+  }, [activeCompany, activeRole, activeTopic, sortMode, showBehavioral, showSystemDesign, questions])
 
   const companies = useMemo(() => companyOrder.map((name) => ({
     name,
@@ -132,7 +137,7 @@ function App() {
   const universalCount = questions.filter((question) => question.scope === 'universal').length
   const visibleQuestions = filtered.slice(0, visibleCount)
 
-  useEffect(() => { setVisibleCount(4) }, [activeCompany, activeRole, activeTopic, sortMode])
+  useEffect(() => { setVisibleCount(4) }, [activeCompany, activeRole, activeTopic, sortMode, showBehavioral, showSystemDesign])
 
   useEffect(() => {
     const sentinel = feedSentinelRef.current
@@ -158,10 +163,14 @@ function App() {
           <span className="brand-mark">i<span>/</span>d</span>
           <span>in.depth</span>
         </a>
+        <div className={s['header-stats']}>
+          <span><strong>{questions.length}</strong> <small>вопросов</small></span>
+          <span><strong>{companyCount}</strong> <small>компаний</small></span>
+          <span><strong>{universalCount}</strong> <small>универс.</small></span>
+        </div>
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#companies" onClick={() => setMenuOpen(false)}>Компании</a>
-          <a href="#rag" onClick={() => setMenuOpen(false)}>AI-поиск</a>
         </nav>
         <div className={s['header-actions']}>
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
@@ -174,15 +183,8 @@ function App() {
         {selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
         <section className={s.hero}>
           <div className={s['hero-copy']}>
-            <div className={s.eyebrow}><span className={s.pulse} /> {questions.length} вопросов в базе</div>
-            <h1>Знай, что<br />тебя <em>спросят.</em></h1>
+            <h1>Знай, что тебя <em>спросят.</em></h1>
             <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
-            <RagAssistant variant="hero" />
-          </div>
-          <div className={s['hero-stats']}>
-            <div><strong>{questions.length}</strong><span>вопросов в базе</span></div>
-            <div><strong>{companyCount}</strong><span>компаний в данных</span></div>
-            <div><strong>{universalCount}</strong><span>универсальный вопрос</span></div>
           </div>
         </section>
 
@@ -233,12 +235,22 @@ function App() {
                 ...topicDefinitions.map((topic) => ({ value: topic.id, label: topic.label })),
               ]} />
               <FilterDropdown label="Сортировка" value={sortMode} onChange={setSortMode} options={[
-                { value: 'default', label: 'По частоте в видео' },
+                { value: 'default', label: 'По частоте (компании + видео)' },
                 { value: 'difficulty-desc', label: 'Сложные сначала' },
                 { value: 'difficulty-asc', label: 'Простые сначала' },
                 { value: 'company', label: 'По компании' },
                 { value: 'title', label: 'По названию' },
               ]} />
+              <FilterDropdown label="Тип вопросов" value="" multiple
+                selected={[...(showSystemDesign ? ['system-design'] : []), ...(showBehavioral ? ['behavioral'] : [])]}
+                onToggle={(val) => {
+                  if (val === 'system-design') setShowSystemDesign(!showSystemDesign)
+                  if (val === 'behavioral') setShowBehavioral(!showBehavioral)
+                }}
+                options={[
+                  { value: 'system-design', label: 'Системный дизайн' },
+                  { value: 'behavioral', label: 'Карьера и команда' },
+                ]} />
             </div>
           </div>
 
@@ -267,7 +279,7 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
+            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setShowBehavioral(true); setShowSystemDesign(true); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
           {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}
@@ -281,11 +293,12 @@ function App() {
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
-          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<button onClick={() => { setShowSystemDesign(!showSystemDesign); window.location.hash = 'questions' }} style={showSystemDesign ? {} : { opacity: 0.4 }}>Системный дизайн</button><button onClick={() => { setShowBehavioral(!showBehavioral); window.location.hash = 'questions' }} style={showBehavioral ? {} : { opacity: 0.4 }}>Карьера и команда</button></div>
           <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => navigateRole(role)}>{role}</button>)}</div>
         </div>
         <span>© 2026 in.depth</span>
       </footer>
+      <ChatBot />
     </div>
   )
 }
