@@ -7,7 +7,7 @@ type FilterDropdownProps = {
   label: string
   value: string
   options: FilterOption[]
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
   multiple?: boolean
   selected?: string[]
   onToggle?: (value: string) => void
@@ -49,7 +49,7 @@ export function FilterDropdown({ label, value, options, onChange, multiple, sele
                   if (multiple && onToggle) {
                     onToggle(option.value)
                   } else {
-                    onChange(option.value)
+                    onChange?.(option.value)
                     setOpen(false)
                   }
                 }}
