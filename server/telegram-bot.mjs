@@ -1,4 +1,8 @@
 import { answerQuestion, retrieve, loadQuestions } from './rag-core.mjs'
+import { ProxyAgent, setGlobalDispatcher } from 'undici'
+
+const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:1081'
+setGlobalDispatcher(new ProxyAgent(PROXY_URL))
 
 const TOKEN = process.env.BOT_TOKEN
 if (!TOKEN) {

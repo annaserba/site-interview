@@ -7,11 +7,13 @@ node_modules
 *.tsbuildinfo
 .DS_Store
 content/
-scripts/
+scripts/build-content.mjs
+scripts/build-index.mjs
+scripts/dev.mjs
+scripts/upload-s3.sh
 server/rag-core.test.mjs
 vite.config.ts
 tsconfig*.json
 package.json
 package-lock.json
 public/data/
-entrypoint.sh

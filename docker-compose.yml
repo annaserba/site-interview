@@ -4,12 +4,10 @@ services:
     container_name: interview-app
     ports:
       - "80:80"
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - DATA_URL=${DATA_URL:-}
+      - PROXY_URL=http://127.0.0.1:1081
     restart: unless-stopped
     logging:
       driver: json-file
