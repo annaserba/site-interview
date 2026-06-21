@@ -1,0 +1,12 @@
+services:
+  telegram-bot:
+    build: .
+    container_name: interview-bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
