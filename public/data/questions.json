@@ -4954,6 +4954,77 @@
     "videoFrequency": 0
   },
   {
+    "id": "it-one-event-loop-queues",
+    "title": "Какие дополнительные очереди существуют в Event Loop помимо микро- и макрозадач?",
+    "aliases": [],
+    "answer": "Помимо очередей микро- и макрозадач в Event Loop существуют: очередь рендеринга (rendering queue) для `requestAnimationFrame`, очередь микротасок для `queueMicrotask` и `Promise.then`, а также отдельные очереди для `requestIdleCallback`, `MessageChannel` и `scheduler.yield()`. Браузер также имеет внутренние очереди для обработки событий ввода, таймеров и сетевых ответов.",
+    "exampleAnswer": "Помимо базовых микро- и макрозадач, в Event Loop есть несколько дополнительных очередей. Во-первых, это очередь рендеринга — `requestAnimationFrame` выполняется между макрозадачами и перед тем, как браузер отрисует кадр. Это критично для анимаций: код в rAF синхронизирован с частотой обновления экрана (60/120 Hz).\n\nВо-вторых, есть `requestIdleCallback` — выполняется только в idle-время после рендеринга. Подходит для фоновых задач: аналитика, prefetch данных, логирование. В-третьих, `MessageChannel` — позволяет создать макрозадачу быстрее, чем `setTimeout(0)`, потому что пропускает задержку таймера (минимум 4ms).\n\nВ-четвёртых, modern API: `scheduler.yield()` (W3C) — даёт кооперативную планировку, позволяя тяжёлым задачам yieldить контроль браузеру для рендеринга. React использует аналогичный механизм в Concurrent Mode через `startTransition`.\n\nВажный edge case: microtask starvation — если бесконечно создавать микро-задачи, браузер никогда не дорендерит кадр и UI зависает.",
+    "context": "Интервьюер проверяет глубокое понимание планировщика задач браузера: знание не только базовых микро/макро задач, но и механизмов приоритизации, рендеринга и кооперативной планировки. Ожидается объяснение порядка выполнения и practical use-case для каждого типа очереди.",
+    "keyPoints": [
+      {
+        "title": "Перечислить все типы очередей",
+        "text": "Назовите: microtasks (Promise, queueMicrotask), macrotasks (setTimeout, setInterval, I/O), rendering (requestAnimationFrame), idle (requestIdleCallback), MessageChannel, scheduler.yield()."
+      },
+      {
+        "title": "Объяснить приоритет执行",
+        "text": "microtasks выполняются ПЕРЕД каждой макрозадачей и ПЕРЕД рендерингом. Рендеринг происходит ПОСЛЕ очереди микро- и макрозадач, но ДО следующей макрозадачи. scheduler.yield() даёт браузеру возможность отрисовать кадр."
+      },
+      {
+        "title": "Показать practical сценарии",
+        "text": "requestAnimationFrame для анимаций (синхронизация с частотой экрана), requestIdleCallback для фоновых задач (аналитика, prefetch), MessageChannel для bypass setTimeout(fn, 0)."
+      },
+      {
+        "title": "Разобрать edge cases",
+        "text": "Microtask starvation: бесконечный цикл микро-тасок блокирует рендер. Приоритет scheduler.yield() vs setTimeout(0). Как React использует планировщик для batch updates."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что `setTimeout(fn, 0)` выполняется сразу — на самом деле минимум 4ms задержки.",
+      "Забывать, что microtasks выполняются перед КАЖДОЙ макрозадачей, а не только перед следующей итерацией цикла.",
+      "Не знать про `requestIdleCallback` и его отличие от `requestAnimationFrame`.",
+      "Использовать `setTimeout(0)` для быстрой макрозадачи — `MessageChannel` или `scheduler.yield()` быстрее.",
+      "Не учитывать microtask starvation при проектировании асинхронного кода."
+    ],
+    "followUps": [
+      "Чем `scheduler.yield()` отличается от `setTimeout(0)` и когда что использовать?",
+      "Как React использует планировщик задач для приоритизации обновлений?",
+      "Что произойдёт, если в `requestIdleCallback` запустить долгую синхронную операцию?",
+      "Как работает batching обновлений в React 18+ в контексте Event Loop?"
+    ],
+    "codeSnippet": "// Порядок выполнения всех типов очередей\nconsole.log('1. Синхронный код');\n\nsetTimeout(() => console.log('2. Макрозадача (setTimeout)'), 0);\n\nPromise.resolve().then(() => {\n  console.log('3. Микрозадача (Promise)');\n  queueMicrotask(() => console.log('4. Микрозадача (queueMicrotask)'));\n});\n\nrequestAnimationFrame(() => console.log('5. Рендеринг (rAF)'));\n\nrequestIdleCallback(() => console.log('6. Idle (requestIdleCallback)'));\n\nMessageChannel.port2.onmessage = () => console.log('7. MessageChannel');\nMessageChannel.port1.postMessage('ping');\n\n// Порядок вывода:\n// 1 → 3 → 4 → 2 → 5 → 7 → 6\n// Microtasks (3,4) ПЕРЕД macrotask (2)\n// rAF (5) ПОСЛЕ macrotask, ПЕРЕД следующей итерацией\n// MessageChannel (7) — macrotask, но быстрее setTimeout\n// requestIdleCallback (6) — ПОСЛЕ рендеринга и idle time\n\n// Microtask starvation — опасный паттерн\nfunction starve() {\n  Promise.resolve().then(starve); // бесконечные microtasks\n  // Браузер НИКОГДА не дорендерит кадр!\n}",
+    "codeLanguage": "javascript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "IT One"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Event Loop",
+      "Microtasks",
+      "Macrotasks",
+      "Rendering",
+      "Browser"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "IT One",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "it-one-react-redux-patterns",
     "title": "Как организовать 상태 в крупном React-приложении с Redux?",
     "aliases": [],
@@ -5468,6 +5539,7 @@
     ],
     "companies": [
       "Okko",
+      "Яндекс",
       "Т-Банк"
     ],
     "level": "Senior",
@@ -6851,6 +6923,76 @@
     "videoFrequency": 0
   },
   {
+    "id": "rutube-url-to-render",
+    "title": "Что происходит после того, как пользователь ввёл URL в адресную строку?",
+    "aliases": [],
+    "answer": "После ввода URL браузер проверяет кэш DNS, делает DNS-запрос для получения IP, устанавливает TCP-соединение (三次握手), при необходимости TLS-хендшейк, отправляет HTTP-запрос, получает ответ (HTML), парсит DOM и CSSOM, строит Render Tree, выполняет Layout, Paint и Composite, отображая страницу на экране.",
+    "exampleAnswer": "Когда пользователь вводит URL, происходит цепочка из ~15 этапов. Сначала браузер проверяет HSTS-список и кэш DNS. Если IP не найден — идёт DNS-запрос через рекурсивный резолвер: browser cache → OS cache → роутер → DNS провайдера.\n\nПолучив IP, браузер устанавливает TCP-соединение (三次握手), затем TLS-хендшейк для шифрования. Далее отправляется HTTP-запрос с заголовками (cookies, cache directives, Accept-Encoding).\n\nСервер отвечает HTML. Браузер запускает preload scanner — он обнаруживает критические ресурсы (CSS, JS) до завершения парсинга HTML, что ускоряет загрузку. Параллельно с парсингом HTML строится CSSOM из CSS-файлов.\n\nDOM и CSSOM объединяются в Render Tree. Затем Layout вычисляет позиции и размеры каждого элемента. Paint рисует пиксели в виртуальные слои. Composite объединяет слои через GPU и выводит на экран.\n\nКлючевые оптимизации: DNS prefetch, TCP preconnect, HTTP/2 мультиплексирование, Brotli-сжатие, lazy loading для изображений, code splitting для JS.",
+    "context": "Интервьюер проверяет фундаментальное понимание работы веб-платформы: от сетевого стека до рендеринга. Ожидается последовательное объяснение всех этапов с указанием оптимизаций на каждом шаге.",
+    "keyPoints": [
+      {
+        "title": "DNS и сетевое подключение",
+        "text": "DNS-резолвинг: browser cache → OS cache → router → ISP DNS → recursive resolver. После получения IP — TCP三次握手 (SYN, SYN-ACK, ACK), затем TLS handshake для HTTPS. Механизм TCP Fast Open для повторных соединений."
+      },
+      {
+        "title": "Загрузка ресурсов",
+        "text": "HTTP-запрос с заголовками (cookies, cache, accept). Сервер отвечает HTML. Браузер парсит HTML, находит ссылки на CSS/JS/images и начинает загружать их параллельно. Preload scanner — ускоряет обнаружение критических ресурсов до завершения парсинга HTML."
+      },
+      {
+        "title": "Парсинг и построение дерева",
+        "text": "HTML → DOM Tree. CSS → CSSOM Tree. Оба дерева объединяются в Render Tree. В Render Tree нет скрытых элементов (display: none). JavaScript может блокировать парсинг через document.write или синхронные скрипты."
+      },
+      {
+        "title": "Рендеринг на экране",
+        "text": "Render Tree → Layout (вычисление позиций и размеров) → Paint (рисование пикселей) → Composite (слои и GPU-ускорение). Reflow = пересчёт Layout. Repaint = перерисовка без изменения геометрии."
+      }
+    ],
+    "pitfalls": [
+      "Забывать про DNS-резолвинг и начинать сразу с HTTP.",
+      "Не упоминать HSTS и TLS handshake.",
+      "Путать Reflow (Layout) и Repaint.",
+      "Забывать про preload scanner и его роль в ускорении загрузки.",
+      "Не говорить про HTTP/2 мультиплексирование и его влияние на параллельную загрузку."
+    ],
+    "followUps": [
+      "Как HTTP/2 изменил способ загрузки ресурсов по сравнению с HTTP/1.1?",
+      "Что такое Critical Rendering Path и как его оптимизировать?",
+      "Как Service Worker влияет на этот процесс?",
+      "Чем отличается CSR от SSR в контексте первого рендера?"
+    ],
+    "codeSnippet": "## Полная последовательность этапов\n\n1. **URL Parse** — парсинг протокола, домена, пути, параметров\n2. **HSTS Check** — проверка списка HSTS (принудительный HTTPS)\n3. **DNS Lookup** — резолвинг домена в IP-адрес\n4. **TCP Connection** —三次握手 (SYN → SYN-ACK → ACK)\n5. **TLS Handshake** — обмен ключами, сертификат, шифрование\n6. **HTTP Request** — отправка GET/POST с заголовками\n7. **HTTP Response** — получение HTML (200, 301, 304...)\n8. **HTML Parsing** — построение DOM-дерева\n9. **CSSOM** — парсинг CSS в дерево стилей\n10. **Render Tree** — объединение DOM + CSSOM\n11. **Layout** — вычисление геометрии (reflow)\n12. **Paint** — рисование пикселей (repaint)\n13. **Composite** — наложение слоёв через GPU",
+    "codeLanguage": "markdown",
+    "category": "Web Platform",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Rutube"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Browser",
+      "DNS",
+      "HTTP",
+      "Rendering",
+      "Network"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Rutube",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "sber-fsd-tradeoffs",
     "title": "Какие проблемы и ограничения есть у Feature-Sliced Design?",
     "aliases": [],
@@ -7101,6 +7243,75 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "tbank-angular-change-detection",
+    "title": "Как работает Change Detection в Angular и чем отличается от React?",
+    "aliases": [],
+    "answer": "Angular использует Zone.js для перехвата async операций (setTimeout, HTTP, events) и автоматического запуска change detection. По умолчанию проверяется весь дерево компонентов. OnPush стратегия проверяет только компоненты с изменёнными @Input ссылками. Angular 16+ вводит signals — реактивные примитивы, которые обновляют DOM без zone.js. React использует виртуальный DOM и reconciliation — сравнивает деревья и применяет минимальные патчи.",
+    "exampleAnswer": "Angular: Zone.js перехватывает setTimeout, addEventListener, HTTP. После callback — digest cycle. По умолчанию: проверяется весь компонент с root. OnPush: только при изменении Input по ссылке.\n\n```typescript\n@Component({\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  template: `{{ count }}`\n})\nexport class Counter {\n  @Input() count!: number;\n}\n```\n\nReact: Virtual DOM. setState/rerender → compare → patch. Нет автоматического отслеживания — компонент ререндерится, если изменились props или state.\n\n```javascript\nfunction Counter({ count }) {\n  return <div>{count}</div>;\n}\n```\n\nAngular 16+ signals: зональный подход, но без zone.js overhead.",
+    "context": "Проверяется понимание механизмов обновления UI в двух основных фреймворках и trade-offs между ними.",
+    "keyPoints": [
+      {
+        "title": "Назвать механизм Angular",
+        "text": "Zone.js — monkey-patching всех async API. После каждого macro/micro task запускается change detection. Это \"pull-based\" — Angular проверяет шаблоны."
+      },
+      {
+        "title": "Показать OnPush",
+        "text": "OnPush — оптимизация: проверка только при изменении @Input ссылок (referential equality), @Output событиях, async pipe или手动.markForCheck()."
+      },
+      {
+        "title": "Показать React модель",
+        "text": "Virtual DOM — компоненты ререндерятся при setState/props, React сравнивает дерево и применяет минимальные изменения. \"Push-based\" — компонент сообщает об изменениях."
+      },
+      {
+        "title": "Сравнить trade-offs",
+        "text": "Angular: автоматическое, но дорогое (zone.js overhead). React: ручное управление, но предсказуемое. Signals в Angular — гибрид."
+      }
+    ],
+    "pitfalls": [
+      "Думать, что Angular change detection проверяет только изменённые компоненты — по умолчанию проверяется всё дерево от корня.",
+      "Забывать markForCheck() при OnPush — изменения в сервисах не обнаруживаются без него.",
+      "Мутировать объекты вместо создания новых ссылок в OnPush — Angular не видит изменений.",
+      "Путать Angular change detection с React reconciliation — разные модели (pull vs push)."
+    ],
+    "followUps": [
+      "Как Zone.js влияет на производительность и зачем Angular moving away от него?",
+      "Что такое markForCheck() и когда он нужен?",
+      "Как работает detach() иreattach() в change detection?",
+      "Как Angular signals сравниваются с React signals (TC39 proposal)?"
+    ],
+    "codeSnippet": "// Angular: OnPush + ChangeDetectionStrategy\n@Component({\n  selector: \"app-user\",\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  template: `<div>{{ user.name }}</div>`,\n})\nexport class UserComponent {\n  @Input() user!: { name: string; age: number };\n}\n\n// React: автоматический ререндер при пропсах\nfunction User({ user }: { user: { name: string; age: number } }) {\n  return <div>{user.name}</div>;\n}\n\n// Angular Signals (16+)\n@Component({\n  selector: \"app-counter\",\n  template: `<div>{{ count() }}</div>`,\n})\nexport class CounterComponent {\n  count = signal(0);\n  increment() {\n    this.count.update(n => n + 1); // Автоматический update\n  }\n}",
+    "codeLanguage": "typescript",
+    "category": "Frontend Architecture",
+    "scope": "language-specific",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Angular",
+      "Change Detection",
+      "Zone.js",
+      "Signals"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "tbank-effector-vs-redux",
@@ -8040,6 +8251,77 @@
     "videoFrequency": 0
   },
   {
+    "id": "tbank-task-scheduler",
+    "title": "Реализуйте планировщик задач с ограничением параллельных выполнений",
+    "aliases": [],
+    "answer": "Планировщик поддерживает очередь задач и пул активных воркеров. При добавлении задачи: если пул не полон — запускаем сразу, иначе добавляем в очередь. При завершении задачи — извлекаем следующую из очереди. Promise.race отслеживает завершение любого из активных промисов. Для ожидания завершения всех задач используется отдельный Promise с resolve-счётчиком.",
+    "exampleAnswer": "TaskScheduler с ограничением concurrency. Ключевые моменты: обёртка над task для отслеживания завершения, удаление из active в finally (гарантируется даже при ошибке), dequeue для запуска следующей задачи.\n\n```javascript\nconst scheduler = new TaskScheduler(2);\nscheduler.add(() => fetch(\"/api/1\"));\nscheduler.add(() => fetch(\"/api/2\"));\nscheduler.add(() => fetch(\"/api/3\")); // Подождёт, пока не освободится слот\n```\n\nПаттерн с Set<Promise> для active задач — удобно для отслеживания и onIdle. Очередь через массив с shift() — достаточно для большинства случаев, для production можно использовать linked list.",
+    "context": "Проверяется понимание управления асинхронными промисами, конкурентности и построения абстракций над Promise.",
+    "keyPoints": [
+      {
+        "title": "Определить интерфейс",
+        "text": "Класс TaskScheduler с методом add(task) и параметром concurrency. Внутри — очередь (массив/очередь) и множество активных задач."
+      },
+      {
+        "title": "Показать логику запуска",
+        "text": "При add: если active < concurrency — вызываем run(task), иначе queue.push(task). При завершении — dequeue и запуск."
+      },
+      {
+        "title": "Реализовать run",
+        "text": "run возвращает промис, добавляет его в active, при resolve/reject удаляет из active и вызывает dequeue."
+      },
+      {
+        "title": "Показать ожидание всех задач",
+        "text": "Отдельный промис, который resolve-ается когда active.size === 0 и очередь пуста."
+      }
+    ],
+    "pitfalls": [
+      "Не удалять задачу из active в finally — при ошибке пул \"застревает\" и не принимает новые задачи.",
+      "Использовать Promise.all для отслеживания active — при ошибке одной задачи Promise.all отклоняется сразу.",
+      "Забывать про concurrency = 1 — edge case, который ломает многие реализации.",
+      "Не обрабатывать случай, когда задача добавляется во время onIdle."
+    ],
+    "followUps": [
+      "Как добавить приоритизацию задач в планировщик?",
+      "Что такое backpressure и как его реализовать?",
+      "Как планировщик ведёт себя при ошибке — retry или drop?",
+      "Чем TaskScheduler отличается от подхода с пулом воркеров (worker_threads)?"
+    ],
+    "codeSnippet": "class TaskScheduler {\n  private queue: Array<() => Promise<any>> = [];\n  private active: Set<Promise<any>> = new Set();\n  private concurrency: number;\n\n  constructor(concurrency: number) {\n    this.concurrency = concurrency;\n  }\n\n  add<T>(task: () => Promise<T>): Promise<T> {\n    return new Promise<T>((resolve, reject) => {\n      const wrapped = async () => {\n        try {\n          const result = await task();\n          resolve(result);\n        } catch (error) {\n          reject(error);\n        } finally {\n          this.active.delete(wrapped);\n          this.dequeue();\n        }\n      };\n\n      if (this.active.size < this.concurrency) {\n        this.active.add(wrapped());\n      } else {\n        this.queue.push(wrapped);\n      }\n    });\n  }\n\n  private dequeue() {\n    while (this.active.size < this.concurrency && this.queue.length > 0) {\n      const next = this.queue.shift()!;\n      this.active.add(next());\n    }\n  }\n\n  async onIdle(): Promise<void> {\n    if (this.active.size === 0 && this.queue.length === 0) return;\n    await Promise.all([...this.active]);\n    return this.onIdle();\n  }\n}",
+    "codeLanguage": "typescript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Node.js-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "Promises",
+      "Concurrency",
+      "Scheduler",
+      "Async"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-typescript-generics-api",
     "title": "Спроектируйте типизированный API-клиент с автоматическим выводом типов ответов",
     "aliases": [],
@@ -8100,6 +8382,216 @@
       "Type Inference"
     ],
     "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-typescript-type-guards",
+    "title": "Что такое type guards и как narrowing работает в TypeScript?",
+    "aliases": [],
+    "answer": "Type guard — это выражение, которое TypeScript использует для узкого определения (narrowing) типа в определённом scope. Встроенные guards: typeof, instanceof, in, Array.isArray. Пользовательские type guard — это функции с возвращаемым типом `x is Type`, а assertion functions — `asserts x is Type`. Discriminated unions — паттерн с общим литеральным полем для автоматического narrowing.",
+    "exampleAnswer": "Type guard — это mechanism для сужения типа в runtime. TypeScript поддерживает 4 встроенных guard: typeof (для примитивов), instanceof (для классов), in (для проверки наличия ключа), Array.isArray. Пример:\n\n```typescript\nfunction handle(input: string | number) {\n  if (typeof input === \"string\") {\n    return input.toUpperCase();\n  }\n  return input.toFixed(2);\n}\n```\n\nПользовательский type guard — функция, которая возвращает `value is Type`:\n\n```typescript\ninterface Cat { meow(): void }\ninterface Dog { bark(): void }\n\nfunction isCat(animal: Cat | Dog): animal is Cat {\n  return \"meow\" in animal;\n}\n```\n\nDiscriminated union — паттерн с общим полем-дискриминатором (обычно `kind`, `type`, `tag`). TypeScript автоматически сужает тип при проверке этого поля.",
+    "context": "Проверяется понимание системы типов TypeScript и способов безопасной работы с union типами в runtime.",
+    "keyPoints": [
+      {
+        "title": "Назвать встроенные guards",
+        "text": "typeof для примитивов, instanceof для классов, in для проверки свойств, Array.isArray для массивов."
+      },
+      {
+        "title": "Показать discriminated union",
+        "text": "Общее поле с литеральным типом (tag, kind, type) позволяет TypeScript автоматически сужать тип в switch/case."
+      },
+      {
+        "title": "Показать пользовательский type guard",
+        "text": "Функция с `param is Type` — TypeScript доверяет этому утверждению, нужно确保 корректности в runtime."
+      },
+      {
+        "title": "Разделить type guard и assertion",
+        "text": "Type guard возвращает boolean и безопасен. Assertion (as) — это компиляторный каст, без runtime проверки."
+      }
+    ],
+    "pitfalls": [
+      "Использовать `as` (assertion) вместо type guard — unsafe cast без runtime проверки.",
+      "Писать type guard, который не соответствует реальной проверке в runtime — TypeScript доверяет утверждению.",
+      "Забывать обрабатывать все варианты union — noImplicitAny и strict mode выявят, но в loose коде это silent bug.",
+      "Путать `in` operator с проверкой типа — `in` проверяет наличие ключа, а не тип значения."
+    ],
+    "followUps": [
+      "Чем assertion function (`asserts`) отличается от type guard (`is`)?",
+      "Как работает narrowing с generics и conditional types?",
+      "Зачем нужен discriminated union вместо optional полей?",
+      "Как type guard связан с never типом в exhaustive switch?"
+    ],
+    "codeSnippet": "type Circle = { kind: \"circle\"; radius: number };\ntype Rectangle = { kind: \"rectangle\"; width: number; height: number };\ntype Shape = Circle | Rectangle;\n\nfunction area(shape: Shape): number {\n  switch (shape.kind) {\n    case \"circle\":\n      return Math.PI * shape.radius ** 2;\n    case \"rectangle\":\n      return shape.width * shape.height;\n  }\n}\n\nfunction isString(value: unknown): value is string {\n  return typeof value === \"string\";\n}\n\nfunction processValue(value: unknown) {\n  if (isString(value)) {\n    console.log(value.toUpperCase()); // TypeScript knows it's string\n  }\n}",
+    "codeLanguage": "typescript",
+    "category": "TypeScript",
+    "scope": "language-specific",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "TypeScript",
+      "Type Guards",
+      "Narrowing",
+      "Discriminated Unions"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-useeffect-cleanup-memory-leak",
+    "title": "Как исправить утечку памяти в useEffect?",
+    "aliases": [],
+    "answer": "Cleanup функция в useEffect вызывается при размонтировании компонента и перед каждым повторным вызовом эффекта — она должна отменять подписки, таймеры и запросы. Для fetch используйте AbortController, для event listeners — removeEventListener, для интервалов — clearInterval. React DevTools Profiler показывает утечки через увеличение количества нод при навигации.",
+    "exampleAnswer": "useEffect с пустым dependency array [] вызывается один раз при mount. Cleanup функция, которую он возвращает, вызывается при unmount. Если cleanup не определён,副作用 продолжают выполняться: таймеры тикают, event listeners остаются, fetch запросы завершаются и пытаются вызвать setState на unmount-ном компоненте.\n\n```javascript\nuseEffect(() => {\n  const timer = setInterval(() => {\n    console.log(\"tick\");\n  }, 1000);\n  return () => clearInterval(timer); // Cleanup\n}, []);\n```\n\nПаттерн для fetch: AbortController. Паттерн для event listeners: функция-обработчик сохраняется в переменную и передаётся в addEventListener/removeEventListener.",
+    "context": "Проверяется понимание жизненного цикла React компонентов и правильное управление ресурсами в асинхронных эффектах.",
+    "keyPoints": [
+      {
+        "title": "Назвать причину утечки",
+        "text": "Утечка памяти возникает, когда副作用 не отменяются при размонтировании: open connections, running timers, event listeners на глобальных объектах."
+      },
+      {
+        "title": "Показать Cleanup паттерн",
+        "text": "```javascript\nuseEffect(() => {\n  const abortController = new AbortController();\n  fetchData({ signal: abortController.signal });\n  return () => abortController.abort();\n}, []);\n```"
+      },
+      {
+        "title": "Разделить типы副作用",
+        "text": "Fetch — AbortController, event listeners — removeEventListener, timers — clearInterval/clearTimeout, subscriptions — unsubscribe."
+      },
+      {
+        "title": "Показать stale closure",
+        "text": "Замыкание захватывает устаревшее значение state из-за async операции — решается через ref или dependency array."
+      }
+    ],
+    "pitfalls": [
+      "Не возвращать cleanup функцию из useEffect при наличии副作用.",
+      "Использовать AbortController без проверки error.name === \"AbortError\" — abort выбрасывает ошибку, которую нужно отличать от реальных ошибок.",
+      "Забывать добавить переменные из замыкания в dependency array — приводит к stale closure.",
+      "Вызывать setState после размонтирования — отловить можно через флаг или AbortController."
+    ],
+    "followUps": [
+      "Как useEffect cleanup работает с StrictMode в dev режиме?",
+      "Что такое stale closure и как он связан с async операциями в useEffect?",
+      "Как проверить наличие утечки памяти в React приложении?",
+      "Чем useEffect отличается от useLayoutEffect с точки зрения cleanup timing?"
+    ],
+    "codeSnippet": "function UserProfile({ userId }: { userId: string }) {\n  const [user, setUser] = useState<User | null>(null);\n  const [status, setStatus] = useState(\"loading\");\n\n  useEffect(() => {\n    const abortController = new AbortController();\n\n    async function loadUser() {\n      try {\n        setStatus(\"loading\");\n        const response = await fetch(`/api/users/${userId}`, {\n          signal: abortController.signal,\n        });\n        if (!response.ok) throw new Error(\"Failed\");\n        const data = await response.json();\n        setUser(data);\n        setStatus(\"idle\");\n      } catch (error) {\n        if (error instanceof DOMException && error.name === \"AbortError\") {\n          return; // Expected cleanup, not an error\n        }\n        setStatus(\"error\");\n      }\n    }\n\n    loadUser();\n\n    return () => {\n      abortController.abort();\n    };\n  }, [userId]); // Re-run when userId changes\n\n  return <div>{status === \"loading\" ? \"Loading...\" : user?.name}</div>;\n}",
+    "codeLanguage": "typescript",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "React",
+      "useEffect",
+      "Cleanup",
+      "Memory Leak"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-web-vitals-optimization",
+    "title": "Как оптимизировать Core Web Vitals в крупном SPA?",
+    "aliases": [],
+    "answer": "LCP (Largest Contentful Paint) — оптимизируйте largest element: preloading критических изображений, server-side rendering, image format (WebP/AVIF), приоритетная загрузка. FID (First Input Delay) — минимизируйте main thread blocking: code splitting, defer non-critical JS, web workers. CLS (Cumulative Layout Shift) — резервируйте пространство под изображения/ads, используйте font-display: swap. Измеряйте через Lighthouse, CrUX, PerformanceObserver.",
+    "exampleAnswer": "Core Web Vitals — три метрики, измеряющие реальный пользовательский опыт:\n\nLCP (Largest Contentful Paint) — время загрузки крупнейшего элемента. Оптимизация: preload hero image, responsive images (srcset), WebP/AVIF форматы, SSR для начального HTML.\n\n```html\n<link rel=\"preload\" as=\"image\" href=\"/hero.webp\" />\n<img src=\"/hero.webp\" width=\"1200\" height=\"600\" fetchpriority=\"high\" />\n```\n\nFID (First Input Delay) — задержка отклика на первый ввод. Code splitting, web workers, defer non-critical scripts.\n\n```javascript\nconst module = await import(\"./heavy-module.js\");\n```\n\nCLS (Cumulative Layout Shift) — визуальная стабильность. Always set dimensions, font-display: swap, reserved space.",
+    "context": "Проверяется понимание метрик производительности веб-приложений и практических техник оптимизации для крупных SPA.",
+    "keyPoints": [
+      {
+        "title": "Назвать три метрики",
+        "text": "LCP — загрузка контента, FID — интерактивность, CLS — стабильность визуала. Все три влияют на SEO и пользовательский опыт."
+      },
+      {
+        "title": "LCP оптимизация",
+        "text": "Preload hero image, SSR для начального HTML, responsive images, lazy loading для non-critical, server response time (TTFB)."
+      },
+      {
+        "title": "FID оптимизация",
+        "text": "Code splitting (dynamic import), web workers для тяжёлых вычислений, defer/async скриптов, yield main thread (requestIdleCallback)."
+      },
+      {
+        "title": "CLS оптимизация",
+        "text": "width/height на изображения, aspect-ratio CSS, font-display: swap, reserved space для dynamic content."
+      }
+    ],
+    "pitfalls": [
+      "Использовать только Lighthouse вместо реальных данных CrUX — лабораторные данные не отражают пользовательский опыт.",
+      "Lazy loading hero image — LCP элемент должен загружаться приоритетно.",
+      "Не резервировать пространство под динамический контент (ads, banners) — основная причина CLS.",
+      "Игнорировать FCP — это precursor к LCP, если FCP медленный, LCP будет ещё хуже."
+    ],
+    "followUps": [
+      "Как измерить Core Web Vitals в реальном времени (RUM)?",
+      "Что такое INP (Interaction to Next Paint) и как он заменяет FID?",
+      "Как оптимизировать Web Vitals для SPA с client-side routing?",
+      "Как service worker может повлиять на Core Web Vitals?"
+    ],
+    "codeSnippet": "// LCP: preload critical image\nconst link = document.createElement(\"link\");\nlink.rel = \"preload\";\nlink.as = \"image\";\nlink.href = \"/hero.webp\";\ndocument.head.appendChild(link);\n\n// FID: defer heavy computation\nasync function processData(data: unknown[]) {\n  // Yield to main thread\n  await new Promise((resolve) => setTimeout(resolve, 0));\n  return data.map((item) => heavyTransform(item));\n}\n\n// CLS: reserve space for images\n// CSS: .ad-container { min-height: 250px; }\n\n// Measure with PerformanceObserver\nconst observer = new PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    if (entry.entryType === \"largest-contentful-paint\") {\n      console.log(\"LCP:\", entry.startTime);\n    }\n  }\n});\nobserver.observe({ type: \"largest-contentful-paint\", buffered: true });",
+    "codeLanguage": "typescript",
+    "category": "Browser Performance",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Web Vitals",
+      "LCP",
+      "FID",
+      "CLS",
+      "Performance"
+    ],
+    "duration": "15 мин",
     "difficulty": 4,
     "sources": [
       {
@@ -10133,6 +10625,80 @@
     "videoFrequency": 0
   },
   {
+    "id": "yandex-debounce-throttle",
+    "title": "Реализуйте debounce и throttle с нуля",
+    "aliases": [],
+    "answer": "Debounce откладывает вызов функции до тех пор, пока не пройдёт заданная пауза после последнего вызова. Throttle ограничивает частоту вызова функции — она выполняется не чаще одного раза в указанный интервал. Обе функции используют closure для хранения timer ID и замыкают переданную функцию.",
+    "exampleAnswer": "Давайте начнём с debounce. При каждом вызове мы очищаем предыдущий таймер и ставим новый. Функция выполнится только когда вызовы прекратятся на delay миллисекунд. Closure хранит timer ID и последние аргументы.\n\nДля throttle используем подход с флагом и таймером. Если прошёл интервал с последнего вызова — вызываем сразу (leading). Если нет — ставим таймер на оставшееся время (trailing). Это гарантирует вызов и в начале, и в конце интервала.\n\nВажно: оба метода сохраняют контекст вызова через .apply(this, args) и поддерживают отмену через .cancel(). В реальных проектах lodashrottle/lodash.debounce покрывают更多 edge cases, но понимание реализации с нуля — это must have.",
+    "context": "Интервьюер проверяет понимание работы с таймерами, closure в JavaScript и умение писать переиспользуемые утилиты. Ожидается чёткое различие между debounce и throttle, а также обработка edge cases (cancel, leading/trailing, this и arguments).",
+    "keyPoints": [
+      {
+        "title": "Разница между debounce и throttle",
+        "text": "Debounce ждёт «паузы» в вызовах — если функция вызывается каждые 100мс с timeout 300мс, она выполнится только один раз через 300мс после последнего вызова. Throttle выполняет функцию регулярно — например, не чаще раза в 200мс, даже если вызовы идут каждые 10мс."
+      },
+      {
+        "title": "Leading vs trailing edge",
+        "text": "Leading — вызов происходит в начале интервала (первый вызов сразу, потом пауза). Trailing — вызов в конце интервала (последний вызов после паузы). Можно комбинировать: leading + trailing даёт вызов и в начале, и в конце."
+      },
+      {
+        "title": "Реализация debounce",
+        "text": "Используем closure для хранения timer ID. При каждом вызове очищаем предыдущий таймер и устанавливаем новый. Передаём this и arguments через.apply(). Добавляем методы cancel и flush."
+      },
+      {
+        "title": "Реализация throttle",
+        "text": "Через timeout — устанавливаем флаг и таймер. Через trailing — вызываем функцию по таймеру. Leading + trailing комбинируются: вызов сразу + отложенный вызов в конце интервала."
+      },
+      {
+        "title": "Применение",
+        "text": "Debounce: поиск (input), ресайз окна, валидация полей. Throttle: скролл, movimiento мыши, обработка событий на высокой частоте."
+      }
+    ],
+    "pitfalls": [
+      "Забывать про this и arguments — вызов fn() вместо fn.apply(this, args) ломает контекст.",
+      "Не очищать предыдущий таймер в debounce — функция вызовется несколько раз.",
+      "Путать debounce и throttle — debounce ждёт паузу, throttle ограничивает частоту.",
+      "Не обрабатывать cancel — таймер продолжит работать даже после unmount компонента."
+    ],
+    "followUps": [
+      "В чём разница между requestAnimationFrame и throttle для обработки скролла?",
+      "Как реализовать debounce с immediate (вызов в начале, а не в конце)?",
+      "Что такое debounce с flush — когда это нужно?",
+      "Как debounce/throttle влияют на React-компоненты и когда использовать useMemo/useCallback вместо них?"
+    ],
+    "codeSnippet": "// Debounce\nfunction debounce(fn, delay, options = {}) {\n  let timer = null;\n  let lastArgs = null;\n  const { leading = false, trailing = true } = options;\n\n  function debounced(...args) {\n    const isFirstCall = !timer && leading;\n    lastArgs = args;\n\n    if (timer) clearTimeout(timer);\n\n    if (isFirstCall) {\n      fn.apply(this, lastArgs);\n    }\n\n    timer = setTimeout(() => {\n      if (trailing && lastArgs) {\n        fn.apply(this, lastArgs);\n      }\n      timer = null;\n      lastArgs = null;\n    }, delay);\n  }\n\n  debounced.cancel = () => {\n    clearTimeout(timer);\n    timer = null;\n    lastArgs = null;\n  };\n\n  return debounced;\n}\n\n// Throttle\nfunction throttle(fn, interval, options = {}) {\n  let lastTime = 0;\n  let timer = null;\n  const { leading = true, trailing = true } = options;\n\n  function throttled(...args) {\n    const now = Date.now();\n    const isLeading = leading && now - lastTime >= interval;\n\n    if (isLeading) {\n      lastTime = now;\n      fn.apply(this, args);\n    }\n\n    if (!timer && trailing) {\n      timer = setTimeout(() => {\n        lastTime = Date.now();\n        timer = null;\n        fn.apply(this, args);\n      }, interval - (now - lastTime));\n    }\n  }\n\n  throttled.cancel = () => {\n    clearTimeout(timer);\n    timer = null;\n    lastTime = 0;\n  };\n\n  return throttled;\n}",
+    "codeLanguage": "javascript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "JavaScript",
+      "Debounce",
+      "Throttle",
+      "Performance"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "yandex-flaky-tests",
     "title": "Что такое flaky тесты и как с ними бороться?",
     "aliases": [],
@@ -10262,6 +10828,79 @@
     ],
     "duration": "15 мин",
     "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-intersection-observer-lazy-load",
+    "title": "Реализуйте lazy loading изображений с помощью Intersection Observer",
+    "aliases": [],
+    "answer": "Intersection Observer API позволяет отслеживать, когда элемент появляется в viewport. Для lazy loading изображений: храним реальный URL в data-src, подставляем в src при пересечении, отписываемся после загрузки. rootMargin позволяет начать загрузку заранее, до появления в viewport.",
+    "exampleAnswer": "Подход: используем data-src для хранения реального URL и Intersection Observer для отслеживания появления в viewport. При пересечении — подставляем src, отписываемся.\n\nrootMargin: '200px' — начинаем загрузку за 200px до появления. Это важно для плавного UX: пользователь не видит задержки. threshold: 0.01 — достаточно 1% видимости элемента.\n\nFallback: если Intersection Observer не поддерживается — загружаем все изображения сразу. Это graceful degradation для старых браузеров.\n\nВ React: используем useRef для доступа к DOM-элементу и useEffect для подписки. Обязательно возвращаем cleanup с observer.disconnect().",
+    "context": "Интервьюер проверяет знание browser API для оптимизации производительности. Ожидается понимание Intersection Observer, работа с DOM, обработка fallback для старых браузеров и оптимизация (отписка, rootMargin).",
+    "keyPoints": [
+      {
+        "title": "HTML-структура",
+        "text": "Изображение с пустым src (или плейсхолдером) и data-src с реальным URL. Это позволяет начать загрузку только при необходимости, а не при рендеринге страницы."
+      },
+      {
+        "title": "Intersection Observer",
+        "text": "Создаём observer с callback, который проверяет isIntersecting. При пересечении — подставляем data-src в src, отписываемся от наблюдения. observer.disconnect() после загрузки предотвращает утечку памяти."
+      },
+      {
+        "title": "rootMargin для предзагрузки",
+        "text": "rootMargin: '200px' — callback срабатывает, когда элемент ещё не виден, но до него 200px. Это даёт время начать загрузку заранее, чтобы пользователь не ждал."
+      },
+      {
+        "title": "Fallback для старых браузер",
+        "text": "Проверяем поддержку: if ('IntersectionObserver' in window). Если нет — загружаем все изображения сразу. Это graceful degradation."
+      },
+      {
+        "title": "Disconnect и cleanup",
+        "text": "Обязательно отписываемся после загрузки: observer.disconnect(). В React — в useEffect cleanup. Это предотвращает утечки памяти и лишние вызовы."
+      }
+    ],
+    "pitfalls": [
+      "Не отписываться от observer — утечка памяти и лишние вызовы callback.",
+      "Не использовать rootMargin — загрузка начинается только при полном появлении в viewport, пользователь видит задержку.",
+      "Забывать про fallback — старые браузеры не загрузят изображения вообще.",
+      "Использовать вместо Intersection Observer scroll-события — менее эффективно, нет автоматической оптимизации браузером."
+    ],
+    "followUps": [
+      "В чём разница между Intersection Observer и scroll-событиями для lazy loading?",
+      "Как реализовать lazy loading для видео или iframe?",
+      "Что такое native lazy loading (loading=\"lazy\") и когда лучше использовать JS-решение?",
+      "Как Intersection Observer влияет на SEO — поисковики видят ли lazy-загруженный контент?"
+    ],
+    "codeSnippet": "<img class=\"lazy\" data-src=\"image.jpg\" src=\"placeholder.jpg\" alt=\"Lazy loaded\">\n```\n\n```javascript\nfunction lazyLoadImages() {\n  const images = document.querySelectorAll('img.lazy');\n\n  if (!('IntersectionObserver' in window)) {\n    // Fallback: загружаем все\n    images.forEach((img) => {\n      img.src = img.dataset.src;\n    });\n    return;\n  }\n\n  const observer = new IntersectionObserver(\n    (entries) => {\n      entries.forEach((entry) => {\n        if (entry.isIntersecting) {\n          const img = entry.target;\n          img.src = img.dataset.src;\n          img.classList.remove('lazy');\n          observer.unobserve(img);\n        }\n      });\n    },\n    {\n      rootMargin: '200px 0px', // Начать загрузку за 200px до появления\n      threshold: 0.01,\n    }\n  );\n\n  images.forEach((img) => observer.observe(img));\n}\n\n// Запуск после загрузки DOM\ndocument.addEventListener('DOMContentLoaded', lazyLoadImages);\n\n// React-компонент\nfunction LazyImage({ src, alt, placeholder }) {\n  const imgRef = React.useRef(null);\n  const [loaded, setLoaded] = React.useState(false);\n\n  React.useEffect(() => {\n    const img = imgRef.current;\n    if (!img) return;\n\n    if (!('IntersectionObserver' in window)) {\n      img.src = src;\n      setLoaded(true);\n      return;\n    }\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        if (entry.isIntersecting) {\n          img.src = src;\n          img.onload = () => setLoaded(true);\n          observer.unobserve(img);\n        }\n      },\n      { rootMargin: '200px' }\n    );\n\n    observer.observe(img);\n    return () => observer.disconnect();\n  }, [src]);\n\n  return (\n    <img\n      ref={imgRef}\n      src={placeholder || ''}\n      alt={alt}\n      style={{ opacity: loaded ? 1 : 0.5, transition: 'opacity 0.3s' }}\n    />\n  );\n}",
+    "codeLanguage": "html",
+    "category": "Web Platform",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Junior",
+    "stage": "Live coding",
+    "tags": [
+      "Intersection Observer",
+      "Lazy Loading",
+      "Performance",
+      "DOM"
+    ],
+    "duration": "15 мин",
+    "difficulty": 2,
     "sources": [
       {
         "company": "Яндекс",
@@ -10496,6 +11135,80 @@
     "videoFrequency": 0
   },
   {
+    "id": "yandex-promise-all-polyfill",
+    "title": "Реализуйте Promise.all с нуля",
+    "aliases": [],
+    "answer": "Promise.all принимает массив промисов и возвращает новый промис, который резолвится массивом результатов в том же порядке. При ошибке одного промиса — отклоняется сразу с этой ошибкой (early rejection). Ключевые моменты: подсчёт завершённых, сохранение порядка, обработка не-промисов, edge case пустого массива.",
+    "exampleAnswer": "Мой подход: создаю массив results фиксированной длины и счётчик completed. Каждый элемент оборачиваю в Promise.resolve для совместимости с не-промисами. При resolve записываю результат по индексу и проверяю, все ли завершились. При reject — устанавливаю флаг rejected и отклоняю главный промис.\n\nКлючевой момент: порядок результатов сохраняется за счёт записи по индексу, а не push. Это значит, что даже если промисы завершаются в разном порядке, результаты будут в правильном порядке.\n\nДля early rejection: при ошибке одного промиса — reject сразу, другие продолжают работу, но их результаты игнорируются. Это поведение совпадает с нативным Promise.all.",
+    "context": "Интервьюер проверяет глубокое понимание промисов и умение писать polyfill. Ожидается не просто «обернуть в промис», а корректная обработка порядка результатов, контекста, ошибок и edge cases.",
+    "keyPoints": [
+      {
+        "title": "Базовая структура",
+        "text": "Функция принимает iterable (массив), возвращает новый Promise. Используем счётчик для отслеживания завершённых промисов. Результаты сохраняем в массив того же размера."
+      },
+      {
+        "title": "Подсчёт и сохранение порядка",
+        "text": "Создаём массив results той же длины, что и входной. Каждый промис записывает результат по индексу (не push). Счётчик completed++ при каждом resolve. Когда completed === total — resolve главный промис."
+      },
+      {
+        "title": "Обработка ошибок",
+        "text": "При reject любого промиса — reject всего Promise.all сразу (early rejection). Другие промисы продолжают выполняться, но результат игнорируется. Важно не вызывать resolve повторно."
+      },
+      {
+        "title": "Не-промисы в массиве",
+        "text": "Если элемент массива не промис (например, число), оборачиваем его в Promise.resolve(). Это совместимость с оригинальным поведением."
+      },
+      {
+        "title": "Edge cases",
+        "text": "Пустой массив — resolve сразу с []. Один промис — normal behavior. Смешанные промисы и не-промисы. Множественные ошибки — отдаём первую."
+      }
+    ],
+    "pitfalls": [
+      "Использовать push для результатов — порядок нарушается, если промисы завершаются вразнобой.",
+      "Не обрабатывать не-промисы — если в массиве число или строка, нужно обернуть в Promise.resolve.",
+      "Забывать про edge case пустого массива — Promise.all([]) должен resolve с [].",
+      "Не проверять флаг rejected — возможен двойной resolve/reject при параллельных ошибках."
+    ],
+    "followUps": [
+      "В чём разница между Promise.all и Promise.allSettled?",
+      "Как реализовать Promise.all с limit на параллелизм (concurrency control)?",
+      "Что такое Promise.any и как он отличается от Promise.race?",
+      "Как реализовать AbortController для отмены Promise.all?"
+    ],
+    "codeSnippet": "function promiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    const items = Array.from(promises);\n    const results = new Array(items.length);\n    let completed = 0;\n    let rejected = false;\n\n    if (items.length === 0) {\n      resolve(results);\n      return;\n    }\n\n    items.forEach((promise, index) => {\n      Promise.resolve(promise).then(\n        (value) => {\n          if (rejected) return;\n          results[index] = value;\n          completed++;\n          if (completed === items.length) {\n            resolve(results);\n          }\n        },\n        (error) => {\n          if (rejected) return;\n          rejected = true;\n          reject(error);\n        }\n      );\n    });\n  });\n}",
+    "codeLanguage": "javascript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "Promises",
+      "Polyfill",
+      "Async",
+      "Implementation"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "yandex-release-process",
     "title": "Как осуществляется релиз на прод в вашем проекте?",
     "aliases": [],
@@ -10565,6 +11278,81 @@
     "videoFrequency": 0
   },
   {
+    "id": "yandex-sliding-window-max",
+    "title": "Найдите максимальное значение в скользящем окне",
+    "aliases": [],
+    "answer": "Задача — найти максимум в каждом окне размера k по массиву. Brute force O(n*k) проверяет каждое окно отдельно. Оптимальное решение O(n) использует monotonic deque — дек, элементы в котором убывают от головы к хвосту. При движении окна удаляем элементы, вышедшие за границу, и поддерживаем убывающий порядок.",
+    "exampleAnswer": "Начнём с brute force: для каждого окна находим максимум за O(k). Итого O(n*k) — не проходит для больших входов.\n\nОптимизация через monotonic deque: дек хранит индексы в убывающем порядке значений. Голова — всегда максимум. При каждом шаге: удаляем устаревшие индексы (вышли за границу k), удаляем с хвоста всё, что меньше текущего элемента (эти элементы не будут максимумом), добавляем текущий.\n\nПочему O(n): каждый элемент добавляется в deque один раз и удаляется один раз. deque не может содержать больше k элементов. Запись результата — O(1), берём значение по голове deque.",
+    "context": "Это классическая алгоритмическая задача на собеседованиях в Яндексе. Интервьюер ожидает не только решение, но и анализ сложности, понимание為什麼 deque работает, и умение объяснить monotonic property.",
+    "keyPoints": [
+      {
+        "title": "Brute force решение",
+        "text": "Для каждого окна [i, i+k-1] находим максимум перебором. Сложность O(n*k) по времени, O(1) по памяти. При n=10^5 и k=10^4 будет 10^9 операций — слишком медленно."
+      },
+      {
+        "title": "Monotonic deque — идея",
+        "text": "Deque хранит индексы элементов в убывающем порядке значений. Голова deque — всегда максимум текущего окна. Ключевое свойство: если элемент A меньше элемента B и A правее B, то A никогда не будет максимумом, пока B в окне."
+      },
+      {
+        "title": "Поддержка deque",
+        "text": "При добавлении нового элемента: удаляем все элементы с хвоста, которые меньше нового (они бесполезны). Добавляем новый элемент в хвост. При удалении из окна: если голова deque — индекс, вышедший за границу, удаляем с головы."
+      },
+      {
+        "title": "Анализ сложности",
+        "text": "Каждый элемент добавляется в deque один раз и удаляется один раз. Итого O(n) по времени. Память O(k) — размер deque не превышает размер окна."
+      },
+      {
+        "title": "Edge cases",
+        "text": "Пустой массив, k=1 (каждый элемент — максимум), k=n (максимум всего массива), все элементы одинаковые."
+      }
+    ],
+    "pitfalls": [
+      "Использовать Math.max(...window) для каждого окна — O(n*k), не проходит на больших данных.",
+      "Не удалять устаревшие элементы с головы deque — максимум будет неправильным.",
+      "Путать порядок удаления: с головы — устаревшие, с хвоста — меньшие текущего.",
+      "Не проверять k=1 и k=n — edge cases, которые могут сломать логику."
+    ],
+    "followUps": [
+      "Как модифицировать решение для нахождения минимума в скользящем окне?",
+      "Что такое Sliding Window Maximum в контексте реальных задач (метрики, мониторинг)?",
+      "Как решить задачу, если окно задано не фиксированным размером, а интервалами?",
+      "В чём разница между deque и priority queue для этой задачи?"
+    ],
+    "codeSnippet": "function maxSlidingWindow(nums, k) {\n  const deque = []; // индексы, значения убывают\n  const result = [];\n\n  for (let i = 0; i < nums.length; i++) {\n    // Удаляем элементы, вышедшие за границу окна\n    while (deque.length && deque[0] <= i - k) {\n      deque.shift();\n    }\n\n    // Удаляем с хвоста все элементы меньше текущего\n    while (deque.length && nums[deque[deque.length - 1]] <= nums[i]) {\n      deque.pop();\n    }\n\n    deque.push(i);\n\n    // Начинаем записывать результат, когда окно полностью заполнено\n    if (i >= k - 1) {\n      result.push(nums[deque[0]]);\n    }\n  }\n\n  return result;\n}\n\n// Python\nfunction maxSlidingWindowPython(nums, k) {\n  const deque = [];\n  const result = [];\n\n  for (let i = 0; i < nums.length; i++) {\n    while (deque.length && deque[0] <= i - k) {\n      deque.shift();\n    }\n    while (deque.length && nums[deque[deque.length - 1]] <= nums[i]) {\n      deque.pop();\n    }\n    deque.push(i);\n    if (i >= k - 1) {\n      result.push(nums[deque[0]]);\n    }\n  }\n  return result;\n}",
+    "codeLanguage": "javascript",
+    "category": "Algorithms",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "Python"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Алгоритмы",
+    "tags": [
+      "Algorithms",
+      "Sliding Window",
+      "Deque",
+      "Data Structures"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "yandex-ssr-concept",
     "title": "Что такое SSR и зачем он нужен?",
     "aliases": [],
@@ -10623,6 +11411,78 @@
       "SSG",
       "SEO",
       "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-xss-csrf-protection",
+    "title": "Как защитить веб-приложение от XSS и CSRF атак?",
+    "aliases": [],
+    "answer": "XSS защищается санитизацией пользовательского ввода и вывода, установкой CSP policy и использованием Trusted Types API. CSRF защищается CSRF-токенами в формах, проверкой заголовка SameSite у cookies и заголовка Origin/Referer. HTTPOnly cookies не доступны из JavaScript, что предотвращает кражу токенов через XSS.",
+    "exampleAnswer": "XSS бывает трёх типов: stored (скрипт на сервере), reflected (в URL) и DOM-based (в клиентском коде). Защита — многоуровневая: санитизация ввода (DOMPurify), CSP policy с nonce для скриптов, Trusted Types API для контроля DOM-вставок.\n\nCSRF利用, что браузер подставляет cookies автоматически. Защита: CSRF-токен в каждой форме (проверяется сервером), SameSite=Lax у cookies (не отправляются в cross-site POST), HTTPOnly флаг (JS не видит токены). На практике используют комбинацию: SameSite + CSRF tokens + проверка Origin.\n\nВажно: XSS можно полностью предотвратить, но CSRF требует серверной поддержки. CSP — самый мощный инструмент, но его сложно настроить без поломок. Начинайте с strict policy и ослабляйте по мере необходимости.",
+    "context": "Интервьюер проверяет понимание моделей угроз в вебе. Ожидается знание типов XSS (stored, reflected, DOM-based), конкретных техник защиты и понимание, почему одного способа недостаточно — защита должна быть многоуровневой.",
+    "keyPoints": [
+      {
+        "title": "Типы XSS",
+        "text": "Stored XSS — вредоносный скрипт сохранён на сервере (например, в комментариях). Reflected XSS — скрипт передаётся через URL-параметры и отражается в ответе. DOM-based XSS — скрипт вводится через client-side код (innerHTML, document.write)."
+      },
+      {
+        "title": "Защита от XSS",
+        "text": "Санитизация ввода: валидация по white list, экранирование HTML-сущностей (< → &lt;). Sanitizers: DOMPurify для HTML, libraries для шаблонов. CSP (Content Security Policy) — ограничение источников скриптов, block inline scripts. Trusted Types API — принудительная обработка DOM-вставок."
+      },
+      {
+        "title": "Модель CSRF",
+        "text": "CSRF利用, что браузер автоматически подставляет cookies при запросах. Атакующий может отправить форму от имени пользователя, даже если он не на сайте. Уязвимы state-changing запросы (POST, PUT, DELETE)."
+      },
+      {
+        "title": "Защита от CSRF",
+        "text": "CSRF-токен — уникальный токен в форме, проверяется сервером. SameSite cookie attribute (Strict/Lax) — cookie не отправляется в cross-site запросах. Проверка заголовков Origin/Referer. Double Submit Cookie pattern."
+      },
+      {
+        "title": "HTTPOnly cookies и комбинированная защита",
+        "text": "HTTPOnly — JavaScript не может прочитать cookie, что защищает от кражи токенов. Combined: CSP + HTTPOnly + SameSite + CSRF tokens — многоуровневая защита."
+      }
+    ],
+    "pitfalls": [
+      "Полагаться только на клиентскую валидацию — серверная проверка обязательна.",
+      "Использовать innerHTML без санитизации — прямой путь к DOM XSS.",
+      "Не устанавливать SameSite у cookies — по умолчанию сейчас Lax, но лучше указывать явно.",
+      "Использовать eval() или dangerouslySetInnerHTML без крайней необходимости."
+    ],
+    "followUps": [
+      "Что такое JSONP и почему он небезопасен?",
+      "Как настроить CSP policy, чтобы она не ломала существующий код?",
+      "В чём разница между SameSite=Strict и SameSite=Lax?",
+      "Что такое Subresource Integrity (SRI) и как оно защищает от атак на CDN?"
+    ],
+    "codeSnippet": "// Пример CSP policy (HTTP-заголовок)\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-abc123'; style-src 'self' 'unsafe-inline'\n\n// DOMPurify — санитизация HTML\nimport DOMPurify from 'dompurify';\n\nfunction renderComment(html) {\n  return DOMPurify.sanitize(html, {\n    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],\n    ALLOWED_ATTR: ['href'],\n  });\n}\n\n// CSRF-токен в форме\nfunction generateForm() {\n  const token = getCsrfToken(); // из серверного рендера\n  return `\n    <form method=\"POST\" action=\"/api/transfer\">\n      <input type=\"hidden\" name=\"_csrf\" value=\"${token}\">\n      <input name=\"amount\">\n      <button type=\"submit\">Отправить</button>\n    </form>\n  `;\n}\n\n// Проверка SameSite cookie (серверная часть)\n// Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Lax; Path=/\n\n// Trusted Types API (browser)\n// policy.createScriptURL(url) — валидация URL перед вставкой в script.src",
+    "codeLanguage": "javascript",
+    "category": "Web Platform",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "XSS",
+      "CSRF",
+      "CSP"
     ],
     "duration": "10 мин",
     "difficulty": 3,
