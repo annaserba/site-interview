@@ -52,6 +52,8 @@ function App() {
   const [sortMode, setSortMode] = useState('default')
   const [showBehavioral, setShowBehavioral] = useState(true)
   const [showSystemDesign, setShowSystemDesign] = useState(true)
+  const [showTechnical, setShowTechnical] = useState(true)
+  const [showHR, setShowHR] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
@@ -104,8 +106,12 @@ function App() {
       const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
       const isBehavioral = item.category === 'Behavioral'
       const isSystemDesign = /architecture|архитектур|system design|distributed|scalability/i.test(`${item.category} ${item.tags.join(' ')}`)
+      const isHR = /hr|recruiter| рекрутер|собеседование/i.test(`${item.category} ${item.tags.join(' ')}`)
+      const isTechnical = !isBehavioral && !isSystemDesign && !isHR
       if (isBehavioral) return companyMatch && roleMatch && showBehavioral
       if (isSystemDesign) return companyMatch && roleMatch && showSystemDesign
+      if (isHR) return companyMatch && roleMatch && showHR
+      if (isTechnical) return companyMatch && roleMatch && showTechnical && topicMatch
       return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
@@ -243,14 +249,18 @@ function App() {
                 { value: 'title', label: 'По названию' },
               ]} />
               <FilterDropdown label="Тип вопросов" value="" multiple
-                selected={[...(showSystemDesign ? ['system-design'] : []), ...(showBehavioral ? ['behavioral'] : [])]}
+                selected={[...(showSystemDesign ? ['system-design'] : []), ...(showBehavioral ? ['behavioral'] : []), ...(showTechnical ? ['technical'] : []), ...(showHR ? ['hr'] : [])]}
                 onToggle={(val) => {
                   if (val === 'system-design') setShowSystemDesign(!showSystemDesign)
                   if (val === 'behavioral') setShowBehavioral(!showBehavioral)
+                  if (val === 'technical') setShowTechnical(!showTechnical)
+                  if (val === 'hr') setShowHR(!showHR)
                 }}
                 options={[
                   { value: 'system-design', label: 'Системный дизайн' },
                   { value: 'behavioral', label: 'Карьера и команда' },
+                  { value: 'technical', label: 'Технические' },
+                  { value: 'hr', label: 'HR' },
                 ]} />
             </div>
           </div>
@@ -297,7 +307,7 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setShowBehavioral(true); setShowSystemDesign(true); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
+            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setShowBehavioral(true); setShowSystemDesign(true); setShowTechnical(true); setShowHR(true); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
           {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}
@@ -311,7 +321,7 @@ function App() {
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
-          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<button onClick={() => { setShowSystemDesign(!showSystemDesign); window.location.hash = 'questions' }} style={showSystemDesign ? {} : { opacity: 0.4 }}>Системный дизайн</button><button onClick={() => { setShowBehavioral(!showBehavioral); window.location.hash = 'questions' }} style={showBehavioral ? {} : { opacity: 0.4 }}>Карьера и команда</button></div>
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<button onClick={() => { setShowSystemDesign(!showSystemDesign); window.location.hash = 'questions' }} style={showSystemDesign ? {} : { opacity: 0.4 }}>Системный дизайн</button><button onClick={() => { setShowBehavioral(!showBehavioral); window.location.hash = 'questions' }} style={showBehavioral ? {} : { opacity: 0.4 }}>Карьера и команда</button><button onClick={() => { setShowTechnical(!showTechnical); window.location.hash = 'questions' }} style={showTechnical ? {} : { opacity: 0.4 }}>Технические</button><button onClick={() => { setShowHR(!showHR); window.location.hash = 'questions' }} style={showHR ? {} : { opacity: 0.4 }}>HR</button></div>
           <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => navigateRole(role)}>{role}</button>)}</div>
         </div>
         <span>© 2026 in.depth</span>
