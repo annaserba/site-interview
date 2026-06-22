@@ -38,6 +38,44 @@ Deferred scripts сохраняют порядок, async — нет; `DOMConten
 
 Analytics без зависимостей — async, application bundle — module или defer, critical inline — только с CSP nonce/hash.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Обычный script — блокирует HTML парсинг до загрузки и выполнения. async — загружает параллельно, выполняется сразу после загрузки (блокирует HTML). defer — загружает параллельно, выполняется после парсинга HTML (в порядке объявления). module — как defer, но в strict mode, с own scope. Пример:
+
+```html
+<script src="app.js"></script>        <!-- блокирует -->
+<script src="analytics.js" async></script>  <!-- не блокирует, порядок не гарантирован -->
+<script src="app.js" defer></script>  <!-- не блокирует, порядок гарантирован -->
+<script type="module" src="app.mjs"></script> <!-- как defer -->
+```
+
+На практике: third-party скрипты (analytics, chat) — async. Critical scripts — defer. Module scripts — для modern browsers с ES modules. Никогда не использую обычный script для критичного кода.
+
 ## Частые ошибки
 
 - Говорить, что defer выполняется после `DOMContentLoaded`.

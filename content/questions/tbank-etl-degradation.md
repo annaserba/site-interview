@@ -46,6 +46,35 @@ sourceUrl: ""
 
 Определите idempotency key, checkpoint, правила replay, DLQ и сверку количества или контрольных сумм. Выпускайте изменение canary-режимом, сравнивайте старый и новый результаты и держите план отката без повторной обработки побочных эффектов.
 
+
+## Код из интервью
+
+```javascript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+При росте данных в 10 раз ETL-пайплайн деградировал с 1 часа до 8 часов. Причины: 1) Один гигантский SQL без партиционирования; 2) Последовательная обработка; 3) Отсутствие индексов. Диагностика: EXPLAIN ANALYZE показал Seq Scan, pg_stat_statements — топ-1 slow queries. Решения: 1) Partitioning по дате; 2) Parallel processing — Airflow tasks с пулом воркеров; 3) Индексы на foreign keys; 4) Materialized views для предагрегации. Результат: 8 часов → 45 минут. Также добавил monitoring: alert на duration > 1 hour, dashboard в Grafana.
+
 ## Частые ошибки
 
 - Масштабировать consumers, когда ограничение находится в sink или числе партиций.

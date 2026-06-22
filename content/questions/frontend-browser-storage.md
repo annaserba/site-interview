@@ -38,6 +38,31 @@ HttpOnly снижает риск кражи session token через XSS, SameSi
 
 Web Storage синхронно блокирует main thread; для больших структур и транзакций используйте IndexedDB.
 
+
+## Код из интервью
+
+```typescript
+// Сравнение хранилищ браузера
+
+// localStorage — 5MB, синхронно, персистентно
+localStorage.setItem("user", JSON.stringify({ name: "Alice" }));
+
+// sessionStorage — 5MB, per-tab
+sessionStorage.setItem("tabId", crypto.randomUUID());
+
+// cookies — 4KB, отправляются с запросами
+document.cookie = "theme=dark; max-age=86400; SameSite=Lax";
+
+// IndexedDB — большие объёмы, асинхронно
+const db = await idb.open("mydb", 1, (upgradeDB) => {
+  upgradeDB.createObjectStore("users", { keyPath: "id" });
+});
+```
+
+## Пример ответа
+
+localStorage — permanent storage, 5-10MB, хранит только строки, доступен из любой вкладки одного origin, не отправляется на сервер. sessionStorage — аналогично, но данные удаляются при закрытии вкладки. cookie — до 4KB, автоматически отправляется с каждым запросом к серверу, может иметь TTL и флаги HttpOnly/Secure/SameSite. IndexedDB — до hundreds MB, хранит объекты, поддерживает транзакции, асинхронный API. На практике: для JWT — HttpOnly cookie, для кеша данных — IndexedDB, для UI state — localStorage, для сессии формы — sessionStorage. Важно: localStorage блокирует main thread, IndexedDB — асинхронный.
+
 ## Частые ошибки
 
 - Хранить долгоживущий access token в localStorage без анализа XSS.

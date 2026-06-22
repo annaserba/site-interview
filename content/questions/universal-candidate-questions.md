@@ -37,6 +37,28 @@ sourceUrl: ""
 
 Спросите о примере последнего повышения Senior-инженера и разнице ожиданий между уровнями.
 
+
+## Код из интервью
+
+```javascript
+// Пример реализации
+function solve(input) {
+  const result = {};
+  for (const item of input) {
+    const key = item.type || "default";
+    result[key] = (result[key] || 0) + 1;
+  }
+  return result;
+}
+
+const test = [{ type: "a" }, { type: "b" }, { type: "a" }];
+console.log(solve(test)); // { a: 2, b: 1 }
+```
+
+## Пример ответа
+
+У меня есть 3 вопроса: 1) Как выглядит typical sprint — какие процессы, meetings? Мне важно понять, есть ли время на deep work; 2) Как устроена техническая культура — code reviews, architecture decisions, tech debt management?; 3) Какие challenges стоят перед командой на ближайшие 6 месяцев? Дополнительно: какой tech stack планируется, есть ли возможность влиять на архитектурные решения, как устроен career growth. Не спрашиваю про зарплату на первом интервью — это тема для offers stage.
+
 ## Частые ошибки
 
 - Говорить, что вопросов нет.

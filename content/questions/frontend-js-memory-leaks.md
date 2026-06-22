@@ -38,6 +38,40 @@ Snapshot diff, dominator tree и retaining path.
 
 Cleanup, AbortSignal, bounded cache и удаление ссылок.
 
+
+## Код из интервью
+
+```typescript
+// Типичные утечки памяти в React
+
+// 1. Неочищенный listener
+useEffect(() => {
+  const handler = () => {};
+  window.addEventListener("resize", handler);
+  return () => window.removeEventListener("resize", handler);
+}, []);
+
+// 2. Неотменённый таймер
+useEffect(() => {
+  const id = setInterval(() => {}, 1000);
+  return () => clearInterval(id);
+}, []);
+```
+
+## Пример ответа
+
+Утечки памяти в JavaScript возникают, когда объекты больше не используются, но GC не может их удалить из-за ссылок. Типичные причины: забытые event listeners, забытые таймеры, замыкания, захватывающие ссылки на DOM-элементы, забытые подписки (WebSocket), глобальные массивы, которые растут. Поиск: Chrome DevTools → Memory → Allocation instrumentation. Пример:
+
+```javascript
+useEffect(() => {
+  const handler = () => {...};
+  window.addEventListener('resize', handler);
+  return () => window.removeEventListener('resize', handler);
+}, []);
+```
+
+WeakRef и WeakMap позволяют GC удалять объекты, даже если на них есть ссылки в этих структурах.
+
 ## Частые ошибки
 
 - Искать утечку только по Task Manager.

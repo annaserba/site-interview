@@ -37,6 +37,55 @@ Senior-кандидат должен понимать композицию, ра
 
 Не запускайте тысячи операций одним `Promise.all`; используйте concurrency limit, timeout, AbortSignal и обработку unhandled rejection.
 
+
+## Код из интервью
+
+```typescript
+// Promise.allSettled — все результаты
+const urls = ["/api/users", "/api/posts", "/api/comments"];
+const results = await Promise.allSettled(
+  urls.map(url => fetch(url).then(r => r.json()))
+);
+
+results.forEach((result, i) => {
+  if (result.status === "fulfilled") {
+    console.log("URL " + i + ": OK", result.value);
+  } else {
+    console.error("URL " + i + ": FAILED", result.reason);
+  }
+});
+```
+
+## Пример ответа
+
+Promise — это объект, представляющий результат асинхронной операции. Три состояния: pending, fulfilled, rejected. Пример:
+
+```javascript
+const fetchData = () => new Promise((resolve, reject) => {
+  setTimeout(() => resolve({ data: 42 }), 1000);
+});
+
+fetchData()
+  .then(result => console.log(result.data))
+  .catch(error => console.error(error))
+  .finally(() => console.log('done'));
+```
+
+Promise chaining: каждый .then() возвращает новый Promise. Promise.all — все промисы параллельно, Promise.race — первый завершившийся. На практике: async/await — синтаксический сахар:
+
+```javascript
+async function getData() {
+  try {
+    const result = await fetchData();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+Не забывайте .catch() — unhandled rejection может крашнуть приложение.
+
 ## Частые ошибки
 
 - Считать Promise отдельным потоком.

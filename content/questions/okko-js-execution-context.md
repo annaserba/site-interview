@@ -39,6 +39,50 @@ Execution context содержит lexical/variable environment, ссылку н
 
 Разобрать method call, plain call, constructor и arrow.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Execution context — это окружение, в котором выполняется JavaScript-код. Три типа: 1) Global — создаётся при запуске скрипта; 2) Function — создаётся при вызове функции; 3) Eval — создаётся при вызове eval(). Стек выполнения (Call Stack) хранит execution contexts: при вызове функции новый context пушится, при выходе — попится. Пример:
+
+```javascript
+let a = 1;          // Global context
+
+function outer() {
+  let b = 2;       // outer context
+  function inner() {
+    let c = 3;     // inner context
+    console.log(a + b + c);
+  }
+  inner();
+}
+```
+
+this определяется контекстом: в global — window, в функции — undefined (strict mode). Arrow function наследует this из окружающего контекста (lexical this).
+
 ## Частые ошибки
 
 - Называть `this` частью closure.

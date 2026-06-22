@@ -38,6 +38,49 @@ Senior-кандидат должен объяснить модель React, гр
 
 Границы компонентов выбирайте по ответственности и изменениям, а effects используйте только для синхронизации с внешней системой.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+React — это JavaScript-библиотека для построения UI на основе компонентов. Ключевые концепции: 1) Компоненты — функции, возвращающие JSX; 2) State — реактивное состояние через useState; 3) Props — данные от родителя к дочернему компоненту; 4) Virtual DOM — абстракция для эффективного обновления DOM; 5) One-way data flow — данные текут сверху вниз. Пример:
+
+```javascript
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </div>
+  );
+}
+```
+
+React использует fiber architecture для приоритизации обновлений. Hooks — способ использования state и side effects в функциональных компонентах. На практике: React — это только view layer, для state management использую Zustand или Redux Toolkit.
+
 ## Частые ошибки
 
 - Называть React полноценным framework без оговорки о составе приложения.

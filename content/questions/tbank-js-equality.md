@@ -38,6 +38,45 @@ sourceUrl: ""
 
 Объяснить отличие на `NaN` и signed zero.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+== (loose equality) делает type coercion: '1' == 1 → true (строка → число). === (strict equality) — без coercion: '1' === 1 → false. Примеры:
+
+```javascript
+0 == ''      // true (оба → 0)
+0 == '0'     // true
+false == '0' // true
+null == undefined // true
+NaN == NaN   // false (!)
+```
+
+=== всегда предпочтительнее. Единственное исключение: == null проверяет на null И undefined (value == null → true для null и undefined). Object.is отличается от === для NaN и -0. На практике: всегда ===, Object.is для edge cases.
+
 ## Частые ошибки
 
 - Говорить, что `==` просто игнорирует тип.

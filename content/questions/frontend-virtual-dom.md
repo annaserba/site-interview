@@ -38,6 +38,35 @@ State сохраняется, когда element type и позиция или k
 
 Стоимость создают лишние renders, тяжёлые вычисления и большие commits; профилируйте до применения memoization.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Virtual DOM (VDOM) — это lightweight-представление реального DOM в виде JavaScript-объектов. React создаёт VDOM-дерево, сравнивает (reconciliation) с предыдущим через алгоритм diffing, и применяет минимальные изменения к реальному DOM (commit phase). Преимущество: вместо перерисовки всего DOM, React обновляет только изменившиеся узлы. key в списках помогает алгоритму diffing идентифицировать элементы. Альтернативы: Svelte компилирует шаблоны в прямые DOM-обновления (без VDOM overhead), Vue использует реактивную систему с VDOM. В React 18 Concurrent Mode позволяет прерывать рендер для обработки более приоритетных обновлений.
+
 ## Частые ошибки
 
 - Называть Virtual DOM полной копией DOM.

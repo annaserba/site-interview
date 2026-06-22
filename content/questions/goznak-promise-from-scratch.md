@@ -57,6 +57,55 @@ class MyPromise<T> {
 
 Thenable assimilation, исключения и cycle detection.
 
+## Пример ответа
+
+Минимальная реализация Promise:
+
+```javascript
+class MyPromise {
+  constructor(executor) {
+    this.state = 'pending';
+    this.value = undefined;
+    this.handlers = [];
+
+    const resolve = (value) => {
+      if (this.state !== 'pending') return;
+      this.state = 'fulfilled';
+      this.value = value;
+      this.handlers.forEach(h => h.onFulfilled(value));
+    };
+
+    const reject = (reason) => {
+      if (this.state !== 'pending') return;
+      this.state = 'rejected';
+      this.value = reason;
+      this.handlers.forEach(h => h.onRejected(reason));
+    };
+
+    try { executor(resolve, reject); } catch (e) { reject(e); }
+  }
+
+  then(onFulfilled, onRejected) {
+    return new MyPromise((resolve, reject) => {
+      const handle = (callback) => {
+        try {
+          const result = callback(this.value);
+          result instanceof MyPromise ? result.then(resolve, reject) : resolve(result);
+        } catch (e) { reject(e); }
+      };
+
+      if (this.state === 'fulfilled') handle(onFulfilled);
+      else if (this.state === 'rejected') handle(onRejected);
+      else this.handlers.push({ onFulfilled: () => handle(onFulfilled), onRejected: () => handle(onRejected) });
+    });
+  }
+
+  catch(onRejected) { return this.then(null, onRejected); }
+}
+```
+
+Ключевые моменты: state machine, microtask queue (resolve/reject queue handlers asynchronously), thenable chain.
+
 ## Частые ошибки
 
 - Вызывать handlers синхронно.

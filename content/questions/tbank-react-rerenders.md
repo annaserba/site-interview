@@ -38,6 +38,35 @@ State, parent render, context и external store subscription.
 
 Profiler, flamegraph, причина commit и стоимость конкретного subtree.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Компонент ререндерится при: 1) Обновлении собственного state; 2) Рендере родителя (без React.memo); 3) Изменении context; 4) Обновлении external store. Render ≠ DOM commit: React может вызвать функцию, но reconciliation покажет, что DOM не изменился. Поиск лишних рендеров: 1) React DevTools → Profiler → flamegraph; 2) why-did-you-render библиотека. Оптимизация (после измерений!): 1) React.memo для дорогих компонентов; 2) useMemo для вычислений; 3) useCallback для функций-props; 4) Выносить state ближе к потреблению. Не мемоизируйте всё — memo тоже стоит CPU и памяти.
+
 ## Частые ошибки
 
 - Говорить, что изменение любой переменной вызывает ререндер.

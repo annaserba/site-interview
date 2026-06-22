@@ -57,8 +57,8 @@ async function browserEmbedding(text: string) {
 }
 
 const questionText = (question: Question) => [
-  question.title, ...(question.aliases || []), question.answer, question.context || '',
-  question.codeSnippet || '', question.category, question.stage,
+  question.title, ...(question.aliases || []), question.answer, question.exampleAnswer || '',
+  question.context || '', question.codeSnippet || '', question.category, question.stage,
   ...question.tags, ...question.languages, ...question.roles, ...question.companies,
   ...(question.keyPoints || []).flatMap((point) => [point.title, point.text]),
   ...(question.pitfalls || []), ...(question.followUps || []),

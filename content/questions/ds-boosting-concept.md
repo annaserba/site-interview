@@ -37,6 +37,31 @@ Bagging параллельно снижает variance; boosting чаще пос
 
 Разделите AdaBoost, gradient boosting и конкретные библиотеки.
 
+
+## Код из интервью
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    "n_estimators": [100, 200, 500],
+    "max_depth": [3, 5, 7],
+    "learning_rate": [0.01, 0.1, 0.2],
+}
+
+gb = GradientBoostingClassifier(random_state=42)
+grid = GridSearchCV(gb, param_grid, cv=5, scoring="f1", n_jobs=-1)
+grid.fit(X_train, y_train)
+
+print(f"Best params: {grid.best_params_}")
+print(f"Best F1: {grid.best_score_:.3f}")
+```
+
+## Пример ответа
+
+Бустинг — это ансамблевый метод, где слабые модели обучаются последовательно, и каждая следующая исправляет ошибки предыдущей. Ключевая идея: каждая новая модель фокусируется на примерах, которые предыдущие модели ошибочно классифицировали. В Gradient Boosting минимизируем функцию потерь: каждое новое дерево предсказывает градиент функции потерь. Преимущества: высокая точность, работает с разными функциями потерь. Недостатки: склонность к переобучению, медленное обучение, чувствительность к шуму. На практике использую XGBoost с early stopping и регуляризацией.
+
 ## Частые ошибки
 
 - Называть любой ансамбль бустингом.

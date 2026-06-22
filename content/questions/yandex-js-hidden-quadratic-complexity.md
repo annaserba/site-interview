@@ -42,6 +42,55 @@ sourceUrl: "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2397s"
 
 Big O отвечает за рост, но не заменяет профилирование. Сравните n, 2n и 4n на репрезентативных данных, снимите CPU profile, число аллокаций и паузы GC. Учитывайте конкретный движок, но не основывайте корректность SLA на недокументированной оптимизации `shift`.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Скрытая квадратичная сложность часто возникает с includes, indexOf, splice в цикле:
+
+```javascript
+// O(n²) — splice в цикле
+function removeDuplicates(arr) {
+  const result = [];
+  for (const item of arr) {
+    if (!result.includes(item)) { // O(n) поиск
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+// O(n) — используем Set
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
+```
+
+Другие примеры: concat в цикле (создаёт новый массив каждый раз), object spread в цикле. На практике: использую Set для дедупликации, Map для группировки, избегаюincludes в циклах. Для проверки множеств — O(1) lookup в Set/Map vs O(n) в Array.
+
 ## Частые ошибки
 
 - Оценивать только количество явно написанных циклов.

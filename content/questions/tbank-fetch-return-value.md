@@ -38,6 +38,54 @@ Network rejection, HTTP status и ошибка декодирования — р
 
 Abort, schema validation, controlled retries и observability.
 
+
+## Код из интервью
+
+```typescript
+// Promise.allSettled — все результаты
+const urls = ["/api/users", "/api/posts", "/api/comments"];
+const results = await Promise.allSettled(
+  urls.map(url => fetch(url).then(r => r.json()))
+);
+
+results.forEach((result, i) => {
+  if (result.status === "fulfilled") {
+    console.log("URL " + i + ": OK", result.value);
+  } else {
+    console.error("URL " + i + ": FAILED", result.reason);
+  }
+});
+```
+
+## Пример ответа
+
+fetch() возвращает Promise<Response>. Response содержит: status, ok (boolean), headers, body. Важно: fetch отклоняет Promise только при network errors. HTTP errors (404, 500) — это НЕ rejection, а успешный response с response.ok = false. Пример:
+
+```javascript
+async function fetchData() {
+  try {
+    const response = await fetch('/api/data');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetch failed:', error);
+  }
+}
+```
+
+AbortController для отмены:
+
+```javascript
+const controller = new AbortController();
+fetch('/api', { signal: controller.signal });
+controller.abort();
+```
+
+На практике: всегда проверяю response.ok, использую AbortController для cleanup в React useEffect.
+
 ## Частые ошибки
 
 - Ожидать rejection на 404 или 500.

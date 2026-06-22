@@ -3,6 +3,7 @@ export type Question = {
   title: string
   aliases?: string[]
   answer: string
+  exampleAnswer?: string
   context?: string
   keyPoints?: Array<{ title: string; text: string }>
   pitfalls?: string[]

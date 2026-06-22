@@ -37,6 +37,33 @@ Recall приоритетен, когда false negative намного доро
 
 Минимальный recall может быть обязателен отдельно для критичных групп.
 
+
+## Код из интервью
+
+```python
+from sklearn.metrics import (
+    precision_score, recall_score, f1_score,
+    roc_auc_score, classification_report
+)
+
+y_pred = model.predict(X_test)
+y_prob = model.predict_proba(X_test)[:, 1]
+
+print(classification_report(y_test, y_pred))
+print(f"ROC-AUC: {roc_auc_score(y_test, y_prob):.3f}")
+
+# Precision-Recall tradeoff
+for threshold in [0.3, 0.5, 0.7]:
+    preds = (y_prob >= threshold).astype(int)
+    print(f"t={threshold}: P={precision_score(y_test, preds):.2f} "
+          f"R={recall_score(y_test, preds):.2f} "
+          f"F1={f1_score(y_test, preds):.2f}")
+```
+
+## Пример ответа
+
+Recall важнее precision, когда критичны пропущенные положительные (FN). Примеры: 1) Медицина — пропустить рак страшнее, чем назначить лишнее обследование; 2) Фрод-детекция — пропустить мошенничество стоит дороже; 3) Безопасность — пропустить уязвимость критичнее. Формула: Recall = TP / (TP + FN). Чтобы увеличить recall, понижаем порог классификации: больше объектов помечается как положительные, FN уменьшаются, но FP растут. На практике я оптимизирую через F-beta с β > 1 (например, F2), который сильнее весит recall.
+
 ## Частые ошибки
 
 - Говорить, что precision совсем не имеет значения.

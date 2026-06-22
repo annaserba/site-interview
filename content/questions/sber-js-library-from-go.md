@@ -38,6 +38,36 @@ Service, embedded engine, WASM или переписывание.
 
 Timeout, memory limit, sandbox, version pinning и tracing.
 
+
+## Код из интервью
+
+```yaml
+# Архитектурная конфигурация
+
+# Docker Compose — базовая структура
+version: "3.8"
+services:
+  api:
+    build: ./api
+    ports: ["3000:3000"]
+    environment:
+      - DATABASE_URL=postgres://db:5432/mydb
+    depends_on: [db, redis]
+  frontend:
+    build: ./frontend
+    ports: ["80:80"]
+    depends_on: [api]
+  db:
+    image: postgres:16
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+volumes:
+  pgdata:
+```
+
+## Пример ответа
+
+Есть несколько подходов: 1) WASM — компилируем JS-библиотеку в WebAssembly, Go вызывает через wasmtime или wazero; 2) Embed Node.js — Go запускает Node.js процесс, передаёт данные через stdin/stdout; 3) goja — pure Go JS engine, подмножество ES5.1; 4) V8Go — привязка к V8, полная поддержка JS. Пример: нам нужна библиотека валидации из npm. Использовали goja — достаточно для нашего кейса, zero dependencies. Если бы нужен был async/await — пошли бы в сторону Node.js embed. Важно: изолировать JS runtime, настроить timeout и memory limits.
+
 ## Частые ошибки
 
 - Считать npm форматом исполняемого кода.

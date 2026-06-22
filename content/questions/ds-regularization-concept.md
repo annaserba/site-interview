@@ -37,6 +37,35 @@ L2 соответствует Gaussian prior на веса, L1 — Laplace prior
 
 Выбирайте λ внутри cross-validation и оценивайте итог один раз на untouched test set.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import cross_val_score, learning_curve
+from sklearn.linear_model import Ridge
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+# Pipeline с регуляризацией
+pipe = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", Ridge(alpha=1.0))   # L2-регуляризация
+])
+
+# Cross-validation для оценки generalization
+scores = cross_val_score(pipe, X, y, cv=5, scoring="r2")
+print(f"R2: {scores.mean():.3f} + {scores.std():.3f}")
+
+# Learning curves для диагностики
+train_sizes, train_scores, val_scores = learning_curve(
+    pipe, X, y, cv=5, train_sizes=np.linspace(0.1, 1.0, 10)
+)
+```
+
+## Пример ответа
+
+Регуляризация — метод ограничения сложности модели для борьбы с переобучением. Идея: добавляем штраф за «сложность» модели в функцию потерь. Пример: без регуляризации loss = MSE, с L2: loss = MSE + λ × Σw². λ — коэффициент регуляризации: больше λ → сильнее штраф → проще модель. Bias-variance tradeoff: регуляризация увеличивает bias, но снижает variance. Типы: L1 (Lasso) — обнуляет некоторые веса, L2 (Ridge) — уменьшает все веса, Elastic Net — комбинация. В нейросетях: dropout, early stopping.
+
 ## Частые ошибки
 
 - Считать регуляризацию гарантией от переобучения.

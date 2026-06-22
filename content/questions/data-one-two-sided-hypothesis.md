@@ -37,6 +37,31 @@ sourceUrl: ""
 
 Тип теста входит в analysis plan до запуска эксперимента.
 
+
+## Код из интервью
+
+```python
+from scipy import stats
+import numpy as np
+
+# A/B тест: t-test
+control = np.random.normal(100, 15, 1000)
+treatment = np.random.normal(105, 15, 1000)
+
+stat, p_value = stats.ttest_ind(control, treatment)
+print(f"t-statistic: {stat:.3f}, p-value: {p_value:.4f}")
+
+# Доверительный интервал разницы
+diff = treatment.mean() - control.mean()
+se = np.sqrt(control.var()/len(control) + treatment.var()/len(treatment))
+ci_low, ci_high = diff - 1.96*se, diff + 1.96*se
+print(f"95% CI: [{ci_low:.2f}, {ci_high:.2f}]")
+```
+
+## Пример ответа
+
+Односторонняя гипотеза проверяет направление эффекта («конверсия выросла»), а двусторонняя — наличие любого отличия («конверсия изменилась»). Разница в критической области: у односторонней она только с одной стороны, у двусторонней — с двух. Пример: A/B-тест кнопки. Односторонняя: H1: p_treatment > p_control. Двусторонняя: H1: p_treatment ≠ p_control. Выбор зависит от бизнес-контекста: если мы уверены, что изменение не может ухудшить метрику, используем односторонний. Но большинство статистиков рекомендует двусторонний, потому что он консервативнее.
+
 ## Частые ошибки
 
 - Выбирать хвост после просмотра знака эффекта.

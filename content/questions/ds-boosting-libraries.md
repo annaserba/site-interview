@@ -37,6 +37,34 @@ CatBoost строит ordered target statistics; manual target encoding треб
 
 Сравните inference latency, размер модели, CPU/GPU, missing values и формат экспорта.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+XGBoost, LightGBM и CatBoost — три основные реализации градиентного бустинга. XGBoost — классика, использует level-wise рост деревьев, хорошо оптимизирован, но медленнее на больших данных. LightGBM — использует leaf-wise рост, что быстрее, но может переобучаться. CatBoost — оптимизирован для категориальных признаков, использует ordered boosting. На практике: LightGBM — для больших данных (10M+ строк), XGBoost — для competitions, CatBoost — когда много категориальных фичей. Все три поддерживают GPU, но LightGBM лучше масштабируется на CPU.
+
 ## Частые ошибки
 
 - Утверждать, что одна библиотека всегда точнее.

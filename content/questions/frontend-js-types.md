@@ -38,6 +38,47 @@ Number использует IEEE 754; `NaN` проверяют через `Numbe
 
 Типы TypeScript стираются до runtime и не валидируют внешние данные; на границе API нужна runtime-проверка.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+JavaScript имеет 8 типов данных: 7 примитивов — undefined, null, boolean, number, bigint, string, symbol — и object (включает массивы, функции). Примитивы сравниваются по значению, объекты — по ссылке. Важные нюансы: typeof null === 'object' (историческая ошибка). Примеры:
+
+```javascript
+typeof 42          // 'number'
+typeof 'hello'     // 'string'
+typeof true        // 'boolean'
+typeof undefined   // 'undefined'
+typeof null        // 'object' (!)
+typeof {}          // 'object'
+typeof []          // 'object'
+```
+
+== делает type coercion (1 == '1' → true), === — строгое сравнение. На практике я всегда использую ===. TypeScript добавляет статическую типизацию поверх динамических типов.
+
 ## Частые ошибки
 
 - Называть массив отдельным runtime-типом.

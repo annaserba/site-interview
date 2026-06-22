@@ -38,6 +38,35 @@ Young/old generations, incremental и concurrent phases.
 
 Heap snapshot, dominators и retaining path.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Сборщик мусора в JavaScript использует алгоритм «mark and sweep»: 1) Mark phase — GC проходит от корней (window, global variables) и помечает все достижимые объекты; 2) Sweep phase — удаляет все непомеченные объекты. GC не может удалить объект, пока на него есть ссылка из достижимого места. Типичные утечки: забытые event listeners, забытые таймеры, замыкания, захватывающие большие объекты. На практике я использую Chrome DevTools → Memory → Heap Snapshot для поиска утечек. В React: cleanup в useEffect отписывает listeners и отменяет подписки.
+
 ## Частые ошибки
 
 - Считать reference counting основной моделью JS.

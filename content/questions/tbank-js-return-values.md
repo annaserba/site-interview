@@ -38,6 +38,49 @@ Browser и Node возвращают разные виды handle.
 
 Handle передают в `clearTimeout`; delay не является расписанием реального времени.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Функция без return возвращает undefined. setTimeout возвращает numeric ID (для clearTimeout). Примеры:
+
+```javascript
+function noReturn() { let x = 5; }
+console.log(noReturn()); // undefined
+
+const id = setTimeout(() => console.log('hi'), 1000);
+console.log(id); // 42 (число)
+
+async function fetchData() {
+  return fetch('/api'); // возвращает Promise<Response>
+}
+```
+
+return с объектом: function f() { return { a: 1 } } — скобки обязательны. Arrow: const f = () => ({ a: 1 }). Async функция всегда возвращает Promise. На практике: если функция ничего не возвращает — это не ошибка, но нужно быть явным.
+
 ## Частые ошибки
 
 - Считать, что `setTimeout` возвращает Promise.

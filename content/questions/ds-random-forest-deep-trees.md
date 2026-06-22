@@ -37,6 +37,31 @@ Feature subsampling не даёт сильному признаку сделат
 
 Глубина увеличивает размер модели, inference latency и риск leaves с малым support.
 
+
+## Код из интервью
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    "n_estimators": [100, 200, 500],
+    "max_depth": [3, 5, 7],
+    "learning_rate": [0.01, 0.1, 0.2],
+}
+
+gb = GradientBoostingClassifier(random_state=42)
+grid = GridSearchCV(gb, param_grid, cv=5, scoring="f1", n_jobs=-1)
+grid.fit(X_train, y_train)
+
+print(f"Best params: {grid.best_params_}")
+print(f"Best F1: {grid.best_score_:.3f}")
+```
+
+## Пример ответа
+
+В Random Forest глубокие деревья нужны для снижения bias (смещения). Каждое дерево — это «сильный ученик» (deep tree), но за счёт бутстрапа и случайного подмножества признаков variance ансамбля снижается. Пример: если дерево глубины 1 (stump), оно простое — high bias, low variance. Если дерево глубины 20 — low bias, high variance. Но 100 таких деревьев усредняют variance, сохраняя low bias. Формула: Var(ensemble) ≈ Var(tree) / n_trees. На практике я ставлю max_depth=None и ограничиваю через min_samples_leaf. Слишком мелкие деревья дают underfitting.
+
 ## Частые ошибки
 
 - Говорить, что forest не может переобучиться.

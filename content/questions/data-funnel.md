@@ -37,6 +37,45 @@ sourceUrl: ""
 
 Сравните сегменты, устройства, версии и каналы, затем сформулируйте проверяемую гипотезу.
 
+
+## Код из интервью
+
+```python
+import pandas as pd
+
+steps = ["page_view", "add_to_cart", "purchase"]
+events = pd.read_sql("SELECT user_id, event, ts FROM events", conn)
+
+funnel = (events[events.event.isin(steps)]
+    .groupby("event")["user_id"].nunique()
+    .reindex(steps))
+
+print((funnel / funnel.iloc[0] * 100).round(1).astype(str) + "%")
+```
+
+## Пример ответа
+
+Да, я строил воронки для e-commerce платформы. Пример SQL-запроса:
+
+```sql
+SELECT
+  step,
+  COUNT(DISTINCT user_id) AS users,
+  ROUND(COUNT(DISTINCT user_id) * 100.0 / 
+    FIRST_VALUE(COUNT(DISTINCT user_id)) OVER (ORDER BY step), 2) AS conversion
+FROM (
+  SELECT user_id, 'view' AS step FROM events WHERE event = 'page_view'
+  UNION ALL
+  SELECT user_id, 'cart' AS step FROM events WHERE event = 'add_to_cart'
+  UNION ALL
+  SELECT user_id, 'purchase' AS step FROM events WHERE event = 'purchase'
+) t
+GROUP BY step
+ORDER BY FIELD(step, 'view', 'cart', 'purchase');
+```
+
+Ключевой инсайт — добавлять time-to-convert между шагами: мы обнаружили, что 60% пользователей бросают корзину в первые 5 минут, и запустили reminder push-уведомление, что увеличило конверсию на 12%.
+
 ## Частые ошибки
 
 - Считать события вместо уникальных сущностей.

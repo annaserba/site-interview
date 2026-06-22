@@ -37,6 +37,26 @@ sourceUrl: ""
 
 Укажите метрику, способ валидации, внедрение и то, что изменили после обратной связи.
 
+
+## Код из интервью
+
+```markdown
+## Модель ответа (STAR/SAR)
+
+| Шаг | Что говорить | Пример |
+|-----|-------------|--------|
+| **Situation** | Контекст и ограничения | "Команда из 5, дедлайн 2 недели" |
+| **Task** | Ваша зона ответственности | "Вести архитектуру нового модуля" |
+| **Action** | Конкретные шаги | "Спроектировал event-driven подход" |
+| **Result** | Измеримый эффект | "Запустили в срок, 0 инцидентов" |
+
+> Совет: Говорите о своём вкладе, а не команды. Называйте метрики.
+```
+
+## Пример ответа
+
+На последнем проекте я решал: 1) Feature development — new pages, components, API integration; 2) Performance optimization — LCP, CLS, bundle size; 3) Architecture — Micro Frontends, SSR; 4) DevOps — CI/CD, Docker, Kubernetes; 5) Mentoring — 2 junior developers. Примеры: a) SSR через Next.js — organic traffic +25%, LCP -40%; b) Оптимизация bundle — 500KB → 150KB; c) Автоматизация E2E тестирования — bug rate -40%. Масштаб: 2M MAU, 20+ pages, team of 5. Tech stack: React, TypeScript, Next.js, Redux Toolkit, PostgreSQL, Docker, Kubernetes.
+
 ## Частые ошибки
 
 - Перечислять задачи из трекера.

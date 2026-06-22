@@ -38,6 +38,35 @@ Freshness и revalidation различаются; `no-cache` разрешает 
 
 HTTP/2 мультиплексирует streams в одном TCP, HTTP/3 использует QUIC и снижает transport-level head-of-line blocking.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) —未来的趋势, Service Workers для offline-first.
+
 ## Частые ошибки
 
 - Считать HTTPS отдельной версией HTTP.

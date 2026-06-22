@@ -46,6 +46,66 @@ sourceUrl: "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2745s"
 
 BFS возвращает путь с минимальным числом перелётов в невзвешенном графе. Время — O(V + E) плюс задержки API, память — O(V). Если нужен маршрут с минимальной ценой или временем, BFS недостаточно: потребуется Dijkstra или другая модель весов.
 
+
+## Код из интервью
+
+```typescript
+// Promise.allSettled — все результаты
+const urls = ["/api/users", "/api/posts", "/api/comments"];
+const results = await Promise.allSettled(
+  urls.map(url => fetch(url).then(r => r.json()))
+);
+
+results.forEach((result, i) => {
+  if (result.status === "fulfilled") {
+    console.log("URL " + i + ": OK", result.value);
+  } else {
+    console.error("URL " + i + ": FAILED", result.reason);
+  }
+});
+```
+
+## Пример ответа
+
+Для поиска маршрута между городами через асинхронный API использую BFS с Promise.all:
+
+```javascript
+async function findRoute(start, end, api) {
+  const queue = [[start]];
+  const visited = new Set([start]);
+
+  while (queue.length > 0) {
+    const level = queue.length;
+    const promises = [];
+
+    for (let i = 0; i < level; i++) {
+      const path = queue.shift();
+      const current = path[path.length - 1];
+
+      promises.push(
+        api.getFlights(current).then(destinations =>
+          destinations.filter(d => !visited.has(d)).map(dest => {
+            visited.add(dest);
+            const newPath = [...path, dest];
+            if (dest === end) return newPath;
+            queue.push(newPath);
+            return null;
+          })
+        )
+      );
+    }
+
+    const results = await Promise.all(promises);
+    const found = results.flat().find(r => r !== null);
+    if (found) return found;
+  }
+
+  return null;
+}
+```
+
+Ключевые моменты: BFS для кратчайшего маршрута, Promise.all для параллельных запросов, Set для避免 посещённых вершин. Важно: обрабатывать ошибки API через .catch(), добавлять timeout через Promise.race.
+
 ## Частые ошибки
 
 - Хранить полный маршрут у каждой вершины и получить O(V²) на длинной цепочке.

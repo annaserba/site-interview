@@ -37,6 +37,31 @@ Bootstrap меняет строки, feature subsampling — доступные 
 
 OOB полезен, но time-dependent data всё равно требует временного split; importance лучше проверять permutation или SHAP.
 
+
+## Код из интервью
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    "n_estimators": [100, 200, 500],
+    "max_depth": [3, 5, 7],
+    "learning_rate": [0.01, 0.1, 0.2],
+}
+
+gb = GradientBoostingClassifier(random_state=42)
+grid = GridSearchCV(gb, param_grid, cv=5, scoring="f1", n_jobs=-1)
+grid.fit(X_train, y_train)
+
+print(f"Best params: {grid.best_params_}")
+print(f"Best F1: {grid.best_score_:.3f}")
+```
+
+## Пример ответа
+
+Random Forest — ансамблевый метод на основе bagging деревьев решений. Каждое дерево обучается на bootstrap-выборке и в каждом разбиении考虑只 случайного подмножества признаков. Это снижает корреляцию между деревьями и уменьшает variance. Пример: 100 деревьев, каждое видит случайные 60% данных и случайные √m признаков. Для классификации предсказание — голосование, для регрессии — среднее. Преимущества: robust к переобучению, не нужна стандартизация, feature importance. Недостатки: интерпретируемость (黑盒), память, скорость предсказания. На практике: Random Forest — мой baseline для табличных данных.
+
 ## Частые ошибки
 
 - Называть Random Forest boosting.

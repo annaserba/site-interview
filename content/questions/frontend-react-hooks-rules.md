@@ -53,6 +53,26 @@ function Profile({ enabled }: { enabled: boolean }) {
 
 Dependencies, cleanup и Strict Mode.
 
+## Пример ответа
+
+Правила React Hooks: 1) Вызывайте только на верхнем уровне (не в conditions, loops); 2) Только из React-компонентов или custom hooks. Причина: React хранит состояние в массиве по порядку вызовов. Если вызов изменится, state «сместится». Пример:
+
+```javascript
+// ❌ Неправильно
+function Component({ show }) {
+  if (show) {
+    const [value, setValue] = useState(0);
+  }
+}
+
+// ✅ Правильно
+function Component({ show }) {
+  const [value, setValue] = useState(0);
+}
+```
+
+Custom hooks начинаются с use — это подсказка для линтера. ESLint plugin eslint-plugin-react-hooks проверяет правила. Я всегда проверяю, что hooks вызываются одинаково при каждом рендере.
+
 ## Частые ошибки
 
 - Вызывать hook после early return.

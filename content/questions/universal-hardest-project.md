@@ -43,6 +43,28 @@ sourceUrl: ""
 
 Latency до/после, объём обработанных данных, нагрузка, количество ошибок.
 
+
+## Код из интервью
+
+```javascript
+// Пример реализации
+function solve(input) {
+  const result = {};
+  for (const item of input) {
+    const key = item.type || "default";
+    result[key] = (result[key] || 0) + 1;
+  }
+  return result;
+}
+
+const test = [{ type: "a" }, { type: "b" }, { type: "a" }];
+console.log(solve(test)); // { a: 2, b: 1 }
+```
+
+## Пример ответа
+
+Самый технически сложный проект — миграция монолитного Angular-приложения на React с Micro Frontends. Масштаб: 500K LOC, 20 разработчиков, 3 команды. Сложность: 1) Параллельная работа; 2) Shared state — данные корзины доступны из обоих приложений; 3) Performance — bundle не должен вырасти. Решение: 1) Module Federation (Webpack 5); 2) Custom event bus; 3) Gradual migration — по одному page per sprint. Личный вклад: спроектировал архитектуру shared layer, написал Migration script, провёл 15 tech interviews. Результат: миграция за 8 месяцев (план 12), zero downtime, bundle -30%.
+
 ## Частые ошибки
 
 - Рассказывать про конфликт команды или сжатые сроки вместо технической проблемы.

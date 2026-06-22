@@ -39,6 +39,43 @@ sourceVideos: [{"company":"Гознак","url":"https://www.youtube.com/watch?v=
 
 Используйте `const` по умолчанию, `let` для переназначения, `var` — только при работе с legacy-семантикой.
 
+
+## Код из интервью
+
+```typescript
+// var vs let vs const
+var globalVar = "function-scoped, hoisted";
+let blockLet = "block-scoped, no hoist";
+const blockConst = "block-scoped, no reassign";
+
+// Классическая проблема с var в цикле
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i)); // 3, 3, 3
+}
+// Исправление с let
+for (let j = 0; j < 3; j++) {
+  setTimeout(() => console.log(j)); // 0, 1, 2
+}
+```
+
+## Пример ответа
+
+var — function-scoped, hoisted (доступна до объявления как undefined), можно переобъявить. let — block-scoped, не hoisted (TDZ — ReferenceError), нельзя переобъявить. const — block-scoped, не hoisted, нельзя переприсвоить (но объект/массив можно мутировать). Пример:
+
+```javascript
+var x = 1; var x = 2;    // OK
+let y = 1; // let y = 2;  // SyntaxError
+const z = 1; // z = 2;    // TypeError
+
+for (var i = 0; i < 3; i++) {}
+console.log(i); // 3 — var видна за пределами цикла
+
+for (let j = 0; j < 3; j++) {}
+console.log(j); // ReferenceError — let блочная
+```
+
+На практике: const по умолчанию, let когда нужно переприсвоение, var не использую. Важно: const для массивов не запрещает push — const arr = []; arr.push(1) OK.
+
 ## Частые ошибки
 
 - Говорить, что `let` и `const` не hoistятся.

@@ -49,6 +49,33 @@ Timer, lastInvokeTime, lastArgs и lastThis.
 
 Один вызов, burst, вызов на границе и отмена.
 
+## Пример ответа
+
+Debounce: вызывает функцию после того, как прошло N ms с последнего вызова. Throttle: вызывает функцию не чаще чем раз в N ms. Реализация:
+
+```javascript
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}
+
+function throttle(fn, ms) {
+  let last = 0;
+  return (...args) => {
+    const now = Date.now();
+    if (now - last >= ms) {
+      last = now;
+      fn(...args);
+    }
+  };
+}
+```
+
+Применения: debounce — search input, resize handler. throttle — scroll handler, mousemove. В React: useCallback + useMemo для стабилизации функции, lodash.throttle/debounce для production.
+
 ## Частые ошибки
 
 - Терять последний вызов throttle.

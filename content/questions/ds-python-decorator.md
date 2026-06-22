@@ -37,6 +37,52 @@ sourceUrl: ""
 
 Async function требует async wrapper; mutable state в closure должен быть потокобезопасным.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+Декоратор в Python — это функция, которая принимает другую функцию и расширяет её поведение. Пример:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} executed in {time.time() - start:.4f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    time.sleep(1)
+```
+
+На практике декораторы используют для: логирования (@login_required), кэширования (@lru_cache), retry (@retry(max_attempts=3)), валидации. Важно: используйте functools.wraps для сохранения метаданных оригинальной функции.
+
 ## Частые ошибки
 
 - Вызывать декорируемую функцию при определении вместо runtime.

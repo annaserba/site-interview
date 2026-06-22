@@ -39,6 +39,35 @@ Layout/reflow пересчитывает геометрию и может зат
 
 Проверяйте Performance panel, long frames, Layout events, paint flashing и memory layers.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Reflow (layout) — пересчёт геометрии (position, size) для одного или нескольких элементов. Paint (repaint) — перерисовка пикселей (color, shadow, text). Composite — объединение слоёв в финальное изображение. Стоимость: Reflow > Paint > Composite. Reflow вызывает: изменение размеров, position, font, добавление/удаление элементов. Paint вызывает: color, background, shadow. Composite вызывает: transform, opacity. На практике: использую transform вместо top/left (composite-only), will-change для создания нового слоя, избегаю layout thrashing (чтение layout после записи).
+
 ## Частые ошибки
 
 - Утверждать, что repaint запускается при любом изменении.

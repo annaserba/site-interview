@@ -38,6 +38,53 @@ Replicas, probes, rolling update, PDB и rollback.
 
 CPU недостаточно для всех сценариев: учитывайте RPS, latency и active connections.
 
+
+## Код из интервью
+
+```yaml
+# Kubernetes — Horizontal Pod Autoscaler
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+```
+
+## Пример ответа
+
+Для горизонтального масштабирования frontend в Kubernetes: 1) Stateless deployment — фронтенд не хранит state; 2) Horizontal Pod Autoscaler (HPA) — масштабирование по CPU/memory или custom metrics; 3) CDN — статические файлы через CDN; 4) Ingress controller — балансировка трафика. Пример конфига:
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+spec:
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+```
+
+Для SSR (Next.js): кэширование страниц в Redis (ISR), server-side caching через stale-while-revalidate, dedicated pods для SSR.
+
 ## Частые ошибки
 
 - Хранить пользовательскую сессию в pod.

@@ -29,10 +29,29 @@ function parseFrontmatter(source, filename) {
 
 function parseSections(markdown) {
   const sections = new Map()
-  for (const chunk of markdown.split(/^## /m).slice(1)) {
-    const newline = chunk.indexOf('\n')
-    const title = chunk.slice(0, newline).trim()
-    sections.set(title, chunk.slice(newline + 1).trim())
+  const lines = markdown.split('\n')
+  let currentTitle = null
+  let currentLines = []
+  let inCodeBlock = false
+
+  for (const line of lines) {
+    if (line.trimStart().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      currentLines.push(line)
+      continue
+    }
+    if (!inCodeBlock && /^## /.test(line)) {
+      if (currentTitle !== null) {
+        sections.set(currentTitle, currentLines.join('\n').trim())
+      }
+      currentTitle = line.slice(3).trim()
+      currentLines = []
+    } else {
+      currentLines.push(line)
+    }
+  }
+  if (currentTitle !== null) {
+    sections.set(currentTitle, currentLines.join('\n').trim())
   }
   return sections
 }
@@ -105,6 +124,7 @@ function questionFromMarkdown(source, filename) {
     title: metadata.title,
     aliases: metadata.aliases || [],
     answer,
+    exampleAnswer: sections.get('Пример ответа') || '',
     context: sections.get('Контекст') || '',
     keyPoints: parseKeyPoints(sections.get('Как строить ответ')),
     pitfalls: parseList(sections.get('Частые ошибки')),

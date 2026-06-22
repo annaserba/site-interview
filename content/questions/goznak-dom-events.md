@@ -38,6 +38,34 @@ Default action отдельно от propagation.
 
 Stable callback, AbortSignal и lifecycle компонента.
 
+
+## Код из интервью
+
+```typescript
+// Event bubbling + delegation
+document.querySelector(".list").addEventListener("click", (e) => {
+  const item = e.target.closest(".list-item");
+  if (!item) return;
+  console.log("Clicked:", item.dataset.id);
+});
+
+// Event phases
+element.addEventListener("click", handler, true);  // capturing
+element.addEventListener("click", handler, false); // bubbling
+```
+
+## Пример ответа
+
+DOM-события работают через три фазы: capture (сверху вниз), target (на элементе), bubble (снизу вверх). Пример:
+
+```javascript
+document.addEventListener('click', () => console.log('capture'), true);
+button.addEventListener('click', () => console.log('target'));
+button.addEventListener('click', () => console.log('bubble'), false);
+```
+
+event.stopPropagation() останавливает всплытие/погружение. event.preventDefault() отменяет действие браузера. Удаление обработчиков: removeEventListener — нужна та же ссылка на функцию. Event delegation: один обработчик на родителе, event.target определяет дочерний элемент. AbortController для массового удаления: controller.abort() снимает все listener'ы.
+
 ## Частые ошибки
 
 - Считать `preventDefault` остановкой bubbling.

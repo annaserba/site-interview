@@ -38,6 +38,35 @@ FSD полезен как соглашение о слоях и публичны
 
 Когда вводить, упрощать или отказываться от FSD.
 
+
+## Код из интервью
+
+```yaml
+# Feature-Sliced Design — структура
+
+src/
+  app/          # Инициализация, провайдеры
+    routes/
+    styles/
+  pages/        # Маршруты (составные виджетов)
+    Home/
+  widgets/      # Составные блоки (Header, Sidebar)
+  features/     # Пользовательские действия
+    Auth/
+      ui/
+      model/
+      api/
+  entities/     # Бизнес-сущности (User, Product)
+  shared/       # Переиспользование (UI-kit, API, utils)
+
+# Правило импортов: только снизу вверх
+# features → entities → shared (никогда обратно)
+```
+
+## Пример ответа
+
+Feature-Sliced Design (FSD) — архитектурная методология с уровнями: app → pages → widgets → features → entities → shared. Преимущества: 1) Чёткая зона ответственности; 2) Импорт только снизу вверх; 3) Автоматический bound check. Проблемы: 1) Over-engineering для простых проектов; 2) Сложность рефакторинга; 3) Нет official tooling. Пример: на прошлом проекте FSD сократил time-to-market для новых feature, но усложнил shared UI kit (нужен был публичный API через index.ts). На практике: FSD хорош для продуктов с 5+ разработчиками, для маленьких команд — проще feature folder approach.
+
 ## Частые ошибки
 
 - Называть FSD универсальной архитектурой.

@@ -38,6 +38,38 @@ Chunking, worker, алгоритмическое улучшение, virtualizat
 
 Повторяемый benchmark на слабом устройстве и продуктовые Web Vitals.
 
+
+## Код из интервью
+
+```javascript
+// Пример реализации
+function solve(input) {
+  const result = {};
+  for (const item of input) {
+    const key = item.type || "default";
+    result[key] = (result[key] || 0) + 1;
+  }
+  return result;
+}
+
+const test = [{ type: "a" }, { type: "b" }, { type: "a" }];
+console.log(solve(test)); // { a: 2, b: 1 }
+```
+
+## Пример ответа
+
+Для поиска блокировок main thread: 1) Chrome DevTools → Performance → Long Tasks; 2) PerformanceObserver:
+
+```javascript
+new PerformanceObserver((list) => {
+  list.getEntries().forEach(entry => {
+    console.log('Long task:', entry.duration, entry);
+  });
+}).observe({ entryTypes: ['longtask'] });
+```
+
+Типичные причины: тяжёлые вычисления в рендере, синхронные операции (localStorage), большие bundle (без code splitting), layout thrashing. Решения: 1) Web Workers — вычисления в отдельном потоке; 2) Code splitting — React.lazy(), dynamic imports; 3) requestIdleCallback — non-critical work; 4) Virtual scrolling — react-window. На практике: нашёл задачу, блокирующую main thread на 300ms (парсинг JSON 5MB), перенёс в Web Worker — LCP улучшился на 40%.
+
 ## Частые ошибки
 
 - Переносить тяжёлую работу в Promise: microtask остаётся на main thread.

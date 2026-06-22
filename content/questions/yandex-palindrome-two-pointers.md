@@ -42,6 +42,58 @@ sourceUrl: "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=465s"
 
 На каждой итерации всё за пределами диапазона left…right уже проверено. Пройдите мысленно пустую строку, одну букву, только пунктуацию, разные буквы по краям, смешанный регистр и несколько пропускаемых символов подряд.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Проверка палиндрома с two pointers:
+
+```javascript
+function isPalindrome(str) {
+  let left = 0;
+  let right = str.length - 1;
+
+  while (left < right) {
+    while (left < right && !/[a-zA-Z0-9]/.test(str[left])) left++;
+    while (left < right && !/[a-zA-Z0-9]/.test(str[right])) right--;
+
+    if (str[left].toLowerCase() !== str[right].toLowerCase()) {
+      return false;
+    }
+
+    left++;
+    right--;
+  }
+
+  return true;
+}
+```
+
+Алгоритм: два указателя — с начала и конца. Пропускаем небуквенные символы через regex. Сравниваем без учёта регистра. Сложность: O(n) время, O(1) память. На практике: two pointers —通用ный подход для палиндромов, сравнения строк, поиска пар.
+
 ## Частые ошибки
 
 - Сначала очищать и разворачивать строку, нарушая требование O(1) по памяти.

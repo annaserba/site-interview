@@ -38,6 +38,66 @@ sourceUrl: "https://www.youtube.com/watch?v=HF7zkpSrByE&t=2921s"
 
 Проверьте типы аргументов, не перезаписывайте весь inline style и проговорите XSS-риск `innerHTML`.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Минимальный jQuery-аналог с chaining:
+
+```javascript
+function $(selector) {
+  const elements = document.querySelectorAll(selector);
+  const obj = {
+    elements,
+    click(handler) {
+      elements.forEach(el => el.addEventListener('click', handler));
+      return obj; // chaining
+    },
+    css(prop, value) {
+      elements.forEach(el => el.style[prop] = value);
+      return obj;
+    },
+    text(content) {
+      elements.forEach(el => el.textContent = content);
+      return obj;
+    },
+    addClass(className) {
+      elements.forEach(el => el.classList.add(className));
+      return obj;
+    }
+  };
+  return obj;
+}
+
+// Использование
+$('.button').click(handler).css('color', 'red').addClass('active');
+```
+
+Ключевой момент: каждый метод возвращает obj для chaining. В реальном jQuery больше методов и более сложная логика, но принцип тот же — wrapper над DOM elements с возвратом this для цепочки вызовов.
+
 ## Частые ошибки
 
 - Работать только с первой найденной нодой.

@@ -38,6 +38,36 @@ Runtime, caching, hydration, deployment и debugging.
 
 Vite SPA, static generation или отдельный BFF.
 
+
+## Код из интервью
+
+```yaml
+# Архитектурная конфигурация
+
+# Docker Compose — базовая структура
+version: "3.8"
+services:
+  api:
+    build: ./api
+    ports: ["3000:3000"]
+    environment:
+      - DATABASE_URL=postgres://db:5432/mydb
+    depends_on: [db, redis]
+  frontend:
+    build: ./frontend
+    ports: ["80:80"]
+    depends_on: [api]
+  db:
+    image: postgres:16
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+volumes:
+  pgdata:
+```
+
+## Пример ответа
+
+Next.js нужен, когда: 1) SEO критичен — SSR/SSG генерирует HTML на сервере; 2) Performance — автоматическое code splitting, оптимизация изображений; 3) Full-stack — API routes, не нужен отдельный backend для простых эндпоинтов; 4) Масштабируемость — ISR для обновления SSG без пересборки. Когда НЕ нужен: SPA с динамическим контентом (админ-панели), если нет SEO-требований. Пример: e-commerce — SSR для страниц товаров, ISR для каталога, API routes для корзины. В Next.js 13+ App Router с React Server Components — компоненты рендерятся на сервере, уменьшая JS bundle.
+
 ## Частые ошибки
 
 - Выбирать Next.js только ради React.

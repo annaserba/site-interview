@@ -39,6 +39,45 @@ Origin образуют scheme, host и port. Разные subdomain или port
 
 CORS не мешает curl или серверу отправить запрос и не защищает от CSRF; для cookies нужны SameSite, CSRF token и проверка Origin.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+CORS (Cross-Origin Resource Sharing) — механизм безопасности браузера, который блокирует запросы с другого origin (домена, порта, протокола). CORS работает через HTTP-заголовки: сервер отправляет Access-Control-Allow-Origin, Access-Control-Allow-Methods и т.д. Preflight (OPTIONS) запрос проверяет, разрешён ли CORS для сложных запросов. Пример:
+
+```javascript
+app.use(cors({
+  origin: 'https://mysite.com',
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+```
+
+На практике: CORS настраивается на сервере. Типичные проблемы: Access-Control-Allow-Origin не может быть * при credentials: true. Решение — proxy на бэкенде или API gateway.
+
 ## Частые ошибки
 
 - Добавлять `Access-Control-Allow-Origin` в request.

@@ -38,6 +38,34 @@ Origin, importance, context и cascade layers.
 
 Разобрать `:where`, `:is`, `:not`, `:has`.
 
+
+## Код из интервью
+
+```javascript
+/* CSS Specificity — порядок приоритетов */
+/* 1. inline (1000) > ID (100) > class (10) > element (1) */
+.nav .item { color: gray; }    /* 0,0,2,0 */
+#header .item { color: red; }  /* 0,1,1,0 */
+
+/* SASS — избегайте глубокой вложенности */
+/* Плохо */
+.nav ul li a span.label { }
+/* Хорошо — BEM */
+.nav__link-label { }
+```
+
+## Пример ответа
+
+Специфичность CSS-селекторов рассчитывается как тройка чисел (a, b, c): a = количество #id, b = количество .class/[attr]/:pseudo-class, c = количество element/::pseudo-element. Сравнение: (1,0,0) > (0,10,0) > (0,0,100). Пример:
+
+```css
+.button { color: red; }           /* (0, 1, 0) */
+.button.primary { color: blue; }  /* (0, 2, 0) — побеждает */
+#submit { color: green; }         /* (1, 0, 0) — побеждает всё */
+```
+
+!important обходит специфичность (но это антипаттерн). На практике: избегаю !important, использую BEM для предсказуемой специфичности. Инструмент specificity calculator помогает при отладке.
+
 ## Частые ошибки
 
 - Считать specificity десятичным числом.

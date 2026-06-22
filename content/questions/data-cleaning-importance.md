@@ -37,6 +37,34 @@ sourceUrl: ""
 
 Храните raw data, quarantine, метрики качества, lineage и алерты на изменение распределений.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+Очистка данных — это 60-80% времени аналитика, и это критически важно. На прошлом проекте мы обнаружили, что 15% записей имели пропуски в поле user_id, что искажало метрики удержания. Примеры проблем: дубликаты, пропуски (NULL в ключевых полях), выбросы (отрицательные суммы), неконсистентные форматы дат. Я создаю пайплайн очистки: валидация через Great Expectations, дедупликация, импутация пропусков. Для пропусков в age используем медиану по когорте, а не глобальную. Результат — метрики стали воспроизводимыми, и мы доверяем дашбордам.
+
 ## Частые ошибки
 
 - Удалять все строки с null.

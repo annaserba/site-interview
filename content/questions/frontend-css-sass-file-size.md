@@ -37,6 +37,26 @@ ITCSS, БЭМ, CSS Modules, utility-first — какой подход испол
 
 Как боролись с ростом: dead code elimination, критический CSS, code splitting стилей, миграция на CSS-in-JS или Tailwind.
 
+
+## Код из интервью
+
+```javascript
+/* CSS Specificity — порядок приоритетов */
+/* 1. inline (1000) > ID (100) > class (10) > element (1) */
+.nav .item { color: gray; }    /* 0,0,2,0 */
+#header .item { color: red; }  /* 0,1,1,0 */
+
+/* SASS — избегайте глубокой вложенности */
+/* Плохо */
+.nav ul li a span.label { }
+/* Хорошо — BEM */
+.nav__link-label { }
+```
+
+## Пример ответа
+
+На прошлом проекте CSS/Sass файлы достигали 200KB. Основные проблемы: мёртвый код, дублирование стилей. Решения: 1) PurgeCSS — удаляет неиспользуемые стили, сократил размер на 60%; 2) Модульная архитектура (BEM + CSS Modules); 3) CSS-in-JS (styled-components); 4) PostCSS с минификацией. Результат: 200KB → 80KB (before gzip), 25KB (after gzip). Также использую content-visibility: auto для above-the-fold контента. Мониторю размер через webpack-bundle-analyzer и Lighthouse.
+
 ## Частые ошибки
 
 - Называть только общее число без разбивки по модулям.

@@ -50,6 +50,46 @@ Max attempts, retryable predicate, delay и jitter.
 
 AbortSignal, cleanup timer и исходная ошибка.
 
+## Пример ответа
+
+Вот реализация promisify с retry:
+
+```javascript
+function promisifyWithRetry(callbackFn, { maxRetries = 3, delay = 1000 } = {}) {
+  return (...args) => {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+
+      const attempt = () => {
+        callbackFn(...args, (err, result) => {
+          if (err) {
+            attempts++;
+            if (attempts < maxRetries) {
+              setTimeout(attempt, delay * attempts); // exponential backoff
+            } else {
+              reject(err);
+            }
+          } else {
+            resolve(result);
+          }
+        });
+      };
+
+      attempt();
+    });
+  };
+}
+```
+
+Использование:
+
+```javascript
+const fetchWithRetry = promisifyWithRetry(oldFetchAPI, { maxRetries: 3, delay: 1000 });
+fetchWithRetry('/api/data').then(data => console.log(data));
+```
+
+Ключевые моменты: exponential backoff (delay × attempts), Promise для удобства использования,.maxRetries для ограничения попыток.
+
 ## Частые ошибки
 
 - Повторять 4xx и validation errors.

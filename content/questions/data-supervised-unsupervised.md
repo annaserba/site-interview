@@ -37,6 +37,34 @@ Supervised-модель валидируют на holdout по целевой м
 
 Для supervised опасны leakage и label bias; для clustering — произвольность метрики расстояния и числа кластеров.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+Supervised learning — обучение с учителем, где есть размеченные данные (X → y). Пример: предсказание оттока пользователей — на входе признаки, на выходе — бинарный класс. Методы: линейная регрессия, деревья, XGBoost. Unsupervised learning — обучение без учителя, данные не размечены. Пример: сегментация клиентов по поведению без заранее известных категорий. Методы: K-Means, DBSCAN, PCA. Ключевое отличие: в supervised мы знаем «правильный ответ» и минимизируем loss, в unsupervised ищем структуру в данных. На практике я использую unsupervised для первичного исследования, а supervised — для предсказания.
+
 ## Частые ошибки
 
 - Считать clusters объективными классами реального мира.

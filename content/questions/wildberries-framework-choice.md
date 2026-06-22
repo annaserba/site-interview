@@ -39,6 +39,36 @@ sourceVideos: [{"company":"Wildberries","url":"https://www.youtube.com/watch?v=H
 
 Изолируйте domain logic, API contracts и design tokens; зафиксируйте decision triggers для пересмотра.
 
+
+## Код из интервью
+
+```yaml
+# Архитектурная конфигурация
+
+# Docker Compose — базовая структура
+version: "3.8"
+services:
+  api:
+    build: ./api
+    ports: ["3000:3000"]
+    environment:
+      - DATABASE_URL=postgres://db:5432/mydb
+    depends_on: [db, redis]
+  frontend:
+    build: ./frontend
+    ports: ["80:80"]
+    depends_on: [api]
+  db:
+    image: postgres:16
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+volumes:
+  pgdata:
+```
+
+## Пример ответа
+
+Для нового долгоживущего проекта я бы выбирал между React, Vue и Svelte. Критерии: 1) Ecoystem — React самый большой (npm packages, решения); 2) Learning curve — Vue проще для junior'ов; 3) Performance — Svelte самый быстрый (no VDOM overhead); 4) SSR — Next.js (React) лучше всех; 5) Community — React最大的. Мой выбор: React + TypeScript + Next.js. Почему: 1) Largest talent pool — проще нанимать; 2) Best SSR/SSG; 3) Rich ecosystem (state management, forms, testing); 4) Long-term support от Meta. Для внутренних инструментов — Svelte (проще, быстрее开发). Angular — только если enterprise + long-term support от Google.
+
 ## Частые ошибки
 
 - Выбирать по личному вкусу или GitHub stars.

@@ -38,6 +38,43 @@ Frames, рекурсия и ограниченный размер.
 
 ECMAScript не закрепляет физическое размещение значений.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Стек (Call Stack) хранит примитивы (числа, строки, boolean, null, undefined, symbol) и ссылки на объекты в куче. Куча (Heap) хранит объекты, массивы, функции — всё, что создаётся динамически. Примитивы хранятся прямо в стеке — это быстро, но размер ограничен (~1MB). Объекты в куче доступны через ссылки в стеке. Пример:
+
+```javascript
+let a = 42;           // примитив — в стеке
+let b = { x: 1 };     // объект — в куче
+let c = b;            // c хранит ту же ссылку
+```
+
+Garbage collector работает с кучей: если на объект нет ссылок — он удаляется. В V8 есть young generation и old generation. Оптимизация: избегайте создания большого количества временных объектов в циклах.
+
 ## Частые ошибки
 
 - Выдавать оптимизацию движка за правило языка.

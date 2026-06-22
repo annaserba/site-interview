@@ -70,6 +70,7 @@ export function questionText(question) {
     question.title,
     ...(question.aliases || []),
     question.answer,
+    question.exampleAnswer || '',
     question.context,
     question.codeSnippet || '',
     question.category,
@@ -187,6 +188,9 @@ function buildAnswer(sources) {
   const primary = sources[0]
   const sections = [`Короткий ответ\n${primary.answer}`]
 
+  if (primary.exampleAnswer) {
+    sections.push(`Пример ответа\n${primary.exampleAnswer}`)
+  }
   if (primary.keyPoints?.length) {
     sections.push(`Как раскрыть ответ на интервью\n${primary.keyPoints.map((point, index) => `${index + 1}. ${point.title}: ${point.text}`).join('\n')}`)
   }

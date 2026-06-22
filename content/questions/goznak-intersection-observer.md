@@ -38,6 +38,48 @@ Intersection ratio, rects, time и isIntersecting.
 
 Observe, unobserve, disconnect и cleanup.
 
+
+## Код из интервью
+
+```typescript
+// Intersection Observer — ленивая загрузка
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.src = entry.target.dataset.src;
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { rootMargin: "200px" }
+);
+
+document.querySelectorAll("img[data-src]").forEach(img => {
+  observer.observe(img);
+});
+```
+
+## Пример ответа
+
+Intersection Observer API асинхронно отслеживает пересечение элемента с viewport. Пример lazy loading:
+
+```javascript
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      observer.unobserve(img);
+    }
+  });
+}, { rootMargin: '200px' });
+
+document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+```
+
+Параметры: root — контейнер (null = viewport), rootMargin — отступ, threshold — порог видимости. В React: react-intersection-observer хук. Применения: lazy loading, infinite scroll, анимация при появлении, аналитика видимости рекламы. Важно: IntersectionObserver не блокирует main thread.
+
 ## Частые ошибки
 
 - Создавать observer на каждый элемент.

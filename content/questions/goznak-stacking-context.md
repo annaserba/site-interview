@@ -38,6 +38,43 @@ sourceUrl: "https://www.youtube.com/watch?v=Egvch4SA998&t=2985s"
 
 Dialog/Popover для перекрывающих интерфейсов с правильной семантикой.
 
+
+## Код из интервью
+
+```javascript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+Stacking context — это группа элементов, которые отрисовываются вместе и сравниваются как единое целое по z-index. Новый stacking context создают: 1) position: relative/absolute + z-index; 2) opacity < 1; 3) transform, filter, will-change; 4) position: fixed/sticky. Пример проблемы:
+
+```css
+.parent { position: relative; z-index: 1; }
+.child { position: relative; z-index: 9999; }
+.sibling { position: relative; z-index: 2; }
+```
+
+z-index работает только внутри stacking context. Top layer (modal, dialog) — всегда поверх всех stacking contexts. На практике: если элемент «не поднимается» — проверяю, не создал ли родитель новый stacking context. Использую position: fixed + z-index для модалок.
+
 ## Частые ошибки
 
 - Увеличивать `z-index` до бесконечности.

@@ -38,6 +38,47 @@ Acceptance criteria, edge cases и явно исключённый scope.
 
 Зависимости, тестирование, наблюдаемость и rollout.
 
+
+## Код из интервью
+
+```markdown
+## Модель ответа (STAR/SAR)
+
+| Шаг | Что говорить | Пример |
+|-----|-------------|--------|
+| **Situation** | Контекст и ограничения | "Команда из 5, дедлайн 2 недели" |
+| **Task** | Ваша зона ответственности | "Вести архитектуру нового модуля" |
+| **Action** | Конкретные шаги | "Спроектировал event-driven подход" |
+| **Result** | Измеримый эффект | "Запустили в срок, 0 инцидентов" |
+
+> Совет: Говорите о своём вкладе, а не команды. Называйте метрики.
+```
+
+## Пример ответа
+
+Качественный тикет должен содержать: 1) Context — зачем это нужно; 2) Acceptance criteria — конкретные пункты «что должно работать»; 3) Technical requirements — ограничения (performance, compatibility); 4) Estimation — оценка в story points; 5) Dependencies — что блокирует задачу. Пример:
+
+```markdown
+## Add search autocomplete
+
+### Context
+Users spend 30s on average finding products.
+
+### Acceptance Criteria
+- Show suggestions after 300ms debounce
+- Highlight matching text
+- Keyboard navigation (up/down/enter)
+
+### Technical
+- Use existing /api/search endpoint
+- Bundle size < 5KB gzipped
+
+### Dependencies
+- Backend: /api/search must be ready by Sprint 12
+```
+
+На практике: я пишу RFC перед началом работы, это экономит время на clarification во время спринта.
+
 ## Частые ошибки
 
 - Считать длинное описание автоматически качественным.

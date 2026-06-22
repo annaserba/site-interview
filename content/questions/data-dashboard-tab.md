@@ -37,6 +37,34 @@ sourceUrl: ""
 
 Покажите freshness, data quality, определения, фильтры и согласованные сравнения периодов.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+Вкладка на главном дашборде должна содержать: 1) Северную звезду (North Star Metric) вверху — одну ключевую метрику; 2) Метрики-драйверы в виде карточек с дельтами за период; 3) Графики трендов с возможностью сравнения с прошлым периодом; 4) Сегментацию — возможность фильтровать по платформе, региону. Важно: метрики должны быть связаны в дерево (metric tree). Я использую Superset или Metabase, настраиваю кэширование запросов и автоматическое обновление каждые 15 минут. Цель — чтобы PM мог за 30 секунд понять, всё ли в порядке.
+
 ## Частые ошибки
 
 - Размещать максимум графиков на одном экране.

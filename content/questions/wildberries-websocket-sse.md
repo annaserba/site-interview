@@ -38,6 +38,34 @@ Heartbeat, exponential backoff, last event id, sequence numbers, idempotency и 
 
 Connection gateway отделяют от бизнес-сервисов; состояние и fan-out выносят в broker, а не полагаются на sticky sessions как единственный механизм.
 
+
+## Код из интервью
+
+```yaml
+// Сравнение: WebSocket vs SSE vs Polling
+
+// === WebSocket ===
+const ws = new WebSocket("wss://api.example.com");
+ws.onmessage = (e) => handleEvent(JSON.parse(e.data));
+ws.send(JSON.stringify({ type: "message", data: "hi" }));
+
+// === SSE ===
+const es = new EventSource("/api/events");
+es.onmessage = (e) => handleEvent(JSON.parse(e.data));
+es.onerror = () => es.close(); // auto-reconnect built-in
+
+// === Polling ===
+setInterval(async () => {
+  const res = await fetch("/api/updates?since=" + lastId);
+  const data = await res.json();
+  handleEvent(data);
+}, 5000);
+```
+
+## Пример ответа
+
+WebSocket — двунаправленная связь (real-time chat, gaming, collaborative editing). SSE (Server-Sent Events) — сервер → клиент (live feeds, notifications, updates). Polling — клиент опрашивает сервер (просто, но неэффективно). Выбор: 1) WebSocket: нужен двусторонний обмен (чат, multiplayer game); 2) SSE: сервер отправляет обновления (новости, stock prices, progress); 3) Polling: если нет real-time требований или нужно простое решение. На практике: для уведомлений использую SSE (проще, auto-reconnect), для чата — WebSocket. HTTP/2 Server Push — альтернатива для кэширования ресурсов, но не для real-time.
+
 ## Частые ошибки
 
 - Выбирать WebSocket только потому, что он realtime.

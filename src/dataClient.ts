@@ -6,7 +6,7 @@ export type QuestionIndex = {
 
 const DATA_BASE_URL = (import.meta.env.VITE_QUESTIONS_BASE_URL || 'https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data').replace(/\/$/, '')
 const CACHE_TTL_MS = 5 * 60 * 1000
-const CACHE_PREFIX = 'in-depth:data:v5:'
+const CACHE_PREFIX = 'in-depth:data:v6:'
 
 type CacheEntry<T> = {
   expiresAt: number

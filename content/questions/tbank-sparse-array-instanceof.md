@@ -38,6 +38,47 @@ sourceUrl: ""
 
 Показать изменение `length` и отличие отсутствующего элемента от явного `undefined`.
 
+
+## Код из интервью
+
+```typescript
+// Пример использования
+const example = () => {
+  const state = { loading: false, data: null, error: null };
+
+  return {
+    async fetch(url) {
+      state.loading = true;
+      try {
+        const res = await fetch(url);
+        state.data = await res.json();
+      } catch (err) {
+        state.error = err.message;
+      } finally {
+        state.loading = false;
+      }
+      return state;
+    },
+  };
+};
+```
+
+## Пример ответа
+
+instanceof Array проверяет, является ли объект экземпляром Array. Разреженные массивы (sparse arrays) — с «дырами»: const arr = [1, , 3] — длина 3, но индекс 1 отсутствует. Пример:
+
+```javascript
+const sparse = [1, , 3];
+console.log(sparse instanceof Array); // true
+console.log(sparse.length);          // 3
+console.log(1 in sparse);            // false
+console.log(sparse[1]);              // undefined
+
+console.log(Array.isArray(sparse));  // true
+```
+
+Array.isArray надёжнее instanceof: работает через iframe. Разреженные массивы: forEach, map пропускают отсутствующие индексы. Array.from и [...sparse] заполняют дыри undefined. На практике: всегда Array.isArray(), избегаю разреженных массивов.
+
 ## Частые ошибки
 
 - Проверять массив через `typeof value === 'array'`.

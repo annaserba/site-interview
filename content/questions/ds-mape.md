@@ -37,6 +37,34 @@ MAPE — среднее `|y − ŷ| / |y|`, обычно выраженное в
 
 WAPE устойчивее к отдельным малым знаменателям, но крупные объекты доминируют.
 
+
+## Код из интервью
+
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Важность признаков
+import pandas as pd
+fi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(fi.head(10))
+```
+
+## Пример ответа
+
+MAPE (Mean Absolute Percentage Error) — средняя абсолютная процентная ошибка: MAPE = (1/n) × Σ|y_true - y_pred| / |y_true| × 100%. Показывает ошибку в процентах, что удобно для бизнеса: «Мы ошибаемся в среднем на 5%». Но MAPE имеет проблемы: 1) Бесконечность при y_true = 0; 2) Асимметрия — переоценка штрафуется сильнее недооценки; 3) Смещение в сторону малых значений. На практике я использую MAPE для отчётов перед бизнесом, но для оптимизации моделей предпочитаю MAE или MSE. Альтернативы: sMAPE (симметричный), WMAPE (взвешенный).
+
 ## Частые ошибки
 
 - Добавлять epsilon без анализа изменившейся метрики.

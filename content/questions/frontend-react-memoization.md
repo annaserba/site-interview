@@ -38,6 +38,47 @@ Props, callbacks, context split и state colocation.
 
 Сравнение, память, complexity и stale dependencies.
 
+
+## Код из интервью
+
+```typescript
+// React.memo + useCallback для предотвращения ре-рендеров
+const ExpensiveChild = React.memo(({ onClick, data }) => {
+  console.log("Child render");
+  return <button onClick={onClick}>{data.label}</button>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    setCount(c => c + 1);
+  }, []); // стабильная ссылка
+
+  const data = useMemo(() => ({ label: "Count: " + count }), [count]);
+
+  return <ExpensiveChild onClick={handleClick} data={data} />;
+}
+```
+
+## Пример ответа
+
+React.memo — HOC, предотвращает ререндер компонента, если props не изменились. useMemo — мемоизирует значение, useCallback — мемоизирует функцию. Когда использовать: 1) React.memo — для компонентов с дорогим рендером; 2) useMemo — для дорогих вычислений; 3) useCallback — для функций, передающихся как props в memo-компоненты. Пример:
+
+```javascript
+const MemoizedList = React.memo(({ items, onSelect }) => (
+  <ul>{items.map(item => <li key={item.id} onClick={() => onSelect(item.id)}>{item.name}</li>)}</ul>
+));
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  const handleSelect = useCallback((id) => console.log(id), []);
+  return <MemoizedList items={items} onSelect={handleSelect} />;
+}
+```
+
+Не мемоизируйте всё — memo тоже стоит CPU и памяти. Профилируйте через React Profiler перед оптимизацией.
+
 ## Частые ошибки
 
 - Оборачивать все callbacks автоматически.

@@ -60,6 +60,29 @@ Global environment, environment `outer` и вызовы `inner`.
 
 Результат: `21`, `23`, `10`.
 
+## Пример ответа
+
+Разберём построчно:
+
+```javascript
+let value = 10;
+
+function outer() {
+  let value = 20;
+  return function inner(step) {
+    value += step;
+    console.log(value);
+  };
+}
+
+const increment = outer();  // closure: value = 20
+increment(1);               // 21
+increment(2);               // 23
+console.log(value);         // 10
+```
+
+const increment = outer() создаёт замыкание, захватывает value = 20 из outer. increment(1) — value += 1 → 21. increment(2) — value += 2 → 23. Глобальный value не изменился — 10. Ключевой момент: value внутри outer и глобальный value — разные переменные. Closure хранит ссылку на environment, а не значение 20.
+
 ## Частые ошибки
 
 - Считать, что `outer` создаётся заново при вызове `increment`.
