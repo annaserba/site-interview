@@ -8172,7 +8172,7 @@
     "difficulty": 2,
     "sources": [
       {
-        "company": "Несколько компаний",
+        "company": "Яндекс",
         "url": "",
         "type": "aggregated"
       }
@@ -10060,6 +10060,218 @@
     "videoFrequency": 1
   },
   {
+    "id": "yandex-cicd-setup",
+    "title": "Как вы настраивали CI/CD в своих проектах?",
+    "aliases": [],
+    "answer": "Пайплайн: lint → test → build → deploy. Инструменты: GitHub Actions, GitLab CI, Jenkins, TeamCity. Ключевые практики: кэширование зависимостей, артефакты сборки, секреты в CI, environments (dev/staging/prod), auto-deploy vs manual trigger, rollback в CI/CD.",
+    "exampleAnswer": "В моём проекте CI/CD настроен так:\n\n**Пайплайн:** При мерже PR запускаются: lint (ESLint + Prettier), unit-тесты (Jest), build (webpack/vite). Если всё зелёное — артефакт готов. При мерже в main — автоматический деплой на staging, затем manual approval для prod.\n\n**Кэширование:** `node_modules` кэшируется через `actions/cache` — экономит 2-3 минуты на каждом шаге. Docker-образы кэшируют слои: сначала копируем `package.json`, потом `npm ci`, потом остальное — пересобираются только изменившиеся слои.\n\n**Секреты:** GitHub Secrets для ключей API и токенов. OIDC для AWS/GCP — временные credentials без хранения. В логах секреты маскируются автоматически.\n\n**Деплой:** Auto-deploy на dev при мерже в develop. Staging — автоматически при мерже в main. Production — manual approval в GitHub Environment. Rollback: откат на предыдущий Docker-образ через `kubectl rollout undo` или重新-deploy предыдущего артефакта.\n\n**Мониторинг:** После деплоя — smoke tests. Sentry ловит ошибки. Grafana показывает метрики. Алерт при error rate > 0.5% → автоматический rollback через CI/CD.",
+    "context": "Интервьюер хочет понять ваш практический опыт настройки CI/CD, а не теорию. Ожидается конкретика: какой инструмент, как организован пайплайн, как хранятся секреты, как работает деплой.",
+    "keyPoints": [
+      {
+        "title": "Структура пайплайна",
+        "text": "Lint: проверка стиля кода (ESLint, Prettier, Golint). Test: unit-тесты, интеграционные, e2e. Build: компиляция, бандлинг, оптимизация. Deploy: автоматический (auto-deploy) или ручной триггер (manual gate). Post-deploy: smoke tests, мониторинг, алерты."
+      },
+      {
+        "title": "Инструменты",
+        "text": "GitHub Actions: YAML-конфигурация, интеграция с GitHub, marketplace с действиями. GitLab CI: `.gitlab-ci.yml`, встроенные registry и runners. Jenkins: гибкий, но требует обслуживания, Groovy-скрипты. TeamCity: JetBrains, хорош для JVM-проектов. Выбор зависит от экосистемы и требований."
+      },
+      {
+        "title": "Кэширование и артефакты",
+        "text": "Кэширование зависимостей: `node_modules`, pip cache, Gradle cache — ускоряет пайплайн в 2-5 раз. Артефакты сборки: Docker-образы, zip-архивы, статика — хранятся в registry (Docker Hub, Nexus). Кэширование слоёв Docker: ускоряет сборку образов."
+      },
+      {
+        "title": "Секреты и безопасность",
+        "text": "GitHub Secrets, GitLab Variables: шифрованные переменные окружения. OIDC для cloud: временные.credentials без хранения ключей. Masking: скрытие секретов в логах. Rotation: регулярная смена ключей. Environment protection rules: approval для prod-деплоя."
+      },
+      {
+        "title": "Environments и деплой",
+        "text": "Dev: автоматический деплой при мерже в main. Staging: автоматический или ручной триггер. Prod: manual approval + automatic rollback при ошибках. Feature flags: отдельный механизм контроля функционала."
+      }
+    ],
+    "pitfalls": [
+      "Не кэшировать зависимости — каждый запуск пайплайна устанавливает npm заново.",
+      "Хранить секреты в коде или Dockerfile — утечка credentials.",
+      "Нет environments — dev и prod смешаны, деплой на prod происходит случайно.",
+      "Manual gate без альтернативы — разработники обходят пайплайн, деплоят напрямую."
+    ],
+    "followUps": [
+      "Как вы организовали кэширование Docker-образов в CI/CD?",
+      "В чём разница между auto-deploy и manual trigger?",
+      "Как настроить rollback через CI/CD при ошибках на проде?",
+      "Как хранить и вращать секреты в CI/CD?"
+    ],
+    "codeSnippet": "# GitHub Actions: полный пайплайн\nname: CI/CD Pipeline\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main]\n\njobs:\n  lint:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - uses: actions/setup-node@v3\n        with:\n          node-version: 18\n          cache: 'npm'\n      - run: npm ci\n      - run: npm run lint\n\n  test:\n    needs: lint\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - uses: actions/setup-node@v3\n        with:\n          node-version: 18\n          cache: 'npm'\n      - run: npm ci\n      - run: npm test -- --coverage\n      - uses: codecov/codecov-action@v3\n\n  build:\n    needs: test\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - run: npm ci\n      - run: npm run build\n      - uses: actions/upload-artifact@v3\n        with:\n          name: build\n          path: dist/\n\n  deploy-staging:\n    needs: build\n    if: github.ref == 'refs/heads/main'\n    environment: staging\n    steps:\n      - uses: actions/download-artifact@v3\n      - run: ./deploy.sh staging\n      - run: npm run test:e2e -- --env=staging\n\n  deploy-production:\n    needs: deploy-staging\n    if: github.ref == 'refs/heads/main'\n    environment: production\n    steps:\n      - uses: actions/download-artifact@v3\n      - run: ./deploy.sh production",
+    "codeLanguage": "yaml",
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "DevOps"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "CI/CD",
+      "GitHub Actions",
+      "Jenkins",
+      "Automation"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-flaky-tests",
+    "title": "Что такое flaky тесты и как с ними бороться?",
+    "aliases": [],
+    "answer": "Flaky тесты — это тесты, которые проходят и падают без изменений в коде. Причины: race conditions, внешние зависимости (сеть, БД), тайминги, гонки потоков, неочищенные данные. Методы борьбы: изоляция тестов, retry, wait strategies, очистка состояния, аналитика CI для трекинга flaky rate.",
+    "exampleAnswer": "Flaky тесты — серьёзная проблема, потому что подрывают доверие к CI/CD.\n\n**Причины на практике:** Самые частые — race conditions в асинхронном коде (тест «жалеет» данные до завершения операции) и внешние зависимости (тест падает, потому что API вернул 500). Также бывают гонки между тестами (один тест меняет данные, которые использует другой) и фиксированные `sleep()` вместо ожидания условия.\n\n**Методы борьбы:** Изоляция — каждый тест работает со своими данными и очищает за собой. Wait strategies — вместо `setTimeout` используем `waitFor` с конкретным условием. Retry — как защитный механизм, но не как решение. Аналитика — трекинг flaky rate в CI, алерты при превышении 1-2%.\n\n**Политика компании:** В идеале — flaky тест блокирует merge, требует немедленного исправления. На практике — quarantine для критических flaky, постепенное исправление. Важно не маскировать проблему retry'ем, а устранять корень.\n\n**Измерение:** Считаем flaky rate = количество flaky запусков / общее количество запусков. Цель: < 0.5% flaky rate. Мониторим в CI dashboard, алертируем команду при росте.",
+    "context": "Интервьюер хочет убедиться, что вы понимаете проблему flaky tests на практике, а не только понаслышке. Ожидается знание конкретных причин, методов детекции и политик компании по борьбе с ними.",
+    "keyPoints": [
+      {
+        "title": "Определение и масштаб проблемы",
+        "text": "Flaky тест — тест, который даёт разные результаты (pass/fail) при одинаковом коде. Это разрушает доверие к CI: разработчики начинают игнорировать падения. Исследования показывают, что flaky тесты замедляют.delivery на 10-15% из-за повторных запусков и ручных проверок."
+      },
+      {
+        "title": "Основные причины",
+        "text": "Race conditions: тест зависит от порядка выполнения или асинхронных операций. Внешние зависимости: сеть, БД, API, файловая система. Тайминги: `setTimeout`, `waitFor` с фиксированными задержками. Состояние: тесты делят данные, не очищают после себя. Окружение: разные версии ОС, браузеров, окружения CI."
+      },
+      {
+        "title": "Методы борьбы",
+        "text": "Иоляция: каждый тест создаёт и очищает свои данные, не зависит от других. Retry: повторный запуск упавшего теста (осторожно — маскирует реальные баги). Wait strategies: вместо `sleep(1000)` — polling с таймаутом, ожидание конкретного условия. Порядок: сортировка тестов, детерминированный порядок выполнения. Очистка: beforeEach/afterEach для сброса состояния."
+      },
+      {
+        "title": "Детекция и политика",
+        "text": "Аналитика CI: трекинг flaky rate по тестам, алерты при превышении порога. Quarantine: flaky тесты отключаются до исправления. Policy: flaky тесты блокируют merge, требуют исправления. Культура: flaky тест — баг, который нужно чинить, а не игнорировать."
+      }
+    ],
+    "pitfalls": [
+      "Использовать retry как основной метод борьбы — это маскирует реальные баги.",
+      "Игнорировать flaky тесты — «они иногда падают, это нормально» разрушает доверие к CI.",
+      "Не трекать flaky rate — без метрик невозможно улучшить ситуацию.",
+      "Использовать `sleep()` вместо ожидания условия — главный источник flakiness в UI-тестах."
+    ],
+    "followUps": [
+      "Как вы бы уменьшили flaky rate в существующем проекте с сотнями тестов?",
+      "В чём разница между flaky тестами и тестами с реальными багами?",
+      "Как настроить аналитику flaky tests в CI?",
+      "Стоит ли использовать retry для e2e-тестов?"
+    ],
+    "codeSnippet": "// ❌ Плохо: фиксированный sleep — источник flakiness\ntest('element appears', async () => {\n  await page.click('#load-button');\n  await page.waitForTimeout(2000); // Может не успеть или ждать лишнего\n  expect(await page.$('.result')).toBeTruthy();\n});\n\n// ✅ Хорошо: wait strategy — ожидание конкретного условия\ntest('element appears', async () => {\n  await page.click('#load-button');\n  await expect(page.locator('.result')).toBeVisible({ timeout: 5000 });\n});\n\n// ✅ Хорошо: изоляция данных через factory\nbeforeEach(async () => {\n  this.user = await UserFactory.create(); // Уникальный пользователь\n});\n\nafterEach(async () => {\n  await User.delete(this.user.id); // Очистка\n});",
+    "codeLanguage": "javascript",
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "QA"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Testing",
+      "Flaky Tests",
+      "CI/CD",
+      "Quality"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-frontend-optimization",
+    "title": "Какие методы оптимизации фронтенда вы знаете?",
+    "aliases": [],
+    "answer": "Оптимизация фронтенда охватывает уменьшение размера бандла (code splitting, tree shaking, compression), кэширование (HTTP cache, service workers), оптимизацию рендеринга (critical CSS, lazy loading, memo) и мониторинг производительности через Web Vitals (LCP, FID, CLS) и Lighthouse. Важно подходить системно: сначала измерить, затем оптимизировать каждое узкое место.",
+    "exampleAnswer": "Оптимизация фронтенда делится на несколько уровней:\n\n**Бандл:** Используем code splitting по роутам — каждая страница загружается только при навигации. Tree shaking удаляет неиспользуемый код. Webpack-bundle-analyzer помогает найти тяжёлые зависимости. Сжатие gzip/brotli на сервере уменьшает размер передачи на 60-80%.\n\n**Рендеринг:** Critical CSS инлайним в `<head>` для быстрой отрисовки выше-folding контента. Lazy loading для изображений и тяжёлых компонентов. React.memo и useMemo предотвращают лишние ре-рендеры. Virtual scrolling (react-window) для списков из тысяч элементов.\n\n**Кэширование:** Статика на CDN с длинным Cache-Control. Service worker для кэширования API-ответов и offline-режима. Preloading для критических шрифтов и CSS.\n\n**Измерение:** Начинаем с Lighthouse — получаем общий скор. Далее смотрим Web Vitals в Chrome DevTools. На проде — RUM для реальных данных. Оптимизируем самое медленное, а не всё подряд.",
+    "context": "Интервьюер хочет убедиться, что вы знаете конкретные техники, а не просто слышали слова «оптимизация». Ожидается структурированный ответ по категориям (бандл, рендеринг, кэширование, измерение) и понимание, когда какая техника применима.",
+    "keyPoints": [
+      {
+        "title": "Уменьшение размера бандла",
+        "text": "Code splitting по роутам и компонентам (dynamic import, React.lazy). Tree shaking — удаление неиспользуемого экспорта (ES modules, sideEffects: false). Анализ бандла через webpack-bundle-analyzer. Минификация и uglify. Дедупликация зависимостей."
+      },
+      {
+        "title": "Сетевая оптимизация и кэширование",
+        "text": "Сжатие gzip/brotli на сервере. CDN для статики. HTTP-кэширование (Cache-Control, ETag). Preloading критических ресурсов, prefetching следующих страниц. Service workers для кэширования и offline."
+      },
+      {
+        "title": "Оптимизация рендеринга",
+        "text": "Critical CSS — инлайн только выше-folding стилей. Lazy loading изображений и компонентов (IntersectionObserver, loading=\"lazy\"). Мемоизация (React.memo, useMemo, useCallback) для предотвращения лишних ре-рендеров. Virtual scrolling для длинных списков. Избегание layout thrashing (чтение DOM и запись раздельно)."
+      },
+      {
+        "title": "Измерение производительности",
+        "text": "Web Vitals: LCP (largest contentful paint < 2.5s), FID (first input delay < 100ms), CLS (cumulative layout shift < 0.1). Lighthouse для аудита. Chrome DevTools Performance tab для профилирования рендеринга и JS. Real User Monitoring (RUM) для данных с реальных пользователей."
+      }
+    ],
+    "pitfalls": [
+      "Оптимизировать без измерения — тратить время на то, что не является bottle neck.",
+      "Считать, что smaller bundle = быстрее страница —忽略了 рендеринг и кэширование.",
+      "Использовать React.memo повсеместно вместо профилирования ре-рендеров.",
+      "Забывать про Web Vitals на проде — Lighthouse в dev-режиме не отражает реальность."
+    ],
+    "followUps": [
+      "Как измерить и улучшить CLS (Cumulative Layout Shift)?",
+      "В чём разница между lazy loading и prefetching?",
+      "Как service worker влияет на кэширование и инвалидацию?",
+      "Что такое React Server Components и как они помогают оптимизации?"
+    ],
+    "codeSnippet": "// Динамическая загрузка компонента (code splitting + lazy)\nconst Dashboard = React.lazy(() => import('./Dashboard'));\n\nfunction App() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <Dashboard />\n    </Suspense>\n  );\n}\n\n// Lazy loading изображения с IntersectionObserver\nfunction LazyImage({ src, alt }) {\n  const [visible, setVisible] = React.useState(false);\n  const ref = React.useRef();\n\n  React.useEffect(() => {\n    const observer = new IntersectionObserver(([entry]) => {\n      if (entry.isIntersecting) {\n        setVisible(true);\n        observer.disconnect();\n      }\n    });\n    if (ref.current) observer.observe(ref.current);\n    return () => observer.disconnect();\n  }, []);\n\n  return (\n    <div ref={ref}>\n      {visible && <img src={src} alt={alt} loading=\"lazy\" />}\n    </div>\n  );\n}",
+    "codeLanguage": "javascript",
+    "category": "Browser Performance",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Performance",
+      "Optimization",
+      "Web Vitals",
+      "Bundle"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "yandex-js-hidden-quadratic-complexity",
     "title": "Найдите скрытую квадратичную сложность в работе с массивами",
     "aliases": [],
@@ -10279,6 +10491,146 @@
         "company": "Яндекс",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-release-process",
+    "title": "Как осуществляется релиз на прод в вашем проекте?",
+    "aliases": [],
+    "answer": "Типичный релиз: feature flags → staging → canary (1-5% трафика) → full rollout → мониторинг. Ключевые элементы: rollback strategy, smoke tests после деплоя, мониторинг (Grafana, Sentry). Частота: continuous deployment (каждый коммит) или scheduled releases (раз в неделю/спринт).",
+    "exampleAnswer": "В моём проекте релиз происходит так:\n\n**Подготовка:** Разработчик мержит PR в main. CI запускает линт, тесты, билд. Если всё зелёное — артефакт готов к деплою.\n\n**Staging:** Автоматический деплой на staging-окружение. Smoke tests проверяют критические сценарии (регистрация, оплата, основные API). Если тесты падают — деплой останавливается.\n\n**Canary:** Деплой на 1-5% трафика. Мониторим error rate, latency, бизнес-метрики 10-30 минут. Если аномалии — автоматический rollback. Если всё ок — продолжаем.\n\n**Full rollout:** Постепенное раскатывание на 100%. Feature flags позволяют включать новый функционал постепенно (1% → 10% → 50% → 100%).\n\n**Rollback:** При проблемах — instant rollback через feature flags (выключаем флаг) или откат на предыдущий коммит. Database migrations делаются backward-compatible, чтобы откат не ломал данные.\n\n**Мониторинг:** Grafana показывает метрики, Sentry ловит ошибки. Алерты при росте error rate > 0.5% или latency > 2x. Runbook с документированными шагами отката.",
+    "context": "Интервьюер хочет понять ваш реальный опыт с релизами, а не теорию. Ожидается конкретика: какие инструменты, какая политика, как происходит rollback, кто принимает решение о деплое.",
+    "keyPoints": [
+      {
+        "title": "Этапы релиза",
+        "text": "Feature flags: новый функционал скрыт за флагом, включается постепенно. Staging: тестовое окружение, идентичное проду. Canary: деплой на 1-5% трафика для валидации. Full rollout: постепенное раскатывание на 100%. Smoke tests: проверка критических сценариев после деплоя."
+      },
+      {
+        "title": "Rollback strategy",
+        "text": "Instant rollback: откат на предыдущий коммит за минуты (blue-green, feature flags). Database migrations: как откатывать без потери данных (backward-compatible migrations). Alerting: алерты при аномалиях (рост ошибок, latency) → автоматический rollback. Runbook: документированные шаги для ручного отката."
+      },
+      {
+        "title": "Инструменты и мониторинг",
+        "text": "Grafana/Datadog: метрики (CPU, latency, error rate). Sentry: отслеживание ошибок в реальном времени. Feature flags: LaunchDarkly, Unleash, внутренние решения. Deploy dashboards: визуализация статуса деплоя, история релизов."
+      },
+      {
+        "title": "Кто деплоит",
+        "text": "Developer self-service: разработчик деплоит свой код (continuous deployment). DevOps/SRE: централизованный деплой (scheduled releases). Hybrid: разработчик триггерит деплой, CI/CD выполняет автоматически. Approval gates: code review → CI → staging → manual approval → prod."
+      }
+    ],
+    "pitfalls": [
+      "Деплой без staging или smoke tests — «на проде всё работает» заканчивается инцидентом.",
+      "Нет rollback strategy — когда что-то ломается, все паникуют.",
+      "Деплой в пятницу вечером — никто не дежурит для отката.",
+      "Не мониторить после деплоя — ошибки копятся, пока пользователи не начнут жаловаться."
+    ],
+    "followUps": [
+      "Как вы обрабатываете database migrations при релизе?",
+      "В чём разница между blue-green и canary deployment?",
+      "Как настроить автоматический rollback при аномалиях?",
+      "Как feature flags влияют на архитектуру приложения?"
+    ],
+    "codeSnippet": "# Пример GitHub Actions workflow для деплоя\nname: Deploy to Production\non:\n  push:\n    branches: [main]\n\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Run tests\n        run: npm test\n      - name: Build\n        run: npm run build\n      - name: Deploy to staging\n        run: ./deploy.sh staging\n      - name: Smoke tests\n        run: npm run test:e2e -- --env=staging\n      - name: Deploy to canary (5% traffic)\n        run: ./deploy.sh canary\n      - name: Monitor error rate (10 min)\n        run: ./monitor-errors.sh --threshold=0.5% --duration=10m\n      - name: Deploy to production\n        run: ./deploy.sh production\n        if: success()",
+    "codeLanguage": "yaml",
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "DevOps"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Release",
+      "Deployment",
+      "CI/CD",
+      "Process"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-ssr-concept",
+    "title": "Что такое SSR и зачем он нужен?",
+    "aliases": [],
+    "answer": "SSR (Server-Side Rendering) — рендеринг HTML на сервере перед отправкой клиенту. Нужен для SEO (поисковики видят готовый HTML), ускорения первой отрисовки (FCP) и работы без JavaScript. Альтернативы: CSR (рендер на клиенте) и SSG (генерация при сборке). Современные реализации: Next.js, Nuxt, streaming SSR, React Server Components.",
+    "exampleAnswer": "SSR — это подход, где HTML страницы формируется на сервере и отправляется клиенту в готовом виде.\n\n**Зачем:** Во-первых, SEO — поисковые роботы сразу видят контент. Во-вторых, быстрая первая отрисовка — пользователь видит контент до загрузки JS-бандла. В-третьих, соцсети корректно отображают превью (og:tags). В-четвёртых, работает на устройствах с отключённым JS.\n\n**Как это работает:** SSR выполняет React-компоненты на сервере, сериализует результат в HTML + JSON. Клиент получает HTML (виден сразу) и JSON с данными. При загрузке React «гидрирует» DOM — навешивает обработчики без пересоздания элементов.\n\n**Альтернативы:** CSR проще в разработке, но хуже для SEO и FCP. SSG идеален для статических страниц, но не для динамических данных. Современные подходы: streaming SSR (построчная отправка), React Server Components (рендер без JS), Islands (гидратация только интерактивных частей).\n\n**Trade-offs:** Нужен сервер с вычислительной мощностью. Сложнее debugging (два контекста). Кэширование SSR-страниц критически важно для производительности.",
+    "context": "Интервьюер хочет понять, почему SSR нужен, а не просто «так делают». Ожидается сравнение SSR/CSR/SSG, знание гидратации и trade-offs (нагрузка на сервер, сложность debugging).",
+    "keyPoints": [
+      {
+        "title": "SSR vs CSR vs SSG",
+        "text": "CSR: сервер отдаёт пустой `<div id=\"app\">`, JS рендерит всё на клиенте. Быстрая навигация, но медленный FCP и плохой SEO. SSR: сервер рендерит HTML, клиент «оживляет» его (гидратация). Быстрый FCP, SEO, но нагрузка на сервер. SSG: HTML генерируется при сборке (build time). Максимально быстро, но не подходит для динамических данных."
+      },
+      {
+        "title": "Когда использовать SSR",
+        "text": "SEO-зависимые страницы (лендинги, каталоги, новостные сайты). Страницы с динамическими данными, которые нужно показать сразу (лендинги с персонализацией). Медленные клиенты (мобильные сети, старые устройства). Когда нужен Open Graph / sharing (соцсети парсят HTML)."
+      },
+      {
+        "title": "Как работает гидратация",
+        "text": "После SSR клиент получает HTML + JSON-сниппет (`__NEXT_DATA__` или аналог). React/Nuxt «приклеивает» обработчики событий к существующему HTML без пересоздания DOM. hydration mismatch (серверный HTML ≠ клиентский рендер) — частая проблема. Streaming SSR (React 18, Next.js App Router) — построчная отправка HTML для ускорения FCP."
+      },
+      {
+        "title": "Trade-offs и современные альтернативы",
+        "text": "Нагрузка на сервер: SSR требует серверных вычислений для каждого запроса (caching!). Сложность: два контекста выполнения (сервер/клиент), разные API (fs, window). React Server Components (Next.js App Router) — рендеринг компонентов на сервере без отправки JS-бандла клиенту. Islands Architecture (Astro, Fresh) — серверный рендеринг с гидратацией только интерактивных частей."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что SSR решает все проблемы производительности — он ускоряет FCP, но не общее время загрузки.",
+      "Забывать про гидратацию — mismatch между серверным и клиентским рендером приводит к багам.",
+      "Использовать SSR для всех страниц без необходимости — статические страницы лучше SSG.",
+      "Не кэшировать SSR-ответы — каждый запрос к серверу создаёт нагрузку."
+    ],
+    "followUps": [
+      "В чём разница между getServerSideProps и getStaticProps в Next.js?",
+      "Что такое streaming SSR и как он улучшает FCP?",
+      "Как React Server Components отличаются от клиентских компонентов?",
+      "Как кэшировать SSR-страницы и инвалидировать кэш?"
+    ],
+    "codeSnippet": "// Пример SSR на Next.js (Pages Router)\n// pages/products/[id].js\n\nexport async function getServerSideProps(context) {\n  const { id } = context.params;\n  const res = await fetch(`https://api.example.com/products/${id}`);\n  const product = await res.json();\n\n  return {\n    props: { product }, // Передаётся как JSON в __NEXT_DATA__\n  };\n}\n\nexport default function ProductPage({ product }) {\n  return (\n    <div>\n      <h1>{product.name}</h1>\n      <p>{product.price}</p>\n    </div>\n  );\n}\n\n// Next.js автоматически:\n// 1. Вызывает getServerSideProps на сервере\n// 2. Рендерит HTML с данными\n// 3. Отдаёт HTML + __NEXT_DATA__ клиенту\n// 4. Клиент «оживляет» компонент (гидратация)",
+    "codeLanguage": "javascript",
+    "category": "Frontend Architecture",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "SSR",
+      "CSR",
+      "SSG",
+      "SEO",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
