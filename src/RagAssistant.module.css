@@ -15,7 +15,7 @@
 }
 .hero-rag-form:focus-within { border-color: var(--acid); box-shadow: 0 0 0 3px var(--acid-glow), 0 4px 20px rgba(0,0,0,0.08); }
 .hero-rag-form > svg { flex: 0 0 auto; color: #94958f; }
-.hero-rag-form textarea { flex: 1; min-width: 0; resize: none; border: 0; outline: 0; padding: 10px 0; color: var(--ink); background: transparent; font: 13px/1.45 'Manrope'; }
+.hero-rag-form textarea { flex: 1; min-width: 0; resize: none; border: 0; outline: 0; padding: 10px 0; color: var(--ink); background: transparent; font: 13px/1.45 'Inter'; }
 .hero-rag-form textarea::placeholder { color: #9c9d96; }
 .hero-rag-form button {
   min-width: 48px; width: 48px; height: 44px; border: 0; border-radius: var(--radius);
@@ -73,7 +73,7 @@
 
 .rag-form { margin: 0 12px 12px; min-height: 76px; background: var(--dark-surface); border: 1px solid var(--dark-line); border-radius: var(--radius); display: flex; align-items: center; padding: 10px 10px 10px 17px; gap: 12px; transition: border-color .2s var(--ease-out); }
 .rag-form:focus-within { border-color: #5a5d52; }
-.rag-form textarea { flex: 1; min-width: 0; resize: none; border: 0; outline: 0; background: transparent; color: white; font: 12px/1.5 'Manrope'; }
+.rag-form textarea { flex: 1; min-width: 0; resize: none; border: 0; outline: 0; background: transparent; color: white; font: 12px/1.5 'Inter'; }
 .rag-form textarea::placeholder { color: #777970; }
 .rag-form button { width: 46px; height: 46px; flex: 0 0 46px; display: grid; place-items: center; border: 0; border-radius: var(--radius-sm); background: var(--acid); color: #161714; transition: transform .15s var(--ease-out), box-shadow .15s var(--ease-out); }
 .rag-form button:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 4px 14px rgba(201,255,50,.3); }

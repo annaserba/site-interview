@@ -100,7 +100,7 @@
 .input textarea {
   flex: 1; min-width: 0; resize: none; border: 0; outline: 0;
   background: var(--dark-line); color: white; border-radius: var(--radius-sm);
-  padding: 9px 12px; font: 12px/1.4 'Manrope';
+  padding: 9px 12px; font: 12px/1.4 'Inter';
   max-height: 80px;
 }
 .input textarea::placeholder { color: #777970; }
