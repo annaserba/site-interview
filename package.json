@@ -16,13 +16,13 @@
   },
   "dependencies": {
     "@types/prismjs": "^1.26.6",
-    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-react": "^4.7.0",
     "lucide-react": "latest",
     "prismjs": "^1.30.0",
     "react": "latest",
     "react-dom": "latest",
     "typescript": "latest",
-    "vite": "latest"
+    "vite": "^6.4.3"
   },
   "devDependencies": {
     "@types/react": "latest",
