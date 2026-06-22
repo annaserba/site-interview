@@ -36,11 +36,11 @@
   height: 52px; padding: 0 14px 0 18px;
   display: flex; align-items: center; gap: 10px;
   border-bottom: 1px solid var(--dark-line);
-  font: 10px 'DM Mono'; text-transform: uppercase; letter-spacing: .07em;
+  font: 10px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .07em;
 }
 .head > span { display: flex; align-items: center; gap: 8px; color: #dfe0d8; }
 .head > span svg { color: var(--acid); }
-.head small { margin-left: auto; color: #777970; font: 9px 'DM Mono'; }
+.head small { margin-left: auto; color: #777970; font: 9px 'JetBrains Mono'; }
 .head button { border: 0; background: none; color: #777970; padding: 4px; border-radius: 4px; transition: color .2s; }
 .head button:hover { color: white; }
 
@@ -72,7 +72,7 @@
 .msgText p:last-child { margin: 0; }
 
 .sources { margin-top: 8px; padding: 10px 12px; background: rgba(0,0,0,.2); border-radius: var(--radius-sm); }
-.sources small { display: block; color: #777970; font: 8px 'DM Mono'; text-transform: uppercase; margin-bottom: 6px; }
+.sources small { display: block; color: #777970; font: 8px 'JetBrains Mono'; text-transform: uppercase; margin-bottom: 6px; }
 
 .cardLink {
   display: inline-flex; align-items: center; gap: 4px;
