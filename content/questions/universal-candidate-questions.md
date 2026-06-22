@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Mo
 companies: ["Несколько компаний"]
 level: Senior
 stage: Финал
-tags: ["Career", "Team", "Due diligence"]
+tags: ["Career", "Team", "Due diligence", "HR"]
 duration: 7 мин
 difficulty: 2
 sourceType: aggregated

@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Mo
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR
-tags: ["Compensation", "Negotiation", "Career"]
+tags: ["Compensation", "Negotiation", "Career", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated

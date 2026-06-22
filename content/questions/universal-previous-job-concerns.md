@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Okko"]
 level: Senior
 stage: HR
-tags: ["Motivation", "Career", "Culture"]
+tags: ["Motivation", "Career", "Culture", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceReports: [{"company":"Т-Банк"}]

@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Mo
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR
-tags: ["Motivation", "Career change", "Transferable skills"]
+tags: ["Motivation", "Career change", "Transferable skills", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated

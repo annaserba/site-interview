@@ -9,7 +9,7 @@ roles: ["Backend-разработчик", "Frontend-разработчик", "Da
 companies: ["Яндекс", "Ozon", "Avito", "Т-Банк", "VK", "Okko"]
 level: Senior
 stage: Знакомство
-tags: ["Soft skills", "Self presentation", "Universal"]
+tags: ["Soft skills", "Self presentation", "Universal", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceCompany: Okko

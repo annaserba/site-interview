@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Несколько компаний"]
 level: Senior
 stage: Знакомство
-tags: ["Freelance", "Ownership", "Delivery"]
+tags: ["Freelance", "Ownership", "Delivery", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated

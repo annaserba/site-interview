@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Okko"]
 level: Senior
 stage: HR
-tags: ["Culture", "Ethics", "Collaboration"]
+tags: ["Culture", "Ethics", "Collaboration", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceCompany: Okko

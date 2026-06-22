@@ -107,11 +107,11 @@ function App() {
       const cat = item.category
       const isBehavioral = cat === 'Behavioral'
       const isSystemDesign = cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture'
-      const isHR = cat === 'HR' || item.tags.some((t) => t === 'HR' || t === 'Recruiting')
-      const isTechnical = !isBehavioral && !isSystemDesign && !isHR
-      if (isBehavioral && !showBehavioral) return false
+      const isHR = item.tags.includes('HR')
+      const isTechnical = !isBehavioral && !isSystemDesign
+      if (isBehavioral && !showBehavioral && !(isHR && showHR)) return false
       if (isSystemDesign && !showSystemDesign) return false
-      if (isHR && !showHR) return false
+      if (isHR && !showHR && !showBehavioral) return false
       if (isTechnical && !showTechnical) return false
       return companyMatch && roleMatch && topicMatch
     })

@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Mo
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR
-tags: ["Growth", "Career", "Leadership"]
+tags: ["Growth", "Career", "Leadership", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceReports: [{"company":"Т-Банк"}]

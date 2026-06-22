@@ -9,7 +9,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Яндекс", "Лига Ставок"]
 level: Senior
 stage: Техническое
-tags: ["Complexity", "Architecture", "Problem solving"]
+tags: ["Complexity", "Architecture", "Problem solving", "HR"]
 duration: 10 мин
 difficulty: 4
 sourceReports: [{"company":"Яндекс"}, {"company":"Лига Ставок"}]

@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR
-tags: ["Motivation", "Strengths", "Career"]
+tags: ["Motivation", "Strengths", "Career", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated

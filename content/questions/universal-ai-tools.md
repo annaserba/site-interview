@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Da
 companies: ["Яндекс"]
 level: Middle
 stage: Знакомство
-tags: ["AI", "Tools", "Productivity"]
+tags: ["AI", "Tools", "Productivity", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated

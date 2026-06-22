@@ -8,7 +8,7 @@ roles: ["Frontend-разработчик", "Backend-разработчик", "Mo
 companies: ["Несколько компаний"]
 level: Senior
 stage: Знакомство
-tags: ["Teamwork", "Ownership", "Process"]
+tags: ["Teamwork", "Ownership", "Process", "HR"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated
