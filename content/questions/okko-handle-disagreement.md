@@ -6,7 +6,7 @@ category: Behavioral
 scope: universal
 languages: []
 roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
-companies: ["Okko"]
+companies: ["Okko", "Яндекс"]
 level: Senior
 stage: Командное интервью
 tags: ["Conflict", "Decision making", "Collaboration"]
