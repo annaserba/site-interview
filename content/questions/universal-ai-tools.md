@@ -5,7 +5,7 @@ category: Behavioral
 scope: universal
 languages: []
 roles: ["Frontend-разработчик", "Backend-разработчик", "Data Analyst", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
-companies: ["Несколько компаний"]
+companies: ["Несколько компаний", "Яндекс"]
 level: Middle
 stage: Знакомство
 tags: ["AI", "Tools", "Productivity"]

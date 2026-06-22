@@ -1,5 +1,74 @@
 [
   {
+    "id": "avito-accessibility-grid",
+    "title": "Как CSS Grid влияет на доступность и как это исправить?",
+    "aliases": [],
+    "answer": "CSS Grid через order и grid-column изменяет визуальный порядок, но не DOM-порядок — таб-навигация идёт по исходному порядку, что вводит пользователей screen reader в замешательство. display: contents может скрыть элемент от скринридера. grid-template-areas помогает сохранять семантику.",
+    "exampleAnswer": "CSS Grid может сломать доступность двумя способами: order/grid-column меняют визуальный порядок, но не DOM — скринридер читает в другом порядке. Используйте grid-template-areas вместо order.\n\ndisplay: contents удаляет элемент из accessibility tree. Это полезно для wrapper-дивов, но опасно если элемент содержит текст или интерактивные элементы — скринридер его пропустит.\n\nПрактические рекомендации: используйте семантический HTML (nav, main, article), не меняйте порядок через CSS, тестируйте таб-навигацией и screen reader (VoiceOver, NVDA).",
+    "context": "Интервьюер проверяет понимание влияния CSS Grid на доступность: как visual reflow влияет на таб-навигацию, семантику HTML и работу screen reader'ов.",
+    "keyPoints": [
+      {
+        "title": "Объяснить проблему order и grid-column",
+        "text": "CSS изменяет визуальный порядок, но DOM остаётся тем же. Скринридер и таб-навигация следуют DOM, поэтому порядок прослушивания не совпадает с визуальным."
+      },
+      {
+        "title": "Описать проблему display: contents",
+        "text": "display: contents удаляет элемент из accessibility tree — скринридер его не видит. Это полезно для обёрток, но опасно, если элемент содержит контент."
+      },
+      {
+        "title": "Показать grid-template-areas и семантику",
+        "text": "grid-template-areas позволяет задать визуальный порядок через именованные области, сохраняя семантический порядок в DOM."
+      },
+      {
+        "title": "Дать рекомендации",
+        "text": "Используйте семантический HTML, избегайте order для изменения порядка контента, тестируйте с screen reader и таб-навигацией."
+      }
+    ],
+    "pitfalls": [
+      "Использовать order для изменения порядка важного контента — ломает таб-навигацию.",
+      "Использовать display: contents на элементе с текстом — скринридер его не прочитает.",
+      "Не тестировать с реальным screen reader — визуально всё ок, но a11y сломано.",
+      "Полагаться только на CSS для семантики — семантика должна быть в HTML."
+    ],
+    "followUps": [
+      "Как протестировать доступность с помощьюaxe-core?",
+      "В чём разница между aria-label и aria-labelledby?",
+      "Как CSS Grid влияет на zoom 200% и high contrast mode?",
+      "Как использовать ARIA для обозначения regions в Grid?"
+    ],
+    "codeSnippet": "/* Плохо — порядок для скринридера другой */\n.grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.sidebar { order: 2; }\n.main { order: 1; }\n\n/* Лучше — grid-template-areas сохраняет семантику */\n.grid {\n  display: grid;\n  grid-template-columns: 1fr 2fr;\n  grid-template-areas:\n    \"header header\"\n    \"main sidebar\"\n    \"footer footer\";\n}\n.header { grid-area: header; }\n.main { grid-area: main; }\n.sidebar { grid-area: sidebar; }\n.footer { grid-area: footer; }\n\n/* Опасно — display: contents скрывает элемент */\n.hidden-wrapper {\n  display: contents; /* скринридер не видит этот div */\n}",
+    "codeLanguage": "css",
+    "category": "CSS",
+    "scope": "multi-language",
+    "languages": [
+      "CSS"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "CSS Grid",
+      "Accessibility",
+      "a11y",
+      "Semantic HTML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "avito-feed-cache",
     "title": "Спроектируйте клиентский кеш для ленты из миллионов объявлений",
     "aliases": [],
@@ -69,6 +138,145 @@
         "company": "Avito",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "avito-inverted-index-search",
+    "title": "Как устроен полнотекстовый поиск и зачем Avito использует Elasticsearch?",
+    "aliases": [],
+    "answer": "Inverted index — структура данных, которая отображает слова в документы (как индекс книги). PostgreSQL FTS использует inverted index, но Elasticsearch оптимизирован для масштабирования, аналитики и релевантности (BM25 vs TF-IDF). Avito ищет по миллионам объявлений с фильтрами, фасетами и ранжированием.",
+    "exampleAnswer": "Inverted index — структура, которая отображает каждое слово в список документов, содержащих это слово. Это как индекс в конце книги: слово → страницы. Поиск по слову — O(1), потом пересечение списков для multiple words.\n\nPostgreSQL поддерживает FTS через GIN индексы, но у него нет масштабирования, фасетного поиска, аналитики. Elasticsearch построен на inverted index, оптимизирован для полнотекстового поиска и аналитики.\n\nBM25 (в Elasticsearch) — улучшенная версия TF-IDF: учитывает длину документа и настраиваемые параметры. TF-IDF — базовая мера: частота слова в документе × логарифм обратной частоты в корпусе.\n\nAvito использует Elasticsearch для: полнотекстового поиска по объявлениям, фасетной фильтрации (категории, цены, локации), аналитики (что ищут пользователи), autocomplete и typo-tolerance.",
+    "context": "Интервьюер проверяет понимание принципа полнотекстового поиска, зачем нужен отдельный search engine вместо PostgreSQL FTS, как работает inverted index и что такое TF-IDF/BM25.",
+    "keyPoints": [
+      {
+        "title": "Объяснить inverted index",
+        "text": "Вместо хранения \"документ → слова\" (forward index) хранится \"слово → документы\". Это позволяет находить все документы с словом за O(1) по слову."
+      },
+      {
+        "title": "Показать ограничения PostgreSQL FTS",
+        "text": "PostgreSQL поддерживает полнотекстовый поиск, но не масштабируется горизонтально, нет фасетного поиска, нет аналитики, сложная настройка релевантности."
+      },
+      {
+        "title": "Разобрать TF-IDF и BM25",
+        "text": "TF-IDF — частота слова в документе × обратная частота слова в корпусе. BM25 — улучшенная версия с настраиваемыми параметрами (k1, b)."
+      },
+      {
+        "title": "Описать архитектуру Elasticsearch",
+        "text": "Кластер из нод, индексы разбиты на шарды, каждый шард — отдельный inverted index. Реплики для отказоустойчивости."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что PostgreSQL FTS полностью заменяет Elasticsearch — для масштабирования и аналитики нужен ES.",
+      "Путать inverted index с B-tree индексом — B-tree для диапазонов, inverted index для текста.",
+      "Игнорировать аналитику — Elasticsearch даёт фасеты и агрегации \"из коробки\".",
+      "Не учитывать стоимость — Elasticsearch требует отдельной инфраструктуры и кластера."
+    ],
+    "followUps": [
+      "Как настроить релевантность в Elasticsearch?",
+      "В чём разница между term и match запросами?",
+      "Как Elasticsearch масштабируется горизонтально?",
+      "Как обрабатывать дубликаты и конфликты данных в Elasticsearch?"
+    ],
+    "codeSnippet": "-- PostgreSQL FTS\nSELECT * FROM ads\nWHERE to_tsvector('russian', title || ' ' || description)\n  @@ plainto_tsquery('russian', 'iPhone 13');\n\n-- Индекс для ускорения\nCREATE INDEX ads_search_idx ON ads\n  USING GIN(to_tsvector('russian', title || ' ' || description));\n```\n\n```json\n// Elasticsearch query\n{\n  \"query\": {\n    \"multi_match\": {\n      \"query\": \"iPhone 13\",\n      \"fields\": [\"title^3\", \"description\"],\n      \"type\": \"best_fields\",\n      \"fuzziness\": \"AUTO\"\n    }\n  },\n  \"aggs\": {\n    \"categories\": { \"terms\": { \"field\": \"category\" } },\n    \"price_ranges\": { \"histogram\": { \"field\": \"price\", \"interval\": 10000 } }\n  }\n}",
+    "codeLanguage": "sql",
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend-разработчик",
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Search",
+      "Elasticsearch",
+      "Inverted Index",
+      "TF-IDF"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "avito-microfrontend-module-federation",
+    "title": "Как устроены микрофронтенды с Module Federation в large-scale приложении?",
+    "aliases": [],
+    "answer": "Module Federation позволяет загружать модули из других приложений в runtime без пересборки. Каждый микрофронтенд — отдельное приложение с независимым деплоем. Основные проблемы: SSR, shared state, изоляция стилей, конфликты версий зависимостей.",
+    "exampleAnswer": "Module Federation — это Webpack 5 фича, которая позволяет загружать компоненты из других приложений в runtime. Host приложение указывает remotes в конфиге, а remote экспортирует модули через exposes.\n\nShared зависимости (React, React DOM) загружаются один раз — это критично для производительности. Проблема: singleton: true требует совместимых версий, иначе — runtime ошибки.\n\nSSR сложен: сервер host должен fetch'ить remoteEntry.js, загрузить модуль и отрендерить на сервере. Это добавляет latency и обработку ошибок.\n\nИзоляция стилей решается через CSS-in-JS (каждый remote рендерит свои стили) или Shadow DOM. Независимый деплой — каждый микрофронтенд деплоится отдельно, host не пересобирается.",
+    "context": "Интервьюер проверяет знание архитектуры микрофронтендов на Module Federation, понимание проблем масштабирования, SSR, sharing зависимостей и независимого деплоя.",
+    "keyPoints": [
+      {
+        "title": "Объяснить Module Federation",
+        "text": "Webpack 5 позволяет приложению (host) загружать модули из другого приложения (remote) в runtime. Remote экспортирует компоненты, host импортирует и рендерит."
+      },
+      {
+        "title": "Разобрать shared зависимости",
+        "text": "React, React DOM и другие общие зависимости указываются в shared — загружается одна версия. Проблема: если версии несовместимы, возникают ошибки runtime."
+      },
+      {
+        "title": "Описать SSR",
+        "text": "SSR в микрофронтендах сложен: сервер host должен загружать remote-компоненты, что требует серверного fetch и обработки ошибок."
+      },
+      {
+        "title": "Показать изоляцию стилей",
+        "text": "CSS-in-JS, CSS Modules, Shadow DOM — каждый микрофронтенд должен изолировать стили, чтобы не конфликтовать."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать singleton для React — загрузится две версии, хуки не будут работать.",
+      "Игнорировать SSR — контент не индексируется поисковиками.",
+      "Не изолировать стили — конфликты CSS между микрофронтендами.",
+      "Забывать про error boundaries — падение remote не должно ломать host."
+    ],
+    "followUps": [
+      "Как обновить remote без пересборки host?",
+      "Какие альтернативы Module Federation существуют?",
+      "Как тестировать микрофронтенды изолированно?",
+      "Как обрабатывать shared state между микрофронтендами?"
+    ],
+    "codeSnippet": "// webpack.config.js — Host (основное приложение)\nnew ModuleFederationPlugin({\n  name: \"host\",\n  remotes: {\n    search: \"search@https://search.avito.ru/remoteEntry.js\",\n    checkout: \"checkout@https://checkout.avito.ru/remoteEntry.js\",\n  },\n  shared: {\n    react: { singleton: true, requiredVersion: \"^18.0.0\" },\n    \"react-dom\": { singleton: true, requiredVersion: \"^18.0.0\" },\n  },\n});\n\n// webpack.config.js — Remote (микрофронтенд)\nnew ModuleFederationPlugin({\n  name: \"search\",\n  filename: \"remoteEntry.js\",\n  exposes: {\n    \"./SearchWidget\": \"./src/components/SearchWidget\",\n    \"./Filters\": \"./src/components/Filters\",\n  },\n  shared: {\n    react: { singleton: true, requiredVersion: \"^18.0.0\" },\n  },\n});\n\n// Host — динамический импорт\nconst SearchWidget = React.lazy(\n  () => import(\"search/SearchWidget\")\n);\n\nfunction App() {\n  return (\n    <Suspense fallback={<div>Загрузка...</div>}>\n      <SearchWidget />\n    </Suspense>\n  );\n}",
+    "codeLanguage": "javascript",
+    "category": "Frontend Architecture",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Frontend-архитектор"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Micro-frontends",
+      "Module Federation",
+      "Webpack",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
@@ -4670,6 +4878,157 @@
     "videoFrequency": 1
   },
   {
+    "id": "it-one-banking-domain-architecture",
+    "title": "Как спроектировать фронтенд для банковской системы кредитования?",
+    "aliases": [],
+    "answer": "Банковский фронтенд кредитования строится на разделении bounded contexts: заявка, скоринг, договор, платежи — каждый с собственным API и state management. Multi-step wizard для подачи заявки с валидацией на каждом шаге. Интеграция с backend через REST/gRPC, безопасность (PCI DSS, шифрование PII), аудит всех действий пользователя с timestamp и IP.",
+    "exampleAnswer": "Проектируя фронтенд для банковской системы кредитования, я начинаю с Domain Driven Design: выделяю bounded contexts — Apply (подача заявки), Scoring (кредитный скоринг), Contract (управление договорами), Payment (платежи и график). Каждый контекст имеет собственный API, state management и UI module.\n\nMulti-step wizard для подачи заявки: шаг 1 — персональные данные (ФИО, паспорт), шаг 2 — доход и занятость, шаг 3 — загрузка документов, шаг 4 — подтверждение. На каждом шаге серверная валидация: бэкенд проверяет данные, возвращает ошибки, и только после этого разрешает переход дальше.\n\nБезопасность — приоритет: PCI DSS для платёжных данных (не храним CVV, шифруем номер карты), JWT с коротким TTL, CSP headers, rate limiting на API. Все PII шифруются на клиенте перед отправкой.\n\nАудит: каждое действие пользователя (открытие формы, заполнение поля, отправка заявки) логируется с userId, timestamp, IP и userAgent. Это критично для Compliance и разрешения споров.\n\nИнтеграция с backend: REST для CRUD (создание/обновление заявки), gRPC для real-time обновлений (статус скоринга через streaming). Использую circuit breaker и retry policies для fault tolerance.",
+    "context": "Интервьюер ожидает понимания домена (кредитование), архитектурных решений для сложных банковских систем, безопасностных требований и управления сложными workflow.",
+    "keyPoints": [
+      {
+        "title": "Bounded contexts",
+        "text": "Разделение на контексты: Apply (заявка), Scoring (оценка), Contract (договор), Payment (платежи). Каждый — отдельный module с API."
+      },
+      {
+        "title": "Multi-step workflow",
+        "text": "Wizard с серверной валидацией: шаг 1 (personal data) → шаг 2 (income) → шаг 3 (documents) → решение. Состояние сохраняется между шагами."
+      },
+      {
+        "title": "Security requirements",
+        "text": "PCI DSS для платёжных данных, шифрование PII, JWT/session management, rate limiting, CSP headers, аудит."
+      },
+      {
+        "title": "Audit trail",
+        "text": "Каждое действие логируется: userId, action, timestamp, IP, userAgent. Хранится в отдельном audit log."
+      },
+      {
+        "title": "API integration",
+        "text": "REST для CRUD-операций, gRPC для real-time обновлений (статус заявки). Retry policies, circuit breaker для fault tolerance."
+      }
+    ],
+    "pitfalls": [
+      "Хранить敏感ные данные (номера карт, СНИЛС) в localStorage или Redux.",
+      "Не делать серверную валидацию, полагаясь только на клиентскую.",
+      "Пропускать аудит действий — это нарушение Compliance.",
+      "Использовать один API для всех bounded contexts вместо разделения.",
+      "Не учитывать offline-режим и retry при потере соединения."
+    ],
+    "followUps": [
+      "Как реализовать real-time статус заявки для пользователя?",
+      "Как обеспечить PCI DSS compliance на фронтенде?",
+      "Как спроектировать multi-tenant систему для разных банков?",
+      "Как тестировать сложные workflow с множеством шагов?"
+    ],
+    "codeSnippet": "// Multi-step credit application wizard\n// features/credit-application/model/types.ts\n\ninterface CreditApplication {\n  id: string;\n  status: 'draft' | 'submitted' | 'scoring' | 'approved' | 'rejected';\n  currentStep: 1 | 2 | 3 | 4;\n  personalData: PersonalData;\n  incomeData: IncomeData;\n  documents: Document[];\n  auditLog: AuditEntry[];\n}\n\ninterface AuditEntry {\n  userId: string;\n  action: string;\n  timestamp: string;\n  ip: string;\n  metadata?: Record<string, unknown>;\n}\n\n// Bounded context API client\nclass CreditAPI {\n  private auditLogger: AuditLogger;\n\n  async submitApplication(appId: string, data: Partial<CreditApplication>) {\n    this.auditLogger.log('application.submit', appId);\n    return this.client.post(`/api/v1/applications/${appId}/submit`, data);\n  }\n\n  async getScoringResult(appId: string) {\n    this.auditLogger.log('scoring.request', appId);\n    return this.client.get(`/api/v1/scoring/${appId}/result`);\n  }\n}\n\n// Step validation with server-side check\nasync function validateStep(step: number, data: unknown): Promise<ValidationResult> {\n  const response = await fetch(`/api/v1/validation/step-${step}`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data),\n  });\n  return response.json();\n}",
+    "codeLanguage": "typescript",
+    "category": "Frontend Architecture",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Frontend-архитектор"
+    ],
+    "companies": [
+      "IT One"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Architecture",
+      "Banking",
+      "Domain Driven Design",
+      "Microservices"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "IT One",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "it-one-react-redux-patterns",
+    "title": "Как организовать 상태 в крупном React-приложении с Redux?",
+    "aliases": [],
+    "answer": "Redux组织大型React应用状态的核心在于feature-based architecture: каждый feature (например, `features/auth`, `features/dashboard`) имеет собственные slices, reducers и selectors. Нормализация данных через `createEntityAdapter` упрощает CRUD-операции. Middleware (thunk или saga) обрабатывают side effects, а TypeScript типизация action creators и reducers обеспечивает безопасность на этапе компиляции. Context подходит для глобальных настроек (тема, язык), но не для高频变化 состояния.",
+    "exampleAnswer": "В крупном React-приложении я организую Redux состояние через feature-based architecture. Каждая бизнес-сущность (auth, orders, users) — отдельная папка со своим slice, thunks и selectors. Это упрощает навигацию по кодовой базе и уменьшает конфликты при параллельной разработке.\n\nДля данных, которые приходят из API, я нормализую состояние через `createEntityAdapter` — это даёт O(1) доступ по ID и встроенные методы CRUD. Вместо `{ users: [{ id: 1, name: '...' }, ...] }` получаю `{ users: { ids: [1], entities: { 1: { id: 1, name: '...' } } } }`.\n\nSide effects обрабатываю через thunks для простых запросов (fetch, create, update) и sagas для сложных workflow (retry с экспоненциальной задержкой, отмена запросов, последовательные вызовы API).\n\nTypeScript типизирую через `createSlice` с дженериком и typed hooks (`useAppSelector`, `useAppDispatch`) — это исключает ошибки при обращении к store.\n\nДля Context vs Redux: использую Context для глобальных настроек (тема, язык, текущий пользователь), но не для高频 updates (списки, формы), так как Context вызывает re-render всех consumers.",
+    "context": "Интервьюер ожидает понимания архитектурных паттернов для масштабируемых Redux-приложений: organization of code, separation of concerns, типизация, и когда Redux не нужен.",
+    "keyPoints": [
+      {
+        "title": "Feature-based structure",
+        "text": "Покажите organization по фичам: `features/auth/`, `features/orders/` — каждый содержит slice, thunks, selectors, types."
+      },
+      {
+        "title": "Normalization",
+        "text": "Используйте `createEntityAdapter` для нормализации данных: `entities` + `ids` вместо вложенных массивов."
+      },
+      {
+        "title": "Middleware patterns",
+        "text": "Thunk для простых async (API calls), Saga для сложных workflow (retry, cancel, sequences)."
+      },
+      {
+        "title": "TypeScript типизация",
+        "text": "Typed hooks (`useAppSelector`, `useAppDispatch`), типизированные action creators через `createAction<T>`."
+      },
+      {
+        "title": "Context vs Redux",
+        "text": "Context для статичных данных (theme, locale), Redux для динамичного состояния с частыми обновлениями."
+      }
+    ],
+    "pitfalls": [
+      "Хранить всё состояние в одном большом slice вместо разделения по фичам.",
+      "Использовать Redux для статичных данных, которые не меняются (константы, конфиги).",
+      "Писать бизнес-логику в reducers вместо thunks/sagas.",
+      "Не нормализовать вложенные данные, создавая сложные селекторы для обновления.",
+      "Использовать `any` для типизации store, теряя безопасность TypeScript."
+    ],
+    "followUps": [
+      "Что такое RTK Query и когда использовать вместо thunks?",
+      "Как оптимизировать перерисовки React-компонентов с Redux?",
+      "Когда Redux Toolkit не нужен, и какие альтернативы существуют?",
+      "Как тестировать Redux slices и async thunks?"
+    ],
+    "codeSnippet": "// Фича-ориентированная структура Redux store\n// features/users/model/usersSlice.ts\n\nimport { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';\nimport type { RootState } from '@/app/store';\n\ninterface User {\n  id: string;\n  name: string;\n  email: string;\n}\n\nconst usersAdapter = createEntityAdapter<User>();\n\nexport const fetchUsers = createAsyncThunk('users/fetchAll', async () => {\n  const response = await fetch('/api/users');\n  return response.json();\n});\n\nconst usersSlice = createSlice({\n  name: 'users',\n  initialState: usersAdapter.getInitialState({ status: 'idle' }),\n  reducers: {\n    userAdded: usersAdapter.addOne,\n    userUpdated: usersAdapter.updateOne,\n  },\n  extraReducers: (builder) => {\n    builder\n      .addCase(fetchUsers.pending, (state) => { state.status = 'loading'; })\n      .addCase(fetchUsers.fulfilled, (state, action) => {\n        state.status = 'succeeded';\n        usersAdapter.setAll(state, action.payload);\n      });\n  },\n});\n\n// Typed selectors\nexport const { selectAll: selectAllUsers } = usersAdapter.getSelectors(\n  (state: RootState) => state.users\n);\n\n// Typed hooks\nexport const useAppSelector = useSelector as TypedUseSelectorHook<RootState>;",
+    "codeLanguage": "typescript",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "IT One"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Redux",
+      "State Management",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "IT One",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "okko-closure-console-output",
     "title": "Что выведет код с замыканиями и затенением переменных?",
     "aliases": [],
@@ -6051,6 +6410,153 @@
     "videoFrequency": 1
   },
   {
+    "id": "outsourcing-adaptation-new-project",
+    "title": "Как вы адаптируетесь к новому проекту с незнакомым стеком технологий?",
+    "aliases": [],
+    "answer": "Формат STAR: Situation — новый проект с незнакомым стеком, Task — быстрое включение в команду, Action — документация (официальная + внутренняя), pair programming с тимлидом, изучение codebase через фичи, Result — полная вовлечённость за 2-3 недели. Ключ — умение быстро учиться и не бояться задавать вопросы.",
+    "exampleAnswer": "Situation: Пришёл на проект на React + GraphQL + Apollo, хотя до этого работал с Vue + REST. Стек был полностью незнаком, кодовая база — 200K строк.\n\nTask: Необходимо было начать закрывать задачи через 2-3 недели, не замедляя команду.\n\nAction: Первые 3 дня изучал official docs (React, Apollo), затем — internal wiki с архитектурными решениями. Попросил у тимлида 2 pair programming session: одна по фиче (понял workflow), вторая по деплою (понял CI/CD). Начал с малого: исправил typo в документации, затем fixed bug в формуле расчёта, затем взял небольшую фичу. Все вопросы фиксировал в Notion — получилась внутренняя \"cheat sheet\".\n\nResult: Через 2 недели закрывал задачи самостоятельно, через месяц — менторил нового junior. Стек изучал постепенно: сначала понял общую архитектуру, потом детали.",
+    "context": "Интервьюер ожидает понимания процесса обучения, адаптации к новому стеку, работы в команде и self-management.",
+    "keyPoints": [
+      {
+        "title": "STAR формат",
+        "text": "Опишите конкретный пример: какой стек был незнаком, как долго адаптировались, что помогло."
+      },
+      {
+        "title": "Learning strategy",
+        "text": "Официальная документация → tutorials → codebase existing features → pair programming. Не пытайтесь изучить всё сразу."
+      },
+      {
+        "title": "First contributions",
+        "text": "Начинайте с малого: bug fix, documentation, small feature. Это даёт понимание workflow (git flow, CI/CD, code review)."
+      },
+      {
+        "title": "Pair programming",
+        "text": "Спросите у тимлида 1-2 pair programming sessions. Это быстрее, чем часами читать код вслепую."
+      },
+      {
+        "title": "Asking questions",
+        "text": "Задавайте вопросы, но сначала попробуйте найти ответ самостоятельно. Фиксируйте ответы в заметки — это поможет следующему новичку."
+      }
+    ],
+    "pitfalls": [
+      "Пытаться изучить весь стек за первый день — information overload.",
+      "Не задавать вопросы, тратя часы на проблему, которую тимлид решит за 5 минут.",
+      "Сразу рефакторить незнакомый код, не понимая контекст.",
+      "Не фиксировать изученное — через неделю забываете, что нашли.",
+      "Сравнивать новый стек со старым («во Vue это проще») вместо изучения новых подходов."
+    ],
+    "followUps": [
+      "Как вы изучаете новый язык программирования за пределами работы?",
+      "Как вы помогаете новичкам адаптироваться в команде?",
+      "Как вы балансируете между изучением нового и выполнением задач?",
+      "Как вы справляетесь, когда новый стек оказывается сложнее, чем ожидалось?"
+    ],
+    "codeSnippet": "No code — behavioral question.",
+    "codeLanguage": "text",
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Знакомство",
+    "tags": [
+      "Adaptation",
+      "Learning",
+      "Onboarding",
+      "Soft Skills"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "outsourcing-client-communication",
+    "title": "Как вы общаетесь с заказчиком, когда требования меняются каждую неделю?",
+    "aliases": [],
+    "answer": "Использую формат STAR: Situation — проект с меняющимися требованиями, Task — необходимость стабильного графика, Action — фиксация требований в Jira/Confluence, регулярные demo каждую итерацию, эскалация через тимлида при конфликтах, Result — предсказуемый delivery. Ключ — управление ожиданиями и понимание бизнес-целей заказчика.",
+    "exampleAnswer": "Situation: Я работал над проектом e-commerce платформы для ритейлера. Каждую неделю заказчик просил новые фичи: сначала корзина, потом оплата, потом интеграция с 1С, потом откат изменений. Дедлайн был жёсткий — запуск к сезону.\n\nTask: Необходимо было стабилизировать процесс и предсказуемо доставлять функционал, несмотря на изменения.\n\nAction: Я предложил ввести Definition of Done и фиксировать каждое требование в Jira с acceptance criteria. Заказчик мог добавлять задачи в backlog, но приоритизировал совместно с нашим тимлидом на планерке каждую вторую среду. Мы запускали demo каждую вторую пятницу — заказчик видел работающий функционал и мог скорректировать направление. При конфликтах (заказчик требовал «всё и сразу») — эскалировал через тимлида.\n\nResult: За 3 месяца мы закрыли 85% требований, запуск состоялся в срок. Заказчик был доволен прозрачностью процесса. Мы научились говорить \"нет\" аргументированно: \"это требование добавит 2 недели к графику — давайте обсудим приоритет\".",
+    "context": "Интервьюер ожидает понимания Agile-подходов, коммуникации с заказчиком, управления изменениями и soft skills в командной работе.",
+    "keyPoints": [
+      {
+        "title": "STAR формат",
+        "text": "Опишите ситуацию с конкретным примером: какой проект, почему требования менялись, как вы реагировали."
+      },
+      {
+        "title": "Фиксация требований",
+        "text": "Всё фиксируется в Jira/Confluence: user stories, acceptance criteria, приоритизированный backlog. Устные договорённости — источник проблем."
+      },
+      {
+        "title": "Регулярные demo",
+        "text": "Демонстрация результата каждую итерацию (1-2 недели). Заказчик видит progress и может скорректировать направление."
+      },
+      {
+        "title": "Эскалация",
+        "text": "При конфликтах — эскалация через тимлида или PM. Не решайте бизнес-проблемы техническими средствами."
+      },
+      {
+        "title": "Управление ожиданиями",
+        "text": "Честно говорите о сроках и ограничениях. Лучше сказать \"это займёт 3 дня\" и выполнить, чем пообещать \"завтра\" и просрочить."
+      }
+    ],
+    "pitfalls": [
+      "Не фиксировать требования письменно — потом сложно доказать, что было согласовано.",
+      "Говорить \"да\" всем требованиям без оценки влияния на график.",
+      "Прятаться от заказчика, когда что-то идёт не так — лучше честно говорить о проблемах.",
+      "Решать бизнес-конфликты техническими средствами (например, «напишу быстрее» вместо обсуждения приоритетов).",
+      "Не делать demo, теряя обратную связь до конца итерации."
+    ],
+    "followUps": [
+      "Как вы фиксируете требования, чтобы избежать \"scope creep\"?",
+      "Как вы ведёте переговоры, когда заказчик настаивает на сжатых сроках?",
+      "Как вы работаете с заказчиком, который не определил приоритеты?",
+      "Как вы решаете конфликт между техническим долгом и новыми требованиями?"
+    ],
+    "codeSnippet": "No code — behavioral question.",
+    "codeLanguage": "text",
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Тимлид"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Командное интервью",
+    "tags": [
+      "Communication",
+      "Agile",
+      "Client Management",
+      "Soft Skills"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "ozon-api-rate-limiter",
     "title": "Как ограничить конкурентный доступ к внешнему API без потери запросов?",
     "aliases": [],
@@ -6124,6 +6630,222 @@
         "company": "Ozon",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-concurrency-limit",
+    "title": "Ограничьте количество одновременных запросов без потери данных",
+    "aliases": [],
+    "answer": "Реализация через Set.activePromises и Promise.race: добавляем промис в множество, удаляем при завершении, когда active.size >= limit — ждём завершения любого из активных. Все задачи гарантированно выполняются, ошибки обрабатываются per-task.",
+    "exampleAnswer": "Функция использует Set для отслеживания активных промисов. На каждой итерации цикла: добавляем промис в Set, если размер >= limit — ждём завершения любого через Promise.race. При завершении промиса (успешном или нет) он удаляется из Set, освобождая слот.\n\nКлючевой момент: Promise.race срабатывает при первом завершении, и цикл продолжается. Если задача упала — результат сохраняется как ошибка, остальные продолжают выполняться. Это гарантирует, что все задачи будут обработаны.",
+    "context": "Live coding задание: написать функцию concurrencyLimit(tasks, limit), которая принимает массив функций, возвращающих промисы, и лимит одновременных запросов. Интервьюер проверяет понимание промисов и асинхронного кода.",
+    "keyPoints": [
+      {
+        "title": "Определить контракт функции",
+        "text": "```typescript\nfunction concurrencyLimit<T>(\n  tasks: (() => Promise<T>)[],\n  limit: number\n): Promise<T[]>\n```"
+      },
+      {
+        "title": "Реализовать через Set и Promise.race",
+        "text": "Храним активные промисы в Set. Для каждой задачи: ждём пока active.size < limit, запускаем, добавляем в Set, по завершении — удаляем."
+      },
+      {
+        "title": "Обработать ошибки",
+        "text": "Каждая задача должна завершаться независимо — используем .catch() или try/catch внутри, чтобы одна ошибка не остановила остальные."
+      },
+      {
+        "title": "Оптимизировать",
+        "text": "Можно использовать очередь или worker pool паттерн для переиспользования соединений."
+      }
+    ],
+    "pitfalls": [
+      "Использовать Promise.all вместо Promise.race — все задачи запустятся сразу без лимита.",
+      "Не удалять промис из Set по завершении — лимит никогда не освободится.",
+      "Использовать async/await внутри цикла без учёта лимита — запросы будут последовательными.",
+      "Не сохранять индекс задачи — результаты могут перемешаться."
+    ],
+    "followUps": [
+      "Как модифицировать функцию для поддержки отмены задач?",
+      "Как добавить retry с экспоненциальной задержкой?",
+      "В чём разница между this concurrencyLimit и使用 BoundedPromisePool?",
+      "Как обрабатывать таймауты для каждой задачи отдельно?"
+    ],
+    "codeSnippet": "async function concurrencyLimit<T>(\n  tasks: (() => Promise<T>)[],\n  limit: number\n): Promise<T[]> {\n  const results: T[] = [];\n  const active = new Set<Promise<void>>();\n\n  for (let i = 0; i < tasks.length; i++) {\n    const task = tasks[i];\n    const p = task()\n      .then((result) => {\n        results[i] = result;\n      })\n      .catch((err) => {\n        results[i] = err as T;\n      })\n      .finally(() => {\n        active.delete(p);\n      });\n\n    active.add(p);\n\n    if (active.size >= limit) {\n      await Promise.race(active);\n    }\n  }\n\n  await Promise.allSettled(active);\n  return results;\n}",
+    "codeLanguage": "typescript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Node.js-разработчик"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "Promises",
+      "Concurrency",
+      "async/await",
+      "Rate Limiting"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-react-server-components",
+    "title": "Как работают React Server Components и зачем они нужны в e-commerce?",
+    "aliases": [],
+    "answer": "Server Components рендерятся на сервере и отправляют клиенту только результат (не код). Это уменьшает bundle size и ускоряет первую отрисовку. В e-commerce критично для SEO: контент товаров индексируется без client-side рендеринга, а клиентские интеракции работают через Client Components.",
+    "exampleAnswer": "React Server Components — это компоненты, которые рендерятся только на сервере и не добавляют JS в bundle. Серверный компонент получает данные, рендерит JSX и отправляет клиенту \"снимок\" — клиент только десериализует, не гидрирует.\n\nВ e-commerce это критично: страница товара с серверным компонентом отдаёт полностью отрендеренный HTML для SEO, а интерактивность (кнопки, фильтры, корзина) — через клиентские компоненты. Bundle уменьшается на весь код серверных компонентов, время первой отрисовки снижается.\n\nОграничение: пропсы и данные должны быть сериализуемы — нельзя передать функцию или экземпляр Date из серверного в клиентский компонент.",
+    "context": "Интервьюер проверяет понимание архитектуры RSC, разницу между серверными и клиентскими компонентами, ограничения сериализации и практическое применение в e-commerce платформах.",
+    "keyPoints": [
+      {
+        "title": "Объяснить серверные vs клиентские компоненты",
+        "text": "Server Components выполняются только на сервере, не отправляют JS на клиент. Client Components (с \"use client\") работают как обычные React-компоненты, поддерживают state и effects."
+      },
+      {
+        "title": "Описать как передаются данные",
+        "text": "Серверный компонент сериализует результат (JSX tree) в специальный формат, клиент десериализует и рендерит. Пропсы должны быть сериализуемыми — нет функций, нет классов."
+      },
+      {
+        "title": "Показать ограничения",
+        "text": "Нельзя использовать useState/useEffect в серверных компонентах, нет доступа к browser APIs, нет обработчиков событий."
+      },
+      {
+        "title": "Разобрать гидратацию",
+        "text": "Клиентские компоненты \"гидрируются\" — React восстанавливает state и привязывает обработчики. Серверные не гидрируются — они уже отрендерены."
+      },
+      {
+        "title": "Практика в e-commerce",
+        "text": "SEO-критичные страницы (каталог, карточка товара) — серверные компоненты. Интерактивные элементы (корзина, фильтры, избранные) — клиентские."
+      }
+    ],
+    "pitfalls": [
+      "Путать SSR и RSC — SSR рендерит компонент на сервере, но клиент получает JS и гидрирует. RSC — нет JS на клиенте.",
+      "Считать, что RSC заменяет SSR — они дополняют друг друга.",
+      "Пытаться использовать hooks в серверных компонентах — это ошибка компиляции.",
+      "Не учитывать, что данные серверного компонента кэшируются — при частых обновлениях данных нужен revalidate."
+    ],
+    "followUps": [
+      "Как RSC влияет на TTI (Time to Interactive) по сравнению с CSR?",
+      "Как кэшировать данные серверных компонентов?",
+      "Как обрабатывать ошибки в серверных компонентах?",
+      "В каких случаях лучше использовать SSR вместо RSC?"
+    ],
+    "codeSnippet": "// Серверный компонент — данные берутся напрямую из БД\nasync function ProductPage({ params }: { params: { id: string } }) {\n  const product = await db.product.findUnique({ where: { id: params.id } });\n\n  return (\n    <div>\n      <h1>{product.name}</h1>\n      <p>{product.price}</p>\n      <AddToCartButton productId={product.id} />\n    </div>\n  );\n}\n\n// Клиентский компонент — интерактивность\n\"use client\";\nfunction AddToCartButton({ productId }: { productId: string }) {\n  const [loading, setLoading] = useState(false);\n\n  return (\n    <button\n      disabled={loading}\n      onClick={async () => {\n        setLoading(true);\n        await fetch(\"/api/cart\", {\n          method: \"POST\",\n          body: JSON.stringify({ productId }),\n        });\n        setLoading(false);\n      }}\n    >\n      {loading ? \"Добавляем...\" : \"В корзину\"}\n    </button>\n  );\n}",
+    "codeLanguage": "tsx",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "React",
+      "RSC",
+      "SSR",
+      "SEO",
+      "Performance"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-weakmap-memory-leaks",
+    "title": "Как WeakMap/WeakSet предотвращают утечки памяти в SPA?",
+    "aliases": [],
+    "answer": "WeakMap/WeakSet хранят слабые ссылки на ключи — сборщик мусора может удалить объект-ключ, даже если он есть в WeakMap. Это предотвращает утечки памяти при кэшировании и хранении метаданных: когда объект больше нигде не используется, его запись автоматически удаляется.",
+    "exampleAnswer": "WeakMap и WeakSet хранят слабые ссылки на ключи. В отличие от Map, пока объект-ключ существует где-то в программе, запись доступна. Но если на объект нет других ссылок — GC может удалить его, и запись из WeakMap тоже исчезнет.\n\nЭто полезно для кэширования: если объект удалён из DOM, его кэшированные результаты тоже освобождают память без ручной очистки. Я использую это в SPA для хранения метаданных компонентов — не нужно отписывать cleanup в useEffect.",
+    "context": "Интервьюер проверяет понимание разницы между Map/Set и WeakMap/WeakSet, знание как работает garbage collection со слабыми ссылками и умение применять это в практических сценариях.",
+    "keyPoints": [
+      {
+        "title": "Объяснить разницу между Map/Set и WeakMap/WeakSet",
+        "text": "Map/Setдерживают сильные ссылки на ключи — пока запись есть в коллекции, объект не может быть собран. WeakMap/WeakSet допускают только объекты как ключи и не препятствуют GC: если на объект нет других ссылок, он удаляется."
+      },
+      {
+        "title": "Описать как работает сборщик мусора",
+        "text": "JavaScript использует reachability-based GC: объект жив, пока достижим из корня (стек, глобалы, активные таймеры). WeakMap не увеличивает reachability ключа — GC может удалить ключ, и запись исчезнет автоматически."
+      },
+      {
+        "title": "Показать практические сценарии",
+        "text": "Кэширование результатов вычислений, хранение метаданных DOM-элементов, привязка данных к объектам без увеличения ссылочного счётчика."
+      },
+      {
+        "title": "Разобрать ограничения",
+        "text": "WeakMap не итерируем (нет .keys(), .values(), .entries()), нет .size — это сделано намеренно для предсказуемого поведения GC."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что WeakMap автоматически очищается по таймеру — это делает GC.",
+      "Пытаться итерировать WeakMap или получить .size — их нет.",
+      "Использовать примитивы как ключи WeakMap — допустимы только объекты.",
+      "Путать WeakMap с \"приватными полями\" — WeakMap хранит внешние данные, а не приватные поля класса."
+    ],
+    "followUps": [
+      "В чём разница между WeakMap и WeakRef?",
+      "Как WeakMap используется в polyfill WeakRef/FinalizationRegistry?",
+      "Можно ли использовать WeakMap для кэширования результатов функций? Какой ключ?",
+      "Как WeakSet помогает при отслеживании посещённых объектов в graph traversal?"
+    ],
+    "codeSnippet": "// Кэширование результатов с WeakMap\nconst cache = new WeakMap();\n\nfunction processHeavy(obj) {\n  if (cache.has(obj)) {\n    return cache.get(obj);\n  }\n  const result = obj.data.reduce((sum, n) => sum + n * 2, 0);\n  cache.set(obj, result);\n  return result;\n}\n\nconst input = { data: [1, 2, 3] };\nprocessHeavy(input); // вычисляем и кэшируем\n\n// Когда input больше не нужен, GC удалит и запись в cache\nlet cacheEntry = cache.get(input); // undefined",
+    "codeLanguage": "javascript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "WeakMap",
+      "WeakSet",
+      "Memory Leaks",
+      "Garbage Collection"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
@@ -6381,6 +7103,78 @@
     "videoFrequency": 1
   },
   {
+    "id": "tbank-effector-vs-redux",
+    "title": "В чём разница между Effector и Redux и когда что выбирать?",
+    "aliases": [],
+    "answer": "Effector — реактивная библиотека с Stores, Events и Effects, где данные стримятся через pipe/operators; Redux — предсказуемый контейнер с reducers, actions и middleware. Effector проще для сложной бизнес-логики (derived stores, сплошной реактивный граф), Redux — зрелый экосистемой (DevTools, RTK Query). Выбирайте Effector, когда dozens виджетов, сложные зависимости и гонки; Redux — когда нужен стандартный подход и команда familiar с ним.",
+    "exampleAnswer": "Effector и Redux решают одну задачу — управление состоянием — но подходят разным сценариям.\n\nRedux (с RTK) — это предсказуемый контейнер: dispatch action → reducer вычисляет новое состояние. DevTools показывают каждый action и состояние. RTK Query добавляет кэширование запросов. Подходит когда команда familiar с Redux и нужен стандарт.\n\nEffector — реактивный подход: Stores как потоки, Events как триггеры, Effects как сайд-эффекты. Производные данные вычисляются автоматически через `map`, `sample`, `combine`. Нет reducers — нет ментальной нагрузки на иммутабельность. Подходит для сложных бизнес-сценариев когда десятки виджетов читают и модифицируют общее состояние.\n\nПрактический пример: приложение с 30 виджетами дашборда. В Redux каждый виджет хранит часть состояния, нужно carefully выбирать selector чтобы не ре-рендерить лишнее. В Effector каждый виджет берёт `$derivedStore = $baseStore.map(...)` — React перерендеривает только при реальном изменении.\n\nРекомендация: для нового проекта с нетривиальной логикой — Effector; для существующего Redux-проекта — мигрировать постепенно через bridge.",
+    "context": "Проверяется понимание парадигм управления состоянием в SPA и умение обосновать выбор инструмента под конкретные требования проекта.",
+    "keyPoints": [
+      {
+        "title": "Описать парадигму Redux",
+        "text": "Actions → Reducers → Store; иммутабельность, предсказуемость, DevTools time-travel. RTK убирает boilerplate, но граф зависимостей ментально ручной."
+      },
+      {
+        "title": "Описать парадигму Effector",
+        "text": "Events как основа, Stores как реактивные потоки, Effects для сайд-эффектов. Связи между ними автоматически вычисляются (derived stores, sample, guard)."
+      },
+      {
+        "title": "Сравнить ключевые аспекты",
+        "text": "| Критерий | Redux (RTK) | Effector |\n|----------|-------------|----------|\n| Boilerplate | Средний (RTK снижает) | Минимальный |\n| DevTools | Отличные | Хорошие (patronum/devtools) |\n| Сложная логика | Много reducers/thunks | sample/guard/pipeline |\n| Производительность | Хорошая | Отличная (ленивые вычисления) |\n| Кривая обучения | Низкая | Средняя |"
+      },
+      {
+        "title": "Привести критерии выбора",
+        "text": "Выбирайте Redux если: команда знает Redux, нужен time-travel debugging, стандартный подход. Выбирайте Effector если: сложная бизнес-логика, много производных данных, гонки асинхронных операций, dozens виджетов с общим состоянием."
+      },
+      {
+        "title": "Показать код-ревью сравнение",
+        "text": "```typescript\n// Redux Toolkit\nconst selectTotal = createSelector(\n  [selectItems],\n  (items) => items.reduce((sum, i) => sum + i.amount, 0)\n);\n\n// Effector\nconst $total = $items.map(items => items.reduce((sum, i) => sum + i.amount, 0));\n```\n\nEffector: одна строка, автоматически мемоизирован. Redux: нужен createSelector для мемоизации."
+      }
+    ],
+    "pitfalls": [
+      "Считать Effector «просто заменой Redux» — это другая парадигма.",
+      "Использовать Redux для сложной реактивной логики — будет много boilerplate.",
+      "Не учитывать кривую обучения команды при выборе."
+    ],
+    "followUps": [
+      "Как Effector обрабатывает гонки асинхронных запросов?",
+      "Как мигрировать постепенно с Redux на Effector?",
+      "Чем отличается Zustand от Redux и Effector?"
+    ],
+    "codeSnippet": "// Effector: эффект + derived store\nconst fetchUserFx = createEffect(async (id: number) => {\n  const res = await fetch(`/api/users/${id}`);\n  return res.json();\n});\n\nconst $user = createStore(null)\n  .on(fetchUserFx.doneData, (_, user) => user);\n\nconst $greeting = $user.map(user => user ? `Hello, ${user.name}` : '');\n\n// Redux Toolkit slice\nconst userSlice = createSlice({\n  name: 'user',\n  initialState: null,\n  reducers: {},\n  extraReducers: (builder) => {\n    builder.addCase(fetchUser.fulfilled, (_, action) => action.payload);\n  },\n});",
+    "codeLanguage": "typescript",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Effector",
+      "Redux",
+      "State Management",
+      "Reactive"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-embed-web-app",
     "title": "Как встроить одно веб-приложение в другое?",
     "aliases": [],
@@ -6580,6 +7374,78 @@
         "company": "Т-Банк",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-java-concurrency-deadlock",
+    "title": "Найдите deadlock в коде и предложите исправление",
+    "aliases": [],
+    "answer": "Deadlock возникает когда два потока захватывают мониторы в разном порядке (A→B и B→A). Решения:一致 lock ordering (всегда захватывать в одном порядке), `tryLock` с таймаутом, `CompletableFuture` для асинхронных транзакций, `ConcurrentHashMap` вместо synchronized maps. Проверяйте `jstack` или ThreadMXBean для диагностики.",
+    "exampleAnswer": "Deadlock — ситуация когда два или более потока бесконечно ждут друг друга. В банковском контексте: transfer от A к B и от B к A одновременно.\n\nДиагностика: `jstack <pid>`, `ThreadMXBean.findDeadlockedThreads()`, или Arthas. В логах видно: \"BLOCKED\"��态 у потоков.\n\nРешения по приоритету:\n\n1. **Lock ordering** — проще всего, захватывать всегда в порядке ID/hashCode. Минус: нужно поддерживать порядок во всём коде.\n\n2. **tryLock** — гибче, можно откатить и попробовать снова. Минус: spin-waiting, сложнее код.\n\n3. **Асинхронность** — CompletableFuture или reactive подход. Нет мониторов — нет deadlock. Минус: сложнее reasoning.\n\n4. **ConcurrentHashMap** — вместо `Collections.synchronizedMap`. ConcurrentHashMap использует striping (сегменты), минимизирует contention.\n\nНа практике: Lock Ordering для простых случаев, асинхронность для сложных транзакций.",
+    "context": "Проверяется понимание многопоточности в Java: мониторы, условия deadlock, инструменты диагностики и паттерны предотвращения. Классический банковский кейс — transfer между счетами.",
+    "keyPoints": [
+      {
+        "title": "Показать классический deadlock",
+        "text": "Два потока захватывают два монитора в обратном порядке:\n\n```java\n// Поток 1: transfer(accountA, accountB)\nsynchronized (accountA) {       // захватил A\n    synchronized (accountB) {   // ждёт B\n        accountA.debit(amount);\n        accountB.credit(amount);\n    }\n}\n\n// Поток 2: transfer(accountB, accountA)\nsynchronized (accountB) {       // захватил B\n    synchronized (accountA) {   // ждёт A\n        accountB.debit(amount);\n        accountA.credit(amount);\n    }\n}\n```"
+      },
+      {
+        "title": "Объяснить условие deadlock (4 условия)",
+        "text": "1. **Mutual Exclusion** — монитор захвачен одним потоком\n2. **Hold and Wait** — поток держит монитор и ждёт другой\n3. **No Preemption** — нельзя отобрать монитор\n4. **Circular Wait** — A ждёт B, B ждёт A"
+      },
+      {
+        "title": "Решение 1: Lock Ordering",
+        "text": "Всегда захватывать мониторы в порядке ID счёта:\n\n```java\npublic void transfer(Account from, Account to, int amount) {\n    Account first = from.getId() < to.getId() ? from : to;\n    Account second = from.getId() < to.getId() ? to : from;\n\n    synchronized (first) {\n        synchronized (second) {\n            from.debit(amount);\n            to.credit(amount);\n        }\n    }\n}\n```"
+      },
+      {
+        "title": "Решение 2: tryLock с таймаут",
+        "text": "```java\npublic void transfer(Account from, Account to, int amount) {\n    Lock lockA = from.getLock();\n    Lock lockB = to.getLock();\n\n    while (true) {\n        try {\n            if (lockA.tryLock(100, TimeUnit.MILLISECONDS)) {\n                try {\n                    if (lockB.tryLock(100, TimeUnit.MILLISECONDS)) {\n                        try {\n                            from.debit(amount);\n                            to.credit(amount);\n                            return;\n                        } finally {\n                            lockB.unlock();\n                        }\n                    }\n                } finally {\n                    lockA.unlock();\n                }\n            }\n        } catch (InterruptedException e) {\n            Thread.currentThread().interrupt();\n            return;\n        }\n    }\n}\n```"
+      },
+      {
+        "title": "Решение 3: Асинхронный подход с CompletableFuture",
+        "text": "```java\npublic CompletableFuture<Void> transfer(Account from, Account to, int amount) {\n    return CompletableFuture.runAsync(() -> from.debit(amount))\n        .thenRunAsync(() -> to.credit(amount));\n}\n```"
+      }
+    ],
+    "pitfalls": [
+      "Считать deadlock «когда поток завис» — это может быть livelock или starvation.",
+      "Использовать `System.out.println` для диагностики — используйте jstack/Arthas.",
+      "Решать deadlock добавлением `Thread.sleep()` — это не решение, а маскировка."
+    ],
+    "followUps": [
+      "Как диагностировать deadlock в production (без остановки)?",
+      "В чём разница между deadlock и livelock?",
+      "Как использовать Striped Lock из Guava для банковских операций?"
+    ],
+    "codeSnippet": "public class Bank {\n    // Deadlock: два потока захватывают в обратном порядке\n    public synchronized void transferA(Bank other, int amount) {\n        this.balance -= amount;\n        other.deposit(amount);  // вызов synchronized метода другого объекта\n    }\n\n    // Поток 1: bank1.transferA(bank2, 100)\n    // Поток 2: bank2.transferA(bank1, 50)\n    // → DEADLOCK\n\n    // Исправление: lock ordering по hashCode\n    public void safeTransfer(Bank other, int amount) {\n        Bank first = System.identityHashCode(this) < System.identityHashCode(other) ? this : other;\n        Bank second = first == this ? other : this;\n\n        synchronized (first) {\n            synchronized (second) {\n                first.balance -= amount;\n                second.deposit(amount);\n            }\n        }\n    }\n}",
+    "codeLanguage": "java",
+    "category": "Concurrency",
+    "scope": "language-specific",
+    "languages": [
+      "Java",
+      "Kotlin"
+    ],
+    "roles": [
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "Java",
+      "Concurrency",
+      "Deadlock",
+      "Multithreading"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
@@ -6967,6 +7833,79 @@
     "videoFrequency": 0
   },
   {
+    "id": "tbank-react-virtualization-table",
+    "title": "Оптимизируйте таблицу с 100 000 строк в React",
+    "aliases": [],
+    "answer": "Используйте виртуализацию (react-window/react-virtuoso) для рендеринга только видимых строк. Фиксированные заголовки через отдельный контейнер. memo/useMemo для ячеек и вычислений. Сортировка и фильтрация на сервере. Web Workers для тяжёлых вычислений. Debounce для resize и поиска.",
+    "exampleAnswer": "Для таблицы с 100K строк нужно решить три проблемы: рендеринг, производительность, данные.\n\n**Рендеринг** — виртуализация через react-window или @tanstack/react-virtual. Рендерим только видимые 15-20 строк + overscan. Для фиксированных заголовков — два контейнера с синхронизацией scrollLeft.\n\n**Производительность** — мемоизация: React.memo для строк и ячеек, useMemo для форматирования и вычислений. Для сортировки/фильтрации на клиенте — useCallback для обработчиков, виртуализированный список с `itemKey`.\n\n**Данные** — серверная пагинация (keyset pagination предпочтительнее offset для производительности), сортировка и фильтрация на бэкенде. Клиент отправляет query params, получает страницу.\n\nДополнительно: debounce для resize (чтобы пересчитывать virtualizer), Web Workers для client-side агрегаций если они нужны, intersection observer для lazy loading изображений в ячейках.",
+    "context": "Проверяется понимание оптимизации React-приложений: виртуализация, мемоизация, серверная обработка данных. Таблица на 100K строк — типичный кейс для финтех-интерфейсов (история транзакций, отчёты).",
+    "keyPoints": [
+      {
+        "title": "Виртуализация (react-window)",
+        "text": "Отрисовываем только видимые строки + overscan. Стандартная высота строки 48px, viewport 600px → рендерим ~15 строк вместо 100K.\n\n```typescript\nimport { FixedSizeList as List } from 'react-window';\n\n<List\n  height={600}\n  itemCount={100000}\n  itemSize={48}\n  width=\"100%\"\n>\n  {({ index, style }) => (\n    <div style={style}>\n      <TableRow data={data[index]} />\n    </div>\n  )}\n</List>\n```"
+      },
+      {
+        "title": "Фиксированные заголовки",
+        "text": "Два отдельных контейнера: один для заголовков (overflow: hidden), другой для строк (overflow: auto). Синхронизация скролла через refs.\n\n```typescript\nconst headerRef = useRef<HTMLDivElement>(null);\nconst bodyRef = useRef<HTMLDivElement>(null);\n\nconst onScroll = () => {\n  if (headerRef.current && bodyRef.current) {\n    headerRef.current.scrollLeft = bodyRef.current.scrollLeft;\n  }\n};\n```"
+      },
+      {
+        "title": "memo/useMemo для ячеек",
+        "text": "Каждая ячейка — отдельный компонент с memo. Вычисления (форматирование, суммы) через useMemo.\n\n```typescript\nconst TableCell = memo(({ value, format }: Props) => {\n  const formatted = useMemo(() => format(value), [value, format]);\n  return <td>{formatted}</td>;\n});\n```"
+      },
+      {
+        "title": "Серверная сортировка/фильтрация",
+        "text": "Не загружайте все 100K клиент. Параметры пагинации, сортировки и фильтрации — в query string. Ответ: { data: rows[], total: number }."
+      },
+      {
+        "title": "Web Workers для вычислений",
+        "text": "Агрегации (sum, group by) на большом массиве — в Web Worker, чтобы не блокировать main thread."
+      }
+    ],
+    "pitfalls": [
+      "Рендерить все строки без виртуализации — React не справится с 100K DOM-узлов.",
+      "Не мемоизировать ячейки — каждый re-render перерисовывает всё.",
+      "Загружать все данные на клиент — memory leak и медленная загрузка.",
+      "Использовать index массива как key при сортировке — баги с состоянием."
+    ],
+    "followUps": [
+      "Как реализовать column resizing в виртуализированной таблице?",
+      "Как обработать copy/paste из таблицы?",
+      "Как добавить keyboard navigation по ячейкам?"
+    ],
+    "codeSnippet": "import { useVirtualizer } from '@tanstack/react-virtual';\n\nfunction VirtualTable({ data }: { data: Row[] }) {\n  const parentRef = useRef<HTMLDivElement>(null);\n\n  const virtualizer = useVirtualizer({\n    count: data.length,\n    getScrollElement: () => parentRef.current,\n    estimateSize: () => 48,\n    overscan: 10,\n  });\n\n  return (\n    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>\n      <div style={{ height: virtualizer.getTotalSize() }}>\n        {virtualizer.getVirtualItems().map(virtualRow => (\n          <div\n            key={virtualRow.key}\n            style={{\n              position: 'absolute',\n              top: virtualRow.start,\n              height: virtualRow.size,\n              width: '100%',\n            }}\n          >\n            <TableRow row={data[virtualRow.index]} />\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}",
+    "codeLanguage": "typescript",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Live coding",
+    "tags": [
+      "React",
+      "Performance",
+      "Virtual Scrolling",
+      "Table"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-sparse-array-instanceof",
     "title": "Как проверить массив, что делает instanceof и как работают разреженные массивы?",
     "aliases": [],
@@ -7030,6 +7969,148 @@
     "videoFrequency": 0
   },
   {
+    "id": "tbank-system-design-payment",
+    "title": "Спроектируйте систему уведомлений для платёжной платформы на миллионы пользователей",
+    "aliases": [],
+    "answer": "Используйте Kafka для обработки событий (платежи, статусы), шину уведомлений с приоритезацией (critical > transactional > marketing), отдельные воркеры для каналов (push, SMS, email, in-app). Cassandra для хранения истории уведомлений, Redis для rate limiting и deduplication. Retry с exponential backoff, dead letter queue для неудачных, observability через метрики и tracing.",
+    "exampleAnswer": "Для платёжной платформы на миллионы пользователей нужна распределённая система с гарантиями доставки.\n\n**Топология**: Платёжный сервис → Kafka (topic: payment-events) → Router (определяет каналы по user prefs) → Channel Workers (push, SMS, email) → External Providers.\n\n**Приоритезация**: Kafka с несколькими topics: `notifications-critical`, `notifications-transactional`, `notifications-marketing`. Consumer groups с разными concurrency: critical — 50 воркеров, marketing — 5.\n\n**Хранение**: Cassandra для audit trail (12+ месяцев), Redis для dedup и rate limiting, PostgreSQL для user preferences.\n\n**Reliability**: Каждое уведомление проходит circuit breaker → rate limiter → dedup → send. При ошибке — retry с exponential backoff (1s → 2s → 4s → 30s), после 5 попыток — DLQ. DLQ обрабатывается отдельным воркером с ручным review.\n\n**Масштабирование**: Kafka partitions по userId для ordering. Автоскейлинг воркеров по queue depth. Cross-region replication для DR.\n\n**Мониторинг**: Grafana дашборды с delivery rate, P99 latency, error breakdown по причинам. PagerDuty алерты на SLA breach.",
+    "context": "Проверяется понимание системного дизайна: масштабируемость, отказоустойчивость, очереди сообщений, паттерны обработки ошибок. Платёжная платформа — критичная система, уведомления должны доставляться надёжно и вовремя.",
+    "keyPoints": [
+      {
+        "title": "Определить требования и каналы",
+        "text": "- **Каналы**: push-уведомления (APNs/FCM), SMS (Twilio/SMS.ru), email (SendGrid), in-app (WebSocket)\n- **Приоритеты**: critical (мошенничество) > transactional (платеж) > informational (статус) > marketing\n- **SLA**: 99.9% доставки для critical, 99% для transactional"
+      },
+      {
+        "title": "Выбрать архитектуру очередей",
+        "text": "Kafka как шина событий: Producer (платёжный сервис) → Kafka Topics (partitioned по userId) → Consumer Groups (отдельные воркеры по каналам). Преимущества: replay, ordering guarantee, horizontal scaling."
+      },
+      {
+        "title": "Спроектировать хранение",
+        "text": "**Cassandra** для истории уведомлений (write-heavy, time-series доступ). **Redis** для rate limiting (TTL-based) и deduplication (setnx). **PostgreSQL** для user preferences (какие каналы активны, язык, часовой пояс)."
+      },
+      {
+        "title": "Реализовать reliability",
+        "text": "- **Retry**: exponential backoff с jitter для transient failures\n- **Dead Letter Queue**: для permanent failures (невалидный email, заблокированный номер)\n- **Idempotency**: deduplication по eventId в Redis (TTL = 24h)\n- **Circuit Breaker**: для внешних сервисов (SMS-провайдер down)"
+      },
+      {
+        "title": "Observability и мониторинг",
+        "text": "Метрики: delivery rate, latency per channel, error rate, retry count. Tracing: Jaeger для end-to-end трассировки. Alerting: SLA breach, error rate > 1%, queue depth растёт."
+      }
+    ],
+    "pitfalls": [
+      "Использовать синхронные вызовы вместо очередей — система не выдержит нагрузку.",
+      "Не делать dedup — при retry пользователь получит дублирующие уведомления.",
+      "Игнорировать rate limiting — внешние провайдеры заблокируют аккаунт.",
+      "Хранить всё в PostgreSQL — не масштабируется под millions записей в день."
+    ],
+    "followUps": [
+      "Как обеспечить exactly-once семантику в Kafka?",
+      "Как спроектировать откат уведомления (revoke)?",
+      "Как обрабатывать доставку в разных часовых поясах?"
+    ],
+    "codeSnippet": "# Consumer воркер для push-уведомлений\nclass PushNotificationWorker:\n    def __init__(self, kafka_consumer, push_service, redis_client):\n        self.consumer = kafka_consumer\n        self.push = push_service\n        self.redis = redis_client\n\n    async def process(self, message: NotificationEvent):\n        # Deduplication\n        if await self.redis.setnx(f\"dedup:{message.event_id}\", 1, ex=86400):\n            return\n\n        # Rate limiting\n        key = f\"rate:{message.user_id}\"\n        count = await self.redis.incr(key)\n        if count == 1:\n            await self.redis.expire(key, 3600)\n        if count > 100:\n            return  # rate limited\n\n        try:\n            await self.push.send(\n                user_id=message.user_id,\n                title=message.title,\n                body=message.body,\n            )\n        except TransientError as e:\n            raise RetryableError(e)  # Kafka will retry\n        except PermanentError as e:\n            await self.send_to_dlq(message, e)",
+    "codeLanguage": "python",
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "System Design",
+      "Notifications",
+      "Kafka",
+      "Scale"
+    ],
+    "duration": "60 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-typescript-generics-api",
+    "title": "Спроектируйте типизированный API-клиент с автоматическим выводом типов ответов",
+    "aliases": [],
+    "answer": "Используйте Template Literal Types для URL, Conditional Types для методов, `infer` для вывода return type и Generic constraints для параметров. Variadic Tuple Types позволяют типизировать произвольные query/path параметры. Результат: вызов `client.get(\"/users/:id\")` автоматически возвращает `User`.",
+    "exampleAnswer": "Для типизированного API-клиента нужно связать URL, HTTP-метод и тип ответа в единую систему типов.\n\nШаг 1 — определяем контракт API:\n\n```typescript\ninterface ApiMap {\n  \"GET /users/:id\": { response: User };\n  \"POST /users\": { body: CreateUserDto; response: User };\n  \"GET /payments\": { query: PaymentQuery; response: Payment[] };\n}\n```\n\nШаг 2 — типизируем метод клиента:\n\n```typescript\nclass TypedApiClient {\n  async get<\n    K extends keyof ApiMap,\n    P = ExtractParams<K>\n  >(\n    url: K,\n    ...args: P extends Record<string, never> ? [] : [params: P]\n  ): Promise<GetResponse<ApiMap[K]>> {\n    // ... реализация\n  }\n}\n```\n\nШаг 3 — клиент автоматически выводит типы:\n\n```typescript\nconst client = new TypedApiClient();\nconst user = await client.get(\"/users/:id\", { id: \"123\" });\n// TS знает: user: User\n\nconst payments = await client.get(\"/payments\", {\n  query: { status: \"active\", limit: \"10\" }\n});\n// TS знает: payments: Payment[]\n```\n\nКлючевые механизмы: Template Literal Types парсят URL, `infer` извлекает параметры, Conditional Types опционализируют аргументы.",
+    "context": "Проверяется глубокое знание TypeScript: generic-и, conditional types, template literals, type inference. Задача — спроектировать API-клиент, где тип ответа выводится из URL и метода.",
+    "keyPoints": [
+      {
+        "title": "Определить структуру API-карты",
+        "text": "Создайте тип, маппящий URL + метод на request/response типы:\n\n```typescript\ninterface ApiMap {\n  \"GET /users/:id\": { response: User };\n  \"POST /users\": { body: CreateUserDto; response: User };\n  \"GET /payments\": { query: PaymentQuery; response: Payment[] };\n}\n```"
+      },
+      {
+        "title": "Template Literal Types для URL",
+        "text": "Template literals разбирают URL и извлекают path параметры:\n\n```typescript\ntype ExtractParams<T extends string> =\n  T extends `${infer _}:${infer Param}/${infer Rest}`\n    ? { [K in Param | keyof ExtractParams<Rest>]: string }\n    : T extends `${infer _}:${infer Param}`\n    ? { [K in Param]: string }\n    : {};\n```"
+      },
+      {
+        "title": "Conditional Types для методов",
+        "text": "Conditional type определяет, есть ли body у запроса:\n\n```typescript\ntype HasBody<T> = T extends { body: infer B } ? B : never;\ntype GetResponse<T> = T extends { response: infer R } ? R : never;\n```"
+      },
+      {
+        "title": "Infer для return type",
+        "text": "`infer` в return type клиента автоматически выводит тип ответа:\n\n```typescript\ntype ApiResponse<T extends keyof ApiMap> = GetResponse<ApiMap[T]>;\n```"
+      },
+      {
+        "title": "Variadic Tuple Types для параметров",
+        "text": "Для query параметров и path params используем spread tuple types:\n\n```typescript\ntype QueryParams<T> = T extends { query: infer Q } ? Q : Record<string, string>;\n```"
+      }
+    ],
+    "pitfalls": [
+      "Путать `infer` с `extends` — `infer` создаёт новый тип, `extends` проверяет.",
+      "Забывать про optional params — path params обязательны, query может быть пустым.",
+      "Делать клиент слишком абстрактным — сложные типы затрудняют дебаг."
+    ],
+    "followUps": [
+      "Как добавить типизацию для headers и interceptors?",
+      "Как типизировать пагинацию в ответе?",
+      "Как обработать ошибки API на уровне типов?"
+    ],
+    "codeSnippet": "type ApiMap = {\n  \"GET /users/:id\": { response: User };\n  \"POST /users\": { body: CreateUserDto; response: User };\n  \"GET /payments\": { query: PaymentQuery; response: Payment[] };\n};\n\ntype ExtractParams<S extends string> =\n  S extends `${string}:${infer Param}/${infer Rest}`\n    ? Record<Param | keyof ExtractParams<Rest>, string>\n    : S extends `${string}:${infer Param}`\n    ? Record<Param, string>\n    : {};\n\nclass ApiClient {\n  async get<K extends keyof ApiMap>(\n    url: K,\n    ...args: ExtractParams<K> extends Record<string, never>\n      ? []\n      : [params: ExtractParams<K>]\n  ): Promise<GetResponse<ApiMap[K]>> {\n    const [params] = args;\n    let path = url as string;\n    if (params) {\n      for (const [key, val] of Object.entries(params)) {\n        path = path.replace(`:${key}`, val);\n      }\n    }\n    const res = await fetch(path);\n    return res.json();\n  }\n}\n\nconst client = new ApiClient();\nconst user = await client.get(\"/users/:id\", { id: \"123\" });\n// user: User — автоматически",
+    "codeLanguage": "typescript",
+    "category": "TypeScript",
+    "scope": "language-specific",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Live coding",
+    "tags": [
+      "TypeScript",
+      "Generics",
+      "API",
+      "Type Inference"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "universal-ai-tools",
     "title": "Какими нейросетями вы пользуетесь в работе?",
     "aliases": [],
@@ -7078,7 +8159,7 @@
       "Mobile-разработчик"
     ],
     "companies": [
-      "Несколько компаний"
+      "Яндекс"
     ],
     "level": "Middle",
     "stage": "Знакомство",
@@ -8152,6 +9233,293 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "usetech-angular-microfrontend",
+    "title": "Как реализовать микрофронтенды в Angular с Single-SPA?",
+    "aliases": [],
+    "answer": "Micro-frontends в Angular через Single-SPA: каждый микрофронтенд — отдельный Angular app с собственным роутером, деплоем и командой. Single-SPA orchestrator загружает и переключает apps по route. Module Federation (Webpack 5) позволяет шарить модули между apps. Проблемы: shared state между apps, изоляция стилей, версии RxJS (поддержка multiple versions), и маршрутизация без конфликтов.",
+    "exampleAnswer": "Реализуя микрофронтенды в Angular, я использую Single-SPA для orchestration. Каждый микрофронтенд — отдельный Angular app с собственным `package.json`, `angular.json` и маршрутизацией. Layout app (shell) загружает их через `registerApplication` и переключает по route.\n\nSingle-SPA vs Module Federation: Single-SPA даёт полную изоляцию (каждый app — отдельный bundle), но нет shared modules. Module Federation (Webpack 5) позволяет шарить модули (библиотеки, компоненты) в runtime, но создаёт tighter coupling. Для нашей команды выбрали Single-SPA — каждая команда деплоит независимо.\n\nМаршрутизация: каждый app регистрирует свой `Router` с `basePath`. Single-SPA `Router Redirect Rules` направляют `/dashboard/*` к dashboard-app, `/settings/*` к settings-app.\n\nShared state: используем EventBus (CustomEvents) для меж-app коммуникации: navbar dispatches `user-logout`, dashboard ловит и очищает state. Auth service — shared module, импортируемый всеми apps через peer dependencies.\n\nПроблема версий: Angular core и RxJS должны быть одинаковыми версиями во всех apps. Решение — shared `tsconfig` и `package.json` templates, которые синхронизируются через CI/CD.",
+    "context": "Интервьюер ожидает понимания архитектурных компромиссов Single-SPA vs Module Federation, способов интеграции Angular apps, управления shared dependencies и изоляции.",
+    "keyPoints": [
+      {
+        "title": "Single-SPA vs Module Federation",
+        "text": "Single-SPA: orchestration через JS API, загружает entire apps. Module Federation: runtime sharing модулей, более tight integration. Выбор зависит от степени изоляции."
+      },
+      {
+        "title": "Routing integration",
+        "text": "Каждый микрофронтенд регистрирует свою маршрутизацию. Single-SPA Router Redirect Rules направляют routes к нужному app."
+      },
+      {
+        "title": "Shared state patterns",
+        "text": "EventBus (CustomEvents) для меж-app коммуникации. Sharedlibs для общих сервисов (auth, API client). Redux/NgRx для локального состояния."
+      },
+      {
+        "title": "Style isolation",
+        "text": "Angular encapsulation (ViewEncapsulation.Native), CSS Modules, Shadow DOM, или BEM-convention. Single-SPA styles isolation через package naming."
+      },
+      {
+        "title": "Dependency management",
+        "text": "Дублирование зависимостей (RxJS, Angular core) — проблема. Решение: shared configs, peer dependencies, version pinning."
+      }
+    ],
+    "pitfalls": [
+      "Не изолировать стили — глобальные CSS конфликтуют между микрофронтендами.",
+      "Дублировать Angular core и RxJS разных версий, вызывая runtime errors.",
+      "Использовать localStorage для shared state вместо EventBus — теряется реактивность.",
+      "Не предусматривать независимый деплой — один app ломает остальные.",
+      "Игнорировать lazy loading микрофронтендов, загружая все apps сразу."
+    ],
+    "followUps": [
+      "Как déploiement независимых микрофронтендов влияет на CI/CD pipeline?",
+      "Как тестировать интеграцию между микрофронтендами?",
+      "Что делать, когда нужно шарить компонент между двумя Angular apps?",
+      "Как мигрировать монолитный Angular app на микрофронтенды постепенно?"
+    ],
+    "codeSnippet": "// Single-SPA layout orchestrator\n// src/main.ts\n\nimport { registerApplication, start } from 'single-spa';\n\nregisterApplication({\n  name: '@myorg/navbar',\n  app: () => System.import('@myorg/navbar'),\n  activeWhen: '/',\n});\n\nregisterApplication({\n  name: '@myorg/dashboard',\n  app: () => System.import('@myorg/dashboard'),\n  activeWhen: '/dashboard',\n});\n\nregisterApplication({\n  name: '@myorg/settings',\n  app: () => System.import('@myorg/settings'),\n  activeWhen: '/settings',\n});\n\nstart();\n\n// Angular microfrontend - bootstrap for Single-SPA\n// main.single-spa.ts\n\nimport { singleSpaAngular } from 'single-spa-angular';\nimport { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\nimport { AppModule } from './app/app.module';\n\nconst lifecycles = singleSpaAngular({\n  bootstrapModuleFactory: () =>\n    platformBrowserDynamic().bootstrapModuleFactory(AppModule),\n  ngModule: AppModule,\n});\n\nexport const { bootstrap, mount, unmount } = lifecycles;\n\n// EventBus for cross-app communication\n// shared/event-bus.ts\n\nexport class EventBus {\n  private static instance: EventBus;\n  private listeners = new Map<string, Set<Function>>();\n\n  static getInstance(): EventBus {\n    if (!EventBus.instance) EventBus.instance = new EventBus();\n    return EventBus.instance;\n  }\n\n  on(event: string, callback: Function) {\n    if (!this.listeners.has(event)) this.listeners.set(event, new Set());\n    this.listeners.get(event)!.add(callback);\n  }\n\n  emit(event: string, data: unknown) {\n    window.dispatchEvent(new CustomEvent(event, { detail: data }));\n  }\n}",
+    "codeLanguage": "typescript",
+    "category": "Frontend Architecture",
+    "scope": "language-specific",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Usetech"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Angular",
+      "Micro-frontends",
+      "Single-SPA",
+      "Module Federation"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Usetech",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "usetech-industrial-platform-performance",
+    "title": "Как оптимизировать производительность тяжёлого промышленного UI с таблицами на 100K строк?",
+    "aliases": [],
+    "answer": "Виртуализация списков (react-window/react-virtualized) рендерит только видимые строки — вместо 100K DOM-элементов создаёт ~30-50. Lazy loading данных с сервера (пагинация, cursor-based), memo/useMemo для предотвращения лишних re-renders, Web Workers для тяжёлых вычислений (сортировка, фильтрация), debounce/throttle для resize и input обработчиков.",
+    "exampleAnswer": "Оптимизируя таблицу на 100K строк, я начинаю с виртуализации. React-window рендерит только видимые строки (~30-50 DOM-элементов вместо 100K). Для фиксированных заголовков использую `react-virtualized` с `Table` и `Column`.\n\nЗагрузка данных: вместо OFFSET-based пагинации (медленно на больших offset) — cursor-based: `GET /api/data?cursor=abc123&limit=100`. Бесконечный скролл с pre-fetching: когда пользователь доскроллил до 80% списка, загружаем следующую страницу.\n\nMemoization критична: `React.memo` для строк таблицы (перерисовываются только изменённые), `useMemo` для вычисляемых данных (сортировка, фильтрация), `useCallback` для обработчиков кликов. Каждый re-render 100K строк — это ~500ms, memoization сводит к ~5ms.\n\nТяжёлые вычисления (сортировка по нескольким колонкам, фильтрация regex) выношу в Web Worker. Main thread остаётся отзывчивым, UI не фризит.\n\nEvent optimization: `debounce(300ms)` для поискового input, `throttle(16ms)` для scroll-обработчиков, `requestAnimationFrame` для batch DOM updates.",
+    "context": "Интервьюер ожидает понимания browser performance, DOM manipulation, виртуализации, memoization, и способов оптимизации тяжёлых UI с большими таблицами.",
+    "keyPoints": [
+      {
+        "title": "Virtual scrolling principles",
+        "text": "Вместо рендера 100K строк в DOM — рендерим только видимые (~30-50). `react-window` для простых списков, `react-virtualized` для сложных таблиц с фиксированными заголовками."
+      },
+      {
+        "title": "Data loading strategies",
+        "text": "Cursor-based pagination вместо offset (производительнее на больших данных). Infinite scroll вместо кнопки \"Load more\". Pre-fetching следующей страницы."
+      },
+      {
+        "title": "Memoization",
+        "text": "`React.memo` для компонентов, `useMemo` для вычислений, `useCallback` для обработчиков. Не забывать про dependency arrays."
+      },
+      {
+        "title": "Web Workers",
+        "text": "Сортировка, фильтрация, парсинг больших JSON — выносим в Worker, чтобы не блокировать main thread."
+      },
+      {
+        "title": "Event optimization",
+        "text": "Debounce для input/search (300ms), throttle для scroll/resize (16ms = 60fps). `requestAnimationFrame` для DOM updates."
+      }
+    ],
+    "pitfalls": [
+      "Рендерить все 100K строк в DOM без виртуализации.",
+      "Не использовать memo/useMemo, вызывая полный re-render при каждом изменении state.",
+      "Блокировать main thread синхронной сортировкой/фильтрацией больших массивов.",
+      "Использовать OFFSET-based пагинацию на больших данных (медленно).",
+      "Не debounce/throttle обработчики scroll и resize, вызывая thousands calls/sec."
+    ],
+    "followUps": [
+      "Как обрабатывать selection и keyboard navigation в виртуализированном списке?",
+      "Как оптимизировать таблицу с фиксированными колонками и горизонтальным скроллом?",
+      "Как измерить реальную производительность (Lighthouse, Performance API)?",
+      "Как оптимизировать re-render таблицы с 20+ колонками?"
+    ],
+    "codeSnippet": "// Virtual table with react-window\nimport { FixedSizeList as List } from 'react-window';\nimport { useMemo, useCallback, memo } from 'react';\n\ninterface TableRowProps {\n  index: number;\n  style: React.CSSProperties;\n  data: { rows: Row[] };\n}\n\nconst TableRow = memo(({ index, style, data }: TableRowProps) => {\n  const row = data.rows[index];\n  return (\n    <div style={style} className=\"table-row\">\n      <span>{row.id}</span>\n      <span>{row.name}</span>\n      <span>{row.value}</span>\n    </div>\n  );\n});\n\nfunction VirtualTable({ rows }: { rows: Row[] }) {\n  const itemData = useMemo(() => ({ rows }), [rows]);\n\n  return (\n    <List\n      height={600}\n      itemCount={rows.length}\n      itemSize={35}\n      itemData={itemData}\n      width=\"100%\"\n    >\n      {TableRow}\n    </List>\n  );\n}\n\n// Debounced search\nfunction useDebounce<T>(value: T, delay: number): T {\n  const [debouncedValue, setDebouncedValue] = useState(value);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setDebouncedValue(value), delay);\n    return () => clearTimeout(timer);\n  }, [value, delay]);\n\n  return debouncedValue;\n}\n\n// Web Worker for heavy computation\n// worker.ts\nself.onmessage = (e: MessageEvent) => {\n  const { data, sortKey, filter } = e.data;\n  let result = [...data];\n  if (filter) result = result.filter(row => row[filter.key] === filter.value);\n  result.sort((a, b) => a[sortKey] - b[sortKey]);\n  self.postMessage(result);\n};",
+    "codeLanguage": "typescript",
+    "category": "Browser Performance",
+    "scope": "universal",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "Usetech"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Performance",
+      "Virtual Scrolling",
+      "DOM",
+      "Optimization"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Usetech",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "vk-event-loop-race-condition",
+    "title": "Предскажите результат кода с гонкой микро- и макрозадач",
+    "aliases": [],
+    "answer": "Event loop обрабатывает микро- (Promise.then, queueMicrotask) и макро- (setTimeout, setInterval) задачи в определённом порядке: сначала все микро-затем макро. Между макрозадачами выполняются все накопившиеся микро. requestAnimationFrame выполняется перед рендером, а не как микро-задача.",
+    "exampleAnswer": "Порядок: 1 → 6 → 3 → 4 → 2 → 5.\n\n1 и 6 — синхронный код, выполняется сразу. Затем event loop проверяет microtask queue: Promise.then (3) и queueMicrotask (4) выполняются до макрозадач. setTimeout (2) — макрозадача, выполняется следующей. requestAnimationFrame (5) — перед рендером, после всех задач.\n\nКлючевой момент: Promise.resolve().then и queueMicrotask — это микро-задачи, они выполняются до setTimeout даже если setTimeout был зарегистрирован первым. Это часто сбивает с толку.",
+    "context": "Интервьюер проверяет понимание порядка выполнения асинхронного кода: микро-задачи (Promise, queueMicrotask) имеют приоритет над макро-задачами (setTimeout). Нужно уметь предсказать вывод кода и объяснить порядок.",
+    "keyPoints": [
+      {
+        "title": "Объяснить фазы event loop",
+        "text": "Call stack → Microtask queue (Promise, queueMicrotask) → Rendering (requestAnimationFrame) → Task queue (setTimeout, setInterval)."
+      },
+      {
+        "title": "Разобрать порядок между микро и макро",
+        "text": "После каждого макрособытия выполняются все накопившиеся микро-задачи. Между макро — тоже. Поэтому Promise.then после setTimeout может выполниться до следующего setTimeout."
+      },
+      {
+        "title": "Показать microtask starvation",
+        "text": "Бесконечный цикл микро-задач блокирует макро — UI зависает, setTimeout не срабатывает."
+      },
+      {
+        "title": "Разобрать requestAnimationFrame",
+        "text": "Выполняется перед рендером на каждом кадре (~16.6ms), но не является микро-задачей — его нельзя путать с queueMicrotask."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что setTimeout(fn, 0) выполняется мгновенно — он ставится в очередь макро.",
+      "Путать requestAnimationFrame с queueMicrotask — rAF перед рендером, а не микро-задача.",
+      "Не учитывать, что console.log('6') выполняется синхронно и не ждёт промисов.",
+      "Забывать про microtask starvation — бесконечный Promise.then цикл блокирует все остальное."
+    ],
+    "followUps": [
+      "Что такое microtask starvation и как его избежать?",
+      "Как вложенные Promise.then влияют на порядок?",
+      "В чём разница между process.nextTick и queueMicrotask?",
+      "Как requestIdleCallback отличается от requestAnimationFrame по планированию?"
+    ],
+    "codeSnippet": "console.log('1');\n\nsetTimeout(() => console.log('2'), 0);\n\nPromise.resolve().then(() => console.log('3'));\n\nqueueMicrotask(() => console.log('4'));\n\nrequestAnimationFrame(() => console.log('5'));\n\nconsole.log('6');",
+    "codeLanguage": "javascript",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Event Loop",
+      "Microtasks",
+      "Macrotasks",
+      "Race Condition"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "vk-react-concurrent-mode",
+    "title": "Что такое Concurrent Mode и как React планирует обновления?",
+    "aliases": [],
+    "answer": "Concurrent Mode (React 18+) позволяет React прерывать рендеринг для обработки более приоритетных обновлений. startTransition помечает обновления как неважные (поиск, фильтры), а обычные setState — как срочные (клики, навигация). Scheduler планирует задачи с учётом приоритетов и дедлайнов.",
+    "exampleAnswer": "Concurrent Mode — это архитектура React 18+, которая позволяет прерывать рендеринг. Scheduler планирует обновления по приоритетам: клик пользователя — срочный, ввод текста в фильтр — может подождать.\n\nstartTransition помечает обновление как неважное — React начнёт рендерить, но если придёт срочное обновление, прервёт и обработает его. useDeferredValue — обёртка над startTransition для значений.\n\nБатчинг в React 18 автоматический — setState в setTimeout/Promise не вызывает лишних рендеров. Это отличие от React 17.\n\nMicrotask starvation: если бесконечно вызывать setState в Promise.then, React не сможет обработать пользовательский ввод. Scheduler имеет внутренний лимит.",
+    "context": "Интервьюер проверяет глубокое понимание архитектуры React: как scheduler планирует обновления, batching, startTransition vs useCallback, приоритеты рендеринга и microtask starvation в контексте React.",
+    "keyPoints": [
+      {
+        "title": "Объяснить scheduler",
+        "text": "React использует внутренний scheduler (MessageChannel/channelPostMessage) для планирования обновлений. Каждое обновление получает приоритет — immediate, userBlocking, normal, low, idle."
+      },
+      {
+        "title": "Описать batching",
+        "text": "React 18 автоматически батчит все обновления (включая setTimeout, Promise, native events). Раньше batching был только в обработчиках событий."
+      },
+      {
+        "title": "Разобрать startTransition",
+        "text": "useTransition/useDeferredValue помечают обновления как неважные — React может прервать их для обработки срочных. Это снижает jank при вводе текста в фильтрах."
+      },
+      {
+        "title": "Показать microtask starvation",
+        "text": "Бесконечный setState в microtask блокирует scheduler — UI зависает. React ограничивает количество микро-задач."
+      }
+    ],
+    "pitfalls": [
+      "Путать Concurrent Mode с SSR — это разные вещи, они дополняют друг друга.",
+      "Считать, что startTransition делает код быстрее — он делает UI отзывчивым, не ускоряя вычисления.",
+      "Забывать, что batching в React 18 автоматический — не нужно оборачивать в unstable_batchedUpdates.",
+      "Не понимать, что useDeferredValue может показывать устаревшие данные — это осознанный tradeoff."
+    ],
+    "followUps": [
+      "Как scheduler определяет приоритет обновлений?",
+      "В чём разница между useTransition и useDeferredValue?",
+      "Как Concurrent Mode влияет на useEffect и cleanup?",
+      "Можно ли отменить прерванное обновление?"
+    ],
+    "codeSnippet": "import { useState, useTransition, useDeferredValue } from \"react\";\n\nfunction SearchResults() {\n  const [query, setQuery] = useState(\"\");\n  const [isPending, startTransition] = useTransition();\n  const [results, setResults] = useState<string[]>([]);\n\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    const value = e.target.value;\n    setQuery(value);\n\n    startTransition(() => {\n      // Дорогой рендер — помечаем как неважный\n      setResults(heavySearch(value));\n    });\n  };\n\n  const deferredQuery = useDeferredValue(query);\n  const isStale = query !== deferredQuery;\n\n  return (\n    <div>\n      <input value={query} onChange={handleChange} />\n      <div style={{ opacity: isStale ? 0.5 : 1 }}>\n        {results.map((r) => (\n          <div key={r}>{r}</div>\n        ))}\n      </div>\n    </div>\n  );\n}",
+    "codeLanguage": "tsx",
+    "category": "React",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend-разработчик"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "React",
+      "Concurrent Mode",
+      "startTransition",
+      "Priority"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "wildberries-critical-rendering-path",
