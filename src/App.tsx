@@ -104,14 +104,15 @@ function App() {
       const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
       const topicText = `${item.category} ${item.tags.join(' ')}`.toLocaleLowerCase('ru-RU')
       const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
-      const isBehavioral = item.category === 'Behavioral'
-      const isSystemDesign = /architecture|архитектур|system design|distributed|scalability/i.test(`${item.category} ${item.tags.join(' ')}`)
-      const isHR = /hr|recruiter| рекрутер|собеседование/i.test(`${item.category} ${item.tags.join(' ')}`)
+      const cat = item.category
+      const isBehavioral = cat === 'Behavioral'
+      const isSystemDesign = cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture'
+      const isHR = cat === 'HR' || item.tags.some((t) => t === 'HR' || t === 'Recruiting')
       const isTechnical = !isBehavioral && !isSystemDesign && !isHR
-      if (isBehavioral) return companyMatch && roleMatch && showBehavioral
-      if (isSystemDesign) return companyMatch && roleMatch && showSystemDesign
-      if (isHR) return companyMatch && roleMatch && showHR
-      if (isTechnical) return companyMatch && roleMatch && showTechnical && topicMatch
+      if (isBehavioral && !showBehavioral) return false
+      if (isSystemDesign && !showSystemDesign) return false
+      if (isHR && !showHR) return false
+      if (isTechnical && !showTechnical) return false
       return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
