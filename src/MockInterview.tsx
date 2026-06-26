@@ -206,7 +206,11 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   </div>
                   <div className={s['answer-section']}>
                     <h3>Пример ответа</h3>
-                    <p>{current.exampleAnswer}</p>
+                    <div className={s['answer-text']}>
+                      {current.exampleAnswer.split('\n').filter(Boolean).map((line, i) => (
+                        <p key={i}>{line}</p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
