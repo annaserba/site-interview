@@ -105,7 +105,7 @@ function App() {
     }
     if (path.startsWith('company/')) {
       const name = decodeURIComponent(path.slice(8))
-      if (companyOrder.includes(name) || name === 'Несколько компаний') {
+      if (companyOrder.includes(name)) {
         setActiveCompany(name); setActiveTopic('Все темы'); setActiveRole('Все роли'); return
       }
     }
@@ -248,7 +248,6 @@ function App() {
             <div className={s.filters}>
               <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
                 { value: 'Все компании', label: 'Все компании' },
-                { value: 'Несколько компаний', label: 'Несколько компаний' },
                 ...companies.map((company) => ({ value: company.name, label: company.name })),
               ]} />
               <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
