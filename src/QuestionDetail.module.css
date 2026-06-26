@@ -59,40 +59,12 @@
 .example-answer-body pre code { background: transparent; padding: 0; color: inherit; font-size: 11px; line-height: 1.6; font-family: 'JetBrains Mono', monospace; }
 .example-answer-body pre code.hljs { background: transparent; padding: 0; }
 
-.interview-code { margin: 0 0 40px; background: var(--dark); color: #e7e9e1; border: 1px solid var(--dark-line); border-radius: var(--radius-lg); box-shadow: 8px 9px 0 rgba(201,255,50,.2); overflow: hidden; }
+.interview-code { margin: 0 0 40px; background: #0d1117; color: #e6edf3; border: 1px solid var(--dark-line); border-radius: var(--radius-lg); box-shadow: 8px 9px 0 rgba(201,255,50,.2); overflow: hidden; }
 .interview-code-head { min-height: 40px; padding: 0 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--dark-line); color: var(--acid); font: 8px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; }
 .interview-code-head small { margin-left: auto; color: #777970; }
-.interview-code pre { margin: 0; padding: 16px; overflow-x: auto; font: 11px/1.6 'JetBrains Mono', monospace; tab-size: 2; }
-.interview-code code { font: inherit; white-space: pre; }
-
-/* PrismJS for interview code — only inside pre code */
-.interview-code pre :global(.token.comment),
-.interview-code pre :global(.token.prolog),
-.interview-code pre :global(.token.doctype),
-.interview-code pre :global(.token.cdata) { color: #6a737d; }
-.interview-code pre :global(.token.punctuation) { color: #e7e9e1; }
-.interview-code pre :global(.token.property),
-.interview-code pre :global(.token.tag),
-.interview-code pre :global(.token.boolean),
-.interview-code pre :global(.token.number),
-.interview-code pre :global(.token.constant),
-.interview-code pre :global(.token.symbol) { color: #79c0ff; }
-.interview-code pre :global(.token.selector),
-.interview-code pre :global(.token.attr-name),
-.interview-code pre :global(.token.string),
-.interview-code pre :global(.token.char),
-.interview-code pre :global(.token.builtin) { color: #a5d6ff; }
-.interview-code pre :global(.token.operator),
-.interview-code pre :global(.token.entity),
-.interview-code pre :global(.token.url) { color: #d2a8ff; }
-.interview-code pre :global(.token.atrule),
-.interview-code pre :global(.token.attr-value),
-.interview-code pre :global(.token.keyword) { color: #ff7b72; }
-.interview-code pre :global(.token.function),
-.interview-code pre :global(.token.class-name) { color: #d2a8ff; }
-.interview-code pre :global(.token.regex),
-.interview-code pre :global(.token.important),
-.interview-code pre :global(.token.variable) { color: #ffa657; }
+.interview-code pre { margin: 0; padding: 16px; overflow-x: auto; font: 11px/1.6 'JetBrains Mono', monospace; tab-size: 2; background: transparent; }
+.interview-code code { font: inherit; white-space: pre; background: transparent; }
+.interview-code code.hljs { background: transparent; padding: 0; }
 
 .pitfall-list, .followup-list { padding: 0; margin: 0; list-style: none; }
 .pitfall-list li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.06); color: #5a5b56; font-size: 12px; line-height: 1.4; }

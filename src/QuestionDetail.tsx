@@ -42,14 +42,8 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   const videoCount = question.videoFrequency ?? new Set(question.sources.filter((source) => source.type === 'youtube').map((source) => source.url)).size
   const checklist = answerChecklist(question)
   const introRef = useRef<HTMLElement>(null)
-  const codeRef = useRef<HTMLElement>(null)
-
   useEffect(() => {
     introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [question.id])
-
-  useEffect(() => {
-    // rehype-highlight handles syntax highlighting automatically
   }, [question.id])
 
   return (
@@ -105,7 +99,26 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           {question.codeSnippet && (
             <section className={s['interview-code']}>
               <div className={s['interview-code-head']}><Code2 size={17} /><span>Код из интервью</span><small>{question.codeLanguage}</small></div>
-              <pre><code ref={codeRef} className={`language-${question.codeLanguage || 'text'}`}>{question.codeSnippet}</code></pre>
+              <Markdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+                components={{
+                  code: ({ className, children, ...props }) => {
+                    const match = /language-(\w+)/.exec(className || '')
+                    return match ? (
+                      <code className={`${className} hljs`} {...props}>
+                        {children}
+                      </code>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    )
+                  }
+                }}
+              >
+                {`\`\`\`${question.codeLanguage || 'text'}\n${question.codeSnippet}\n\`\`\``}
+              </Markdown>
             </section>
           )}
 
