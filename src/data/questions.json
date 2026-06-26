@@ -340,6 +340,66 @@
     "videoFrequency": 0
   },
   {
+    "id": "avito-recommendations",
+    "title": "Как Avito строит систему рекомендаций?",
+    "aliases": [],
+    "answer": "Avito recommendations: collaborative filtering (user-item interactions), content-based (item features), hybrid. Ключевые: real-time personalization, A/B testing, cold start problem.",
+    "exampleAnswer": "User viewed iPhone 15 → collaborative: other iPhone viewers also bought cases. Content-based: similar price range, electronics category. Hybrid: combine scores → personalized feed.",
+    "context": "Ключевой feature для маркетплейса. Проверяют понимание recommendation systems.",
+    "keyPoints": [
+      {
+        "title": "Collaborative filtering",
+        "text": "User-item matrix. Similar users → similar items. Matrix factorization."
+      },
+      {
+        "title": "Content-based",
+        "text": "Item features: category, price, location, photos. User profile: viewing history."
+      },
+      {
+        "title": "Hybrid",
+        "text": "Combine both approaches. Weighted or switching."
+      }
+    ],
+    "pitfalls": [
+      "Не решать cold start problem",
+      "Игнорировать real-time signals",
+      "Не A/B тестировать модели",
+      "Не учитыватьitem freshness"
+    ],
+    "followUps": [
+      "Как решить cold start problem?",
+      "What is matrix factorization в рекомендациях?",
+      "Как A/B тестировать recommendation models?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Recommendations",
+      "ML",
+      "E-commerce"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "ci-cd-monorepo",
     "title": "Как настроить CI/CD для монорепозитория?",
     "aliases": [],
@@ -11373,6 +11433,65 @@
     "videoFrequency": 1
   },
   {
+    "id": "okko-streaming",
+    "title": "Как Okko обеспечивает video streaming?",
+    "aliases": [],
+    "answer": "Okko streaming: adaptive bitrate (HLS/DASH), CDN delivery, content encoding, DRM protection, recommendation engine. Ключевые: quality of experience, latency, content protection.",
+    "exampleAnswer": "Video: 4K source → encode to 1080p, 720p, 480p → HLS segments → CDN → client player. Adaptive: bandwidth drops → switch to 720p. DRM: license key → decrypt playback.",
+    "context": "Ключевой domain для streaming service. Проверяют понимание video architecture.",
+    "keyPoints": [
+      {
+        "title": "Adaptive bitrate",
+        "text": "Multiple quality levels. Client switches based on bandwidth. HLS/DASH protocols."
+      },
+      {
+        "title": "CDN",
+        "text": "Edge caching: video chunks geographically distributed. Origin: source storage."
+      },
+      {
+        "title": "DRM",
+        "text": "Content protection: Widevine, FairPlay. License server: authentication."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать adaptive bitrate",
+      "Игнорировать CDN costs",
+      "Не защищать контент DRM",
+      "Не оптимизировать encoding"
+    ],
+    "followUps": [
+      "Как работает adaptive bitrate streaming?",
+      "What is DRM и зачем он нужен?",
+      "How to optimize video encoding costs?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Streaming",
+      "Video",
+      "CDN"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "okko-task-values",
     "title": "Что для вас важно в рабочих задачах?",
     "aliases": [],
@@ -11858,6 +11977,66 @@
       "Rate Limiting"
     ],
     "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-logistics",
+    "title": "Как Ozon оптимизирует логистику и доставку?",
+    "aliases": [],
+    "answer": "Ozon logistics: warehouse management, route optimization, demand forecasting, real-time tracking. Ключевые: ML для прогнозов, оптимизация маршрутов (vehicle routing), автоматизация складов.",
+    "exampleAnswer": "Route optimization: 1000 заказов → ML оптимизирует маршруты → 20% less driving time. Warehouse: robots moving shelves → picker path optimized. Forecasting: predicts demand → pre-positions inventory.",
+    "context": "Ключевой domain Ozon. Проверяют понимание logistics optimization.",
+    "keyPoints": [
+      {
+        "title": "Warehouse management",
+        "text": "Inventory optimization. Pick/pack routing. Automation: robots, conveyors."
+      },
+      {
+        "title": "Route optimization",
+        "text": "Vehicle routing problem (VRP). ML для forecasting delivery time. Real-time traffic."
+      },
+      {
+        "title": "Demand forecasting",
+        "text": "ML models: sales history, seasonality, promotions. Inventory placement."
+      }
+    ],
+    "pitfalls": [
+      "Не учитывать traffic conditions",
+      "Игнорировать seasonal patterns",
+      "Не оптимизировать warehouse layout",
+      "Не мониторить delivery times"
+    ],
+    "followUps": [
+      "Как работает vehicle routing optimization?",
+      "Что такое demand forecasting в e-commerce?",
+      "Как Ozon использует ML в логистике?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Logistics",
+      "Optimization",
+      "Data"
+    ],
+    "duration": "10 мин",
     "difficulty": 4,
     "sources": [
       {
@@ -12731,6 +12910,65 @@
     "sources": [
       {
         "company": "Rutube",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sber-fintech",
+    "title": "Как Сбер обеспечивает безопасность финансовых сервисов?",
+    "aliases": [],
+    "answer": "Финансовая безопасность: fraud detection (ML), PCI DSS compliance, encryption, transaction monitoring, AML (anti-money laundering). Ключевые: real-time fraud scoring, regulatory compliance.",
+    "exampleAnswer": "Transaction: $500 purchase in different country → fraud score 0.85 → flag for review. ML model: features = amount, location, time, history. PCI DSS: tokenization, no card data storage.",
+    "context": "Ключевой domain для банка. Проверяют понимание fintech security.",
+    "keyPoints": [
+      {
+        "title": "Fraud detection",
+        "text": "ML models: transaction patterns, user behavior. Real-time scoring: < 100ms. Rules engine + ML."
+      },
+      {
+        "title": "Compliance",
+        "text": "PCI DSS: card data security. GDPR: user data. AML: suspicious activity reporting."
+      },
+      {
+        "title": "Encryption",
+        "text": "Data at rest: AES-256. Data in transit: TLS. Key management: HSM."
+      }
+    ],
+    "pitfalls": [
+      "Не делать real-time fraud detection",
+      "Игнорировать compliance requirements",
+      "Не шифровать sensitive data",
+      "Не мониторить suspicious patterns"
+    ],
+    "followUps": [
+      "Как работает fraud detection ML model?",
+      "Что такое PCI DSS и как его соблюдать?",
+      "How to implement AML monitoring?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Сбер"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Security",
+      "Fintech",
+      "Compliance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Сбер",
         "url": "",
         "type": "aggregated"
       }
@@ -19044,6 +19282,65 @@
     "videoFrequency": 0
   },
   {
+    "id": "vk-social",
+    "title": "Как VK масштабирует social features?",
+    "aliases": [],
+    "answer": "VK scaling: news feed (fan-out on write/read), notifications (push system), content delivery (CDN), social graph (relationships). Ключевые: millions users, real-time updates, high availability.",
+    "exampleAnswer": "News feed: user posts → fan-out to followers' feeds. For celebrities: fan-out on read (too many followers). Notifications: push to 100M devices → priority queue → delivery tracking.",
+    "context": "Ключевой domain для social network. Проверяют понимание social architecture.",
+    "keyPoints": [
+      {
+        "title": "News feed",
+        "text": "Fan-out on write: pre-compute feeds. Fan-out on read: compute on demand. Hybrid approach."
+      },
+      {
+        "title": "Notifications",
+        "text": "Push notifications: mobile, web, email. Priority: urgent vs normal. Delivery guarantees."
+      },
+      {
+        "title": "Social graph",
+        "text": "User relationships. Friend recommendations. Graph traversal."
+      }
+    ],
+    "pitfalls": [
+      "Не учитывать celebrity users",
+      "Игнорировать notification delivery",
+      "Не масштабировать social graph",
+      "Не кешировать news feed"
+    ],
+    "followUps": [
+      "Как работает fan-out на write vs read?",
+      "What is push notification system?",
+      "How to handle celebrity users в social network?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Social",
+      "Scale",
+      "Architecture"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "wildberries-critical-rendering-path",
     "title": "Как браузер превращает HTML и CSS в изображение на экране?",
     "aliases": [],
@@ -19306,6 +19603,65 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "wildberries-marketplace",
+    "title": "Как Wildberries обеспечивает работу маркетплейса?",
+    "aliases": [],
+    "answer": "Wildberries: catalog management, search, payments, seller tools, analytics. Ключевые: millions products, high traffic, seller onboarding, order processing.",
+    "exampleAnswer": "Search: \"iPhone\" → inverted index → ML ranking (relevance, popularity, seller rating) → top results. Payment: buyer pays → escrow → delivery confirmed → seller payout.",
+    "context": "Ключевой domain для маркетплейса. Проверяют понимание marketplace architecture.",
+    "keyPoints": [
+      {
+        "title": "Catalog",
+        "text": "Product management. Search: inverted index + ML ranking. Filters: attributes."
+      },
+      {
+        "title": "Payments",
+        "text": "Payment processing. Escrow: hold funds until delivery. seller payouts."
+      },
+      {
+        "title": "Analytics",
+        "text": "Seller dashboard: sales, views, conversion. Real-time data."
+      }
+    ],
+    "pitfalls": [
+      "Не масштабировать search",
+      "Игнорировать seller analytics",
+      "Не делать real-time inventory",
+      "Не обеспечивать payment security"
+    ],
+    "followUps": [
+      "How to build marketplace search?",
+      "What is escrow payment system?",
+      "Как обеспечить seller onboarding?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Wildberries"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Marketplace",
+      "E-commerce",
+      "Scale"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Wildberries",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "wildberries-rendering-performance",
@@ -20139,6 +20495,65 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "yandex-perf-optimization",
+    "title": "Как Яндекс оптимизирует производительность поисковой выдачи?",
+    "aliases": [],
+    "answer": "Поисковая выдача Яндекса: индексация (Crawler → inverted index), ranking (PageRank + ML), serving (кэширование, CDN, pre-computation). Ключевые: low latency (< 100ms), high throughput (millions QPS).",
+    "exampleAnswer": "Query \"новости\" → inverted index lookup (10ms) → ranking (50ms) → top 10 results → cache (1ms). ML ranking: 200+ features, gradient boosted trees. Latency budget: 100ms total.",
+    "context": "Ключевая problem domain Яндекса. Проверяют понимание search architecture.",
+    "keyPoints": [
+      {
+        "title": "Indexing",
+        "text": "Crawler → parse → tokenize → inverted index. Real-time updates. Distributed index."
+      },
+      {
+        "title": "Ranking",
+        "text": "ML models: features = text relevance, freshness, popularity, user signals. Learning to rank."
+      },
+      {
+        "title": "Serving",
+        "text": "CDN: edge caching. Pre-computation: popular queries cached. Sharding: по document IDs."
+      }
+    ],
+    "pitfalls": [
+      "Не кешировать popular queries",
+      "Игнорировать ML ranking",
+      "Не масштабировать index",
+      "Не мониторить latency"
+    ],
+    "followUps": [
+      "Как работает PageRank в Яндексе?",
+      "Что такое learning to rank?",
+      "Как масштабировать поисковый индекс?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Performance",
+      "Search",
+      "Architecture"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "yandex-priority-queue",
