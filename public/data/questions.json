@@ -203,6 +203,65 @@
     "videoFrequency": 0
   },
   {
+    "id": "avito-interview-search",
+    "title": "Avito: как построить поисковую систему для миллиарда объявлений?",
+    "aliases": [],
+    "answer": "Search architecture: inverted index (Elasticsearch), ranking (ML), sharding, replication. Ключевые: relevance, latency, availability, freshness.",
+    "exampleAnswer": "Query \"iPhone\" → parse → inverted index → 1M docs → ML ranking → top 100. Sharding: 10 shards, each 100M docs. Replication: 3 replicas per shard. Latency: < 100ms.",
+    "context": "Типичный system design вопрос. Проверяют ability проектировать search system.",
+    "keyPoints": [
+      {
+        "title": "Indexing",
+        "text": "Inverted index: term → document IDs. Sharding: distribute index. Replication: fault tolerance."
+      },
+      {
+        "title": "Ranking",
+        "text": "ML models: text relevance, freshness, popularity, user signals. Learning to rank."
+      },
+      {
+        "title": "Serving",
+        "text": "Query parsing → index lookup → ranking → filtering → response. Caching: popular queries."
+      }
+    ],
+    "pitfalls": [
+      "Не шардировать index",
+      "Игнорировать ML ranking",
+      "Не кешировать popular queries",
+      "Не планировать replication"
+    ],
+    "followUps": [
+      "How to shard Elasticsearch index?",
+      "What is learning to rank?",
+      "How to handle real-time indexing?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Search",
+      "Scale",
+      "Elasticsearch"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "avito-inverted-index-search",
     "title": "Как устроен полнотекстовый поиск и зачем Avito использует Elasticsearch?",
     "aliases": [],
@@ -11027,6 +11086,66 @@
     "videoFrequency": 1
   },
   {
+    "id": "okko-interview-recommendations",
+    "title": "Okko: как построить system рекомендаций для контента?",
+    "aliases": [],
+    "answer": "Content recommendations: collaborative filtering, content-based, hybrid. Ключевые: personalization, cold start, diversity, freshness.",
+    "exampleAnswer": "User watched \"Interstellar\" → collaborative: sci-fi fans also watched \"The Martian\". Content-based: space, physics, same director. Hybrid: combine scores → personalized feed.",
+    "context": "Типичный system design вопрос для streaming. Проверяют ability проектировать recommendations.",
+    "keyPoints": [
+      {
+        "title": "Collaborative filtering",
+        "text": "User-item interactions. Similar users → similar items. Matrix factorization."
+      },
+      {
+        "title": "Content-based",
+        "text": "Item features: genre, actors, director. User profile: viewing history."
+      },
+      {
+        "title": "Hybrid",
+        "text": "Combine both. Weighted average. Switching based on context."
+      }
+    ],
+    "pitfalls": [
+      "Не решать cold start",
+      "Игнорировать diversity",
+      "Не обновлять recommendations",
+      "Не A/B тестировать"
+    ],
+    "followUps": [
+      "How to handle cold start для new users?",
+      "What is diversity в рекомендациях?",
+      "How to A/B test recommendation algorithms?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Recommendations",
+      "Streaming",
+      "ML"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "okko-js-execution-context",
     "title": "Что такое контекст выполнения функции в JavaScript?",
     "aliases": [],
@@ -12157,6 +12276,65 @@
     ],
     "duration": "20 мин",
     "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-interview-scale",
+    "title": "Ozon: как спроектировать system для обработки миллионов заказов в день?",
+    "aliases": [],
+    "answer": "Order processing: event-driven architecture, saga pattern, CQRS, eventual consistency. Ключевые: fault tolerance, idempotency, horizontal scaling.",
+    "exampleAnswer": "Order flow: create order → reserve inventory → process payment → ship. Saga: compensation если payment failed. Kafka: order events → multiple consumers. Sharding: orders по user ID.",
+    "context": "Типичный system design вопрос. Проверяют ability проектировать highly available order system.",
+    "keyPoints": [
+      {
+        "title": "Архитектура",
+        "text": "Microservices: order, inventory, payment, shipping. Event-driven: Kafka. Saga: distributed transactions."
+      },
+      {
+        "title": "Scaling",
+        "text": "Horizontal: stateless services. Database: sharding. Queue: partitioning."
+      },
+      {
+        "title": "Reliability",
+        "text": "Idempotency:防止 double processing. Retry: exponential backoff. Circuit breaker:防止 cascade failures."
+      }
+    ],
+    "pitfalls": [
+      "Делать synchronous calls",
+      "Не планировать fault tolerance",
+      "Игнорировать idempotency",
+      "Не масштабировать database"
+    ],
+    "followUps": [
+      "Как реализовать saga pattern?",
+      "Что такое CQRS и зачем он нужен?",
+      "How to handle idempotency в order system?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Scale",
+      "E-commerce",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
     "sources": [
       {
         "company": "Ozon",
@@ -13394,6 +13572,65 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "sber-interview-security",
+    "title": "Сбер: как спроектировать безопасную authentication system?",
+    "aliases": [],
+    "answer": "Authentication: multi-factor (password + OTP + biometric), session management, token rotation, fraud detection. Ключевые: security, compliance, user experience.",
+    "exampleAnswer": "Login: password → OTP via SMS → biometric (Face ID). Access token: 15 min, refresh: 7 days. Risk: new device → additional verification. Fraud: suspicious pattern → block + alert.",
+    "context": "Типичный system design вопрос для банка. Проверяют ability проектировать secure auth.",
+    "keyPoints": [
+      {
+        "title": "MFA",
+        "text": "Something you know (password) + have (phone) + are (biometric). Risk-based: step-up auth."
+      },
+      {
+        "title": "Session management",
+        "text": "Short-lived access tokens. Refresh token rotation. Session fixation prevention."
+      },
+      {
+        "title": "Fraud detection",
+        "text": "Behavioral analysis. Device fingerprinting. Risk scoring."
+      }
+    ],
+    "pitfalls": [
+      "Делать MFAобязательным всегда",
+      "Не делать token rotation",
+      "Игнорировать fraud detection",
+      "Не планировать account recovery"
+    ],
+    "followUps": [
+      "Как реализовать step-up authentication?",
+      "What is token rotation и зачем она нужна?",
+      "How to implement behavioral analysis?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Сбер"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Security",
+      "Auth",
+      "Banking"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Сбер",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "sber-js-library-from-go",
@@ -19629,6 +19866,65 @@
     "videoFrequency": 0
   },
   {
+    "id": "vk-interview-scale",
+    "title": "VK: как масштабировать chat system на миллионы пользователей?",
+    "aliases": [],
+    "answer": "Chat system: WebSocket connections, message storage, presence, delivery guarantees. Ключевые: horizontal scaling, message ordering, offline support.",
+    "exampleAnswer": "1M concurrent connections: 100 servers, 10K connections each. Message: append to Kafka → consumers → storage. Order: sequence numbers per chat. Delivery: online → WebSocket, offline → push.",
+    "context": "Типичный system design вопрос для соцсети. Проверяют ability проектировать chat.",
+    "keyPoints": [
+      {
+        "title": "Connections",
+        "text": "WebSocket: persistent connections. Connection pooling. Load balancing: consistent hashing."
+      },
+      {
+        "title": "Message storage",
+        "text": "Write: append to chat log. Read: last N messages. Sharding: по chat ID."
+      },
+      {
+        "title": "Delivery",
+        "text": "Online: push via WebSocket. Offline: push notifications. Read receipts."
+      }
+    ],
+    "pitfalls": [
+      "Не масштабировать WebSocket connections",
+      "Игнорировать message ordering",
+      "Не делать offline support",
+      "Не планировать delivery guarantees"
+    ],
+    "followUps": [
+      "How to handle message ordering?",
+      "What is presence system?",
+      "How to implement read receipts?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Chat",
+      "Scale",
+      "Real-time"
+    ],
+    "duration": "15 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "vk-management-onboarding",
     "title": "Как вы организуете онбординг новых сотрудников?",
     "aliases": [],
@@ -20015,6 +20311,65 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "wildberries-interview-inventory",
+    "title": "Wildberries: как управлять inventory на нескольких складах?",
+    "aliases": [],
+    "answer": "Inventory management: real-time tracking, multi-warehouse, reservation, reconciliation. Ключевые: accuracy, availability, optimization.",
+    "exampleAnswer": "Stock: warehouse A: 100, warehouse B: 50. Order: allocate from closest warehouse. Reservation: decrement available. Reconciliation: weekly count, adjust discrepancies.",
+    "context": "Типичный system design вопрос для маркетплейса. Проверяют ability проектировать inventory system.",
+    "keyPoints": [
+      {
+        "title": "Real-time tracking",
+        "text": "Stock levels: available, reserved, shipped. Event sourcing: audit trail."
+      },
+      {
+        "title": "Multi-warehouse",
+        "text": "Inventory allocation: closest warehouse. Transfer: rebalance stock. Reservation: prevent overselling."
+      },
+      {
+        "title": "Reconciliation",
+        "text": "Periodic counts. Discrepancy resolution. Automation: RFID, barcode scanning."
+      }
+    ],
+    "pitfalls": [
+      "Не делать real-time tracking",
+      "Игнорироватьreservation",
+      "Не планировать reconciliation",
+      "Не оптимизировать allocation"
+    ],
+    "followUps": [
+      "How to prevent overselling?",
+      "What is event sourcing для inventory?",
+      "How to optimize warehouse allocation?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Wildberries"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Inventory",
+      "Warehouse",
+      "E-commerce"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Wildberries",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "wildberries-jquery-clone",
@@ -20881,6 +21236,65 @@
     ],
     "duration": "15 мин",
     "difficulty": 2,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-interview-architecture",
+    "title": "Яндекс: как спроектировать кэширование для высоконагруженного сервиса?",
+    "aliases": [],
+    "answer": "Многоуровневое кэширование: browser cache → CDN → application cache (Redis) → database cache. Invalidation strategies: TTL, event-based, versioning. Hot keys: replication, local cache.",
+    "exampleAnswer": "Levels: browser (1 hour) → CDN (5 min) → Redis (1 min) → DB. Hot key \"popular_product\": replicate across 5 Redis instances. Invalidation: product update → event → invalidate all caches. Cache stampede: lock + early expiration.",
+    "context": "Типичный system design вопрос на собеседовании в Яндексе. Проверяют ability проектировать scalable caching.",
+    "keyPoints": [
+      {
+        "title": "Уровни кэша",
+        "text": "Browser: Cache-Control headers. CDN: edge caching. App: Redis/Memcached. DB: query cache, materialized views."
+      },
+      {
+        "title": "Invalidation",
+        "text": "TTL: time-based. Event-driven: invalidate on write. Versioning: cache key с version."
+      },
+      {
+        "title": "Hot keys",
+        "text": "Replication: multiple Redis instances. Local cache: in-process LRU. Pre-warming."
+      }
+    ],
+    "pitfalls": [
+      "Кэшировать всё без стратегии",
+      "Не планировать invalidation",
+      "Игнорировать hot keys",
+      "Не делать cache warming"
+    ],
+    "followUps": [
+      "Как выбрать TTL для different data?",
+      "Что такое cache stampede и как его предотвратить?",
+      "Как масштабировать Redis кэш?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Caching",
+      "High Load",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
     "sources": [
       {
         "company": "Яндекс",
