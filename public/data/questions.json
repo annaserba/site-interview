@@ -7496,6 +7496,539 @@
     "videoFrequency": 0
   },
   {
+    "id": "llm-agents",
+    "title": "Что такое AI agents и как их построить?",
+    "aliases": [],
+    "answer": "AI agents: LLM + tools + memory + planning. Архитектура: ReAct (reasoning + acting), Plan-and-execute, multi-agent. Фреймворки: LangChain, LlamaIndex, AutoGen.",
+    "exampleAnswer": "Agent: \"Найди информацию о CORS\" → think: \"нужно search\" → act: web_search(\"CORS\") → observe: found docs → think: \"нужно summarize\" → act: summarize(docs) → final answer.",
+    "context": "Продвинутый topic для AI applications. Проверяют понимание agent architectures.",
+    "keyPoints": [
+      {
+        "title": "Компоненты",
+        "text": "LLM: brain. Tools: functions, APIs. Memory:短期/长期. Planning: goal分解."
+      },
+      {
+        "title": "Архитектуры",
+        "text": "ReAct: think → act → observe → repeat. Plan-and-execute: plan first, then execute. Multi-agent: несколько agents collaborate."
+      },
+      {
+        "title": "Инструменты",
+        "text": "LangChain: popular framework. LlamaIndex: RAG-focused. AutoGen: multi-agent."
+      }
+    ],
+    "pitfalls": [
+      "Давать слишком много tools",
+      "Не ограничивать loops",
+      "Не обрабатывать errors",
+      "Не делать human oversight"
+    ],
+    "followUps": [
+      "Как работает ReAct pattern?",
+      "Что такое multi-agent systems?",
+      "Как связать agents и function calling?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Agents",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-embeddings",
+    "title": "Что такое embeddings и зачем они нужны?",
+    "aliases": [],
+    "answer": "Embeddings: векторные представления текста/изображений. Семантический поиск: похожие meaning → близкие векторы. Инструменты: OpenAI embeddings, sentence-transformers, Cohere. Использование: RAG, semantic search, clustering.",
+    "exampleAnswer": "\"React\" → [0.02, -0.05, 0.12, ...]. \"JavaScript framework\" → [0.03, -0.04, 0.11, ...]. Cosine similarity: 0.95 (очень похожи). Поиск: query embedding → compare с document embeddings → top matches.",
+    "context": "Фундаментальный concept для AI applications. Проверяют понимание vector representations.",
+    "keyPoints": [
+      {
+        "title": "Что такое embeddings",
+        "text": "Текст → вектор (1536 dimensions для OpenAI). Семантическое сходство: cosine similarity."
+      },
+      {
+        "title": "Применение",
+        "text": "Semantic search: \"как настроить CORS\" → ищет по meaning, не keywords. RAG: retrieve relevant chunks. Clustering: группировка документов."
+      },
+      {
+        "title": "Инструменты",
+        "text": "OpenAI text-embedding-3-small. Sentence-transformers (local). Cohere embed."
+      }
+    ],
+    "pitfalls": [
+      "Не нормализовать vectors",
+      "Использовать неправильный similarity metric",
+      "Не учитывать размер embeddings",
+      "Игнорировать latency"
+    ],
+    "followUps": [
+      "Как выбрать embedding model?",
+      "Что такое cosine similarity?",
+      "Как оптимизировать vector search?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Embeddings",
+      "Vector Search"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-evaluation",
+    "title": "Как оценить качество LLM приложения?",
+    "aliases": [],
+    "answer": "Оценка LLM: automated metrics (BLEU, ROUGE, faithfulness), human evaluation, A/B testing, LLM-as-judge. Ключевые: accuracy, relevance, coherence, safety. Benchmarks: MMLU, HumanEval.",
+    "exampleAnswer": "Metrics: accuracy (85%), faithfulness (90%), relevance (88%). Human eval: 5 экспертов оценивают 100 ответов. A/B test: variant A vs B, metric: user satisfaction. LLM-as-judge: GPT-4 оценивает relevance и coherence.",
+    "context": "Важный aspect для production LLM apps. Проверяют понимание evaluation methodologies.",
+    "keyPoints": [
+      {
+        "title": "Automated metrics",
+        "text": "BLEU: translation quality. ROUGE: summarization. Faithfulness: factual accuracy. Relevance: topical similarity."
+      },
+      {
+        "title": "Human evaluation",
+        "text": "Expert review, user feedback, A/B testing. Дорого, но最accurate."
+      },
+      {
+        "title": "LLM-as-judge",
+        "text": "GPT-4 оценивает ответы другого LLM. Дёшево, scalable."
+      }
+    ],
+    "pitfalls": [
+      "Использовать только automated metrics",
+      "Не делать human evaluation",
+      "Игнорировать safety evaluation",
+      "Не мониторить в production"
+    ],
+    "followUps": [
+      "Как работает LLM-as-judge?",
+      "Что такое faithfulness score?",
+      "Как настроить A/B testing для LLM?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Evaluation",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-fine-tuning",
+    "title": "Когда использовать fine-tuning vs prompt engineering?",
+    "aliases": [],
+    "answer": "Prompt engineering: быстрый старт, без training data. Fine-tuning: custom behavior, domain-specific knowledge. Когда fine-tune: consistent format, proprietary data, performance requirements. Cost/benefit analysis.",
+    "exampleAnswer": "Prompt engineering: для chatbot, Q&A, summarization. Fine-tuning: для medical diagnosis (domain knowledge), code generation (specific style),情感分析 (custom labels). Cost: prompt engineering $0, fine-tuning $100-1000+.",
+    "context": "Стратегический decision для LLM apps. Проверяют понимание trade-offs.",
+    "keyPoints": [
+      {
+        "title": "Prompt engineering",
+        "text": "Быстро, дёшево, без training. Ограничения: context window, generic behavior."
+      },
+      {
+        "title": "Fine-tuning",
+        "text": "Custom model behavior, domain knowledge. Требует: training data, compute, maintenance. Преимущество: consistent output, better performance."
+      },
+      {
+        "title": "Выбор",
+        "text": "Начните с prompt engineering. Если не хватает → fine-tuning. Если нужна скорость → fine-tuning."
+      }
+    ],
+    "pitfalls": [
+      "Fine-tune без необходимости",
+      "Не собирать training data",
+      "Игнорировать cost/benefit",
+      "Не оценивать quality"
+    ],
+    "followUps": [
+      "Как собрать training data для fine-tuning?",
+      "Что такое LoRA и зачем она нужна?",
+      "Как оценить качество fine-tuned model?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Fine-tuning",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-function-calling",
+    "title": "Что такое function calling в LLM и как его использовать?",
+    "aliases": [],
+    "answer": "Function calling: LLM решает вызвать определённую функцию с параметрами. OpenAI, Anthropic, Google support. Use cases: API calls, database queries, calculations, external tools.",
+    "exampleAnswer": "Function: `get_weather(location: string) → {temp, conditions}`. User: \"Какая погода в Москве?\" → LLM: `get_weather(\"Москва\")` → execute → result: `{temp: 22, conditions: \"sunny\"}` → LLM: \"В Москве 22°C, солнечно\".",
+    "context": "Ключевой capability для AI agents. Проверяют понимание LLM-tool integration.",
+    "keyPoints": [
+      {
+        "title": "Механизм",
+        "text": "Определяете functions (name, description, parameters). LLM решает: вызвать function или ответить текстом. Парсите function call → execute → возвращаете result → LLM генерирует ответ."
+      },
+      {
+        "title": "Примеры",
+        "text": "get_weather(location) → погода. search_products(query) → товары. create_order(items) → заказ."
+      }
+    ],
+    "pitfalls": [
+      "Не описывать functions clearly",
+      "Не валидировать parameters",
+      "Не обрабатывать errors",
+      "Давать слишком много functions"
+    ],
+    "followUps": [
+      "Как работать с streaming function calls?",
+      "Что такое tool use в Anthropic?",
+      "Как связать function calling и agents?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Function Calling",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-guardrails",
+    "title": "Как обеспечить безопасность LLM приложения?",
+    "aliases": [],
+    "answer": "Guardrails: фильтрация input/output, content moderation, PII detection, prompt injection protection. Инструменты: OpenAI moderation, Guardrails AI, NeMo Guardrails. Практики: rate limiting, logging, human review.",
+    "exampleAnswer": "Input: prompt injection detection → \"ignore previous instructions\" → blocked. PII: \"мой телефон 8-999-123-45-67\" → masked. Output: toxicity check → blocked. Logging: все queries в БД. Alerting: anomaly detection.",
+    "context": "Критически важный для production LLM apps. Проверяют понимание safety measures.",
+    "keyPoints": [
+      {
+        "title": "Input filtering",
+        "text": "Prompt injection detection. PII masking. Toxicity detection. Content moderation."
+      },
+      {
+        "title": "Output filtering",
+        "text": "Fact checking. Toxicity detection. PII leakage prevention. Hallucination detection."
+      },
+      {
+        "title": "Мониторинг",
+        "text": "Logging: все interactions. Alerting: anomalous behavior. Human review: для flagged content."
+      }
+    ],
+    "pitfalls": [
+      "Не фильтровать input",
+      "Не мониторить output",
+      "Не делать logging",
+      "Не обрабатывать prompt injection"
+    ],
+    "followUps": [
+      "Как работает prompt injection detection?",
+      "Что такое NeMo Guardrails?",
+      "Как связать guardrails и compliance?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Safety",
+      "Guardrails"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-hallucinations",
+    "title": "Как бороться с hallucinations в LLM?",
+    "aliases": [],
+    "answer": "Hallucinations: LLM генерирует правдоподобные, но неверные ответы. Борьба: RAG (real data), factual grounding, confidence scoring, human-in-the-loop, fine-tuning.",
+    "exampleAnswer": "Hallucination: LLM говорит \"React создан в 2015\" (на самом деле 2013). Решения: RAG с актуальными данными, citation: \"Источник: react.dev\", confidence: \"70% уверен\". Практика: для medical/legal — human review обязателен.",
+    "context": "Ключевая проблема LLM applications. Проверяют понимание limitations.",
+    "keyPoints": [
+      {
+        "title": "Причины",
+        "text": "Training data cutoff, lack of context, ambiguous queries, confidence calibration."
+      },
+      {
+        "title": "Решения",
+        "text": "RAG: provide real data. Factual grounding: cite sources. Confidence: score answers. Human review: для critical decisions."
+      },
+      {
+        "title": "Инструменты",
+        "text": "RAG pipeline, fact-checking APIs, confidence scoring, guardrails."
+      }
+    ],
+    "pitfalls": [
+      "Доверять LLM на 100%",
+      "Не проверять факты",
+      "Не использовать RAG",
+      "Не делать human review для critical tasks"
+    ],
+    "followUps": [
+      "Как измерить hallucination rate?",
+      "Что такое factual grounding?",
+      "Как связать RAG и hallucinations?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Hallucinations",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-prompt-engineering",
+    "title": "Что такое prompt engineering и какие техники существуют?",
+    "aliases": [],
+    "answer": "Prompt engineering — искусство составления запросов к LLM для получения качественных ответов. Техники: zero-shot, few-shot, chain-of-thought, role prompting, structured output, RAG.",
+    "exampleAnswer": "Few-shot: \"Пример: INPUT: что такое React? OUTPUT: React — это JavaScript библиотека... INPUT: что такое Vue? OUTPUT:\". Chain-of-thought: \"Реши задачу пошагово: 1) Определи переменные, 2) Составь уравнение, 3) Решите\". RAG: ищем релевантные документы → добавляем в context.",
+    "context": "Актуальный topic для разработки AI-powered приложений. Проверяют понимание LLM capabilities.",
+    "keyPoints": [
+      {
+        "title": "Базовые техники",
+        "text": "Zero-shot: просто вопрос. Few-shot: примеры в prompt. Chain-of-thought: \"давай пошагово\". Role: \"ты — эксперт по...\"\"."
+      },
+      {
+        "title": "Продвинутые",
+        "text": "RAG: retrieval augmented generation — подсказки из базы знаний. Structured output: JSON schema. Function calling: LLM вызывает functions."
+      },
+      {
+        "title": "Оптимизация",
+        "text": "Temperature: creativity (0-1). Max tokens: длина ответа. Top-p: nucleus sampling."
+      }
+    ],
+    "pitfalls": [
+      "Слишком длинные prompts",
+      "Не давать context",
+      "Не использовать examples",
+      "Игнорировать hallucinations"
+    ],
+    "followUps": [
+      "Как работать с hallucinations?",
+      "Что такое temperature и top-p?",
+      "Как интегрировать RAG в приложение?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "Prompt Engineering",
+      "AI"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "llm-rag",
+    "title": "Что такое RAG и как его реализовать?",
+    "aliases": [],
+    "answer": "RAG (Retrieval Augmented Generation): LLM + поиск в базе знаний. Этапы: indexing (embedding documents), retrieval (finding relevant chunks), generation (LLM с context). Инструменты: Pinecone, Weaviate, ChromaDB, LangChain.",
+    "exampleAnswer": "RAG pipeline: документы → text splitter (500 tokens) → OpenAI embeddings → Pinecone. Query: \"как настроить CORS?\" → embedding → search → top 3 chunks → prompt: \"Ответь используя: {chunks}\". Преимущество: актуальные данные, fewer hallucinations.",
+    "context": "Ключевой architecture pattern для LLM apps. Проверяют понимание RAG pipeline.",
+    "keyPoints": [
+      {
+        "title": "Indexing",
+        "text": "Документы → chunks → embeddings → vector database. Размер chunks: 200-1000 tokens. Overlap: 10-20%."
+      },
+      {
+        "title": "Retrieval",
+        "text": "Query → embedding → similarity search → top-k chunks. Фильтрация: metadata, relevance threshold."
+      },
+      {
+        "title": "Generation",
+        "text": "System prompt + retrieved chunks + user query → LLM response. Context window management."
+      }
+    ],
+    "pitfalls": [
+      "Слишком большие chunks",
+      "Не использовать metadata filtering",
+      "Игнорировать relevance threshold",
+      "Не обновлять index"
+    ],
+    "followUps": [
+      "Как выбрать размер chunks?",
+      "Что такое hybrid search?",
+      "Как оценить качество RAG?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "LLM",
+      "RAG",
+      "Vector Database"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "marketing-custdev",
     "title": "Что такое CustDev и как его проводить?",
     "aliases": [],
