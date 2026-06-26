@@ -181,7 +181,20 @@
   font-weight: 700;
   letter-spacing: -.02em;
   line-height: 1.35;
-  margin: 0 0 28px;
+  margin: 0 0 12px;
+}
+
+.detail-link {
+  display: inline-block;
+  font: 12px 'JetBrains Mono';
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color .2s;
+}
+
+.detail-link:hover {
+  color: var(--ink);
 }
 
 .interviewer-row {

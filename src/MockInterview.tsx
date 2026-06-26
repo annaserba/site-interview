@@ -191,6 +191,14 @@ export function MockInterview({ onBack }: MockInterviewProps) {
               </div>
 
               <h2 className={s.question}>{current.question}</h2>
+              <a
+                className={s['detail-link']}
+                href={`#question/${current.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Открыть детализацию вопроса →
+              </a>
 
               {!showAnswer ? (
                 <button className={s['show-btn']} onClick={() => setShowAnswer(true)}>
