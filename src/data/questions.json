@@ -143,6 +143,72 @@
     "videoFrequency": 0
   },
   {
+    "id": "avito-frontend-testing",
+    "title": "Как организуете тестирование React-приложений?",
+    "aliases": [],
+    "answer": "Unit (Jest), Integration (React Testing Library), E2E (Cypress/Playwright). Важно: testing pyramid, не testing ice cream.",
+    "exampleAnswer": "Unit: Jest, RTL для компонентов. Integration: user flows, API mocking. E2E: Cypress для critical paths. Coverage: 80% unit, 60% integration, 20% E2E. Результат: confidence в changes, fewer bugs.",
+    "context": "Интервьюер хочет понять ваш подход к тестированию.",
+    "keyPoints": [
+      {
+        "title": "Unit Tests",
+        "text": "Jest, React Testing Library, mock dependencies."
+      },
+      {
+        "title": "Integration Tests",
+        "text": "Testing Library, user interactions."
+      },
+      {
+        "title": "E2E Tests",
+        "text": "Cypress, Playwright, critical paths."
+      },
+      {
+        "title": "Strategy",
+        "text": "Testing pyramid, coverage goals."
+      }
+    ],
+    "pitfalls": [
+      "Not testing enough",
+      "Testing implementation details",
+      "Flaky E2E tests",
+      "No mocking strategy"
+    ],
+    "followUps": [
+      "Какmock-аете API?",
+      "Кактестируете hooks?",
+      "Кактестируете edge cases?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "Testing",
+      "React",
+      "Jest"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "avito-interview-search",
     "title": "Как построить поисковую систему для миллиарда объявлений?",
     "aliases": [],
@@ -4962,6 +5028,72 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "goznak-frontend-security",
+    "title": "Как обеспечиваете безопасность React-приложения?",
+    "aliases": [],
+    "answer": "CSP, input sanitization, secure cookies, HTTPS. Важно: XSS prevention, CSRF protection, authentication.",
+    "exampleAnswer": "XSS: DOMPurify, escape, CSP. CSRF: tokens, same-site cookies. Auth: JWT, httpOnly cookies, refresh tokens. Headers: CSP, HSTS. Результат: secure application, no vulnerabilities.",
+    "context": "Проверяют понимание безопасности frontend.",
+    "keyPoints": [
+      {
+        "title": "XSS Prevention",
+        "text": "Sanitization, escape, CSP."
+      },
+      {
+        "title": "CSRF Protection",
+        "text": "Tokens, same-site cookies."
+      },
+      {
+        "title": "Authentication",
+        "text": "JWT, refresh tokens, secure storage."
+      },
+      {
+        "title": "Headers",
+        "text": "CSP, HSTS, X-Frame-Options."
+      }
+    ],
+    "pitfalls": [
+      "Storing tokens in localStorage",
+      "Not sanitizing input",
+      "No CSP",
+      "Weak passwords"
+    ],
+    "followUps": [
+      "Какhandling-аете authentication?",
+      "Как保护-аете sensitive data?",
+      "Кактестируете security?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Гознак"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Security",
+      "XSS"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Гознак",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "goznak-intersection-observer",
@@ -10503,6 +10635,72 @@
     "videoFrequency": 1
   },
   {
+    "id": "okko-frontend-video-player",
+    "title": "Как реализуете видеоплеер на React?",
+    "aliases": [],
+    "answer": "HTML5 video, custom controls, HLS.js/Dash.js, subtitles. Важно: adaptive streaming, error handling, performance.",
+    "exampleAnswer": "HTML5 video: ref, custom controls. HLS.js: adaptive streaming. Controls: play/pause, volume, fullscreen, progress. Error handling: retry, fallback. Результат: smooth video playback, adaptive quality.",
+    "context": "Интервьюер хочет понять ваш опыт работы с видео.",
+    "keyPoints": [
+      {
+        "title": "HTML5 Video",
+        "text": "Native API, custom controls."
+      },
+      {
+        "title": "Streaming",
+        "text": "HLS, DASH, adaptive bitrate."
+      },
+      {
+        "title": "Controls",
+        "text": "Custom UI, keyboard shortcuts."
+      },
+      {
+        "title": "Error Handling",
+        "text": "Fallback, retry, error states."
+      }
+    ],
+    "pitfalls": [
+      "Not handling errors",
+      "No keyboard support",
+      "Not adaptive streaming",
+      "Poor performance"
+    ],
+    "followUps": [
+      "Какimplement-аете subtitles?",
+      "Какoptimiz-ируете video loading?",
+      "Какhandling-аете buffering?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Video",
+      "Player"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "okko-handle-disagreement",
     "title": "Сталкивались ли вы с непониманием или конфликтами в команде?",
     "aliases": [
@@ -11788,6 +11986,68 @@
     "videoFrequency": 0
   },
   {
+    "id": "ozon-frontend-microfrontend",
+    "title": "Как организовать микрофронтендную архитектуру?",
+    "aliases": [],
+    "answer": "Module Federation,iframe, Web Components. Важно: independent deployment, shared dependencies, routing.",
+    "exampleAnswer": "Module Federation: host + remotes, shared React, Redux. Routing: shared router, lazy load remotes. Communication: custom events, shared context. Результат: independent deployment, team autonomy.",
+    "context": "Проверяют понимание микрофронтендов и их implementation.",
+    "keyPoints": [
+      {
+        "title": "Module Federation",
+        "text": "Webpack 5, shared dependencies."
+      },
+      {
+        "title": "Routing",
+        "text": "Какorganize-аете routing: shared router, micro-frontends."
+      },
+      {
+        "title": "Communication",
+        "text": "Какcommunicate: events, shared state."
+      }
+    ],
+    "pitfalls": [
+      "Tight coupling",
+      "Shared state everywhere",
+      "Not sharing dependencies",
+      "Complex routing"
+    ],
+    "followUps": [
+      "Какdeplo-ите микрофронтенды?",
+      "Кактестируете микрофронтенды?",
+      "Какобновляете shared dependencies?"
+    ],
+    "category": "Frontend",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Microfrontends",
+      "Architecture",
+      "Module Federation"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "ozon-interview-scale",
     "title": "Как спроектировать system для обработки миллионов заказов в день?",
     "aliases": [],
@@ -12709,6 +12969,72 @@
     "sources": [
       {
         "company": "Rutube",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sber-frontend-accessibility",
+    "title": "Как обеспечиваете accessibility в React-приложении?",
+    "aliases": [],
+    "answer": "Semantic HTML, ARIA, keyboard navigation, screen readers. Важно: WCAG compliance, testing с screen readers.",
+    "exampleAnswer": "Semantic: button вместо div, nav для навигации. ARIA: aria-label, aria-live. Keyboard: tab order, focus trap в модалках. Testing: axe-core, VoiceOver. Результат: WCAG 2.1 AA compliance.",
+    "context": "Проверяют понимание accessibility.",
+    "keyPoints": [
+      {
+        "title": "Semantic HTML",
+        "text": "Правильные теги: button, nav, main, article."
+      },
+      {
+        "title": "ARIA",
+        "text": "Labels, roles, live regions."
+      },
+      {
+        "title": "Keyboard",
+        "text": "Tab order, focus management, shortcuts."
+      },
+      {
+        "title": "Testing",
+        "text": "axe-core, screen readers."
+      }
+    ],
+    "pitfalls": [
+      "Not using semantic HTML",
+      "Missing ARIA labels",
+      "Not keyboard accessible",
+      "Not testing"
+    ],
+    "followUps": [
+      "Кактестируете accessibility?",
+      "Какhandling-аете focus в модалках?",
+      "Каксоздаётеaccessible forms?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Сбер"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Accessibility",
+      "A11y"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Сбер",
         "url": "",
         "type": "aggregated"
       }
@@ -14502,6 +14828,137 @@
         "company": "Т-Банк",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-frontend-design-system",
+    "title": "Как создаёте и поддерживаете design system?",
+    "aliases": [],
+    "answer": "Components, tokens, documentation, Storybook. Важно: consistency, reusability, accessibility.",
+    "exampleAnswer": "Components: Button, Input, Card (atoms). Tokens: colors, typography, spacing. Documentation: Storybook, props, examples. Accessibility: WCAG 2.1 AA. Результат: consistency, faster development.",
+    "context": "Проверяют понимание design systems.",
+    "keyPoints": [
+      {
+        "title": "Components",
+        "text": "Atomic design: atoms, molecules, organisms."
+      },
+      {
+        "title": "Tokens",
+        "text": "Colors, typography, spacing."
+      },
+      {
+        "title": "Documentation",
+        "text": "Storybook, guidelines."
+      },
+      {
+        "title": "Accessibility",
+        "text": "WCAG compliance, testing."
+      }
+    ],
+    "pitfalls": [
+      "Not documenting",
+      "Not versioning",
+      "Not accessible",
+      "Not reusable"
+    ],
+    "followUps": [
+      "Какversion-аете design system?",
+      "Какtестируете components?",
+      "Какmigration-аете на новые versions?"
+    ],
+    "category": "Frontend",
+    "scope": "universal",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Design System",
+      "Components",
+      "Storybook"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-frontend-typescript-advanced",
+    "title": "Как используете продвинутые возможности TypeScript в React?",
+    "aliases": [],
+    "answer": "Generics, utility types, discriminated unions, type guards, template literals. Важно: type safety, не escape hatches.",
+    "exampleAnswer": "Generics: `useState<T>`, `useReducer<S, A>`. Utility: `Partial<User>`, `Pick<User, 'name'>`. Discriminated unions: `type Action = Add | Remove`. Type guards: `if (isUser(data))`. Результат: type safety, better DX.",
+    "context": "Интервьюер хочет понять глубокое знание TypeScript.",
+    "keyPoints": [
+      {
+        "title": "Generics",
+        "text": "Когда использовать: reusable components, hooks."
+      },
+      {
+        "title": "Utility Types",
+        "text": "Partial, Required, Pick, Omit, Record."
+      },
+      {
+        "title": "Discriminated Unions",
+        "text": "Для state machines: actions, events."
+      },
+      {
+        "title": "Type Guards",
+        "text": "is, typeof, instanceof."
+      }
+    ],
+    "pitfalls": [
+      "Using `any`",
+      "Not using generics",
+      "Overcomplicating types",
+      "Not using type guards"
+    ],
+    "followUps": [
+      "Как типизируете Redux?",
+      "Как типизируете event handlers?",
+      "Как типизируете API responses?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "TypeScript",
+      "React",
+      "Advanced"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
@@ -20150,6 +20607,68 @@
     "videoFrequency": 0
   },
   {
+    "id": "vk-frontend-realtime",
+    "title": "Как реализуете real-time функционал в React-приложении?",
+    "aliases": [],
+    "answer": "WebSocket, Server-Sent Events, polling. Важно: reconnection, state synchronization, offline support.",
+    "exampleAnswer": "WebSocket для чата: connection, reconnection, heartbeat. SSE для уведомлений. Optimistic updates для UI. State: normalized, сversioning. Результат: real-time UX, offline support.",
+    "context": "Проверяют понимание real-time коммуникации.",
+    "keyPoints": [
+      {
+        "title": "WebSocket",
+        "text": "Когда использовать: bidirectional communication."
+      },
+      {
+        "title": "SSE",
+        "text": "Когда использовать: server → client updates."
+      },
+      {
+        "title": "State Sync",
+        "text": "Какsync-аете state: optimistic updates, reconciliation."
+      }
+    ],
+    "pitfalls": [
+      "Not handling reconnection",
+      "Not syncing state",
+      "Blocking UI",
+      "No offline support"
+    ],
+    "followUps": [
+      "Какhandling-аете disconnection?",
+      "Какsync-аете state между tabs?",
+      "Какoptimistic-ски updates делаете?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "WebSocket",
+      "Real-time"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "vk-interview-scale",
     "title": "Как масштабировать chat system на миллионы пользователей?",
     "aliases": [],
@@ -20470,6 +20989,72 @@
       }
     ],
     "videoFrequency": 2
+  },
+  {
+    "id": "wildberries-frontend-bundle-optimization",
+    "title": "Как оптимизируете bundle size в React-приложении?",
+    "aliases": [],
+    "answer": "Code splitting, tree shaking, lazy loading, compression. Важно: measure, не guess.",
+    "exampleAnswer": "Code splitting: routes, heavy components. Tree shaking: ES modules, lodash-es. Lazy loading: images, below fold. Measurement: webpack-bundle-analyzer. Результат: bundle уменьшился с 500KB до 150KB (gzipped).",
+    "context": "Интервьюер хочет понять ваш подход к оптимизации bundle.",
+    "keyPoints": [
+      {
+        "title": "Code Splitting",
+        "text": "React.lazy, dynamic imports, route-based."
+      },
+      {
+        "title": "Tree Shaking",
+        "text": "ES modules, side effects, dead code elimination."
+      },
+      {
+        "title": "Lazy Loading",
+        "text": "Images, components, routes."
+      },
+      {
+        "title": "Measurement",
+        "text": "Bundle analyzer, lighthouse, source-map-explorer."
+      }
+    ],
+    "pitfalls": [
+      "Not measuring",
+      "Not using tree shaking",
+      "Importing entire libraries",
+      "Not code splitting"
+    ],
+    "followUps": [
+      "Каканализируете bundle?",
+      "Какtree shake-аете libraries?",
+      "Какlazy load-ите images?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Wildberries"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Performance",
+      "Bundle"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Wildberries",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "wildberries-http-frontend",
@@ -21329,6 +21914,204 @@
     ],
     "duration": "15 мин",
     "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-frontend-performance",
+    "title": "Как оптимизировать производительность React-приложения?",
+    "aliases": [],
+    "answer": "Memo, useMemo, useCallback, virtualization, code splitting, lazy loading. Важно: profiling, measurement, not premature optimization.",
+    "exampleAnswer": "Memo: обернуть expensive components. useMemo для expensive calculations. useCallback для event handlers. Virtualization для списков >1000 элементов. Code splitting для routes. Результат: FCP улучшился с 3.2с до 1.1с, LCP с 4.5с до 2.1с.",
+    "context": "Интервьюер хочет понять ваш опыт оптимизации React-приложений.",
+    "keyPoints": [
+      {
+        "title": "Memoization",
+        "text": "Когда использовать: React.memo, useMemo, useCallback."
+      },
+      {
+        "title": "Virtualization",
+        "text": "Для длинных списков: react-window, react-virtualized."
+      },
+      {
+        "title": "Code Splitting",
+        "text": "Lazy loading: React.lazy, Suspense, dynamic imports."
+      },
+      {
+        "title": "Profiling",
+        "text": "Инструменты: React DevTools, Chrome DevTools, Lighthouse."
+      }
+    ],
+    "pitfalls": [
+      "Premature optimization",
+      "Не использовать memo",
+      "Не virtualize-ить длинные списки",
+      "Не профилировать перед оптимизацией"
+    ],
+    "followUps": [
+      "Как profiling-аете React-приложения?",
+      "Как оптимизируете re-renders?",
+      "Как уменьшаете bundle size?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Performance",
+      "Optimization"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-frontend-ssr",
+    "title": "Как реализуете SSR в React-приложении?",
+    "aliases": [],
+    "answer": "Next.js, server-side rendering, hydration, streaming. Важно: SEO, performance, data fetching.",
+    "exampleAnswer": "Next.js: pages, getServerSideProps. Hydration: React.hydrate, hydration mismatch handling. Streaming: Suspense, streaming SSR. Performance: TTFB < 200ms, FCP < 1s. Результат: SEO, fast initial load.",
+    "context": "Интервьюер хочет понять ваш опыт SSR.",
+    "keyPoints": [
+      {
+        "title": "Next.js",
+        "text": "Pages, app router, data fetching."
+      },
+      {
+        "title": "Hydration",
+        "text": "CSR vs SSR, hydration mismatch."
+      },
+      {
+        "title": "Streaming",
+        "text": "Suspense, streaming SSR."
+      },
+      {
+        "title": "Performance",
+        "text": "TTFB, FCP, LCP."
+      }
+    ],
+    "pitfalls": [
+      "Hydration mismatch",
+      "Not streaming",
+      "Slow data fetching",
+      "Not caching"
+    ],
+    "followUps": [
+      "Какhandling-аете data fetching?",
+      "Какcaching-аете SSR pages?",
+      "Какdebug-аете hydration issues?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "SSR",
+      "Next.js"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-frontend-state-management",
+    "title": "Как организовать state management в крупном React-приложении?",
+    "aliases": [],
+    "answer": "Redux Toolkit для глобального состояния, Context для настроек, локальный state для UI. Важно: нормализация, selectors,避免 unnecessary re-renders.",
+    "exampleAnswer": "Глобальный: Redux Toolkit (slices, thunks). Context: theme, locale, auth. Локальный: form state, UI state. Нормализация: createEntityAdapter. Selectors: reselect дляmemoized. Результат: predictable state, easier debugging.",
+    "context": "Проверяют понимание организации state в больших приложениях.",
+    "keyPoints": [
+      {
+        "title": "Глобальный state",
+        "text": "Redux Toolkit: slices, thunks, selectors."
+      },
+      {
+        "title": "Context",
+        "text": "Для настроек: theme, locale, auth."
+      },
+      {
+        "title": "Локальный state",
+        "text": "Для UI: form state, modals."
+      },
+      {
+        "title": "Нормализация",
+        "text": "createEntityAdapter, normalizr."
+      }
+    ],
+    "pitfalls": [
+      "Too much global state",
+      "Not normalizing",
+      "Not memoizing selectors",
+      "Using Redux для UI state"
+    ],
+    "followUps": [
+      "Как организуете Redux slices?",
+      "Как используете selectors?",
+      "Какобновляете normalized state?"
+    ],
+    "category": "Frontend",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "State Management",
+      "Redux"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
     "sources": [
       {
         "company": "Яндекс",
