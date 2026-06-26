@@ -28,7 +28,6 @@
     "vite": "^5.4.21"
   },
   "devDependencies": {
-    "@rollup/rollup-darwin-arm64": "^4.62.2",
     "@types/react": "latest",
     "@types/react-dom": "latest"
   }
