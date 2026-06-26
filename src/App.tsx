@@ -212,18 +212,15 @@ function App() {
           </div>
         </section>
 
-        <section className={s['company-strip']} id="companies">
-          <div className={s['company-strip-head']}>
-            <div className="section-kicker">Компании в базе</div>
-            <div className={s['video-infographic']} aria-label="Статистика источников из видео">
-              <div><strong>{videoStats.uniqueVideos}</strong><span>уникальных видео</span></div>
-              <div><strong>{videoStats.questionsWithVideo}</strong><span>вопросов из видео</span></div>
-              <div className={s['video-coverage']}>
-                <span><b>{videoStats.coverage}%</b> базы подтверждено видео</span>
-                <i><em style={{ width: `${videoStats.coverage}%` }} /></i>
-              </div>
+        <section className={s['question-section']} id="questions">
+          <div className={s['section-heading']}>
+            <div>
+              <span className="section-index">01 / БАЗА ЗНАНИЙ</span>
+              <h2>Свежие вопросы</h2>
+              <p>Восстановлены кандидатами после реальных интервью</p>
             </div>
           </div>
+
           <div className={s['company-row']}>
             {companies.map((company) => (
               <button
@@ -236,22 +233,10 @@ function App() {
               </button>
             ))}
           </div>
-        </section>
 
-        <section className={s['question-section']} id="questions">
-          <div className={s['section-heading']}>
-            <div>
-              <span className="section-index">01 / БАЗА ЗНАНИЙ</span>
-              <h2>Свежие вопросы</h2>
-              <p>Восстановлены кандидатами после реальных интервью</p>
-            </div>
-            <div className={s.filters}>
-              <div className={s['filters-row']}>
-                <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
-                  { value: 'Все компании', label: 'Все компании' },
-                  ...companies.map((company) => ({ value: company.name, label: company.name })),
-                ]} />
-                <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
+          <div className={s.filters}>
+            <div className={s['filters-row']}>
+              <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
                   { value: 'Все роли', label: 'Все роли' },
                   ...roles.map((role) => ({ value: role, label: role })),
                 ]} />
