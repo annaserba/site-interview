@@ -1,5 +1,7 @@
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle } from 'lucide-react'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
@@ -68,6 +70,17 @@ export function MockInterview({ onBack }: MockInterviewProps) {
       const roleMatch = activeRole === 'Все роли' || q.role === activeRole
       return companyMatch && typeMatch && roleMatch
     })
+  }, [activeCompany, activeType, activeRole])
+
+  // Reset interview when filters change
+  useEffect(() => {
+    if (filtersApplied) {
+      setSelectedQuestions([])
+      setFiltersApplied(false)
+      setCurrentIndex(0)
+      setShowAnswer(false)
+      setCompleted(new Set())
+    }
   }, [activeCompany, activeType, activeRole])
 
   const startInterview = useCallback(() => {
@@ -180,6 +193,9 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                 <span className={s.difficulty} style={{ color: difficultyColor[current.difficulty] }}>
                   {difficultyLabel[current.difficulty]}
                 </span>
+                <button className={s['restart-btn']} onClick={reset} title="Начать заново">
+                  <RotateCcw size={14} />
+                </button>
               </div>
 
               <div className={s['interviewer-row']}>
@@ -215,24 +231,7 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   <div className={s['answer-section']}>
                     <h3>Пример ответа</h3>
                     <div className={s['answer-text']}>
-                      {current.exampleAnswer.split('```').map((block, i) => {
-                        if (i % 2 === 0) {
-                          // Regular text
-                          return block.split('\n').filter(Boolean).map((line, j) => (
-                            <p key={`${i}-${j}`}>{line}</p>
-                          ))
-                        } else {
-                          // Code block
-                          const lines = block.split('\n')
-                          const lang = lines[0]?.trim() || ''
-                          const code = lang ? lines.slice(1).join('\n') : block
-                          return (
-                            <pre key={i} className={s.code}>
-                              {code}
-                            </pre>
-                          )
-                        }
-                      })}
+                      <Markdown remarkPlugins={[remarkGfm]}>{current.exampleAnswer}</Markdown>
                     </div>
                   </div>
                 </div>
