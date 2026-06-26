@@ -4,7 +4,6 @@ export type QuestionIndex = {
   documents: Array<{ id: string; embedding: number[] }>
 }
 
-const DATA_BASE_URL = (import.meta.env.VITE_QUESTIONS_BASE_URL || 'https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data').replace(/\/$/, '')
 const CACHE_TTL_MS = 5 * 60 * 1000
 const CACHE_PREFIX = 'in-depth:data:v6:'
 
@@ -34,7 +33,7 @@ function writeCache<T>(url: string, value: T) {
 }
 
 async function fetchJsonCached<T>(fileName: string, signal?: AbortSignal): Promise<T> {
-  const url = `${DATA_BASE_URL}/${fileName}`
+  const url = `/data/${fileName}`
   const cached = readCache<T>(url)
 
   if (cached && cached.expiresAt > Date.now()) return cached.value
@@ -48,10 +47,6 @@ async function fetchJsonCached<T>(fileName: string, signal?: AbortSignal): Promi
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error
     if (cached) return cached.value
-    if (DATA_BASE_URL !== '/data') {
-      const fallbackResponse = await fetch(`/data/${fileName}`, { cache: 'default', signal })
-      if (fallbackResponse.ok) return fallbackResponse.json() as Promise<T>
-    }
     throw error
   }
 }

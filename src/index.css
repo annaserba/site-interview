@@ -1,23 +1,31 @@
 :root {
   font-family: 'Inter', sans-serif;
-  color: #0d0e0c; background: #f8f6f0;
+  color: #1a1a1a; background: #faf9f7;
   font-synthesis: none; text-rendering: optimizeLegibility;
-  --ink: #0d0e0c;
-  --acid: #c9ff32;
-  --acid-glow: rgba(201, 255, 50, 0.18);
-  --paper: #f8f6f0;
-  --paper-dim: #efede6;
-  --muted: #6b6c66;
-  --line: #ddd9d0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --ink: #1a1a1a;
+  --acid: #b8ff00;
+  --acid-glow: rgba(184, 255, 0, 0.15);
+  --paper: #faf9f7;
+  --paper-dim: #f0efeb;
+  --muted: #7a7a74;
+  --line: #e8e6e0;
+  --line-soft: #efeee9;
   --surface: #ffffff;
   --dark: #111210;
   --dark-surface: #1b1c18;
   --dark-line: #2c2e29;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 14px;
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 18px;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.03);
+  --shadow-xl: 0 20px 50px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.04);
 }
 
 * { box-sizing: border-box; }

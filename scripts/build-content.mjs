@@ -1,8 +1,9 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const contentDirectory = resolve('content/questions')
 const outputPath = resolve('public/data/questions.json')
+const srcOutputPath = resolve('src/data/questions.json')
 
 function parseValue(value) {
   const trimmed = value.trim()
@@ -155,4 +156,6 @@ for (const question of questions) {
 }
 
 await writeFile(outputPath, `${JSON.stringify(questions, null, 2)}\n`)
+await mkdir(resolve('src/data'), { recursive: true })
+await writeFile(srcOutputPath, `${JSON.stringify(questions, null, 2)}\n`)
 console.log(`Built ${questions.length} questions from Markdown`)

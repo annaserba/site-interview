@@ -3,9 +3,11 @@ import { ArrowRight, Menu, Search, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
-import { fetchQuestions } from './dataClient'
+import { MockInterview } from './MockInterview'
 import type { Question } from './types'
+import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import s from './App.module.css'
+import questionsData from './data/questions.json'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
   'Яндекс': { mark: 'Я', color: '#FFCC00' },
@@ -18,11 +20,13 @@ const companyStyles: Record<string, { mark: string; color: string }> = {
   Сбер: { mark: 'С', color: '#21A038' },
   Гознак: { mark: 'Г', color: '#003366' },
   'Лига Ставок': { mark: 'Л', color: '#FF6600' },
+  'IT One': { mark: 'IT', color: '#E53935' },
+  'Rutube': { mark: 'R', color: '#000000' },
+  'Usetech': { mark: 'Ut', color: '#1E88E5' },
 }
 
 const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
-const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK', 'Wildberries', 'Okko', 'Сбер', 'Гознак']
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 const videoFrequency = (question: Question) => question.videoFrequency ?? new Set(question.sources
   .filter((source) => source.type === 'youtube')
@@ -48,23 +52,6 @@ const topicDefinitions = [
   { id: 'gamedev', label: 'Game Dev', categories: ['Game Development'], terms: ['unreal', 'game'] },
 ]
 
-const questionTypeDefinitions = [
-  { id: 'technical', label: 'Технические' },
-  { id: 'behavioral', label: 'Поведенческие' },
-  { id: 'system-design', label: 'Системный дизайн' },
-  { id: 'hr', label: 'HR' },
-  { id: 'game-dev', label: 'Game Dev' },
-]
-
-function getQuestionType(item: Question): string {
-  const cat = item.category
-  if (item.tags.includes('HR')) return 'hr'
-  if (cat === 'Game Development') return 'game-dev'
-  if (cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture') return 'system-design'
-  if (cat === 'Behavioral') return 'behavioral'
-  return 'technical'
-}
-
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [activeCompany, setActiveCompany] = useState('Все компании')
@@ -76,19 +63,16 @@ function App() {
   const [visibleCount, setVisibleCount] = useState(4)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
+  const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
 
   useEffect(() => {
-    const controller = new AbortController()
-    fetchQuestions(controller.signal)
-      .then(setQuestions)
-      .catch((error) => {
-        if (error.name !== 'AbortError') setQuestions([])
-      })
-    return () => controller.abort()
+    setQuestions(questionsData as Question[])
   }, [])
 
   const applyHashFilters = (hash: string) => {
     const path = hash.replace(/^#/, '')
+    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); return }
+    setShowMockInterview(false)
     if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
     setSelectedQuestionId('')
     if (path.startsWith('topic/')) {
@@ -111,6 +95,9 @@ function App() {
     }
     if (path.startsWith('role/')) {
       setActiveRole(decodeURIComponent(path.slice(5))); setActiveTopic('Все темы'); setActiveCompany('Все компании'); return
+    }
+    if (path === 'questions' || path === '') {
+      setActiveCompany('Все компании'); setActiveTopic('Все темы'); setActiveRole('Все роли'); return
     }
   }
 
@@ -195,6 +182,7 @@ function App() {
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#companies" onClick={() => setMenuOpen(false)}>Компании</a>
+          <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
         </nav>
         <div className={s['header-actions']}>
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
@@ -204,11 +192,13 @@ function App() {
       </header>
 
       <main id="top">
-        {selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
+        {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
+         selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
         <section className={s.hero}>
           <div className={s['hero-copy']}>
             <h1>Знай, что тебя <em>спросят.</em></h1>
             <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
+            <a href="#mock-interview" className={s['hero-cta']}>Практиковаться <ArrowRight /></a>
           </div>
         </section>
 
@@ -223,7 +213,7 @@ function App() {
 
           <div className={s['company-row']}>
             <button className={`${s['company-pill']} ${activeCompany === 'Все компании' ? s.selected : ''}`}
-              onClick={() => setActiveCompany('Все компании')}>
+              onClick={() => navigateCompany('Все компании')}>
               <span><b>Все</b></span>
             </button>
             {companies.map((company) => (
