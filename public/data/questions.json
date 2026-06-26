@@ -16513,6 +16513,1316 @@
     "videoFrequency": 0
   },
   {
+    "id": "teamlead-architecture-decisions",
+    "title": "Как вы принимаете архитектурные решения и документируете их?",
+    "aliases": [],
+    "answer": "RFC/ADR → обсуждение с командой → решение → документация. Важно: не принимать решения одному, учить команду.",
+    "exampleAnswer": "Процесс: RFC → обсуждение (2 встречи) → решение (голосование) → документация (ADR). Участники: команда, tech lead, architect. Документация: ADR, Confluence, diagrams. Результат: прозрачность решений, рост knowledge sharing.",
+    "context": "Интервьюер хочет понять, как вы принимаете 중요한 технические решения.",
+    "keyPoints": [
+      {
+        "title": "Процесс",
+        "text": "RFC/ADR → обсуждение → решение → документация."
+      },
+      {
+        "title": "Участники",
+        "text": "Кто участвует: команда, stakeholders."
+      },
+      {
+        "title": "Документация",
+        "text": "Как документируете: ADR, wiki, diagrams."
+      }
+    ],
+    "pitfalls": [
+      "Принимать решения одному",
+      "Не документировать",
+      "Не обсуждать с командой",
+      "Игнорироватьfeedback"
+    ],
+    "followUps": [
+      "Как вы обрабатываете disagreements в команде?",
+      "Как обучаете команду принятию решений?",
+      "Как измеряете качество архитектурных решений?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Architecture",
+      "Decision"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-code-review-process",
+    "title": "Как вы организовали code review в команде?",
+    "aliases": [],
+    "answer": "PR → 1-2 ревьюера → комментарии → исправления → мерж. Важно: не блокировать, давать обратную связь, учитьjunior-ов. Инструменты: GitHub PR, GitLab MR.",
+    "exampleAnswer": "Процесс: PR → 1-2 ревьюера → комментарии → исправления → мерж. Ревьюеры: senior-ы дляjunior-ов, peers для peers. Время: не более 24 часов на ревью. Комментарии: конструктивные, с примерами кода. Результат: снижение багов на 40%, ростjunior-ов.",
+    "context": "Проверяют понимание процесса code review и его важности для качества кода.",
+    "keyPoints": [
+      {
+        "title": "Процесс",
+        "text": "Опишите flow: от создания PR до мержа."
+      },
+      {
+        "title": "Ревьюеры",
+        "text": "Кто и сколько ревьюит. Как распределяете нагрузку."
+      },
+      {
+        "title": "Обратная связь",
+        "text": "Как даёте комментарии: конструктивно, с примерами."
+      }
+    ],
+    "pitfalls": [
+      "Не ревьюить вообще",
+      "Ревьюить только формально",
+      "Не давать обратную связьjunior-ам",
+      "Блокировать PR без веских причин"
+    ],
+    "followUps": [
+      "Как вы мотивируете команду на качественный code review?",
+      "Как обрабатываете конфликты в code review?",
+      "Как измеряете качество code review?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Code Review",
+      "Quality"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-conflict-resolution",
+    "title": "Как вы разрешаете конфликты в команде?",
+    "aliases": [],
+    "answer": "Listening → understanding → mediation → resolution. Важно: не taking sides, focusing on issues, not people.",
+    "exampleAnswer": "Подход: listening (неinterrupt), empathy (understand both sides). Процесс: mediation (find common ground), resolution (agreement). Профилактика: culture (open communication), regular 1:1. Результат: снижениеconflicts на 60%, improved team morale.",
+    "context": "Проверяют понимание conflict resolution иsoft skills.",
+    "keyPoints": [
+      {
+        "title": "Подход",
+        "text": "Как approach-аетеconflict: listening, empathy."
+      },
+      {
+        "title": "Процесс",
+        "text": "Как resolve-аете: mediation, finding common ground."
+      },
+      {
+        "title": "Профилактика",
+        "text": "Как предотвращаете: culture, communication."
+      }
+    ],
+    "pitfalls": [
+      "Taking sides",
+      "Ignoringconflict",
+      "Focusing on people, not issues",
+      "Not following up"
+    ],
+    "followUps": [
+      "Как обрабатываетеconflicts между senior иjunior?",
+      "Как создаётеsafe environment для discussions?",
+      "Как мотивируетеteam на resolving conflicts?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Conflict",
+      "Resolution"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-cross-functional-collaboration",
+    "title": "Как вы организуете кросс-функциональное сотрудничество?",
+    "aliases": [],
+    "answer": "Regular meetings → shared goals → communication channels. Важно: breaking silos, shared ownership.",
+    "exampleAnswer": "Meetings: joint planning (quarterly), syncs (weekly). Goals: shared OKR, metrics. Communication: Slack channels, shared docs. Результат: improved collaboration, faster delivery.",
+    "context": "Интервьюер хочет понять, как вы работаете с другими командами.",
+    "keyPoints": [
+      {
+        "title": "Meetings",
+        "text": "Какие meetings: joint planning, syncs."
+      },
+      {
+        "title": "Goals",
+        "text": "Какalign-аете goals: shared OKR, metrics."
+      },
+      {
+        "title": "Communication",
+        "text": "Какcommunicate-ите: channels, tools."
+      }
+    ],
+    "pitfalls": [
+      "Working in silos",
+      "Notcommunicating",
+      "Not sharing goals",
+      "Not having ownership"
+    ],
+    "followUps": [
+      "Как обрабатываете dependencies между командами?",
+      "Как создаётеshared ownership?",
+      "Какalign-аетеpriorities?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Collaboration",
+      "Cross-functional"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-delivery-practices",
+    "title": "Как вы организуете delivery от аналитики до production?",
+    "aliases": [],
+    "answer": "Discovery → Planning → Development → Testing → Staging → Production → Monitoring. Важно: automation, rollback, feature flags.",
+    "exampleAnswer": "Этапы: Discovery (аналитика, 1 неделя) → Planning (спринт) → Development (код, tests) → Testing (QA, staging) → Production (deploy, monitoring). Automation: CI/CD (Jenkins), tests (Jest), deploy (Docker). Rollback: blue/green, feature flags. Результат: время deploy сократилось с 2 часов до 15 минут.",
+    "context": "Проверяют понимание полного цикла delivery и его automation.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "Опишите каждый этап: от аналитики до production."
+      },
+      {
+        "title": "Automation",
+        "text": "Что автоматизировано: CI/CD, testing, deployment."
+      },
+      {
+        "title": "Rollback",
+        "text": "Как делаетеrollback: blue/green, feature flags."
+      }
+    ],
+    "pitfalls": [
+      "Manual deploy",
+      "Нетrollback strategy",
+      "Нетtesting в staging",
+      "Длинные sprint-и"
+    ],
+    "followUps": [
+      "Как измеряете delivery performance?",
+      "Как обрабатываетеfailed deploy?",
+      "Какimprove-аете delivery pipeline?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Delivery",
+      "CI/CD"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-developer-growth",
+    "title": "Как вы помогаетеjunior-ам расти и become senior?",
+    "aliases": [],
+    "answer": "1:1 meetings, code review, pairing, learning sessions. Важно: давать сложные задачи, но с поддержкой.",
+    "exampleAnswer": "Инструменты: 1:1 weekly, code review, pairing, learning sessions. Поддержка: mentoring, feedback, books, courses. Рост: goals (3-6 месяцев), milestones. Результат: 2junior-а стали mid-level за год.",
+    "context": "Интервьюер хочет понять, как вы помогаетеjunior-ам расти.",
+    "keyPoints": [
+      {
+        "title": "Инструменты",
+        "text": "1:1, code review, pairing, learning sessions."
+      },
+      {
+        "title": "Поддержка",
+        "text": "Как поддерживаете: mentoring, feedback, resources."
+      },
+      {
+        "title": "Рост",
+        "text": "Как трекаетеprogress: goals, milestones."
+      }
+    ],
+    "pitfalls": [
+      "Не даватьfeedback",
+      "Не трекатьprogress",
+      "Давать слишком сложные задачи без поддержки",
+      "Не мотивировать"
+    ],
+    "followUps": [
+      "Как вы помогаетеjunior-ам преодолевать difficulties?",
+      "Как создаётеculture of learning?",
+      "Как мотивируетеjunior-ов на self-study?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Mentoring",
+      "Growth"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-full-cycle-management",
+    "title": "Как вы управляете полным циклом от аналитики до production?",
+    "aliases": [],
+    "answer": "Discovery → Requirements → Design → Development → Testing → Release → Support. Важно: ownership, accountability, quality at each stage.",
+    "exampleAnswer": "Discovery: meetings саналитикой,理解 requirements. Requirements: translation в technical tasks, estimation. Development: sprint planning, daily, code review. Testing: unit, integration, QA. Release: CI/CD, blue/green deploy. Support: monitoring, incident response. Результат: full ownership, quality delivery.",
+    "context": "Проверяют понимание полного цикла разработки иownership.",
+    "keyPoints": [
+      {
+        "title": "Discovery",
+        "text": "Как взаимодействуете с аналитикой."
+      },
+      {
+        "title": "Requirements",
+        "text": "Какtransliterate-аете requirements в technical tasks."
+      },
+      {
+        "title": "Development",
+        "text": "Какorganize-аете development process."
+      },
+      {
+        "title": "Testing",
+        "text": "Какorganize-аете testing."
+      },
+      {
+        "title": "Release",
+        "text": "Какorganize-аетеrelease process."
+      },
+      {
+        "title": "Support",
+        "text": "Какorganize-аетеpost-release support."
+      }
+    ],
+    "pitfalls": [
+      "Not owning full cycle",
+      "Not communicating with аналитикой",
+      "Not testing足够",
+      "Not monitoring post-release"
+    ],
+    "followUps": [
+      "Как обрабатываетеchanges в requirements mid-sprint?",
+      "Как балансируете speed и quality?",
+      "какmeasured-аете success full cycle?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Full Cycle",
+      "Delivery"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-hiring-interview",
+    "title": "Как вы проводите техническое интервью и оцениваете кандидатов?",
+    "aliases": [],
+    "answer": "Resume screening → phone screen → technical → system design → cultural fit → offer. Важно: оценивать не только скиллы, но и potential, culture.",
+    "exampleAnswer": "Этапы: Resume screening (10 минут) → phone screen (30 минут) → technical (1 час) → system design (1 час) → cultural fit (30 минут) → offer. Оценка: coding (40%), design (30%), culture (30%). Решение: feedback panel, scoring. Результат: hiring rate 20%, retention 90%.",
+    "context": "Проверяют понимание процесса hiring и оценки кандидатов.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "Resume → phone → technical → design → culture → offer."
+      },
+      {
+        "title": "Оценка",
+        "text": "Что проверяете: coding, system design, communication."
+      },
+      {
+        "title": "Решение",
+        "text": "Как принимаете решение: feedback, scoring."
+      }
+    ],
+    "pitfalls": [
+      "Оценивать только скиллы",
+      "Не проверять cultural fit",
+      "Быстро нанимать под давлением",
+      "Не давать feedback"
+    ],
+    "followUps": [
+      "Как вы оцениваетеjunior-ов?",
+      "Как обрабатываете situations, когда кандидат хорош, но нет позиции?",
+      "Как мотивируете команду на hiring?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Hiring",
+      "Interview"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-incident-management",
+    "title": "Как вы обрабатываете инциденты и.manage-ите кризисы?",
+    "aliases": [],
+    "answer": "Triage → assign → fix → post-mortem. Важно: не винить, учиться, улучшать процессы. Инструменты: PagerDuty, Slack, Jira.",
+    "exampleAnswer": "Процесс: Triage (15 минут) → assign (ответственный) → fix (экстренный патч) → post-mortem (в понедельник). Коммуникация: Slack #incidents, email stakeholders. Улучшения: post-mortem, action items, regression tests. Результат: снижениеMTTR на 50%.",
+    "context": "Интервьюер хочет понять, как вы.handle-ите стрессовые ситуации и организуете работу в кризис.",
+    "keyPoints": [
+      {
+        "title": "Процесс",
+        "text": "Triage → assign → fix → post-mortem."
+      },
+      {
+        "title": "Коммуникация",
+        "text": "Кому говорить: stakeholders, команда, менеджмент."
+      },
+      {
+        "title": "Улучшения",
+        "text": "Post-mortem: что пошло не так, как исправить."
+      }
+    ],
+    "pitfalls": [
+      "Винить людей",
+      "Не делать post-mortem",
+      "Не коммуницировать со stakeholders",
+      "Не улучшать процессы"
+    ],
+    "followUps": [
+      "Как вы организуете on-call?",
+      "Как обучаете команду обработке инцидентов?",
+      "Как измеряете эффективность incident response?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Incident",
+      "Crisis"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-microservices-architecture",
+    "title": "Как вы проектируете решения в микросервисной архитектуре?",
+    "aliases": [],
+    "answer": "Domain-driven design → service boundaries → communication patterns → deployment. Важно: неmaking distributed monolith, independence.",
+    "exampleAnswer": "Design: DDD, bounded contexts (user, order, payment). Communication: REST дляsync, Kafka дляasync events. Deployment: Docker, Kubernetes, service mesh. Результат: independence, scalability, fault isolation.",
+    "context": "Интервьюер хочет понять ваш опыт построения микросервисов.",
+    "keyPoints": [
+      {
+        "title": "Design",
+        "text": "Как проектируете: DDD, bounded contexts."
+      },
+      {
+        "title": "Communication",
+        "text": "Какие паттерны: sync (REST), async (Kafka)."
+      },
+      {
+        "title": "Deployment",
+        "text": "Как deploy-аете: containers, orchestration."
+      }
+    ],
+    "pitfalls": [
+      "Distributed monolith",
+      "Too many services",
+      "Wrong boundaries",
+      "No monitoring"
+    ],
+    "followUps": [
+      "Как определяетеservice boundaries?",
+      "Как обрабатываетеdistributed transactions?",
+      "Какмониторите микросервисы?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Microservices",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-motivation-development",
+    "title": "Как вы работаете с мотивацией и развитием сотрудников?",
+    "aliases": [],
+    "answer": "1:1 → goals → feedback → growth plan. Важно: индивидуальный подход, career path, recognition.",
+    "exampleAnswer": "1:1: weekly, 30 минут, формат: что получилось, что не получилось, feedback. Goals: SMART, alignment сOKR. Growth: mentoring, courses, conferences. Результат: retention 95%, рост satisfaction.",
+    "context": "Проверяют понимание мотивации и развития команды.",
+    "keyPoints": [
+      {
+        "title": "1:1",
+        "text": "Как проводите: регулярность, формат."
+      },
+      {
+        "title": "Goals",
+        "text": "Как ставите: SMART goals, alignment."
+      },
+      {
+        "title": "Growth",
+        "text": "Как создаётеgrowth plan: mentoring, learning."
+      }
+    ],
+    "pitfalls": [
+      "Не проводить 1:1",
+      "Не даватьfeedback",
+      "Не мотивировать",
+      "Не трекатьprogress"
+    ],
+    "followUps": [
+      "Как мотивируетеjunior-ов?",
+      "Как создаётеcareer path?",
+      "Как обрабатываетеburnout?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Motivation",
+      "Development"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-motivation",
+    "title": "Как вы мотивируете команду и создаёте атмосферу?",
+    "aliases": [],
+    "answer": "1:1 встречи, feedback, ростjunior-ов, честность, autonomy. Важно: слушать команду, не micromanage, celebrating wins.",
+    "exampleAnswer": "Инструменты: 1:1 раз в неделю, retrospectives после спринта,.feedback. Стиль: autonomy, trust, не micromanage. Рост: mentoringjunior-ов, обучение, карьерный путь. Результат: рост retention на 25%, повышение satisfaction.",
+    "context": "Проверяют понимание мягких навыковleadership и способность мотивировать людей.",
+    "keyPoints": [
+      {
+        "title": "Инструменты",
+        "text": "1:1 встречи, retrospectives, feedback."
+      },
+      {
+        "title": "Стиль",
+        "text": "Не micromanage, autonomy, trust."
+      },
+      {
+        "title": "Рост",
+        "text": "Обучениеjunior-ов, mentoring, карьерный рост."
+      }
+    ],
+    "pitfalls": [
+      "Micromanage",
+      "Не слушать команду",
+      "Не давать feedback",
+      "Игнорироватьburnout"
+    ],
+    "followUps": [
+      "Как вы обрабатываетеconflicts в команде?",
+      "Как создаёте culture of learning?",
+      "Как мотивируете senior-ов?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Motivation",
+      "Culture"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-process-optimization",
+    "title": "Как вы оптимизируете процессы в команде?",
+    "aliases": [],
+    "answer": "Измеряем → анализируем → улучшаем → трекаем. Важно: data-driven, неImposing processes,Listening to team.",
+    "exampleAnswer": "Измерение: velocity (40 points), cycle time (3 days), satisfaction (4.2/5). Анализ: retrospectives, metrics review. Улучшение: experiments (new process), feedback. Результат: рост velocity на 20%, снижение cycle time на 25%.",
+    "context": "Интервьюер хочет понять, как вы улучшаете процессы.",
+    "keyPoints": [
+      {
+        "title": "Измерение",
+        "text": "Что измеряете: velocity, cycle time, satisfaction."
+      },
+      {
+        "title": "Анализ",
+        "text": "Как анализируете: retrospectives, metrics."
+      },
+      {
+        "title": "Улучшение",
+        "text": "Как улучшаете: experiments, feedback."
+      }
+    ],
+    "pitfalls": [
+      "Не измерять",
+      "Imposing processes безfeedback",
+      "Не трекатьprogress",
+      "Игнорироватьfeedback"
+    ],
+    "followUps": [
+      "Как вы приоритизируете улучшения?",
+      "Как обрабатываетеresistance к изменениям?",
+      "Как создаётеculture of continuous improvement?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Process",
+      "Optimization"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-quality-assurance",
+    "title": "Как вы обеспечиваете качество кода и процессов?",
+    "aliases": [],
+    "answer": "Standards → code review → testing → metrics. Важно: баланс между speed и quality, automation.",
+    "exampleAnswer": "Standards: coding guidelines, linting, best practices. Процессы: code review, unit tests, integration tests, CI/CD. Metrics: code coverage (80%), bug rate (2 per sprint), satisfaction (4.5/5). Результат: ростquality, снижениеbugs на 50%.",
+    "context": "Проверяют понимание quality assurance и его importance.",
+    "keyPoints": [
+      {
+        "title": "Standards",
+        "text": "Какие standards: coding guidelines, best practices."
+      },
+      {
+        "title": "Процессы",
+        "text": "Какие процессы: code review, testing, CI/CD."
+      },
+      {
+        "title": "Metrics",
+        "text": "Что измеряете: code coverage, bug rate, satisfaction."
+      }
+    ],
+    "pitfalls": [
+      "Не having standards",
+      "Not measuring quality",
+      "Sacrificing quality for speed",
+      "Not automating"
+    ],
+    "followUps": [
+      "Как балансируете speed и quality?",
+      "Как мотивируетеteam на quality?",
+      "Какimprove-аетеquality metrics?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Quality",
+      "Process"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-risk-management",
+    "title": "Как вы управляете рисками в проектах?",
+    "aliases": [],
+    "answer": "Identify → assess → mitigate → monitor. Важно: proactive, неreactive, communication.",
+    "exampleAnswer": "Идентификация: brainstorming (team), analysis (past projects). Оценка: probability (high/medium/low), impact (high/medium/low). Mitigation: contingency plans, avoidance. Мониторинг: weekly review, escalation. Результат: снижение project failures на 40%.",
+    "context": "Интервьюер хочет понять, как вы управляете рисками.",
+    "keyPoints": [
+      {
+        "title": "Идентификация",
+        "text": "Какidentifицируете risks: brainstorming, analysis."
+      },
+      {
+        "title": "Оценка",
+        "text": "Как assess-аете: probability, impact."
+      },
+      {
+        "title": "Mitigation",
+        "text": "Как mitigate-аете: contingency, avoidance."
+      }
+    ],
+    "pitfalls": [
+      "Ignoring risks",
+      "Не having contingency plans",
+      "Not communicating risks",
+      "Not monitoring"
+    ],
+    "followUps": [
+      "Как prioritизируете risks?",
+      "Какcommunicate-ите risks stakeholders?",
+      "Какlearn-аете изrisks?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Risk",
+      "Planning"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-sprint-retrospective",
+    "title": "Как вы проводите retrospective и улучшаете процессы?",
+    "aliases": [],
+    "answer": "Формат: Start/Stop/Continue или Sailboat. Важно: action items,跟踪执行, не обсуждать людей.",
+    "exampleAnswer": "Формат: Start/Stop/Continue (30 минут). Action items: Jira tickets, assigned, deadline. Улучшения: метрики velocity, satisfaction. Результат: рост velocity на 15%, улучшение communication.",
+    "context": "Проверяют понимание retrospective и её importance для команды.",
+    "keyPoints": [
+      {
+        "title": "Формат",
+        "text": "Какой формат используете: Start/Stop/Continue, Sailboat."
+      },
+      {
+        "title": "Action Items",
+        "text": "Как создаёте и трекаете action items."
+      },
+      {
+        "title": "Улучшения",
+        "text": "Как измеряетеeffectiveness retrospectpectives."
+      }
+    ],
+    "pitfalls": [
+      "Не делать retrospective",
+      "Не трекать action items",
+      "Обсуждать людей, а не процессы",
+      "Не измерятьeffectiveness"
+    ],
+    "followUps": [
+      "Как вы мотивируете команду на retrospective?",
+      "Как обрабатываете situations, когда нет улучшений?",
+      "Как создаёте safe environment для feedback?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Retrospective",
+      "Process"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-stakeholder-communication",
+    "title": "Как выcommunicate-ите со stakeholders и менеджментом?",
+    "aliases": [],
+    "answer": "Регулярныеmeetings, отчёты, demos. Важно: говорить на языке бизнеса, показыватьprogress, не только problems.",
+    "exampleAnswer": "Формат: weekly status (30 минут), demos (ежемесячно), reports (quarterly). Контент: progress (what done), risks (blockers), wins (metrics). Язык: business impact, revenue, efficiency. Результат: доверие stakeholders, alignment.",
+    "context": "Проверяют понимание коммуникации со stakeholders.",
+    "keyPoints": [
+      {
+        "title": "Формат",
+        "text": "Какие meetings: weekly status, demos, reports."
+      },
+      {
+        "title": "Контент",
+        "text": "Чтоcommunicate-ите: progress, risks, wins."
+      },
+      {
+        "title": "Язык",
+        "text": "Как говорите: metrics, business impact."
+      }
+    ],
+    "pitfalls": [
+      "Говорить только о problems",
+      "Не показыватьprogress",
+      "Использовать technical jargon",
+      "Не регулярноcommunicate-ить"
+    ],
+    "followUps": [
+      "Как обрабатываете negative feedback от stakeholders?",
+      "Как создаётеtransparency?",
+      "Как align-аетеexpectations?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Communication",
+      "Stakeholders"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-task-delegation",
+    "title": "Как вы делегируете задачи и распределяете нагрузку?",
+    "aliases": [],
+    "answer": "Определяем сложность → выбираем исполнителя по скиллам → даём контекст → трекаем.progress. Важно: не micromanage, давать autonomy, но проверять.",
+    "exampleAnswer": "Критерии: скиллы, текущая负载, потенциал роста. Процесс: контекст, deadline, acceptance criteria. Контроль: standup, Jira, 1:1. Результат: равномерная负载, ростjunior-ов.",
+    "context": "Проверяют понимание делегирования и способность распределять задачи.",
+    "keyPoints": [
+      {
+        "title": "Критерии",
+        "text": "Как выбираете исполнителя: скиллы,负载, рост."
+      },
+      {
+        "title": "Процесс",
+        "text": "Как делегируете: контекст, deadline, ожидания."
+      },
+      {
+        "title": "Контроль",
+        "text": "Как трекаете: standup, Jira, 1:1."
+      }
+    ],
+    "pitfalls": [
+      "Делегировать без контекста",
+      "Micromanage",
+      "Делегировать только senior-ам",
+      "Не проверять progress"
+    ],
+    "followUps": [
+      "Как вы делегируете задачи, которые не хотите делать сами?",
+      "Как обрабатываете situations, когда делегировали, но не получили результат?",
+      "Как мотивируете команду брать ответственность?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Delegation",
+      "Planning"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-team-formation",
+    "title": "Как вы формировали команду и подбирали людей?",
+    "aliases": [],
+    "answer": "Определяем roles и skills matrix → sourcing (headhunters, referrals, social) → техническое интервью → cultural fit → оффер. Важно: баланс скиллов, не только сильные, но иjunior-ы для роста.",
+    "exampleAnswer": "Формировал команду для e-commerce платформы. Roles: 2 frontend, 2 backend, 1 devops, 1 QA. Skills: React, Node.js, PostgreSQL, Docker. Сourcing: 60% referrals, 40% headhunters. Интервью: coding challenge + system design + cultural fit. Результат: команда из 6 человек, проект сдан в срок.",
+    "context": "Интервьюер хочет понять, как вы подходите к построению команды: умеете ли вы определять роли, искать людей и оценивать их соответствие.",
+    "keyPoints": [
+      {
+        "title": "Roles & Skills",
+        "text": "Определите roles: frontend, backend, devops, QA. Skills matrix: что нужно для проекта."
+      },
+      {
+        "title": "Sourcing",
+        "text": "Откуда берёте кандидатов: headhunters, referrals, LinkedIn, оферы."
+      },
+      {
+        "title": "Оценка",
+        "text": "Техническое интервью + cultural fit. Что проверяете."
+      }
+    ],
+    "pitfalls": [
+      "Нанимать только по скиллам, без cultural fit",
+      "Не проверять references",
+      "Быстро нанимать под давлениемdeadlines",
+      "Не думать о балансе junior/senior"
+    ],
+    "followUps": [
+      "Как вы оцениваете cultural fit?",
+      "Как xửняете ситуацию, когда кандидат хорош технически, но не подходит по культуре?",
+      "Как мотивируете команду на рост?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Hiring",
+      "Team Building"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-tech-stack-knowledge",
+    "title": "Как вы确保-аетеknowledge стека разработки в команде?",
+    "aliases": [],
+    "answer": "Learning sessions → documentation → pair programming → code review. Важно: knowledge sharing, неbus factor.",
+    "exampleAnswer": "Learning: weekly learning sessions, workshops. Documentation: wiki, ADR, README. Sharing: pair programming, code review. Результат: knowledge distributed, bus factor reduced.",
+    "context": "Интервьюер хочет понять, как вы đảm знание стека в команде.",
+    "keyPoints": [
+      {
+        "title": "Learning",
+        "text": "Какlearning-аете: sessions, workshops, courses."
+      },
+      {
+        "title": "Documentation",
+        "text": "Как документируете: wiki, ADR, README."
+      },
+      {
+        "title": "Sharing",
+        "text": "Как sharing-аете: pair programming, code review."
+      }
+    ],
+    "pitfalls": [
+      "Not sharing knowledge",
+      "Not documenting",
+      "Not learning",
+      "Bus factor"
+    ],
+    "followUps": [
+      "Как обучаетеjunior-ов стеку?",
+      "Какdocument-аетеarchitecture decisions?",
+      "Какsharing-аетеknowledge между командами?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Knowledge",
+      "Stack"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-technical-debt",
+    "title": "Как вы управляете техническим долгом в команде?",
+    "aliases": [],
+    "answer": "Трекаем технический долг в бэклоге, выделяем 20% времени на спринт, refactor постепенно. Важно: баланс между feature и debt, не копить.",
+    "exampleAnswer": "Технический долг: legacy код без тестов, отсутствие документации. Управление: бэклог с labels \"tech-debt\", 20% времени на спринт. Рефакторинг: постепенный, не big bang. Результат: снижение времени на фичи на 30%, рост稳定性.",
+    "context": "Интервьюер хочет понять, как вы балансируете между добавлением фич и исправлением старого кода.",
+    "keyPoints": [
+      {
+        "title": "Определение",
+        "text": "Что считаете техническим долгом: legacy code, отсутствие тестов, hardcode."
+      },
+      {
+        "title": "Управление",
+        "text": "Как трекаете: backlog, labels, регулярные рефакторинги."
+      },
+      {
+        "title": "Баланс",
+        "text": "Сколько времени выделяете: 20% на спринт, не больше."
+      }
+    ],
+    "pitfalls": [
+      "Игнорировать технический долг",
+      "Делать big bang рефакторинг",
+      "Не трекать технический долг",
+      "Не балансировать с feature"
+    ],
+    "followUps": [
+      "Как вы приоритизируете технический долг?",
+      "Как убеждаете менеджмент выделять время на рефакторинг?",
+      "Как измеряете влияние технического долга на скорость?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Technical Debt",
+      "Quality"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "teamlead-technical-roadmap",
+    "title": "Как вы создаёте технический roadmap и.align-ите его с бизнесом?",
+    "aliases": [],
+    "answer": "Бизнес-цели → технические initiatives → приоритизация → roadmap → communication. Важно: баланс между feature и tech debt, align с бизнесом.",
+    "exampleAnswer": "Бизнес: meetings со stakeholders, OKR. Приоритизация: impact/effort matrix, dependencies. Communication: roadmap quarterly, demos, metrics. Результат: align бизнеса иtech, рост efficiency на 20%.",
+    "context": "Интервьюер хочет понять, как вы планируете техническое развитие и\talign-ите его с бизнес-целями.",
+    "keyPoints": [
+      {
+        "title": "Бизнес",
+        "text": "Как понимаете бизнес-цели: meetings, stakeholders."
+      },
+      {
+        "title": "Приоритизация",
+        "text": "Как приоритизируете: impact, effort, dependencies."
+      },
+      {
+        "title": "Communication",
+        "text": "Какcommunicate-ите: roadmap, demos, metrics."
+      }
+    ],
+    "pitfalls": [
+      "Не слушать бизнес",
+      "Делать roadmap без приоритизации",
+      "Не communicate-ить roadmap",
+      "Игнорировать tech debt"
+    ],
+    "followUps": [
+      "Как вы обрабатываете changes в roadmap?",
+      "Как align-ите roadmap с OKR?",
+      "Как измеряете progress roadmap?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Roadmap",
+      "Planning"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "testing-code-coverage",
     "title": "Что такое code coverage и как его использовать?",
     "aliases": [],
