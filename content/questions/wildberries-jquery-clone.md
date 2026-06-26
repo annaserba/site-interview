@@ -42,25 +42,49 @@ sourceUrl: "https://www.youtube.com/watch?v=HF7zkpSrByE&t=2921s"
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+type Selector = string | Element | NodeList;
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
+function $(selector: Selector) {
+  const elements: Element[] =
+    typeof selector === 'string'
+      ? Array.from(document.querySelectorAll(selector))
+      : selector instanceof Element
+        ? [selector]
+        : Array.from(selector);
+
+  const wrapper = {
+    elements,
+
+    addClass(className: string) {
+      elements.forEach(el => el.classList.add(className));
+      return wrapper;
+    },
+
+    removeClass(className: string) {
+      elements.forEach(el => el.classList.remove(className));
+      return wrapper;
+    },
+
+    css(prop: string, value: string) {
+      elements.forEach(el => (el.style as any)[prop] = value);
+      return wrapper;
+    },
+
+    html(content: string) {
+      elements.forEach(el => (el.innerHTML = content));
+      return wrapper;
+    },
+
+    on(event: string, handler: EventListener) {
+      elements.forEach(el => el.addEventListener(event, handler));
+      return wrapper;
     },
   };
-};
+
+  return wrapper;
+}
+
+$(".btn").addClass("active").css("color", "red").on("click", handleClick);
 ```
 
 ## Пример ответа

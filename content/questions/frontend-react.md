@@ -42,25 +42,32 @@ Senior-кандидат должен объяснить модель React, гр
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// React: declarative UI from components with state and props
+import { useState, useEffect } from 'react';
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// Functional component with hooks
+function Counter({ initial = 0 }: { initial?: number }) {
+  const [count, setCount] = useState(initial);
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </div>
+  );
+}
+
+// Effect for syncing with external systems
+function UserProfile({ userId }: { userId: string }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch(`/api/users/${userId}`)
+      .then(r => r.json())
+      .then(setUser);
+  }, [userId]); // re-runs on dependency change
+
+  return user ? <div>{user.name}</div> : <div>Loading...</div>;
+}
 ```
 
 ## Пример ответа

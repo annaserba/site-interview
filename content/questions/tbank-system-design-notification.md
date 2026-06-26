@@ -1,15 +1,15 @@
 ---
 id: tbank-system-design-notification
-title: Спроектируйте систему уведомлений для банка
+title: Спроектируйте систему уведомлений для банка на миллионы пользователей
 category: System Design
 scope: system-design
-languages: ["Java", "Kotlin"]
+languages: ["Java", "Kotlin", "Python"]
 roles: ["Backend-разработчик", "Tech Lead"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Архитектура
-tags: ["System Design", "Notifications", "Distributed", "Reliability"]
-duration: 25 мин
+tags: ["System Design", "Notifications", "Kafka", "Distributed", "Reliability", "Scale"]
+duration: 30 мин
 difficulty: 5
 sourceType: aggregated
 sourceUrl: ""
@@ -17,30 +17,34 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-Используйте event-driven архитектуру: источник событий → Kafka → Notification Service → каналы (push, SMS, email). Гарантия доставки через outbox pattern + retry с exponential backoff. Приоритизация: критические (OTP) → важные (платежи) → маркетинг. Идемпотентность через message ID.
+Event-driven архитектура: Kafka как шина событий → Router (определяет каналы по user prefs) → Channel Workers (push, SMS, email, in-app). Приоритезация: critical (мошенничество) > transactional (платеж) > informational > marketing. Outbox pattern + retry с exponential backoff + dead letter queue. Хранение: Cassandra (audit trail), Redis (rate limiting, dedup), PostgreSQL (user prefs).
 
 ## Контекст
 
-Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация.
+Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация. Платёжная платформа — критичная система.
 
 ## Как строить ответ
 
-### Архитектура
+### Определить каналы и SLA
 
-Event Source → Kafka → Notification Service → Multi-channel delivery.
+Push (APNs/FCM), SMS, email, in-app WebSocket. SLA: 99.9% для critical, 99% для transactional.
 
-### Гарантии
+### Архитектура очередей
 
-Outbox pattern, retry, idempotency, dead letter queue.
+Kafka topics partitioned по userId. Consumer groups: critical — 50 воркеров, marketing — 5.
 
-### Приоритизация
+### Хранение
 
-Критические уведомления — отдельная очередь с гарантированной доставкой.
+Cassandra для истории (write-heavy), Redis для dedup/rate limit, PostgreSQL для preferences.
+
+### Reliability
+
+Retry → Dead Letter Queue → ручной review. Circuit breaker для внешних провайдеров.
 
 ## Код из интервью
 
 ```java
-// Outbox pattern —保证Delivery
+// Outbox pattern — гарантия доставки
 @Entity
 class OutboxEvent {
     String eventType;
@@ -49,7 +53,6 @@ class OutboxEvent {
     int retryCount;
 }
 
-// Retry с exponential backoff
 @Scheduled(fixedDelay = 1000)
 public void retryPending() {
     List<OutboxEvent> pending = outboxRepo.findByStatus("PENDING");
@@ -68,19 +71,43 @@ public void retryPending() {
 }
 ```
 
+```python
+# Consumer для push-уведомлений
+class PushWorker:
+    async def process(self, msg: NotificationEvent):
+        # Dedup
+        if await self.redis.setnx(f"dedup:{msg.event_id}", 1, ex=86400):
+            return
+        # Rate limit
+        key = f"rate:{msg.user_id}"
+        count = await self.redis.incr(key)
+        if count == 1:
+            await self.redis.expire(key, 3600)
+        if count > 100:
+            return
+        try:
+            await self.push.send(user_id=msg.user_id, title=msg.title, body=msg.body)
+        except TransientError:
+            raise RetryableError()
+        except PermanentError as e:
+            await self.send_to_dlq(msg, e)
+```
+
 ## Пример ответа
 
-Event-driven: событие (платеж, OTP) попадает в Kafka. Notification Service потребляет, определяет канал и приоритет. Critical (OTP) — отдельная очередь, гарантированная доставка. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Мониторинг: latency, delivery rate, error rate.
+Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.
 
 ## Частые ошибки
 
 - Синхронная отправка (блокирует источник)
 - Без retry — потеря уведомлений
-- Без приоритизации — OTP ждут вместе с маркетингом
+- Без dedup — дубли при retry
+- Без rate limiting — провайдеры заблокируют
 - Без мониторинга — незаметные сбои
 
 ## Дополнительные вопросы
 
+- Как обеспечить exactly-once семантику?
 - Как обрабатываете отказ канала (SMS недоступен)?
 - Как масштабируете при 10M уведомлений в день?
-- Как тестируете system design?
+- Как спроектировать откат уведомления (revoke)?

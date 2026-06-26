@@ -46,25 +46,25 @@ sourceUrl: "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=465s"
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+function isPalindrome(s: string): boolean {
+  let left = 0;
+  let right = s.length - 1;
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+  while (left < right) {
+    while (left < right && !/[a-zA-Z0-9]/.test(s[left])) left++;
+    while (left < right && !/[a-zA-Z0-9]/.test(s[right])) right--;
+
+    if (s[left].toLowerCase() !== s[right].toLowerCase()) return false;
+
+    left++;
+    right--;
+  }
+
+  return true;
+}
+
+isPalindrome("A man, a plan, a canal: Panama"); // true
+isPalindrome("race a car"); // false
 ```
 
 ## Пример ответа

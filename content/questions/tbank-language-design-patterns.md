@@ -1,8 +1,8 @@
 ---
 id: tbank-language-design-patterns
 title: Какие паттерны проектирования вы используете чаще всего?
-category: Algorithms
-scope: language
+category: JavaScript
+scope: language-specific
 languages: ["TypeScript", "JavaScript"]
 roles: ["Frontend-разработчик", "Backend-разработчик"]
 companies: ["Т-Банк"]

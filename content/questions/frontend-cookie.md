@@ -41,25 +41,29 @@ HttpOnly закрывает чтение из JS, Secure требует HTTPS, S
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Cookie: small text sent with every request to matching origin
+// Security flags for session cookies
+document.cookie =
+  "sessionId=abc123; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600";
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// Read-only from JS (HttpOnly cookies are inaccessible)
+document.cookie; // "sessionId=abc123" (non-HttpOnly ones)
+
+// __Host- prefix enforces HTTPS, host-only, Path=/
+document.cookie = "__Host-token=xyz; Secure; Path=/";
+
+// Expiry strategies
+// Session cookie (deleted when browser closes):
+document.cookie = "theme=dark; Path=/";
+
+// Persistent cookie (survives browser restart):
+document.cookie = "lang=en; Max-Age=31536000; Path=/";
+
+// SameSite controls cross-site sending:
+// Lax (default) — sent on top-level GET from other site
+// Strict — never sent cross-site
+// None — sent everywhere (requires Secure)
+document.cookie = "tracking=1; SameSite=None; Secure";
 ```
 
 ## Пример ответа

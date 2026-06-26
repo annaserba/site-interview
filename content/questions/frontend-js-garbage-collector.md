@@ -42,25 +42,43 @@ Heap snapshot, dominators и retaining path.
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Mark-and-sweep: GC traces from roots, marks reachable, sweeps rest
+// Roots: window, global variables, active call stack
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
+// Typical memory leak: forgotten reference
+let leak: string[] = [];
+function addItem(item: string) {
+  leak.push(item); // never released — grows forever
+}
+
+// Closure capturing large object
+function process() {
+  const hugeData = new Array(1_000_000).fill('x');
+  return function summarise() {
+    // hugeData is retained as long as summarise exists
+    return hugeData.length;
   };
-};
+}
+
+// Event listener leak
+function setup() {
+  const handler = () => console.log('clicked');
+  button.addEventListener('click', handler);
+  // forgot: button.removeEventListener('click', handler)
+}
+
+// WeakMap: keys are weakly held, GC can collect them
+const cache = new WeakMap<object, string>();
+const key = {};
+cache.set(key, 'computed');
+// when key is unreachable, the entry is GC'd automatically
+
+// Cleanup pattern in React
+useEffect(() => {
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  return () => controller.abort(); // cleanup prevents leak
+}, []);
 ```
 
 ## Пример ответа

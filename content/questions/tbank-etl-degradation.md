@@ -49,26 +49,32 @@ sourceUrl: ""
 
 ## Код из интервью
 
-```javascript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+```sql
+-- Monitor pipeline throughput at each stage
+SELECT
+  stage,
+  COUNT(*) AS records_processed,
+  AVG(duration_ms) AS avg_duration,
+  MAX(queue_size) AS max_queue_depth
+FROM pipeline_metrics
+WHERE run_date = CURRENT_DATE
+GROUP BY stage;
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+-- Find slow queries after 10x data growth
+SELECT query, calls, mean_exec_time, total_exec_time
+FROM pg_stat_statements
+ORDER BY total_exec_time DESC
+LIMIT 10;
+
+-- Partitioning strategy for large tables
+CREATE TABLE events (
+  id BIGSERIAL,
+  event_time TIMESTAMPTZ NOT NULL,
+  payload JSONB
+) PARTITION BY RANGE (event_time);
+
+CREATE TABLE events_2024_01 PARTITION OF events
+  FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');
 ```
 
 ## Пример ответа

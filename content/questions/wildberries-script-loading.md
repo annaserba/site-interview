@@ -41,26 +41,26 @@ Analytics без зависимостей — async, application bundle — modu
 
 ## Код из интервью
 
-```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+```html
+<!-- Block parsing until script loads and executes -->
+<script src="critical.js"></script>
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+<!-- Async: downloads in parallel, executes immediately (no order guarantee) -->
+<script src="analytics.js" async></script>
+
+<!-- Defer: downloads in parallel, executes after HTML parsing (in order) -->
+<script src="app.js" defer></script>
+
+<!-- Module: deferred by default, runs in strict mode with own scope -->
+<script type="module" src="app.mjs"></script>
+
+<script>
+  // Execution timeline:
+  // 1. <script src="critical.js"> blocks HTML parsing
+  // 2. analytics.js may fire before or after DOMContentLoaded
+  // 3. app.js runs after parsing, before DOMContentLoaded
+  // 4. app.mjs runs after all deferred scripts
+</script>
 ```
 
 ## Пример ответа

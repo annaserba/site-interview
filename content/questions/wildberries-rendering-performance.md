@@ -43,25 +43,28 @@ Layout/reflow пересчитывает геометрию и может зат
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Layout thrashing: interleaving reads and writes
+function animateBadge(el: HTMLElement) {
+  el.style.width = '100px';    // write → triggers layout
+  const h = el.offsetHeight;   // read → forces synchronous layout
+  el.style.height = h + 'px';  // write → layout again
+}
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// Correct: batch reads, then writes
+function animateBadgeOptimized(el: HTMLElement) {
+  const h = el.offsetHeight;   // read (no pending writes)
+  el.style.width = '100px';
+  el.style.height = h + 'px';
+}
+
+// Use requestAnimationFrame for smooth visual updates
+let position = 0;
+function animate() {
+  position += 2;
+  el.style.transform = `translateX(${position}px)`; // composite-only
+  if (position < 500) requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
 ```
 
 ## Пример ответа

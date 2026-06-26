@@ -42,25 +42,36 @@ State сохраняется, когда element type и позиция или k
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// React Virtual DOM: render → reconciliation → commit
+import { useState } from 'react';
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// Render phase: builds virtual tree (can be interrupted in Concurrent Mode)
+function List({ items }: { items: string[] }) {
+  return (
+    <ul>
+      {items.map((item, i) => (
+        <li key={item}>{item}</li>  {/* key helps diffing algorithm */}
+      ))}
+    </ul>
+  );
+}
+
+// State preserved when type and key match across renders
+function App() {
+  const [show, setShow] = useState(true);
+
+  return (
+    <>
+      {show && <Counter />}       {/* remounts when toggled */}
+      <button onClick={() => setShow(s => !s)}>Toggle</button>
+    </>
+  );
+}
+
+// Concurrency: React can interrupt this render for urgent updates
+function HeavyList({ data }: { data: number[] }) {
+  return data.map(n => <div key={n}>{n}</div>);
+}
 ```
 
 ## Пример ответа

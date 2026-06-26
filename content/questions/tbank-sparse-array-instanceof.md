@@ -42,25 +42,29 @@ sourceUrl: ""
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Sparse array: holes in indices
+const sparse = [1, , 3];           // length 3, index 1 is a hole
+console.log(sparse.length);       // 3
+console.log(1 in sparse);         // false
+console.log(sparse[1]);           // undefined
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// instanceof vs Array.isArray
+console.log(sparse instanceof Array);  // true
+console.log(Array.isArray(sparse));    // true
+
+// Cross-realm check
+const iframe = document.createElement('iframe');
+document.body.appendChild(iframe);
+const iframeArray = iframe.contentWindow!.Array;
+const arr = new iframeArray(1, 2, 3);
+
+console.log(arr instanceof Array);     // false (different realm)
+console.log(Array.isArray(arr));       // true
+
+// Sparse array methods skip holes
+sparse.forEach((v, i) => console.log(i, v)); // 0 1, 2 3 (skips index 1)
+console.log([...sparse]);              // [1, empty, 3]
+console.log(Array.from(sparse));       // [1, undefined, 3]
 ```
 
 ## Пример ответа

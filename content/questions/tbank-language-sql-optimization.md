@@ -2,7 +2,7 @@
 id: tbank-language-sql-optimization
 title: Как оптимизировать медленный SQL-запрос?
 category: Algorithms
-scope: language
+scope: language-specific
 languages: ["SQL"]
 roles: ["Backend-разработчик", "Data Engineer"]
 companies: ["Т-Банк"]

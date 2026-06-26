@@ -42,25 +42,32 @@ sourceUrl: ""
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// == (loose) performs type coercion
+console.log(0 == '');           // true  (both → 0)
+console.log(0 == '0');          // true
+console.log(false == '0');      // true
+console.log(null == undefined); // true
+console.log([] == false);       // true
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// === (strict) — no coercion
+console.log(0 === '');          // false
+console.log(0 === '0');         // false
+console.log(null === undefined); // false
+
+// NaN is not equal to itself
+console.log(NaN === NaN);       // false
+console.log(NaN == NaN);        // false
+
+// Object.is for NaN and signed zero
+console.log(Object.is(NaN, NaN));   // true
+console.log(Object.is(0, -0));      // false
+console.log(Object.is(+0, -0));     // false
+
+// Practical: == null checks for null OR undefined
+const value = null;
+if (value == null) {
+  console.log('value is null or undefined');
+}
 ```
 
 ## Пример ответа

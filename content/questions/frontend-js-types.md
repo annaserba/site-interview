@@ -42,25 +42,39 @@ Number использует IEEE 754; `NaN` проверяют через `Numbe
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// 8 types in JavaScript: 7 primitives + object
+typeof undefined;   // 'undefined'
+typeof null;        // 'object' (historical bug)
+typeof true;        // 'boolean'
+typeof 42;          // 'number'
+typeof 42n;         // 'bigint'
+typeof 'hello';     // 'string'
+typeof Symbol('s'); // 'symbol'
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+typeof {};          // 'object'
+typeof [];          // 'object' (arrays are objects)
+typeof function(){} // 'function' (special object)
+
+// Primitive comparison (by value)
+1 === 1;              // true
+'str' === 'str';      // true
+
+// Object comparison (by reference)
+const obj1 = { a: 1 };
+const obj2 = { a: 1 };
+obj1 === obj2;         // false — different references
+obj1 === obj1;         // true  — same reference
+
+// Type coercion examples
+console.log(1 == '1');   // true  (string → number)
+console.log(1 === '1');  // false (no coercion)
+console.log(null == undefined);  // true
+console.log(null === undefined); // false
+
+// Number edge cases
+console.log(0.1 + 0.2 === 0.3);  // false (IEEE 754)
+console.log(Object.is(NaN, NaN)); // true
+console.log(Object.is(0, -0));    // false
 ```
 
 ## Пример ответа

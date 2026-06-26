@@ -42,25 +42,37 @@ Allocation, identity, deep wrapping и tracking dependencies.
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Proxy intercepts property access (get/set/has/deleteProperty)
+const target = { x: 1, y: 2 };
+const proxy = new Proxy(target, {
+  get(obj, prop) {
+    console.log(`get ${String(prop)}`);
+    return obj[prop as keyof typeof obj];
+  },
+  set(obj, prop, value) {
+    console.log(`set ${String(prop)} = ${value}`);
+    (obj as any)[prop] = value;
+    return true;
+  },
+});
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+proxy.x;        // logs "get x" → overhead vs direct access
+proxy.z = 3;    // logs "set z = 3"
+
+// Performance comparison (conceptual)
+const obj = { value: 0 };
+const proxied = new Proxy(obj, { get: (t, p) => t[p as keyof typeof t] });
+
+console.time('direct');
+for (let i = 0; i < 1e6; i++) obj.value;
+console.timeEnd('direct');   // ~1ms
+
+console.time('proxy');
+for (let i = 0; i < 1e6; i++) proxied.value;
+console.timeEnd('proxy');    // ~3-5ms (2-5x slower)
+
+// Vue 3 reactivity uses Proxy to track dependencies
+// but avoids wrapping every property access in hot loops
 ```
 
 ## Пример ответа

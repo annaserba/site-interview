@@ -42,25 +42,37 @@ Profiler, flamegraph, причина commit и стоимость конкрет
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Re-render triggers: state, parent render, context change
+import { useState, useContext, memo, useMemo, useCallback } from 'react';
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
-};
+// Parent re-renders → child re-renders (no memo)
+function Child({ data }: { data: string }) {
+  console.log('Child rendered');
+  return <div>{data}</div>;
+}
+
+// Prevent unnecessary re-renders with memo
+const MemoizedChild = memo(({ data }: { data: string }) => {
+  console.log('MemoizedChild rendered');
+  return <div>{data}</div>;
+});
+
+// Stabilize callback props
+function Parent() {
+  const [count, setCount] = useState(0);
+  const handleClick = useCallback(() => console.log('clicked'), []);
+
+  // useMemo prevents recomputation on every render
+  const sorted = useMemo(() => data.sort(), [data]);
+
+  return (
+    <>
+      <MemoizedChild data="static" />           {/* won't re-render */}
+      <MemoizedChild data={String(count)} />     {/* re-renders on change */}
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </>
+  );
+}
 ```
 
 ## Пример ответа

@@ -42,25 +42,25 @@ HTTP/2 мультиплексирует streams в одном TCP, HTTP/3 исп
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
-
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
+// HTTP/2 multiplexing: multiple requests over single TCP connection
+const fetchResources = async () => {
+  const [css, js, data] = await Promise.all([
+    fetch('/styles.css'),   // stream 1
+    fetch('/app.js'),       // stream 2
+    fetch('/api/data'),     // stream 3
+  ]);
 };
+
+// Cache-Control strategies
+const headers: Record<string, string> = {
+  'Cache-Control': 'public, max-age=31536000, immutable', // static assets
+  'Cache-Control': 'no-cache',                            // must revalidate
+  'ETag': '"abc123"',                                     // validator
+};
+
+// Server-Sent Events for real-time updates
+const eventSource = new EventSource('/events');
+eventSource.onmessage = (e) => console.log(JSON.parse(e.data));
 ```
 
 ## Пример ответа

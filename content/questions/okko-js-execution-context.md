@@ -43,25 +43,43 @@ Execution context содержит lexical/variable environment, ссылку н
 ## Код из интервью
 
 ```typescript
-// Пример использования
-const example = () => {
-  const state = { loading: false, data: null, error: null };
+// Execution context: scope, this, outer reference
+let a = 1; // Global context
 
-  return {
-    async fetch(url) {
-      state.loading = true;
-      try {
-        const res = await fetch(url);
-        state.data = await res.json();
-      } catch (err) {
-        state.error = err.message;
-      } finally {
-        state.loading = false;
-      }
-      return state;
-    },
-  };
+function outer() {
+  let b = 2; // outer context
+  function inner() {
+    let c = 3; // inner context
+    console.log(a + b + c); // 6 — walks up scope chain
+  }
+  inner();
+}
+outer();
+
+// this depends on how function is called (not where declared)
+function greet() {
+  console.log(this.name);
+}
+const user = { name: 'Alice', greet };
+greet();            // undefined (global/strict)
+user.greet();       // 'Alice' — method call
+new greet();        // {} — constructor
+
+// Arrow function: lexical this (no own context)
+const wrapper = {
+  name: 'outer',
+  createInner: () => {
+    const inner = () => console.log(this.name);
+    return inner;
+  },
 };
+wrapper.createInner(); // undefined — `this` is global, not wrapper
+
+// call/apply/bind override this
+greet.call({ name: 'Bob' });  // 'Bob'
+greet.apply({ name: 'Bob' }); // 'Bob'
+const bound = greet.bind({ name: 'Carol' });
+bound(); // 'Carol'
 ```
 
 ## Пример ответа

@@ -1830,7 +1830,7 @@
     "title": "Какая сложность получения значения по ключу в словаре?",
     "aliases": [],
     "answer": "Для hash table lookup имеет ожидаемую амортизированную O(1), но worst case — O(n) при множестве коллизий или атакующем вводе. Стоимость включает вычисление hash ключа: для длинной строки первый hash не обязательно константен, хотя Python кеширует hash неизменяемой строки. Resize иногда стоит O(n), но амортизируется по операциям; память — O(n) с запасом capacity.",
-    "exampleAnswer": "Средняя сложность получения значения по ключу в словаре (хеш-таблице) — O(1). Это достигается за счёт хеш-функции: ключ хешируется в индекс массива, и значение извлекается напрямую. В худшем случае (все ключи попадают в один бакет) сложность O(n), но это маловероятно при хорошей хеш-функции. Python dict использует开放 addressing и resize при заполнении 2/3. Сложность операций: lookup, insert, delete, contains — все O(1). Важно: для работы с defaultdict или Counter из collections сложность такая же. Сравнение: поиск в отсортированном массиве — O(log n), в неотсортированном — O(n).",
+    "exampleAnswer": "Средняя сложность получения значения по ключу в словаре (хеш-таблице) — O(1). Это достигается за счёт хеш-функции: ключ хешируется в индекс массива, и значение извлекается напрямую. В худшем случае (все ключи попадают в один бакет) сложность O(n), но это маловероятно при хорошей хеш-функции. Python dict использует open addressing и resize при заполнении 2/3. Сложность операций: lookup, insert, delete, contains — все O(1). Важно: для работы с defaultdict или Counter из collections сложность такая же. Сравнение: поиск в отсортированном массиве — O(log n), в неотсортированном — O(n).",
     "context": "Проверяется точность Big O и понимание скрытой стоимости ключа.",
     "keyPoints": [
       {
@@ -2080,11 +2080,11 @@
   },
   {
     "id": "ds-mse-vs-mae",
-    "title": "В чём разница между MSE и MAE?",
+    "title": "В чём разница между MSE и MAE? Когда что использовать?",
     "aliases": [],
-    "answer": "MSE усредняет квадраты residuals, сильнее штрафует большие ошибки, гладкая и оптимизирует conditional mean. MAE усредняет модули, устойчивее к выбросам, негладкая в нуле и оптимизирует conditional median. Выбор — это решение о цене ошибки и целевой статистике, а не только о математическом удобстве. Для компромисса используют Huber loss.",
-    "exampleAnswer": "MSE = (1/n) × Σ(y_true - y_pred)² — штрафует за большие ошибки квадратично. MAE = (1/n) × Σ|y_true - y_pred| — линейный штраф. Разница: MSE чувствителен к выбросам (ошибка в 10 → штраф 100), MAE — нет (штраф 10). Пример: y_true = [10, 10, 10], y_pred = [10, 10, 20]. MSE = 33.3, MAE = 3.33. MSE оптимизируется через среднее, MAE через медиану. На практике: MSE используется, когда критичны выбросы, MAE — когда нужна робастность. RMSE = √MSE — в тех же единицах, что и target.",
-    "context": "Нужно сравнить чувствительность, оптимизацию и интерпретацию.",
+    "answer": "MSE усредняет квадраты residuals — сильнее штрафует большие ошибки, гладкая, оптимизирует conditional mean. MAE усредняет модули — устойчивее к выбросам, негладкая в нуле, оптимизирует conditional median. MSE подходит, когда крупные ошибки непропорционально дороги. MAE — когда есть выбросы или нужна робастность. Для компромисса — Huber loss.",
+    "exampleAnswer": "MSE = (1/n) × Σ(y_true - y_pred)² — штрафует за большие ошибки квадратично. MAE = (1/n) × Σ|y_true - y_pred| — линейный штраф. Разница: MSE чувствителен к выбросам (ошибка в 10 → штраф 100), MAE — нет (штраф 10). Пример: y_true = [10, 10, 10], y_pred = [10, 10, 20]. MSE = 33.3, MAE = 3.33.\n\nMSE предпочтительнее, когда: 1) Крупные ошибки критичнее мелких; 2) Данные без выбросов или они обработаны; 3) Нужна дифференцируемость для градиентного спуска; 4) При нормальном распределении ошибок MSE эквивалентен MLE.\n\nMAE предпочтительнее, когда: 1) В данных есть выбросы — MAE не чувствителен к ним; 2) Нужна интерпретируемость — MAE показывает среднюю абсолютную ошибку; 3) Медиана важнее среднего; 4) Когда FN и FP одинаково ценны.\n\nRMSE = √MSE — в тех же единицах, что и target. На практике: MSE для нейросетей, MAE для табличных данных с выбросами. Huber loss — комбинация: MSE для малых ошибок, MAE для больших.",
+    "context": "Нужно связать loss с noise model, estimand и бизнес-стоимостью. Проверяется осознанный выбор квадратичного штрафа.",
     "keyPoints": [
       {
         "title": "Сравнить штраф",
@@ -2095,21 +2095,23 @@
         "text": "Squared loss ведёт к mean, absolute loss — к median."
       },
       {
-        "title": "Выбрать по задаче",
-        "text": "Исходите из business cost, tail behavior и требований к robustness."
+        "title": "Проверить noise",
+        "text": "Выбросы, heteroskedasticity и heavy tails могут сделать MSE нестабильной."
       }
     ],
     "pitfalls": [
       "Говорить, что MAE всегда лучше при выбросах.",
       "Сравнивать численные значения MAE и MSE напрямую.",
-      "Не учитывать единицы измерения."
+      "Не учитывать единицы измерения.",
+      "Игнорировать асимметричную стоимость ошибки."
     ],
     "followUps": [
       "Что делает Huber loss?",
       "Какой loss выбрать для асимметричной ошибки?",
-      "Почему median устойчивее mean?"
+      "Почему median устойчивее mean?",
+      "Когда использовать quantile loss?"
     ],
-    "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
+    "codeSnippet": "import numpy as np\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error\n\ny_true = np.array([10, 10, 10, 20])\ny_pred = np.array([10, 10, 20, 20])\n\nmse = mean_squared_error(y_true, y_pred)   # 25.0\nmae = mean_absolute_error(y_true, y_pred)   # 2.5\n\nprint(f\"MSE: {mse}, MAE: {mae}\")\n\n# Huber loss — компромисс\nfrom sklearn.linear_model import HuberRegressor\nmodel = HuberRegressor(epsilon=1.35)  # переход MSE→MAE\nmodel.fit(X_train, y_train)",
     "codeLanguage": "python",
     "category": "Machine Learning",
     "scope": "universal",
@@ -2127,7 +2129,9 @@
     "tags": [
       "MSE",
       "MAE",
-      "Regression"
+      "Regression",
+      "Loss",
+      "Robustness"
     ],
     "duration": "12 мин",
     "difficulty": 3,
@@ -2273,7 +2277,7 @@
     "title": "Что такое precision?",
     "aliases": [],
     "answer": "Precision = TP / (TP + FP): среди объектов, которым модель назначила positive, какая доля действительно positive. Метрика важна, когда false positive дорог — например, ручная проверка ограничена. Она зависит от threshold и prevalence, поэтому precision между выборками с разной базовой частотой нельзя сравнивать без оговорок.",
-    "exampleAnswer": "Precision — доля верно предсказанных положительных среди всех предсказанных положительных: Precision = TP / (TP + FP). Пример: модель предсказала 100 спам-писем, из них 90 действительно спам → Precision = 0.9. Precision важен, когда критичны ложные срабатывания: в спам-фильтре — не удалить нормальное письмо; в медицине — не назначить лишнее лечение. Низкий precision означает много FP. Связь с recall: обычно precision и recall обратно пропорциональны. Порог классификации позволяет调节这种权衡: выше порог → выше precision, ниже recall.",
+    "exampleAnswer": "Precision — доля верно предсказанных положительных среди всех предсказанных положительных: Precision = TP / (TP + FP). Пример: модель предсказала 100 спам-писем, из них 90 действительно спам → Precision = 0.9. Precision важен, когда критичны ложные срабатывания: в спам-фильтре — не удалить нормальное письмо; в медицине — не назначить лишнее лечение. Низкий precision означает много FP. Связь с recall: обычно precision и recall обратно пропорциональны. Порог классификации позволяет регулировать этот компромисс: выше порог → выше precision, ниже recall.",
     "context": "Нужно связать confusion matrix с рабочим порогом и стоимостью ошибки.",
     "keyPoints": [
       {
@@ -2461,7 +2465,7 @@
     "title": "Что такое Random Forest?",
     "aliases": [],
     "answer": "Random Forest — ансамбль деревьев, обученных на bootstrap-выборках с случайным подмножеством признаков в каждом split. Усреднение декоррелированных деревьев снижает variance относительно одного глубокого дерева. Модель устойчива и даёт OOB-оценку, но может быть тяжёлой по памяти и latency, плохо экстраполирует регрессию и даёт смещённую impurity importance.",
-    "exampleAnswer": "Random Forest — ансамблевый метод на основе bagging деревьев решений. Каждое дерево обучается на bootstrap-выборке и в каждом разбиении考虑只 случайного подмножества признаков. Это снижает корреляцию между деревьями и уменьшает variance. Пример: 100 деревьев, каждое видит случайные 60% данных и случайные √m признаков. Для классификации предсказание — голосование, для регрессии — среднее. Преимущества: robust к переобучению, не нужна стандартизация, feature importance. Недостатки: интерпретируемость (黑盒), память, скорость предсказания. На практике: Random Forest — мой baseline для табличных данных.",
+    "exampleAnswer": "Random Forest — ансамблевый метод на основе bagging деревьев решений. Каждое дерево обучается на bootstrap-выборке и в каждом разбиении xét только случайного подмножества признаков. Это снижает корреляцию между деревьями и уменьшает variance. Пример: 100 деревьев, каждое видит случайные 60% данных и случайные √m признаков. Для классификации предсказание — голосование, для регрессии — среднее. Преимущества: robust к переобучению, не нужна стандартизация, feature importance. Недостатки: интерпретируемость (чёрный ящик), память, скорость предсказания. На практике: Random Forest — мой baseline для табличных данных.",
     "context": "Нужно связать bagging, декорреляцию и bias-variance trade-off.",
     "keyPoints": [
       {
@@ -2521,20 +2525,20 @@
     "videoFrequency": 0
   },
   {
-    "id": "ds-recall-first",
-    "title": "Когда recall важнее precision?",
+    "id": "ds-recall",
+    "title": "Что такое recall? Когда recall важнее precision?",
     "aliases": [],
-    "answer": "Recall приоритетен, когда false negative намного дороже false positive: первичный медицинский скрининг, поиск мошенничества для последующей проверки, обнаружение критических дефектов. Precision всё равно не становится «неважным»: поток ложных тревог ограничен стоимостью проверки, доверием пользователей и capacity. Поэтому оптимизируют recall при минимальном precision, максимальном FPR или фиксированном бюджете.",
-    "exampleAnswer": "Recall важнее precision, когда критичны пропущенные положительные (FN). Примеры: 1) Медицина — пропустить рак страшнее, чем назначить лишнее обследование; 2) Фрод-детекция — пропустить мошенничество стоит дороже; 3) Безопасность — пропустить уязвимость критичнее. Формула: Recall = TP / (TP + FN). Чтобы увеличить recall, понижаем порог классификации: больше объектов помечается как положительные, FN уменьшаются, но FP растут. На практике я оптимизирую через F-beta с β > 1 (например, F2), который сильнее весит recall.",
-    "context": "Проверяется перевод бизнес-стоимости ошибок в threshold policy.",
+    "answer": "Recall = TP / (TP + FN): какую долю реальных positive модель нашла. Критичен, когда пропуск дорог (медицина, фрод, безопасность).recision не становится неважным — поток ложных тревог ограничен стоимостью проверки и capacity. Оптимизируют recall при минимальном precision, максимальном FPR или фиксированном бюджете. Порог выбирают на validation через PR-кривую или F-beta (β > 1).",
+    "exampleAnswer": "Recall (полнота) — доля найденных положительных среди всех реальных положительных: Recall = TP / (TP + FN). Пример: из 100 больных раком модель нашла 90 → Recall = 0.9. Recall важен, когда FN дороги: в медицине, скрининге, поиске мошенничества. Recall = 1.0 означает, что модель нашла все положительные, но может быть много FP.\n\nКогда recall важнее precision: 1) Медицина — пропустить рак страшнее, чем назначить лишнее обследование; 2) Фрод-детекция — пропустить мошенничество стоит дороже; 3) Безопасность — пропустить уязвимость критичнее. Чтобы увеличить recall, понижаем порог: больше объектов помечается как положительные, FN уменьшаются, но FP растут. На практике оптимизирую через F-beta с β > 1 (например, F2), который сильнее весит recall. Строю PR-кривую и выбираю operating point в зависимости от бизнес-задачи.",
+    "context": "Проверяется понимание компромисса precision/recall, перевод бизнес-стоимости ошибок в threshold policy.",
     "keyPoints": [
       {
         "title": "Задать цену ошибок",
-        "text": "Сравните вред пропуска и стоимость ложного срабатывания."
+        "text": "Сравните вред пропуска (FN) и стоимость ложного срабатывания (FP)."
       },
       {
         "title": "Добавить capacity",
-        "text": "Если ручная команда проверяет тысячу кейсов в день, threshold должен учитывать этот лимит."
+        "text": "Если ручная команда проверяет N кейсов в день, threshold должен учитывать лимит."
       },
       {
         "title": "Проверить сегменты",
@@ -2542,76 +2546,17 @@
       }
     ],
     "pitfalls": [
-      "Говорить, что precision совсем не имеет значения.",
-      "Максимизировать recall выбором «всё positive».",
-      "Игнорировать изменение prevalence."
-    ],
-    "followUps": [
-      "Как выбрать threshold при фиксированном бюджете?",
-      "Когда precision важнее recall?",
-      "Как построить cost-sensitive metric?"
-    ],
-    "codeSnippet": "from sklearn.metrics import (\n    precision_score, recall_score, f1_score,\n    roc_auc_score, classification_report\n)\n\ny_pred = model.predict(X_test)\ny_prob = model.predict_proba(X_test)[:, 1]\n\nprint(classification_report(y_test, y_pred))\nprint(f\"ROC-AUC: {roc_auc_score(y_test, y_prob):.3f}\")\n\n# Precision-Recall tradeoff\nfor threshold in [0.3, 0.5, 0.7]:\n    preds = (y_prob >= threshold).astype(int)\n    print(f\"t={threshold}: P={precision_score(y_test, preds):.2f} \"\n          f\"R={recall_score(y_test, preds):.2f} \"\n          f\"F1={f1_score(y_test, preds):.2f}\")",
-    "codeLanguage": "python",
-    "category": "Machine Learning",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Data Scientist",
-      "ML Engineer",
-      "Data Analyst"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Senior",
-    "stage": "Кейс",
-    "tags": [
-      "Recall",
-      "Precision",
-      "Threshold"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
-    "id": "ds-recall",
-    "title": "Что такое recall?",
-    "aliases": [],
-    "answer": "Recall = TP / (TP + FN): какую долю реальных positive модель нашла. Он критичен, когда пропуск дорог, но максимизация recall без ограничения обычно приводит к большому числу false positives. Поэтому фиксируют минимальный precision, capacity или стоимость и выбирают threshold на validation data.",
-    "exampleAnswer": "Recall (полнота) — доля найденных положительных среди всех реальных положительных: Recall = TP / (TP + FN). Пример: из 100 больных раком модель нашла 90 → Recall = 0.9. Recall важен, когда FN дороги: в медицине,安检, поиске. Recall = 1.0 означает, что модель нашла все положительные, но может быть много FP. Связь с precision: обычно обратно пропорциональны. Порог классификации调节这种权衡. На практике я строю PR-кривую и выбираю operating point в зависимости от бизнес-задачи.",
-    "context": "Проверяется понимание знаменателя, компромисса и пороговой политики.",
-    "keyPoints": [
-      {
-        "title": "Связать с ошибкой",
-        "text": "Recall напрямую уменьшается из-за false negatives."
-      },
-      {
-        "title": "Добавить ограничение",
-        "text": "Оптимизируйте recall при допустимом precision, FPR или числе ручных проверок."
-      },
-      {
-        "title": "Проверить сегменты",
-        "text": "Общий recall может скрывать провал на важной группе."
-      }
-    ],
-    "pitfalls": [
       "Путать recall со specificity.",
-      "Максимизировать recall без цены false positive.",
+      "Максимизировать recall без цены false positive (выбор «всё positive»).",
+      "Говорить, что precision совсем не имеет значения.",
       "Сравнивать модели при разных порогах без оговорки."
     ],
     "followUps": [
       "Как связаны recall и TPR?",
       "Что такое recall@k?",
-      "Как оценить fairness по recall?"
+      "Как оценить fairness по recall?",
+      "Как выбрать threshold при фиксированном бюджете?",
+      "Когда precision важнее recall?"
     ],
     "codeSnippet": "from sklearn.metrics import (\n    precision_score, recall_score, f1_score,\n    roc_auc_score, classification_report\n)\n\ny_pred = model.predict(X_test)\ny_prob = model.predict_proba(X_test)[:, 1]\n\nprint(classification_report(y_test, y_pred))\nprint(f\"ROC-AUC: {roc_auc_score(y_test, y_prob):.3f}\")\n\n# Precision-Recall tradeoff\nfor threshold in [0.3, 0.5, 0.7]:\n    preds = (y_prob >= threshold).astype(int)\n    print(f\"t={threshold}: P={precision_score(y_test, preds):.2f} \"\n          f\"R={recall_score(y_test, preds):.2f} \"\n          f\"F1={f1_score(y_test, preds):.2f}\")",
     "codeLanguage": "python",
@@ -2630,10 +2575,12 @@
     "stage": "Техническое",
     "tags": [
       "Recall",
+      "Precision",
       "Classification",
-      "Metrics"
+      "Metrics",
+      "Threshold"
     ],
-    "duration": "8 мин",
+    "duration": "10 мин",
     "difficulty": 3,
     "sources": [
       {
@@ -2965,130 +2912,6 @@
     "videoFrequency": 0
   },
   {
-    "id": "ds-when-mae",
-    "title": "В каких случаях предпочтительнее использовать MAE?",
-    "aliases": [],
-    "answer": "MAE выбирают, когда стоимость ошибки приблизительно линейна и большие residuals не должны непропорционально доминировать. Она устойчивее MSE к выбросам и соответствует условной медиане, поэтому полезна при тяжёлых хвостах. Но MAE негладкая в нуле, а одинаковый штраф может быть неверен, если крупная ошибка критична или цена завышения отличается от занижения.",
-    "exampleAnswer": "MAE предпочтительнее, когда: 1) В данных есть выбросы — MAE не чувствителен к ним (штраф линейный), в отличие от MSE; 2) Нужна интерпретируемость — MAE показывает среднюю абсолютную ошибку в тех же единицах; 3) Медиана важнее среднего — MAE оптимизирует медиану, MSE — среднее; 4) Когда FN и FP одинаково ценны. На практике: MAE используется для预测温度, спроса, цен (когда выбросы). Но MAE не дифференцируем в нуле — для оптимизации градиентным спуском используют Huber loss (комбинация MSE и MAE).",
-    "context": "Нужно связать loss с noise model, estimand и бизнес-стоимостью.",
-    "keyPoints": [
-      {
-        "title": "Проверить cost function",
-        "text": "Линейна ли цена абсолютного отклонения и симметричны ли ошибки."
-      },
-      {
-        "title": "Посмотреть residuals",
-        "text": "Тяжёлые хвосты и выбросы делают squared loss нестабильной."
-      },
-      {
-        "title": "Назвать estimand",
-        "text": "Минимизация expected absolute loss даёт conditional median."
-      }
-    ],
-    "pitfalls": [
-      "Называть MAE полностью нечувствительной к выбросам.",
-      "Выбирать loss только по удобству интерпретации.",
-      "Игнорировать асимметричную стоимость."
-    ],
-    "followUps": [
-      "Когда использовать Huber loss?",
-      "Что прогнозирует quantile loss?",
-      "Как сравнивать MAE между сегментами?"
-    ],
-    "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
-    "codeLanguage": "python",
-    "category": "Machine Learning",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Data Scientist",
-      "ML Engineer",
-      "Data Analyst"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "MAE",
-      "Regression",
-      "Loss"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
-    "id": "ds-when-mse",
-    "title": "В каких случаях предпочтительнее использовать MSE?",
-    "aliases": [],
-    "answer": "MSE подходит, когда крупные ошибки действительно непропорционально дороги или residual noise близок к Gaussian с постоянной дисперсией. Expected squared loss оптимизируется условным средним и имеет гладкий gradient, удобный для обучения. Цена — высокая чувствительность к outliers и зависимость единиц от квадрата target; для отчётности часто показывают RMSE.",
-    "exampleAnswer": "MSE предпочтительнее, когда: 1) Крупные ошибки критичнее мелких — квадратичный штраф сильнее наказывает большие отклонения; 2) Данные без выбросов — MSE чувствителен к выбросам, но если их нет или они обработаны, это преимущество; 3) Нужна дифференцируемость — MSE гладкий, удобен для градиентного спуска; 4) Теоретическое обоснование — при нормальном распределении ошибок MSE эквивалентен MLE. На практике: MSE используется для预测 финансовых рядов, физических процессов. Также MSE — стандартная loss-функция для регрессии в нейросетях.",
-    "context": "Проверяется осознанный выбор квадратичного штрафа.",
-    "keyPoints": [
-      {
-        "title": "Связать с риском",
-        "text": "Объясните, почему ошибка в два раза больше должна стоить примерно в четыре раза дороже."
-      },
-      {
-        "title": "Проверить noise",
-        "text": "Выбросы, heteroskedasticity и heavy tails могут сделать MSE нестабильной."
-      },
-      {
-        "title": "Разделить loss и report metric",
-        "text": "Модель можно обучать по MSE, а бизнесу показывать RMSE, MAE и сегментные ошибки."
-      }
-    ],
-    "pitfalls": [
-      "Выбирать MSE по умолчанию без анализа выбросов.",
-      "Сравнивать MSE для target разных единиц.",
-      "Считать RMSE линейной стоимостью ошибки."
-    ],
-    "followUps": [
-      "Почему MSE прогнозирует mean?",
-      "Когда Huber loss лучше?",
-      "Как heteroskedasticity влияет на модель?"
-    ],
-    "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
-    "codeLanguage": "python",
-    "category": "Machine Learning",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Data Scientist",
-      "ML Engineer",
-      "Data Analyst"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "MSE",
-      "Regression",
-      "Loss"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
     "id": "frontend-browser-storage",
     "title": "В чём разница между cookie, localStorage и sessionStorage?",
     "aliases": [],
@@ -3246,7 +3069,7 @@
       "Для чего нужен префикс `__Host-`?",
       "Как безопасно реализовать refresh token rotation?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Cookie: small text sent with every request to matching origin\n// Security flags for session cookies\ndocument.cookie =\n  \"sessionId=abc123; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600\";\n\n// Read-only from JS (HttpOnly cookies are inaccessible)\ndocument.cookie; // \"sessionId=abc123\" (non-HttpOnly ones)\n\n// __Host- prefix enforces HTTPS, host-only, Path=/\ndocument.cookie = \"__Host-token=xyz; Secure; Path=/\";\n\n// Expiry strategies\n// Session cookie (deleted when browser closes):\ndocument.cookie = \"theme=dark; Path=/\";\n\n// Persistent cookie (survives browser restart):\ndocument.cookie = \"lang=en; Max-Age=31536000; Path=/\";\n\n// SameSite controls cross-site sending:\n// Lax (default) — sent on top-level GET from other site\n// Strict — never sent cross-site\n// None — sent everywhere (requires Secure)\ndocument.cookie = \"tracking=1; SameSite=None; Secure\";",
     "codeLanguage": "typescript",
     "category": "Web Platform",
     "scope": "multi-language",
@@ -3310,7 +3133,7 @@
       "Зачем нужен `Vary: Origin`?",
       "Чем CORS отличается от CSRF?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// CORS: browser enforces Same-Origin Policy via HTTP headers\n// Server must explicitly allow cross-origin reads\n\n// Simple request (GET, HEAD, POST with safe headers) → no preflight\nfetch('https://api.other.com/data', {\n  method: 'GET',\n  credentials: 'include', // sends cookies\n});\n\n// Non-simple request → browser sends OPTIONS preflight first\nfetch('https://api.other.com/data', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json', 'X-Custom': 'yes' },\n  body: JSON.stringify({ key: 'value' }),\n});\n\n// Server response headers needed:\n// Access-Control-Allow-Origin: https://mysite.com\n// Access-Control-Allow-Methods: GET, POST, PUT\n// Access-Control-Allow-Headers: Content-Type, X-Custom\n// Access-Control-Allow-Credentials: true\n// Access-Control-Max-Age: 86400 (cache preflight result)\n\n// Node/Express example\n// app.use(cors({\n//   origin: 'https://mysite.com',\n//   methods: ['GET', 'POST'],\n//   credentials: true\n// }));",
     "codeLanguage": "typescript",
     "category": "Web Platform",
     "scope": "multi-language",
@@ -3417,36 +3240,38 @@
   },
   {
     "id": "frontend-event-loop-concept",
-    "title": "Что такое Event Loop?",
+    "title": "Что такое Event Loop? Порядок выполнения кода",
     "aliases": [],
-    "answer": "Event Loop — механизм среды выполнения, который координирует JavaScript job queue с асинхронными подсистемами браузера или Node.js. Один вызов JavaScript выполняется до конца; между задачами runtime очищает очередь microtasks, затем может выполнить rendering и перейти к следующей task. Поэтому `Promise.then` обычно выполняется раньше `setTimeout(0)`, а длинный синхронный код блокирует ввод и отрисовку.",
-    "exampleAnswer": "Event Loop — это механизм, позволяющий JavaScript выполнять асинхронные операции в однопоточном окружении. Он состоит из: Call Stack, Web APIs, Callback Queue (макротаски) и Microtask Queue (промисы). Алгоритм: 1) Выполняем синхронный код; 2) Проверяем Microtask Queue — выполняем все микротаски; 3) Проверяем Callback Queue — берём одну макротаску; 4) Повторяем. Приоритет: микротаски ВСЕГДА выполняются перед макротасками. Пример:\n\n```javascript\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n// Вывод: 1, 4, 3, 2\n```",
-    "context": "Нужно объяснить модель конкурентности JavaScript без мифа «Event Loop делает код асинхронным».",
+    "answer": "Event Loop — механизм среды выполнения, координирующий job queue с асинхронными подсистемами. Один вызов JavaScript выполняется до конца; между задачами runtime очищает microtask queue, затем может выполнить rendering. Порядок: sync code → все microtasks → одна macrotask → все microtasks → следующая macrotask. Promise.then выполняется раньше setTimeout(0). В Node.js порядок зависит от фаз timers/poll/check.",
+    "exampleAnswer": "Event Loop — это механизм, позволяющий JavaScript выполнять асинхронные операции в однопоточном окружении. Он состоит из: Call Stack, Web APIs, Callback Queue (макротаски) и Microtask Queue (промисы). Алгоритм: 1) Выполняем синхронный код; 2) Проверяем Microtask Queue — выполняем все микротаски; 3) Проверяем Callback Queue — берём одну макротаску; 4) Повторяем. Приоритет: микротаски ВСЕГДА выполняются перед макротасками.\n\nsetTimeout(..., 0) не означает «немедленно» — это «после текущего стека и микротасок». Все промисы выполняются до любого setTimeout. В React: useEffect выполняется после paint (макротаска), useLayoutEffect — до paint (микротаска). В Node.js: process.nextTick имеет отдельную приоритетную очередь, setImmediate — после poll phase.",
+    "context": "Нужно объяснить модель конкурентности JavaScript без мифа «Event Loop делает код асинхронным». Интервьюер ожидает точный вывод порядка логов.",
     "keyPoints": [
       {
         "title": "Разделить язык и среду",
-        "text": "ECMAScript определяет jobs, а таймеры, сеть, DOM и фазы Node.js предоставляет host environment."
+        "text": "ECMAScript определяет jobs, а таймеры, сеть, DOM — host environment."
       },
       {
         "title": "Объяснить очереди",
-        "text": "Task выполняется целиком, затем microtask checkpoint очищает Promise reactions и `queueMicrotask`; rendering получает шанс между tasks."
+        "text": "Task выполняется целиком, затем microtask checkpoint очищает Promise reactions и queueMicrotask, rendering получает шанс между tasks."
       },
       {
         "title": "Назвать практические риски",
-        "text": "Длинные tasks, бесконечная цепочка microtasks и синхронный CPU-код ухудшают responsiveness; разбивайте работу или переносите её в Worker."
+        "text": "Длинные tasks блокируют ввод и отрисовку. Разбивайте работу или переносите в Worker."
       }
     ],
     "pitfalls": [
       "Называть Event Loop отдельным потоком JavaScript.",
-      "Утверждать, что `setTimeout(0)` выполняется немедленно.",
-      "Не различать browser loop и фазы Node.js."
+      "Утверждать, что setTimeout(0) выполняется немедленно.",
+      "Не различать browser loop и фазы Node.js.",
+      "Выполнять timer сразу после строки его регистрации."
     ],
     "followUps": [
-      "Когда браузер выполняет rendering?",
       "Может ли microtask starvation заблокировать интерфейс?",
-      "Чем Worker отличается от асинхронного API?"
+      "Где выполняется requestAnimationFrame?",
+      "Чем setImmediate отличается от setTimeout(0) в Node.js?",
+      "Что произойдёт при рекурсивном queueMicrotask?"
     ],
-    "codeSnippet": "// Event Loop — порядок выполнения\nconsole.log(\"1: sync\");\n\nsetTimeout(() => console.log(\"2: macrotask\"), 0);\n\nPromise.resolve().then(() => console.log(\"3: microtask\"));\n\nqueueMicrotask(() => console.log(\"4: microtask explicit\"));\n\nconsole.log(\"5: sync\");\n\n// Вывод: 1 -> 5 -> 3 -> 4 -> 2\n// Microtasks ВСЕГДА перед macrotasks",
+    "codeSnippet": "console.log(\"1: sync\");\nsetTimeout(() => console.log(\"2: macrotask\"), 0);\nPromise.resolve().then(() => console.log(\"3: microtask\"));\nqueueMicrotask(() => console.log(\"4: microtask explicit\"));\nconsole.log(\"5: sync\");\n// Вывод: 1 -> 5 -> 3 -> 4 -> 2\n\n// Сложный пример\nconsole.log('start');\nsetTimeout(() => console.log('timeout1'), 0);\nsetTimeout(() => console.log('timeout2'), 0);\nPromise.resolve().then(() => console.log('promise1'));\nPromise.resolve().then(() => console.log('promise2'));\nconsole.log('end');\n// Вывод: start, end, promise1, promise2, timeout1, timeout2",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -3466,81 +3291,13 @@
     "tags": [
       "Event Loop",
       "Runtime",
-      "Concurrency"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Wildberries",
-        "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=128s",
-        "type": "youtube"
-      }
-    ],
-    "videoFrequency": 1
-  },
-  {
-    "id": "frontend-event-loop-order",
-    "title": "Как работает Event Loop и в каком порядке выполнится код?",
-    "aliases": [],
-    "answer": "Разбирайте пример по шагам: сначала весь синхронный stack, затем microtasks в порядке постановки до полного опустошения, после этого следующая task — например timer или событие. Новые microtasks, созданные microtask, выполняются в том же checkpoint. В Node.js порядок дополнительно зависит от фаз timers, poll, check и версии runtime; `process.nextTick` имеет отдельную приоритетную очередь.",
-    "exampleAnswer": "Порядок выполнения: синхронный код → все микротаски → одна макротаска → все микротаски → следующая макротаска. Пример:\n\n```javascript\nconsole.log('start');\nsetTimeout(() => console.log('timeout1'), 0);\nsetTimeout(() => console.log('timeout2'), 0);\nPromise.resolve().then(() => console.log('promise1'));\nPromise.resolve().then(() => console.log('promise2'));\nconsole.log('end');\n// Вывод: start, end, promise1, promise2, timeout1, timeout2\n```\n\nКлючевые моменты: setTimeout(..., 0) не означает «немедленно» — это «после текущего стека и микротасок». Все промисы выполняются до любого setTimeout. В React: useEffect выполняется после paint (макротаска), useLayoutEffect — до paint (микротаска).",
-    "context": "Интервьюер ожидает точный вывод порядка логов и объяснение, почему он получился.",
-    "keyPoints": [
-      {
-        "title": "Выписать синхронную часть",
-        "text": "Отмечайте момент регистрации callback, но не выполняйте его до освобождения stack."
-      },
-      {
-        "title": "Построить очереди",
-        "text": "Отдельно записывайте Promise reactions, `queueMicrotask`, timers и host events; после каждого callback учитывайте новые задачи."
-      },
-      {
-        "title": "Зафиксировать среду",
-        "text": "Не переносите правила браузера на Node.js. Для неоднозначного примера назовите runtime и версию."
-      }
-    ],
-    "pitfalls": [
-      "Выполнять timer сразу после строки его регистрации.",
-      "Считать, что microtask checkpoint обрабатывает только исходную очередь.",
-      "Давать один порядок для браузера и Node.js."
-    ],
-    "followUps": [
-      "Что произойдёт при рекурсивном `queueMicrotask`?",
-      "Где выполняется `requestAnimationFrame`?",
-      "Чем `setImmediate` отличается от `setTimeout(0)` в Node.js?"
-    ],
-    "codeSnippet": "// Event Loop — порядок выполнения\nconsole.log(\"1: sync\");\n\nsetTimeout(() => console.log(\"2: macrotask\"), 0);\n\nPromise.resolve().then(() => console.log(\"3: microtask\"));\n\nqueueMicrotask(() => console.log(\"4: microtask explicit\"));\n\nconsole.log(\"5: sync\");\n\n// Вывод: 1 -> 5 -> 3 -> 4 -> 2\n// Microtasks ВСЕГДА перед macrotasks",
-    "codeLanguage": "typescript",
-    "category": "JavaScript",
-    "scope": "language-specific",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend-разработчик",
-      "Node.js-разработчик"
-    ],
-    "companies": [
-      "Wildberries",
-      "Т-Банк"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "Event Loop",
+      "Concurrency",
       "Microtasks",
       "Timers"
     ],
-    "duration": "15 мин",
-    "difficulty": 4,
+    "duration": "12 мин",
+    "difficulty": 3,
     "sources": [
-      {
-        "company": "Т-Банк",
-        "url": "",
-        "type": "candidate-report"
-      },
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=128s",
@@ -3579,7 +3336,7 @@
       "Для чего WeakMap?",
       "Может ли цикл объектов утечь?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Mark-and-sweep: GC traces from roots, marks reachable, sweeps rest\n// Roots: window, global variables, active call stack\n\n// Typical memory leak: forgotten reference\nlet leak: string[] = [];\nfunction addItem(item: string) {\n  leak.push(item); // never released — grows forever\n}\n\n// Closure capturing large object\nfunction process() {\n  const hugeData = new Array(1_000_000).fill('x');\n  return function summarise() {\n    // hugeData is retained as long as summarise exists\n    return hugeData.length;\n  };\n}\n\n// Event listener leak\nfunction setup() {\n  const handler = () => console.log('clicked');\n  button.addEventListener('click', handler);\n  // forgot: button.removeEventListener('click', handler)\n}\n\n// WeakMap: keys are weakly held, GC can collect them\nconst cache = new WeakMap<object, string>();\nconst key = {};\ncache.set(key, 'computed');\n// when key is unreachable, the entry is GC'd automatically\n\n// Cleanup pattern in React\nuseEffect(() => {\n  const controller = new AbortController();\n  fetch(url, { signal: controller.signal });\n  return () => controller.abort(); // cleanup prevents leak\n}, []);",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -3705,7 +3462,7 @@
       "Откуда берётся stack overflow?",
       "Где живут данные closure?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Stack: primitives and call frames (LIFO, limited size)\nlet a = 42;           // primitive → stored on stack\nlet b = { x: 1 };     // object → reference on stack, object on heap\nlet c = b;            // c shares the same reference\n\nfunction factorial(n: number): number {\n  // each call pushes a frame onto the call stack\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}\n\n// Stack overflow from deep recursion\nconst deepRecursion = (): never => deepRecursion(); // RangeError\n\n// Heap: objects, arrays, closures live here\nfunction createCounter() {\n  let count = 0; // `count` lives in heap (closure captures it)\n  return {\n    increment: () => ++count,\n    getCount: () => count,\n  };\n}\n\n// Objects created at runtime are heap-allocated\nconst arr = [1, 2, 3];     // heap\nconst fn = () => arr;      // heap (function object)",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -3769,7 +3526,7 @@
       "Почему `0.1 + 0.2 !== 0.3`?",
       "Как валидировать `unknown` из API?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// 8 types in JavaScript: 7 primitives + object\ntypeof undefined;   // 'undefined'\ntypeof null;        // 'object' (historical bug)\ntypeof true;        // 'boolean'\ntypeof 42;          // 'number'\ntypeof 42n;         // 'bigint'\ntypeof 'hello';     // 'string'\ntypeof Symbol('s'); // 'symbol'\n\ntypeof {};          // 'object'\ntypeof [];          // 'object' (arrays are objects)\ntypeof function(){} // 'function' (special object)\n\n// Primitive comparison (by value)\n1 === 1;              // true\n'str' === 'str';      // true\n\n// Object comparison (by reference)\nconst obj1 = { a: 1 };\nconst obj2 = { a: 1 };\nobj1 === obj2;         // false — different references\nobj1 === obj1;         // true  — same reference\n\n// Type coercion examples\nconsole.log(1 == '1');   // true  (string → number)\nconsole.log(1 === '1');  // false (no coercion)\nconsole.log(null == undefined);  // true\nconsole.log(null === undefined); // false\n\n// Number edge cases\nconsole.log(0.1 + 0.2 === 0.3);  // false (IEEE 754)\nconsole.log(Object.is(NaN, NaN)); // true\nconsole.log(Object.is(0, -0));    // false",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -4148,7 +3905,7 @@
       "Когда нужен effect?",
       "Чем server state отличается от client state?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// React: declarative UI from components with state and props\nimport { useState, useEffect } from 'react';\n\n// Functional component with hooks\nfunction Counter({ initial = 0 }: { initial?: number }) {\n  const [count, setCount] = useState(initial);\n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(c => c + 1)}>+1</button>\n    </div>\n  );\n}\n\n// Effect for syncing with external systems\nfunction UserProfile({ userId }: { userId: string }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(r => r.json())\n      .then(setUser);\n  }, [userId]); // re-runs on dependency change\n\n  return user ? <div>{user.name}</div> : <div>Loading...</div>;\n}",
     "codeLanguage": "typescript",
     "category": "React",
     "scope": "language-specific",
@@ -4344,7 +4101,7 @@
       "Чем render отличается от commit?",
       "Когда `memo` не помогает?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// React Virtual DOM: render → reconciliation → commit\nimport { useState } from 'react';\n\n// Render phase: builds virtual tree (can be interrupted in Concurrent Mode)\nfunction List({ items }: { items: string[] }) {\n  return (\n    <ul>\n      {items.map((item, i) => (\n        <li key={item}>{item}</li>  {/* key helps diffing algorithm */}\n      ))}\n    </ul>\n  );\n}\n\n// State preserved when type and key match across renders\nfunction App() {\n  const [show, setShow] = useState(true);\n\n  return (\n    <>\n      {show && <Counter />}       {/* remounts when toggled */}\n      <button onClick={() => setShow(s => !s)}>Toggle</button>\n    </>\n  );\n}\n\n// Concurrency: React can interrupt this render for urgent updates\nfunction HeavyList({ data }: { data: number[] }) {\n  return data.map(n => <div key={n}>{n}</div>);\n}",
     "codeLanguage": "typescript",
     "category": "React",
     "scope": "language-specific",
@@ -4718,7 +4475,7 @@
       "Чем Proxy отличается от getter/setter?",
       "Почему Vue использует Proxy?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Proxy intercepts property access (get/set/has/deleteProperty)\nconst target = { x: 1, y: 2 };\nconst proxy = new Proxy(target, {\n  get(obj, prop) {\n    console.log(`get ${String(prop)}`);\n    return obj[prop as keyof typeof obj];\n  },\n  set(obj, prop, value) {\n    console.log(`set ${String(prop)} = ${value}`);\n    (obj as any)[prop] = value;\n    return true;\n  },\n});\n\nproxy.x;        // logs \"get x\" → overhead vs direct access\nproxy.z = 3;    // logs \"set z = 3\"\n\n// Performance comparison (conceptual)\nconst obj = { value: 0 };\nconst proxied = new Proxy(obj, { get: (t, p) => t[p as keyof typeof t] });\n\nconsole.time('direct');\nfor (let i = 0; i < 1e6; i++) obj.value;\nconsole.timeEnd('direct');   // ~1ms\n\nconsole.time('proxy');\nfor (let i = 0; i < 1e6; i++) proxied.value;\nconsole.timeEnd('proxy');    // ~3-5ms (2-5x slower)\n\n// Vue 3 reactivity uses Proxy to track dependencies\n// but avoids wrapping every property access in hot loops",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -4781,8 +4538,8 @@
       "Что создаёт stacking context?",
       "Когда portal всё ещё нужен?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
-    "codeLanguage": "javascript",
+    "codeSnippet": "/* z-index only compares siblings within the same stacking context */\n.parent {\n  position: relative;\n  z-index: 1; /* creates new stacking context */\n}\n\n.child {\n  position: relative;\n  z-index: 9999; /* still inside .parent's context */\n}\n\n.sibling {\n  position: relative;\n  z-index: 2; /* wins over .child because .parent's z-index is 1 */\n}\n\n/* Creates stacking context (won't be surpassed by children) */\n.opacity-layer {\n  opacity: 0.99; /* < 1 creates stacking context */\n  position: relative;\n  z-index: 1;\n}\n\n/* Modern top layer: dialog is always above all stacking contexts */\ndialog {\n  /* No z-index needed — dialog uses the top layer */\n}",
+    "codeLanguage": "css",
     "category": "CSS",
     "scope": "language-specific",
     "languages": [
@@ -5725,7 +5482,7 @@
       "Чем arrow отличается от обычной функции?",
       "Что хранит closure?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Execution context: scope, this, outer reference\nlet a = 1; // Global context\n\nfunction outer() {\n  let b = 2; // outer context\n  function inner() {\n    let c = 3; // inner context\n    console.log(a + b + c); // 6 — walks up scope chain\n  }\n  inner();\n}\nouter();\n\n// this depends on how function is called (not where declared)\nfunction greet() {\n  console.log(this.name);\n}\nconst user = { name: 'Alice', greet };\ngreet();            // undefined (global/strict)\nuser.greet();       // 'Alice' — method call\nnew greet();        // {} — constructor\n\n// Arrow function: lexical this (no own context)\nconst wrapper = {\n  name: 'outer',\n  createInner: () => {\n    const inner = () => console.log(this.name);\n    return inner;\n  },\n};\nwrapper.createInner(); // undefined — `this` is global, not wrapper\n\n// call/apply/bind override this\ngreet.call({ name: 'Bob' });  // 'Bob'\ngreet.apply({ name: 'Bob' }); // 'Bob'\nconst bound = greet.bind({ name: 'Carol' });\nbound(); // 'Carol'",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -7491,8 +7248,8 @@
       "Как оценить время ликвидации backlog после исправления?",
       "Какие инварианты проверять при replay?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
-    "codeLanguage": "javascript",
+    "codeSnippet": "-- Monitor pipeline throughput at each stage\nSELECT\n  stage,\n  COUNT(*) AS records_processed,\n  AVG(duration_ms) AS avg_duration,\n  MAX(queue_size) AS max_queue_depth\nFROM pipeline_metrics\nWHERE run_date = CURRENT_DATE\nGROUP BY stage;\n\n-- Find slow queries after 10x data growth\nSELECT query, calls, mean_exec_time, total_exec_time\nFROM pg_stat_statements\nORDER BY total_exec_time DESC\nLIMIT 10;\n\n-- Partitioning strategy for large tables\nCREATE TABLE events (\n  id BIGSERIAL,\n  event_time TIMESTAMPTZ NOT NULL,\n  payload JSONB\n) PARTITION BY RANGE (event_time);\n\nCREATE TABLE events_2024_01 PARTITION OF events\n  FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');",
+    "codeLanguage": "sql",
     "category": "Data Engineering",
     "scope": "multi-language",
     "languages": [
@@ -7716,11 +7473,11 @@
   },
   {
     "id": "tbank-hr-why-left",
-    "title": "почему вы ушли с прошлого места работы?",
+    "title": "Почему вы ушли с прошлого места работы?",
     "aliases": [],
     "answer": "Говорите о позитивных причинах: рост, новые вызовы, интерес к продукту. Не критикуйте бывшего руководителя/команду. Покажите, что выбор осознанный.",
     "exampleAnswer": "На прошлом месте я вырос до Senior, но хотел работать с высоконагруженными системами и финтехом. Т-Банк — идеальная платформа: масштаб, сложные задачи, сильная команда. Уход был осознанным решением, не конфликтом.",
-    "context": "HR проверяет红flags: конфликтность, нестабильность, нечестность.",
+    "context": "HR проверяет red flags: конфликтность, нестабильность, нечестность.",
     "keyPoints": [
       {
         "title": "Позитив",
@@ -7878,7 +7635,7 @@
       "Почему `[] == false` возвращает true?",
       "Как корректно сравнивать объекты по значению?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// == (loose) performs type coercion\nconsole.log(0 == '');           // true  (both → 0)\nconsole.log(0 == '0');          // true\nconsole.log(false == '0');      // true\nconsole.log(null == undefined); // true\nconsole.log([] == false);       // true\n\n// === (strict) — no coercion\nconsole.log(0 === '');          // false\nconsole.log(0 === '0');         // false\nconsole.log(null === undefined); // false\n\n// NaN is not equal to itself\nconsole.log(NaN === NaN);       // false\nconsole.log(NaN == NaN);        // false\n\n// Object.is for NaN and signed zero\nconsole.log(Object.is(NaN, NaN));   // true\nconsole.log(Object.is(0, -0));      // false\nconsole.log(Object.is(+0, -0));     // false\n\n// Practical: == null checks for null OR undefined\nconst value = null;\nif (value == null) {\n  console.log('value is null or undefined');\n}",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -7941,7 +7698,7 @@
       "Что вернёт async-функция без return?",
       "Почему таймер может сработать заметно позже?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Function without return → undefined\nfunction noReturn() {\n  let x = 5;\n}\nconsole.log(noReturn()); // undefined\n\n// Empty return → undefined\nfunction emptyReturn() {\n  return;\n}\nconsole.log(emptyReturn()); // undefined\n\n// setTimeout returns a handle (number in browser, Timeout in Node)\nconst id = setTimeout(() => console.log('done'), 1000);\nconsole.log(id); // 42 (browser numeric id)\nclearTimeout(id); // cancel before it fires\n\n// Arrow function returning object needs parentheses\nconst makeObj = () => ({ key: 'value' });\n\n// Async function always returns Promise\nasync function fetchData() {\n  return { data: 42 };\n}\nfetchData().then(console.log); // Promise { data: 42 }",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -8008,8 +7765,8 @@
     ],
     "codeSnippet": "// Strategy — разные алгоритмы сортировки\ninterface SortStrategy<T> {\n  sort(items: T[]): T[];\n}\n\nclass QuickSort<T> implements SortStrategy<T> {\n  sort(items: T[]): T[] { /* ... */ }\n}\n\nclass MergeSort<T> implements SortStrategy<T> {\n  sort(items: T[]): T[] { /* ... */ }\n}\n\nclass Sorter<T> {\n  constructor(private strategy: SortStrategy<T>) {}\n  sort(items: T[]) { return this.strategy.sort(items); }\n}",
     "codeLanguage": "typescript",
-    "category": "Algorithms",
-    "scope": "language",
+    "category": "JavaScript",
+    "scope": "language-specific",
     "languages": [
       "TypeScript",
       "JavaScript"
@@ -8075,7 +7832,7 @@
     "codeSnippet": "// Запуск корутины\nviewModelScope.launch(Dispatchers.IO) {\n    val data = repository.fetchData() // suspend function\n    withContext(Dispatchers.Main) {\n        uiState.value = data\n    }\n}\n\n// Structured concurrency\nsuspend fun loadUser() = coroutineScope {\n    val profile = async { fetchProfile() }\n    val settings = async { fetchSettings() }\n    User(profile.await(), settings.await())\n}",
     "codeLanguage": "kotlin",
     "category": "C++",
-    "scope": "language",
+    "scope": "language-specific",
     "languages": [
       "Kotlin"
     ],
@@ -8140,7 +7897,7 @@
     "codeSnippet": "-- Медленный запрос\nSELECT * FROM orders\nWHERE user_id IN (SELECT id FROM users WHERE status = 'active')\nAND created_at > NOW() - INTERVAL '30 days';\n\n-- Оптимизированный\nSELECT o.id, o.total, o.created_at\nFROM orders o\nINNER JOIN users u ON u.id = o.user_id\nWHERE u.status = 'active'\nAND o.created_at > NOW() - INTERVAL '30 days';\n\n-- Индекс\nCREATE INDEX idx_orders_user_created ON orders(user_id, created_at)\nWHERE created_at > NOW() - INTERVAL '90 days';",
     "codeLanguage": "sql",
     "category": "Algorithms",
-    "scope": "language",
+    "scope": "language-specific",
     "languages": [
       "SQL"
     ],
@@ -8445,7 +8202,7 @@
       "Что произойдёт с циклической ссылкой?",
       "Когда лучше использовать structural sharing?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "const original = { a: 1, b: { c: 2 }, d: [1, 2, 3] };\n\n// Spread: shallow copy (nested objects still shared)\nconst shallow = { ...original };\nshallow.b.c = 999;\nconsole.log(original.b.c); // 999 — mutation leaked!\n\n// structuredClone: deep copy (modern standard)\nconst deep = structuredClone(original);\ndeep.b.c = 888;\nconsole.log(original.b.c); // 999 — original untouched\n\n// structuredClone supports complex types\nconst withDate = { ts: new Date(), map: new Map([['key', 'val']]) };\nconst cloned = structuredClone(withDate);\nconsole.log(cloned.ts instanceof Date); // true\nconsole.log(cloned.map.get('key'));     // 'val'\n\n// JSON round-trip: loses functions, undefined, BigInt, RegExp\nconst jsonClone = JSON.parse(JSON.stringify(original));\n\n// Circular references work with structuredClone\nconst circular: any = { ref: null };\ncircular.ref = circular;\nconst clonedCircular = structuredClone(circular);",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -8639,7 +8396,7 @@
       "Как `key` влияет на сохранение state?",
       "Почему StrictMode может вызывать повторный render в development?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Re-render triggers: state, parent render, context change\nimport { useState, useContext, memo, useMemo, useCallback } from 'react';\n\n// Parent re-renders → child re-renders (no memo)\nfunction Child({ data }: { data: string }) {\n  console.log('Child rendered');\n  return <div>{data}</div>;\n}\n\n// Prevent unnecessary re-renders with memo\nconst MemoizedChild = memo(({ data }: { data: string }) => {\n  console.log('MemoizedChild rendered');\n  return <div>{data}</div>;\n});\n\n// Stabilize callback props\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  const handleClick = useCallback(() => console.log('clicked'), []);\n\n  // useMemo prevents recomputation on every render\n  const sorted = useMemo(() => data.sort(), [data]);\n\n  return (\n    <>\n      <MemoizedChild data=\"static\" />           {/* won't re-render */}\n      <MemoizedChild data={String(count)} />     {/* re-renders on change */}\n      <button onClick={() => setCount(c => c + 1)}>+1</button>\n    </>\n  );\n}",
     "codeLanguage": "typescript",
     "category": "React",
     "scope": "language-specific",
@@ -8774,7 +8531,7 @@
       "Чем `in` отличается от проверки значения по индексу?",
       "Как `map` и `for...of` ведут себя на sparse array?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Sparse array: holes in indices\nconst sparse = [1, , 3];           // length 3, index 1 is a hole\nconsole.log(sparse.length);       // 3\nconsole.log(1 in sparse);         // false\nconsole.log(sparse[1]);           // undefined\n\n// instanceof vs Array.isArray\nconsole.log(sparse instanceof Array);  // true\nconsole.log(Array.isArray(sparse));    // true\n\n// Cross-realm check\nconst iframe = document.createElement('iframe');\ndocument.body.appendChild(iframe);\nconst iframeArray = iframe.contentWindow!.Array;\nconst arr = new iframeArray(1, 2, 3);\n\nconsole.log(arr instanceof Array);     // false (different realm)\nconsole.log(Array.isArray(arr));       // true\n\n// Sparse array methods skip holes\nsparse.forEach((v, i) => console.log(i, v)); // 0 1, 2 3 (skips index 1)\nconsole.log([...sparse]);              // [1, empty, 3]\nconsole.log(Array.from(sparse));       // [1, undefined, 3]",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -8873,43 +8630,50 @@
   },
   {
     "id": "tbank-system-design-notification",
-    "title": "Спроектируйте систему уведомлений для банка",
+    "title": "Спроектируйте систему уведомлений для банка на миллионы пользователей",
     "aliases": [],
-    "answer": "Используйте event-driven архитектуру: источник событий → Kafka → Notification Service → каналы (push, SMS, email). Гарантия доставки через outbox pattern + retry с exponential backoff. Приоритизация: критические (OTP) → важные (платежи) → маркетинг. Идемпотентность через message ID.",
-    "exampleAnswer": "Event-driven: событие (платеж, OTP) попадает в Kafka. Notification Service потребляет, определяет канал и приоритет. Critical (OTP) — отдельная очередь, гарантированная доставка. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Мониторинг: latency, delivery rate, error rate.",
-    "context": "Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация.",
+    "answer": "Event-driven архитектура: Kafka как шина событий → Router (определяет каналы по user prefs) → Channel Workers (push, SMS, email, in-app). Приоритезация: critical (мошенничество) > transactional (платеж) > informational > marketing. Outbox pattern + retry с exponential backoff + dead letter queue. Хранение: Cassandra (audit trail), Redis (rate limiting, dedup), PostgreSQL (user prefs).",
+    "exampleAnswer": "Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.",
+    "context": "Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация. Платёжная платформа — критичная система.",
     "keyPoints": [
       {
-        "title": "Архитектура",
-        "text": "Event Source → Kafka → Notification Service → Multi-channel delivery."
+        "title": "Определить каналы и SLA",
+        "text": "Push (APNs/FCM), SMS, email, in-app WebSocket. SLA: 99.9% для critical, 99% для transactional."
       },
       {
-        "title": "Гарантии",
-        "text": "Outbox pattern, retry, idempotency, dead letter queue."
+        "title": "Архитектура очередей",
+        "text": "Kafka topics partitioned по userId. Consumer groups: critical — 50 воркеров, marketing — 5."
       },
       {
-        "title": "Приоритизация",
-        "text": "Критические уведомления — отдельная очередь с гарантированной доставкой."
+        "title": "Хранение",
+        "text": "Cassandra для истории (write-heavy), Redis для dedup/rate limit, PostgreSQL для preferences."
+      },
+      {
+        "title": "Reliability",
+        "text": "Retry → Dead Letter Queue → ручной review. Circuit breaker для внешних провайдеров."
       }
     ],
     "pitfalls": [
       "Синхронная отправка (блокирует источник)",
       "Без retry — потеря уведомлений",
-      "Без приоритизации — OTP ждут вместе с маркетингом",
+      "Без dedup — дубли при retry",
+      "Без rate limiting — провайдеры заблокируют",
       "Без мониторинга — незаметные сбои"
     ],
     "followUps": [
+      "Как обеспечить exactly-once семантику?",
       "Как обрабатываете отказ канала (SMS недоступен)?",
       "Как масштабируете при 10M уведомлений в день?",
-      "Как тестируете system design?"
+      "Как спроектировать откат уведомления (revoke)?"
     ],
-    "codeSnippet": "// Outbox pattern —保证Delivery\n@Entity\nclass OutboxEvent {\n    String eventType;\n    String payload;\n    String status; // PENDING, SENT, FAILED\n    int retryCount;\n}\n\n// Retry с exponential backoff\n@Scheduled(fixedDelay = 1000)\npublic void retryPending() {\n    List<OutboxEvent> pending = outboxRepo.findByStatus(\"PENDING\");\n    for (OutboxEvent event : pending) {\n        try {\n            sendNotification(event);\n            event.setStatus(\"SENT\");\n        } catch (Exception e) {\n            event.setRetryCount(event.getRetryCount() + 1);\n            if (event.getRetryCount() > MAX_RETRIES) {\n                event.setStatus(\"FAILED\");\n            }\n        }\n        outboxRepo.save(event);\n    }\n}",
+    "codeSnippet": "// Outbox pattern — гарантия доставки\n@Entity\nclass OutboxEvent {\n    String eventType;\n    String payload;\n    String status; // PENDING, SENT, FAILED\n    int retryCount;\n}\n\n@Scheduled(fixedDelay = 1000)\npublic void retryPending() {\n    List<OutboxEvent> pending = outboxRepo.findByStatus(\"PENDING\");\n    for (OutboxEvent event : pending) {\n        try {\n            sendNotification(event);\n            event.setStatus(\"SENT\");\n        } catch (Exception e) {\n            event.setRetryCount(event.getRetryCount() + 1);\n            if (event.getRetryCount() > MAX_RETRIES) {\n                event.setStatus(\"FAILED\");\n            }\n        }\n        outboxRepo.save(event);\n    }\n}\n```\n\n```python\n# Consumer для push-уведомлений\nclass PushWorker:\n    async def process(self, msg: NotificationEvent):\n        # Dedup\n        if await self.redis.setnx(f\"dedup:{msg.event_id}\", 1, ex=86400):\n            return\n        # Rate limit\n        key = f\"rate:{msg.user_id}\"\n        count = await self.redis.incr(key)\n        if count == 1:\n            await self.redis.expire(key, 3600)\n        if count > 100:\n            return\n        try:\n            await self.push.send(user_id=msg.user_id, title=msg.title, body=msg.body)\n        except TransientError:\n            raise RetryableError()\n        except PermanentError as e:\n            await self.send_to_dlq(msg, e)",
     "codeLanguage": "java",
     "category": "System Design",
     "scope": "system-design",
     "languages": [
       "Java",
-      "Kotlin"
+      "Kotlin",
+      "Python"
     ],
     "roles": [
       "Backend-разработчик",
@@ -8923,81 +8687,12 @@
     "tags": [
       "System Design",
       "Notifications",
-      "Distributed",
-      "Reliability"
-    ],
-    "duration": "25 мин",
-    "difficulty": 5,
-    "sources": [
-      {
-        "company": "Т-Банк",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
-    "id": "tbank-system-design-payment",
-    "title": "Спроектируйте систему уведомлений для платёжной платформы на миллионы пользователей",
-    "aliases": [],
-    "answer": "Используйте Kafka для обработки событий (платежи, статусы), шину уведомлений с приоритезацией (critical > transactional > marketing), отдельные воркеры для каналов (push, SMS, email, in-app). Cassandra для хранения истории уведомлений, Redis для rate limiting и deduplication. Retry с exponential backoff, dead letter queue для неудачных, observability через метрики и tracing.",
-    "exampleAnswer": "Для платёжной платформы на миллионы пользователей нужна распределённая система с гарантиями доставки.\n\n**Топология**: Платёжный сервис → Kafka (topic: payment-events) → Router (определяет каналы по user prefs) → Channel Workers (push, SMS, email) → External Providers.\n\n**Приоритезация**: Kafka с несколькими topics: `notifications-critical`, `notifications-transactional`, `notifications-marketing`. Consumer groups с разными concurrency: critical — 50 воркеров, marketing — 5.\n\n**Хранение**: Cassandra для audit trail (12+ месяцев), Redis для dedup и rate limiting, PostgreSQL для user preferences.\n\n**Reliability**: Каждое уведомление проходит circuit breaker → rate limiter → dedup → send. При ошибке — retry с exponential backoff (1s → 2s → 4s → 30s), после 5 попыток — DLQ. DLQ обрабатывается отдельным воркером с ручным review.\n\n**Масштабирование**: Kafka partitions по userId для ordering. Автоскейлинг воркеров по queue depth. Cross-region replication для DR.\n\n**Мониторинг**: Grafana дашборды с delivery rate, P99 latency, error breakdown по причинам. PagerDuty алерты на SLA breach.",
-    "context": "Проверяется понимание системного дизайна: масштабируемость, отказоустойчивость, очереди сообщений, паттерны обработки ошибок. Платёжная платформа — критичная система, уведомления должны доставляться надёжно и вовремя.",
-    "keyPoints": [
-      {
-        "title": "Определить требования и каналы",
-        "text": "- **Каналы**: push-уведомления (APNs/FCM), SMS (Twilio/SMS.ru), email (SendGrid), in-app (WebSocket)\n- **Приоритеты**: critical (мошенничество) > transactional (платеж) > informational (статус) > marketing\n- **SLA**: 99.9% доставки для critical, 99% для transactional"
-      },
-      {
-        "title": "Выбрать архитектуру очередей",
-        "text": "Kafka как шина событий: Producer (платёжный сервис) → Kafka Topics (partitioned по userId) → Consumer Groups (отдельные воркеры по каналам). Преимущества: replay, ordering guarantee, horizontal scaling."
-      },
-      {
-        "title": "Спроектировать хранение",
-        "text": "**Cassandra** для истории уведомлений (write-heavy, time-series доступ). **Redis** для rate limiting (TTL-based) и deduplication (setnx). **PostgreSQL** для user preferences (какие каналы активны, язык, часовой пояс)."
-      },
-      {
-        "title": "Реализовать reliability",
-        "text": "- **Retry**: exponential backoff с jitter для transient failures\n- **Dead Letter Queue**: для permanent failures (невалидный email, заблокированный номер)\n- **Idempotency**: deduplication по eventId в Redis (TTL = 24h)\n- **Circuit Breaker**: для внешних сервисов (SMS-провайдер down)"
-      },
-      {
-        "title": "Observability и мониторинг",
-        "text": "Метрики: delivery rate, latency per channel, error rate, retry count. Tracing: Jaeger для end-to-end трассировки. Alerting: SLA breach, error rate > 1%, queue depth растёт."
-      }
-    ],
-    "pitfalls": [
-      "Использовать синхронные вызовы вместо очередей — система не выдержит нагрузку.",
-      "Не делать dedup — при retry пользователь получит дублирующие уведомления.",
-      "Игнорировать rate limiting — внешние провайдеры заблокируют аккаунт.",
-      "Хранить всё в PostgreSQL — не масштабируется под millions записей в день."
-    ],
-    "followUps": [
-      "Как обеспечить exactly-once семантику в Kafka?",
-      "Как спроектировать откат уведомления (revoke)?",
-      "Как обрабатывать доставку в разных часовых поясах?"
-    ],
-    "codeSnippet": "# Consumer воркер для push-уведомлений\nclass PushNotificationWorker:\n    def __init__(self, kafka_consumer, push_service, redis_client):\n        self.consumer = kafka_consumer\n        self.push = push_service\n        self.redis = redis_client\n\n    async def process(self, message: NotificationEvent):\n        # Deduplication\n        if await self.redis.setnx(f\"dedup:{message.event_id}\", 1, ex=86400):\n            return\n\n        # Rate limiting\n        key = f\"rate:{message.user_id}\"\n        count = await self.redis.incr(key)\n        if count == 1:\n            await self.redis.expire(key, 3600)\n        if count > 100:\n            return  # rate limited\n\n        try:\n            await self.push.send(\n                user_id=message.user_id,\n                title=message.title,\n                body=message.body,\n            )\n        except TransientError as e:\n            raise RetryableError(e)  # Kafka will retry\n        except PermanentError as e:\n            await self.send_to_dlq(message, e)",
-    "codeLanguage": "python",
-    "category": "System Design",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Frontend-разработчик",
-      "Backend-разработчик"
-    ],
-    "companies": [
-      "Т-Банк"
-    ],
-    "level": "Senior",
-    "stage": "Архитектура",
-    "tags": [
-      "System Design",
-      "Notifications",
       "Kafka",
+      "Distributed",
+      "Reliability",
       "Scale"
     ],
-    "duration": "60 мин",
+    "duration": "30 мин",
     "difficulty": 5,
     "sources": [
       {
@@ -9897,9 +9592,9 @@
     "id": "universal-deadline-pressure",
     "title": "Как вы справляетесь с давлением дедлайнов?",
     "aliases": [],
-    "answer": "Декомпозирую задачи, оцениваю реалистично, kommuniziere с manager о рисках заранее. Не беру сверх меры — если дедлайн нереален, говорю об этом до, а не после.",
+    "answer": "Декомпозирую задачи, оцениваю реалистично, общаюсь с manager о рисках заранее. Не беру сверх меры — если дедлайн нереален, говорю об этом до, а не после.",
     "exampleAnswer": "Перед релизом осталось 3 дня, а задача — 5 дней работы. Я: 1) декомпозировал на must-have и nice-to-have, 2) обсудил с PM что можно вырезать, 3) привлёк ещё одного разработчика. Релиз вовремя, без переработок. Ключ: не молчать, аcommunicate risks.",
-    "context": "Проверяют стрессоустойчивость и понимание自己的极限.",
+    "context": "Проверяют стрессоустойчивость и понимание своих возможностей.",
     "keyPoints": [
       {
         "title": "Декомпозиция",
@@ -11593,7 +11288,7 @@
       "Когда безопасно повторить запрос?",
       "Чем HTTP/2 отличается от HTTP/3?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// HTTP/2 multiplexing: multiple requests over single TCP connection\nconst fetchResources = async () => {\n  const [css, js, data] = await Promise.all([\n    fetch('/styles.css'),   // stream 1\n    fetch('/app.js'),       // stream 2\n    fetch('/api/data'),     // stream 3\n  ]);\n};\n\n// Cache-Control strategies\nconst headers: Record<string, string> = {\n  'Cache-Control': 'public, max-age=31536000, immutable', // static assets\n  'Cache-Control': 'no-cache',                            // must revalidate\n  'ETag': '\"abc123\"',                                     // validator\n};\n\n// Server-Sent Events for real-time updates\nconst eventSource = new EventSource('/events');\neventSource.onmessage = (e) => console.log(JSON.parse(e.data));",
     "codeLanguage": "typescript",
     "category": "Web Platform",
     "scope": "multi-language",
@@ -11660,7 +11355,7 @@
       "Как поддержать event delegation?",
       "Как типизировать chaining в TypeScript?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "type Selector = string | Element | NodeList;\n\nfunction $(selector: Selector) {\n  const elements: Element[] =\n    typeof selector === 'string'\n      ? Array.from(document.querySelectorAll(selector))\n      : selector instanceof Element\n        ? [selector]\n        : Array.from(selector);\n\n  const wrapper = {\n    elements,\n\n    addClass(className: string) {\n      elements.forEach(el => el.classList.add(className));\n      return wrapper;\n    },\n\n    removeClass(className: string) {\n      elements.forEach(el => el.classList.remove(className));\n      return wrapper;\n    },\n\n    css(prop: string, value: string) {\n      elements.forEach(el => (el.style as any)[prop] = value);\n      return wrapper;\n    },\n\n    html(content: string) {\n      elements.forEach(el => (el.innerHTML = content));\n      return wrapper;\n    },\n\n    on(event: string, handler: EventListener) {\n      elements.forEach(el => el.addEventListener(event, handler));\n      return wrapper;\n    },\n  };\n\n  return wrapper;\n}\n\n$(\".btn\").addClass(\"active\").css(\"color\", \"red\").on(\"click\", handleClick);",
     "codeLanguage": "typescript",
     "category": "JavaScript",
     "scope": "language-specific",
@@ -11723,7 +11418,7 @@
       "Когда `transform` всё равно приводит к paint?",
       "Чем `content-visibility` помогает большим страницам?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Layout thrashing: interleaving reads and writes\nfunction animateBadge(el: HTMLElement) {\n  el.style.width = '100px';    // write → triggers layout\n  const h = el.offsetHeight;   // read → forces synchronous layout\n  el.style.height = h + 'px';  // write → layout again\n}\n\n// Correct: batch reads, then writes\nfunction animateBadgeOptimized(el: HTMLElement) {\n  const h = el.offsetHeight;   // read (no pending writes)\n  el.style.width = '100px';\n  el.style.height = h + 'px';\n}\n\n// Use requestAnimationFrame for smooth visual updates\nlet position = 0;\nfunction animate() {\n  position += 2;\n  el.style.transform = `translateX(${position}px)`; // composite-only\n  if (position < 500) requestAnimationFrame(animate);\n}\nrequestAnimationFrame(animate);",
     "codeLanguage": "typescript",
     "category": "Browser",
     "scope": "language-specific",
@@ -11792,8 +11487,8 @@
       "Чем preload отличается от modulepreload?",
       "Как CSP влияет на inline scripts?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
-    "codeLanguage": "typescript",
+    "codeSnippet": "<!-- Block parsing until script loads and executes -->\n<script src=\"critical.js\"></script>\n\n<!-- Async: downloads in parallel, executes immediately (no order guarantee) -->\n<script src=\"analytics.js\" async></script>\n\n<!-- Defer: downloads in parallel, executes after HTML parsing (in order) -->\n<script src=\"app.js\" defer></script>\n\n<!-- Module: deferred by default, runs in strict mode with own scope -->\n<script type=\"module\" src=\"app.mjs\"></script>\n\n<script>\n  // Execution timeline:\n  // 1. <script src=\"critical.js\"> blocks HTML parsing\n  // 2. analytics.js may fire before or after DOMContentLoaded\n  // 3. app.js runs after parsing, before DOMContentLoaded\n  // 4. app.mjs runs after all deferred scripts\n</script>",
+    "codeLanguage": "html",
     "category": "Browser",
     "scope": "language-specific",
     "languages": [
@@ -12363,7 +12058,7 @@
       "Чем пиковая память отличается от общего объёма аллокаций?",
       "Как обнаружить скрытую O(n²) по production-метрикам?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "// Hidden O(n²): spread inside loop\nconst flatten = (arr: number[][]): number[] => {\n  let result: number[] = [];\n  for (const inner of arr) {\n    result = [...result, ...inner]; // O(n) copy each iteration\n  }\n  return result;\n};\n\n// O(n) fix: use concat or push\nconst flattenOptimized = (arr: number[][]): number[] => {\n  return arr.reduce((acc, inner) => acc.concat(inner), []);\n};\n\n// Hidden O(n²): push + reverse\nconst buildPath = (parents: Map<string, string | null>, target: string): string[] => {\n  const path: string[] = [];\n  let current: string | null = target;\n  while (current !== null) {\n    path.push(current);          // O(1) amortized\n    current = parents.get(current) ?? null;\n  }\n  return path.reverse();         // single O(n)\n};",
     "codeLanguage": "typescript",
     "category": "Performance",
     "scope": "language-specific",
@@ -12434,7 +12129,7 @@
       "Почему `Array.from(str)` упрощает Unicode-обход, но меняет расход памяти?",
       "Как доказать O(n), если внутри есть несколько циклов?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
+    "codeSnippet": "function isPalindrome(s: string): boolean {\n  let left = 0;\n  let right = s.length - 1;\n\n  while (left < right) {\n    while (left < right && !/[a-zA-Z0-9]/.test(s[left])) left++;\n    while (left < right && !/[a-zA-Z0-9]/.test(s[right])) right--;\n\n    if (s[left].toLowerCase() !== s[right].toLowerCase()) return false;\n\n    left++;\n    right--;\n  }\n\n  return true;\n}\n\nisPalindrome(\"A man, a plan, a canal: Panama\"); // true\nisPalindrome(\"race a car\"); // false",
     "codeLanguage": "typescript",
     "category": "Algorithms",
     "scope": "multi-language",
@@ -12514,8 +12209,8 @@
       "Как отменить задачу, которая уже получила lease?",
       "Как восстановить индекс после частичной потери данных?"
     ],
-    "codeSnippet": "// Пример использования\nconst example = () => {\n  const state = { loading: false, data: null, error: null };\n\n  return {\n    async fetch(url) {\n      state.loading = true;\n      try {\n        const res = await fetch(url);\n        state.data = await res.json();\n      } catch (err) {\n        state.error = err.message;\n      } finally {\n        state.loading = false;\n      }\n      return state;\n    },\n  };\n};",
-    "codeLanguage": "javascript",
+    "codeSnippet": "class MinHeap {\n  private heap: { task: Function; priority: number; executeAt: number }[] = [];\n\n  push(item: { task: Function; priority: number; executeAt: number }) {\n    this.heap.push(item);\n    this.bubbleUp(this.heap.length - 1);\n  }\n\n  pop() {\n    const top = this.heap[0];\n    const last = this.heap.pop();\n    if (this.heap.length > 0 && last) {\n      this.heap[0] = last;\n      this.sinkDown(0);\n    }\n    return top;\n  }\n\n  private bubbleUp(i: number) {\n    while (i > 0) {\n      const parent = Math.floor((i - 1) / 2);\n      if (this.heap[i].priority < this.heap[parent].priority) {\n        [this.heap[i], this.heap[parent]] = [this.heap[parent], this.heap[i]];\n        i = parent;\n      } else break;\n    }\n  }\n\n  private sinkDown(i: number) {\n    while (true) {\n      let smallest = i;\n      const left = 2 * i + 1;\n      const right = 2 * i + 2;\n      if (left < this.heap.length && this.heap[left].priority < this.heap[smallest].priority) smallest = left;\n      if (right < this.heap.length && this.heap[right].priority < this.heap[smallest].priority) smallest = right;\n      if (smallest !== i) {\n        [this.heap[i], this.heap[smallest]] = [this.heap[smallest], this.heap[i]];\n        i = smallest;\n      } else break;\n    }\n  }\n\n  get size() { return this.heap.length; }\n}",
+    "codeLanguage": "typescript",
     "category": "System Design",
     "scope": "multi-language",
     "languages": [
