@@ -4817,6 +4817,70 @@
     "videoFrequency": 1
   },
   {
+    "id": "hr-ai-tools",
+    "title": "Какие нейросети и AI-инструменты вы используете?",
+    "aliases": [],
+    "answer": "Популярные: ChatGPT, Claude, Gemini, Copilot, Midjourney, Stable Diffusion. Для разработки: GitHub Copilot, Cursor, Cody. Для дизайна: Figma AI, Midjourney. Для данных: ChatGPT + Code Interpreter.",
+    "exampleAnswer": "Использую ChatGPT для debugging и code review, GitHub Copilot для автодополнения, Claude для документации и длинных текстов. На проекте: Copilot ускоряет написание boilerplate на 30%. Для прототипов: Midjourney для дизайн-макетов.",
+    "context": "HR-вопрос для оценки awareness и practical usage of AI tools. Проверяют willingness to learn и adaptability.",
+    "keyPoints": [
+      {
+        "title": "Для разработки",
+        "text": "GitHub Copilot: автодополнение кода. Cursor: AI-powered IDE. ChatGPT/Claude: debugging, code review, документация."
+      },
+      {
+        "title": "Для дизайна",
+        "text": "Midjourney: генерация изображений. Figma AI: layout suggestions. Stable Diffusion: custom image generation."
+      },
+      {
+        "title": "Для данных",
+        "text": "ChatGPT + Code Interpreter: анализ данных. Claude: long context analysis. Gemini: multimodal."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать AI tools вообще",
+      "Полностью доверять AI без проверки",
+      "Не знать про最新 tools",
+      "Использовать только один инструмент"
+    ],
+    "followUps": [
+      "Как AI изменил ваш рабочий процесс?",
+      "Какие ограничения AI вы замечали?",
+      "Как оцениваете качество AI-generated код?"
+    ],
+    "category": "HR",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend",
+      "Data Engineering",
+      "DevOps",
+      "Mobile",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "HR",
+    "tags": [
+      "HR",
+      "AI",
+      "Tools"
+    ],
+    "duration": "5 мин",
+    "difficulty": 1,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "hr-education",
     "title": "Где вы учились и что читали профессионально?",
     "aliases": [],
