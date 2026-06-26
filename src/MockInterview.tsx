@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from 'react'
 import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle } from 'lucide-react'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
+import { InterviewerAvatar } from './InterviewerAvatar'
 import questions from './data/questions.json'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -136,6 +137,7 @@ export function MockInterview({ onBack }: MockInterviewProps) {
 
       {!filtersApplied ? (
         <div className={s['start-screen']}>
+          <InterviewerAvatar size={80} />
           <div className={s['pool-info']}>
             <span>{filteredPool.length} вопросов в пуле</span>
             <span>Максимум 10 будут выбраны случайно</span>
@@ -178,6 +180,14 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                 <span className={s.difficulty} style={{ color: difficultyColor[current.difficulty] }}>
                   {difficultyLabel[current.difficulty]}
                 </span>
+              </div>
+
+              <div className={s['interviewer-row']}>
+                <InterviewerAvatar size={40} />
+                <div className={s['interviewer-info']}>
+                  <span className={s['interviewer-name']}>Интервьюер</span>
+                  <span className={s['interviewer-role']}>Вопрос {currentIndex + 1} из {selectedQuestions.length}</span>
+                </div>
               </div>
 
               <h2 className={s.question}>{current.question}</h2>
