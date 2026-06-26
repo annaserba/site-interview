@@ -4,7 +4,7 @@ title: "Спроектируйте типизированный API-клиент
 category: TypeScript
 scope: language-specific
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Live coding

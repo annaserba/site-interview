@@ -4,7 +4,7 @@ title: Что хранится в стеке и куче JavaScript-движка
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

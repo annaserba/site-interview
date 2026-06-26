@@ -5,7 +5,7 @@ aliases: ["Расскажите про самую сложную задачу"]
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Analyst", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Science","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Яндекс", "Лига Ставок"]
 level: Senior
 stage: Техническое

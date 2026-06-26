@@ -5,7 +5,7 @@ aliases: []
 category: Algorithms
 scope: universal
 languages: ["JavaScript", "Python"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Яндекс"]
 level: Middle
 stage: Алгоритмы

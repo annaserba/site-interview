@@ -4,7 +4,7 @@ title: Когда проекту действительно нужен Next.js?
 category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Tech Lead"]
+roles: ["Frontend","Leadership"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Архитектура

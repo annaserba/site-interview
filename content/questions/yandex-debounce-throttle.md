@@ -5,7 +5,7 @@ aliases: []
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Яндекс"]
 level: Middle
 stage: Live coding

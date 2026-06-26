@@ -4,7 +4,7 @@ title: Как работают корутины в Kotlin? Чем отличаю
 category: C++
 scope: language-specific
 languages: ["Kotlin"]
-roles: ["Backend-разработчик", "Mobile-разработчик"]
+roles: ["Backend","Mobile"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Язык

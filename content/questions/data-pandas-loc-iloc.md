@@ -4,7 +4,7 @@ title: В чём разница между loc и iloc в Pandas?
 category: Python
 scope: language-specific
 languages: ["Python"]
-roles: ["Data Analyst", "Data Scientist"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

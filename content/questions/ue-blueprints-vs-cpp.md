@@ -4,7 +4,7 @@ title: Blueprints vs C++ — когда что использовать?
 category: Game Development
 scope: game-dev
 languages: ["C++", "Blueprint"]
-roles: ["Game Developer", "C++ Developer"]
+roles: ["Game Dev","C++"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Техническое интервью

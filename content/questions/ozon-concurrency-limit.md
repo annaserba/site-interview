@@ -4,7 +4,7 @@ title: Ограничьте количество одновременных за
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Ozon"]
 level: Middle
 stage: Live coding

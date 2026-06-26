@@ -4,7 +4,7 @@ title: Что делать, если перед релизом команда р
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "QA", "DevOps", "Mobile-разработчик", "Tech Lead"]
+roles: ["Frontend","Backend","QA","DevOps","Mobile","Leadership"]
 companies: ["Okko"]
 level: Senior
 stage: Ситуационное интервью

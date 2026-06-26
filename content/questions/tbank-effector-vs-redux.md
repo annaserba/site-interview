@@ -4,7 +4,7 @@ title: "В чём разница между Effector и Redux и когда чт
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Техническое

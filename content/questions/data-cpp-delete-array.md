@@ -4,7 +4,7 @@ title: В чём разница между delete и delete[] в C++?
 category: C++
 scope: language-specific
 languages: ["C++"]
-roles: ["Data Analyst", "C++-разработчик"]
+roles: ["Data Science","C++"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

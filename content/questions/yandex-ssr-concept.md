@@ -5,7 +5,7 @@ aliases: []
 category: Frontend Architecture
 scope: universal
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Яндекс"]
 level: Middle
 stage: Техническое

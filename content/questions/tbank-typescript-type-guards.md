@@ -4,7 +4,7 @@ title: Что такое type guards и как narrowing работает в Typ
 category: TypeScript
 scope: language-specific
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Техническое

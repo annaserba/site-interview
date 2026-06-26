@@ -4,7 +4,7 @@ title: Спроектируйте клиентский кеш для ленты 
 category: Frontend Architecture
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Avito"]
 level: Senior
 stage: Архитектура

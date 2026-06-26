@@ -4,7 +4,7 @@ title: Откуда поступали данные на прошлом прое
 category: Data Engineering
 scope: multi-language
 languages: ["SQL", "Python"]
-roles: ["Data Analyst", "Data Engineer", "Product Analyst"]
+roles: ["Data Science","Data Engineering"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Знакомство

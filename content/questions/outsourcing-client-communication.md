@@ -4,7 +4,7 @@ title: Как вы общаетесь с заказчиком, когда тре
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Тимлид"]
+roles: ["Frontend","Backend","Leadership"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Командное интервью

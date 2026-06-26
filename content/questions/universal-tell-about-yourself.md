@@ -5,7 +5,7 @@ aliases: ["Расскажите о своём опыте", "Расскажите
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Backend-разработчик", "Frontend-разработчик", "Data Engineer", "Data Analyst", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Backend","Frontend","Data Engineering","Data Science","QA","DevOps","Mobile"]
 companies: ["Яндекс", "Ozon", "Avito", "Т-Банк", "VK", "Okko"]
 level: Senior
 stage: Знакомство

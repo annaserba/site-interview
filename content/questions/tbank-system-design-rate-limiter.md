@@ -4,7 +4,7 @@ title: Спроектируйте rate limiter для API банка
 category: System Design
 scope: system-design
 languages: ["Go", "Java"]
-roles: ["Backend-разработчик"]
+roles: ["Backend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Архитектура

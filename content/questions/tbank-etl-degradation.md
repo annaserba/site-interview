@@ -4,7 +4,7 @@ title: Найдите причину деградации ETL-пайплайна
 category: Data Engineering
 scope: multi-language
 languages: ["Python", "Java", "Scala", "SQL"]
-roles: ["Data Engineer", "Backend-разработчик"]
+roles: ["Data Engineering","Backend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Техническое

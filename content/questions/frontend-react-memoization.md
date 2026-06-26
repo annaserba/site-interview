@@ -4,7 +4,7 @@ title: Когда использовать React.memo, useMemo и useCallback?
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как вы относитесь к работе с legacy-кодом?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Okko"]
 level: Senior
 stage: Командное интервью

@@ -4,7 +4,7 @@ title: Как найти и устранить блокировку главно
 category: Browser Performance
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Сбер"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как вы управляете техническим долгом?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Tech Lead", "Engineering Manager"]
+roles: ["Frontend","Backend","Leadership"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Управление

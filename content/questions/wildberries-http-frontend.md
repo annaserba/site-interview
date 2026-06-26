@@ -4,7 +4,7 @@ title: Что важно знать frontend-разработчику про HTT
 category: Web Platform
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Wildberries"]
 level: Senior
 stage: Техническое

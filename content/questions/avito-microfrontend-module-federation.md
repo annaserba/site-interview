@@ -4,7 +4,7 @@ title: Как устроены микрофронтенды с Module Federation
 category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Frontend-архитектор"]
+roles: ["Frontend"]
 companies: ["Avito"]
 level: Senior
 stage: Архитектура

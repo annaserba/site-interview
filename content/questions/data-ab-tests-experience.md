@@ -4,7 +4,7 @@ title: Проводили ли вы A/B-тесты?
 category: Experimentation
 scope: multi-language
 languages: ["SQL", "Python", "R"]
-roles: ["Data Analyst", "Data Scientist", "Product Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

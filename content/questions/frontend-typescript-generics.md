@@ -4,7 +4,7 @@ title: Что такое Generics в TypeScript?
 category: TypeScript
 scope: language-specific
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

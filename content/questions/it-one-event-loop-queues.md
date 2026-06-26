@@ -4,7 +4,7 @@ title: Какие дополнительные очереди существую
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["IT One"]
 level: Middle
 stage: Техническое

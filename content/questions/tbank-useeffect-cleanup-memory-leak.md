@@ -4,7 +4,7 @@ title: Как исправить утечку памяти в useEffect?
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Live coding

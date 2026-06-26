@@ -4,7 +4,7 @@ title: В чём разница между cookie, localStorage и sessionStorag
 category: Web Platform
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как оптимизировать Core Web Vitals в крупном SPA
 category: Browser Performance
 scope: universal
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Архитектура

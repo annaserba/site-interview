@@ -4,7 +4,7 @@ title: В каких ситуациях вы используете Airflow?
 category: Data Engineering
 scope: language-specific
 languages: ["Python", "SQL"]
-roles: ["Data Analyst", "Data Engineer"]
+roles: ["Data Science","Data Engineering"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

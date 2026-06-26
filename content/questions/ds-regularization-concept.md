@@ -4,7 +4,7 @@ title: Что такое регуляризация в машинном обуч
 category: Machine Learning
 scope: multi-language
 languages: ["Python", "R"]
-roles: ["Data Scientist", "ML Engineer"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

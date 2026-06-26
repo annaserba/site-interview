@@ -4,7 +4,7 @@ title: Как работают z-index, stacking context и top layer?
 category: CSS
 scope: language-specific
 languages: ["CSS", "HTML", "JavaScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Гознак"]
 level: Senior
 stage: Техническое

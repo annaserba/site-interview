@@ -4,7 +4,7 @@ title: Почему вы ушли с прошлого места работы?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps"]
 companies: ["Т-Банк"]
 level: Senior
 stage: HR

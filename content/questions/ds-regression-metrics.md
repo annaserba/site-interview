@@ -4,7 +4,7 @@ title: Какие метрики регрессии вы знаете?
 category: Machine Learning
 scope: multi-language
 languages: ["Python", "R"]
-roles: ["Data Scientist", "ML Engineer", "Data Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

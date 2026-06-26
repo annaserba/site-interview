@@ -4,7 +4,7 @@ title: Как работают React Server Components и зачем они ну
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Ozon"]
 level: Middle
 stage: Архитектура

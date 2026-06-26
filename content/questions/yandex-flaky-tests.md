@@ -5,7 +5,7 @@ aliases: []
 category: Delivery
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "QA"]
+roles: ["Frontend","Backend","QA"]
 companies: ["Яндекс"]
 level: Middle
 stage: Техническое

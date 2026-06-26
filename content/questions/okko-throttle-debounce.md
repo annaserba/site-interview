@@ -4,7 +4,7 @@ title: Реализуйте debounce и throttle с leading и trailing вызо
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Okko"]
 level: Senior
 stage: Live coding

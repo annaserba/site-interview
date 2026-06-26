@@ -4,7 +4,7 @@ title: Какая сложность получения значения по к
 category: Algorithms
 scope: multi-language
 languages: ["Python"]
-roles: ["Data Scientist", "Data Analyst", "Data Engineer", "Python-разработчик"]
+roles: ["Data Science","Data Engineering","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

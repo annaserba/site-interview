@@ -4,7 +4,7 @@ title: Как работает Intersection Observer?
 category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Гознак"]
 level: Senior
 stage: Техническое

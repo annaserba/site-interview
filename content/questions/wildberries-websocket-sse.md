@@ -4,7 +4,7 @@ title: Когда выбирать WebSocket, SSE или polling?
 category: Web Architecture
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Wildberries"]
 level: Senior
 stage: Архитектура

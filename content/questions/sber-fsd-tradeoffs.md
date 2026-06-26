@@ -4,7 +4,7 @@ title: Какие проблемы и ограничения есть у Feature
 category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Tech Lead"]
+roles: ["Frontend","Leadership"]
 companies: ["Сбер"]
 level: Senior
 stage: Архитектура

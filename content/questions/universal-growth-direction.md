@@ -4,7 +4,7 @@ title: В каком направлении вы хотите развивать
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps", "Data Engineer", "Data Analyst", "Data Scientist"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps","Data Engineering","Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR

@@ -4,7 +4,7 @@ title: Что для вас важно в рабочих задачах?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Okko"]
 level: Senior
 stage: Знакомство

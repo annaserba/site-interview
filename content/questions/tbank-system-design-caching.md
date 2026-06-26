@@ -4,7 +4,7 @@ title: Спроектируйте кеш для продукта с высоки
 category: System Design
 scope: system-design
 languages: ["Java", "Go"]
-roles: ["Backend-разработчик", "Tech Lead"]
+roles: ["Backend","Leadership"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Архитектура

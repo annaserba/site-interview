@@ -4,7 +4,7 @@ title: В чём у вас больше опыта — в SQL или Python?
 category: Data Analytics
 scope: multi-language
 languages: ["SQL", "Python"]
-roles: ["Data Analyst", "Product Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Знакомство

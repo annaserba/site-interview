@@ -4,7 +4,7 @@ title: Как вы адаптируетесь к новому проекту с 
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Знакомство

@@ -4,7 +4,7 @@ title: Расскажите о случае, когда вы проявили л
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Tech Lead", "Engineering Manager"]
+roles: ["Frontend","Backend","Leadership"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Финал

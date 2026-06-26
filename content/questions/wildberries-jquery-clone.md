@@ -4,7 +4,7 @@ title: Реализуйте минимальный аналог jQuery с chaini
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Wildberries"]
 level: Senior
 stage: Live coding

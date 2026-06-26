@@ -4,7 +4,7 @@ title: Предскажите результат кода с гонкой мик
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["VK"]
 level: Middle
 stage: Техническое

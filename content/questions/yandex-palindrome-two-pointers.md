@@ -4,7 +4,7 @@ title: Проверьте палиндром, игнорируя регистр 
 category: Algorithms
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Яндекс"]
 level: Senior
 stage: Live coding

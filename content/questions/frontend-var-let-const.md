@@ -4,7 +4,7 @@ title: В чём разница между var, let и const?
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: В каких ситуациях аналитик использует Py
 category: Data Analytics
 scope: language-specific
 languages: ["Python", "SQL"]
-roles: ["Data Analyst", "Data Scientist"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

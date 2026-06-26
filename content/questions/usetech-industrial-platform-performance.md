@@ -4,7 +4,7 @@ title: Как оптимизировать производительность 
 category: Browser Performance
 scope: universal
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Usetech"]
 level: Middle
 stage: Техническое

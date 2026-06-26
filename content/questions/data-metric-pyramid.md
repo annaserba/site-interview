@@ -4,7 +4,7 @@ title: Как сформулировать пирамиду метрик?
 category: Product Analytics
 scope: universal
 languages: []
-roles: ["Data Analyst", "Product Analyst", "BI Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Кейс

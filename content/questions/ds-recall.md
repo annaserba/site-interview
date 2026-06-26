@@ -4,7 +4,7 @@ title: Что такое recall? Когда recall важнее precision?
 category: Machine Learning
 scope: universal
 languages: []
-roles: ["Data Scientist", "ML Engineer", "Data Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: назовите ваши сильные и слабые стороны
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps"]
 companies: ["Т-Банк"]
 level: Middle
 stage: HR

@@ -4,7 +4,7 @@ title: Чем вам нравится заниматься на работе?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Analyst", "Data Engineer", "Data Scientist", "ML Engineer", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Science","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR

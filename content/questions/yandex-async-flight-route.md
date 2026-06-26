@@ -4,7 +4,7 @@ title: Найдите маршрут между городами через ас
 category: Algorithms
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Яндекс"]
 level: Senior
 stage: Live coding

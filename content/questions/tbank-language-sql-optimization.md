@@ -4,7 +4,7 @@ title: Как оптимизировать медленный SQL-запрос?
 category: Algorithms
 scope: language-specific
 languages: ["SQL"]
-roles: ["Backend-разработчик", "Data Engineer"]
+roles: ["Backend","Data Engineering"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Язык

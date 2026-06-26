@@ -4,7 +4,7 @@ title: В каком году вы закончили вуз?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Analyst", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Science","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR

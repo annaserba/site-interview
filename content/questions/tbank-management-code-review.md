@@ -4,7 +4,7 @@ title: Как вы организуете code review в команде?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Tech Lead"]
+roles: ["Frontend","Backend","Leadership"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Управление

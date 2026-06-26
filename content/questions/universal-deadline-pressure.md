@@ -4,7 +4,7 @@ title: Как вы справляетесь с давлением дедлайн
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Финал

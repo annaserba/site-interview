@@ -4,7 +4,7 @@ title: Чем отличаются обычный script, async, defer и module
 category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript", "HTML"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Wildberries"]
 level: Senior
 stage: Техническое

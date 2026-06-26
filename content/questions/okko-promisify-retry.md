@@ -4,7 +4,7 @@ title: Оберните callback API в Promise и добавьте ограни
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Okko"]
 level: Senior
 stage: Live coding

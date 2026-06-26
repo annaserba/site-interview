@@ -4,7 +4,7 @@ title: "Оптимизируйте таблицу с 100 000 строк в React
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Live coding

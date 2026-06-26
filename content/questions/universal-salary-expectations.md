@@ -4,7 +4,7 @@ title: Какие у вас финансовые ожидания?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps", "Data Engineer"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps","Data Engineering"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: HR

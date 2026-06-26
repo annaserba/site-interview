@@ -4,7 +4,7 @@ title: Как CSS Grid влияет на доступность и как это
 category: CSS
 scope: multi-language
 languages: ["CSS"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Avito"]
 level: Middle
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как WeakMap/WeakSet предотвращают утечки памят
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Ozon"]
 level: Middle
 stage: Техническое

@@ -5,7 +5,7 @@ aliases: []
 category: Web Platform
 scope: universal
 languages: ["JavaScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Яндекс"]
 level: Junior
 stage: Live coding

@@ -4,7 +4,7 @@ title: Чем отличаются reflow, repaint и compositing?
 category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript", "CSS"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Wildberries"]
 level: Senior
 stage: Техническое

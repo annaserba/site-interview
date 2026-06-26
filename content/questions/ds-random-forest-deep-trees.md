@@ -4,7 +4,7 @@ title: Зачем в Random Forest нужны глубокие деревья?
 category: Machine Learning
 scope: universal
 languages: []
-roles: ["Data Scientist", "ML Engineer"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

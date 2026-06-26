@@ -4,7 +4,7 @@ title: Как работает Change Detection в Angular и чем отлич�
 category: Frontend Architecture
 scope: language-specific
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Техническое

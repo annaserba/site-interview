@@ -4,7 +4,7 @@ title: Что такое Concurrent Mode и как React планирует об
 category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["VK"]
 level: Senior
 stage: Архитектура

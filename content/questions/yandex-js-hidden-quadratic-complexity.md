@@ -4,7 +4,7 @@ title: Найдите скрытую квадратичную сложность
 category: Performance
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Яндекс"]
 level: Senior
 stage: Техническое

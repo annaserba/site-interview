@@ -4,7 +4,7 @@ title: Что такое декоратор в Python?
 category: Python
 scope: language-specific
 languages: ["Python"]
-roles: ["Data Scientist", "ML Engineer", "Data Analyst", "Data Engineer"]
+roles: ["Data Science","Data Engineering"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как проверить массив, что делает instanceof и
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Техническое

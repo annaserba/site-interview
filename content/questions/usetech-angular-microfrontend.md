@@ -4,7 +4,7 @@ title: Как реализовать микрофронтенды в Angular с 
 category: Frontend Architecture
 scope: language-specific
 languages: ["TypeScript"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Usetech"]
 level: Senior
 stage: Архитектура

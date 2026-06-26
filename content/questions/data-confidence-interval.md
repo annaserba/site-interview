@@ -4,7 +4,7 @@ title: Что такое доверительный интервал?
 category: Statistics
 scope: multi-language
 languages: ["Python", "R", "SQL"]
-roles: ["Data Analyst", "Data Scientist"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

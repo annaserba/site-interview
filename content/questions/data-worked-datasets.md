@@ -4,7 +4,7 @@ title: С какими данными вы работали?
 category: Data Analytics
 scope: multi-language
 languages: ["SQL", "Python", "R"]
-roles: ["Data Analyst", "Data Engineer", "Data Scientist"]
+roles: ["Data Science","Data Engineering"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Знакомство

@@ -4,7 +4,7 @@ title: Как вы осваиваете новые технологии?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Mobile-разработчик", "QA", "DevOps", "Data Engineer", "Data Scientist"]
+roles: ["Frontend","Backend","Mobile","QA","DevOps","Data Engineering","Data Science"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Финал

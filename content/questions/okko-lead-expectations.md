@@ -4,7 +4,7 @@ title: Что для вас важно в руководителе?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Engineering","Data Science","QA","DevOps","Mobile"]
 companies: ["Okko"]
 level: Senior
 stage: HR

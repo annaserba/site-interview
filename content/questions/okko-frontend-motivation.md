@@ -4,7 +4,7 @@ title: Почему вы выбрали frontend, а не backend?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Fullstack-разработчик"]
+roles: ["Frontend","Fullstack"]
 companies: ["Okko"]
 level: Senior
 stage: Знакомство

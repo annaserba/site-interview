@@ -4,7 +4,7 @@ title: Как клонировать объект в JavaScript?
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Техническое

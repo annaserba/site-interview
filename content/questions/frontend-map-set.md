@@ -4,7 +4,7 @@ title: В чём разница между Map и Set?
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Node.js-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как рассчитывается специфичность CSS-сел
 category: CSS
 scope: language-specific
 languages: ["CSS", "HTML"]
-roles: ["Frontend-разработчик"]
+roles: ["Frontend"]
 companies: ["Гознак"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Был ли у вас опыт ведения фичи от идеи до
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "QA", "DevOps", "Mobile-разработчик", "Tech Lead"]
+roles: ["Frontend","Backend","Data Engineering","QA","DevOps","Mobile","Leadership"]
 companies: ["Okko"]
 level: Senior
 stage: Командное интервью

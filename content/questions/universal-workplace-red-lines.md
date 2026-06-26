@@ -4,7 +4,7 @@ title: Что вы считаете неприемлемым на рабочем
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Analyst", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик"]
+roles: ["Frontend","Backend","Data Science","Data Engineering","QA","DevOps","Mobile"]
 companies: ["Okko"]
 level: Senior
 stage: HR

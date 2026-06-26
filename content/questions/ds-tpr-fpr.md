@@ -4,7 +4,7 @@ title: В чём разница между TPR и FPR?
 category: Machine Learning
 scope: universal
 languages: []
-roles: ["Data Scientist", "ML Engineer", "Data Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

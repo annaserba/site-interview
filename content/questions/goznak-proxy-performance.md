@@ -4,7 +4,7 @@ title: Как Proxy влияет на производительность JavaS
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Гознак"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как выглядит качественно подготовленна
 category: Delivery
 scope: universal
 languages: []
-roles: ["Frontend-разработчик", "Backend-разработчик", "Data Engineer", "Data Scientist", "QA", "DevOps", "Mobile-разработчик", "Tech Lead"]
+roles: ["Frontend","Backend","Data Engineering","Data Science","QA","DevOps","Mobile","Leadership"]
 companies: ["Okko"]
 level: Senior
 stage: Командное интервью

@@ -4,7 +4,7 @@ title: "Найдите deadlock в коде и предложите исправ
 category: Concurrency
 scope: language-specific
 languages: ["Java", "Kotlin"]
-roles: ["Backend-разработчик"]
+roles: ["Backend"]
 companies: ["Т-Банк"]
 level: Middle
 stage: Live coding

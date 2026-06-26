@@ -4,7 +4,7 @@ title: В какой точке минимальна сумма квадрато
 category: Statistics
 scope: universal
 languages: []
-roles: ["Data Analyst", "Data Scientist", "ML Engineer"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

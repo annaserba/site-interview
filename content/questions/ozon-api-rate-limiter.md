@@ -4,7 +4,7 @@ title: Как ограничить конкурентный доступ к вн
 category: Concurrency
 scope: multi-language
 languages: ["Go", "Java", "C#", "Python", "Node.js"]
-roles: ["Backend-разработчик", "Go-разработчик"]
+roles: ["Backend"]
 companies: ["Ozon"]
 level: Senior
 stage: Live coding

@@ -4,7 +4,7 @@ title: Строили ли вы воронку?
 category: Product Analytics
 scope: multi-language
 languages: ["SQL", "Python"]
-roles: ["Data Analyst", "Product Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

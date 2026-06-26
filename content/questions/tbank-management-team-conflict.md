@@ -4,7 +4,7 @@ title: Как вы разрешаете конфликты в команде?
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Tech Lead", "Engineering Manager"]
+roles: ["Leadership"]
 companies: ["Т-Банк"]
 level: Senior
 stage: Управление

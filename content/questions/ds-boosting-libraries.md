@@ -4,7 +4,7 @@ title: В чём разница между XGBoost, LightGBM и CatBoost?
 category: Machine Learning
 scope: language-specific
 languages: ["Python"]
-roles: ["Data Scientist", "ML Engineer"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

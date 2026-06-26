@@ -4,7 +4,7 @@ title: В чём разница между supervised и unsupervised learning?
 category: Machine Learning
 scope: multi-language
 languages: ["Python", "R"]
-roles: ["Data Analyst", "Data Scientist", "ML Engineer"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

@@ -4,7 +4,7 @@ title: Как устроен полнотекстовый поиск и заче
 category: System Design
 scope: universal
 languages: []
-roles: ["Backend-разработчик", "Frontend-разработчик"]
+roles: ["Backend","Frontend"]
 companies: ["Avito"]
 level: Middle
 stage: Архитектура

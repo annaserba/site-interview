@@ -4,7 +4,7 @@ title: Как должна выглядеть вкладка на главном
 category: BI
 scope: multi-language
 languages: ["SQL", "Python"]
-roles: ["Data Analyst", "Product Analyst", "BI Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Кейс

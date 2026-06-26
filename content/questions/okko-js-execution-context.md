@@ -4,7 +4,7 @@ title: Что такое контекст выполнения функции в
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend-разработчик", "Backend-разработчик"]
+roles: ["Frontend","Backend"]
 companies: ["Okko"]
 level: Senior
 stage: Техническое
