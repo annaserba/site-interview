@@ -267,7 +267,6 @@ function App() {
                 </div>
               </div>
             </div>
-          </div>
 
           <div className={s['question-grid']}>
             {visibleQuestions.map((question) => (
