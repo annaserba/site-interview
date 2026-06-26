@@ -1,6 +1,6 @@
 ---
 id: ozon-interview-scale
-title: Ozon: как спроектировать system для обработки миллионов заказов в день?
+title: как спроектировать system для обработки миллионов заказов в день?
 category: System Design
 scope: universal
 languages: []

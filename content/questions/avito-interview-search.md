@@ -1,6 +1,6 @@
 ---
 id: avito-interview-search
-title: Avito: как построить поисковую систему для миллиарда объявлений?
+title: как построить поисковую систему для миллиарда объявлений?
 category: System Design
 scope: universal
 languages: []

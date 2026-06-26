@@ -204,7 +204,7 @@
   },
   {
     "id": "avito-interview-search",
-    "title": "Avito: как построить поисковую систему для миллиарда объявлений?",
+    "title": "как построить поисковую систему для миллиарда объявлений?",
     "aliases": [],
     "answer": "Search architecture: inverted index (Elasticsearch), ranking (ML), sharding, replication. Ключевые: relevance, latency, availability, freshness.",
     "exampleAnswer": "Query \"iPhone\" → parse → inverted index → 1M docs → ML ranking → top 100. Sharding: 10 shards, each 100M docs. Replication: 3 replicas per shard. Latency: < 100ms.",
@@ -11017,7 +11017,7 @@
   },
   {
     "id": "okko-interview-recommendations",
-    "title": "Okko: как построить system рекомендаций для контента?",
+    "title": "как построить system рекомендаций для контента?",
     "aliases": [],
     "answer": "Content recommendations: collaborative filtering, content-based, hybrid. Ключевые: personalization, cold start, diversity, freshness.",
     "exampleAnswer": "User watched \"Interstellar\" → collaborative: sci-fi fans also watched \"The Martian\". Content-based: space, physics, same director. Hybrid: combine scores → personalized feed.",
@@ -12217,7 +12217,7 @@
   },
   {
     "id": "ozon-interview-scale",
-    "title": "Ozon: как спроектировать system для обработки миллионов заказов в день?",
+    "title": "как спроектировать system для обработки миллионов заказов в день?",
     "aliases": [],
     "answer": "Order processing: event-driven architecture, saga pattern, CQRS, eventual consistency. Ключевые: fault tolerance, idempotency, horizontal scaling.",
     "exampleAnswer": "Order flow: create order → reserve inventory → process payment → ship. Saga: compensation если payment failed. Kafka: order events → multiple consumers. Sharding: orders по user ID.",
@@ -13505,7 +13505,7 @@
   },
   {
     "id": "sber-interview-security",
-    "title": "Сбер: как спроектировать безопасную authentication system?",
+    "title": "как спроектировать безопасную authentication system?",
     "aliases": [],
     "answer": "Authentication: multi-factor (password + OTP + biometric), session management, token rotation, fraud detection. Ключевые: security, compliance, user experience.",
     "exampleAnswer": "Login: password → OTP via SMS → biometric (Face ID). Access token: 15 min, refresh: 7 days. Risk: new device → additional verification. Fraud: suspicious pattern → block + alert.",
@@ -19797,7 +19797,7 @@
   },
   {
     "id": "vk-interview-scale",
-    "title": "VK: как масштабировать chat system на миллионы пользователей?",
+    "title": "как масштабировать chat system на миллионы пользователей?",
     "aliases": [],
     "answer": "Chat system: WebSocket connections, message storage, presence, delivery guarantees. Ключевые: horizontal scaling, message ordering, offline support.",
     "exampleAnswer": "1M concurrent connections: 100 servers, 10K connections each. Message: append to Kafka → consumers → storage. Order: sequence numbers per chat. Delivery: online → WebSocket, offline → push.",
@@ -20244,7 +20244,7 @@
   },
   {
     "id": "wildberries-interview-inventory",
-    "title": "Wildberries: как управлять inventory на нескольких складах?",
+    "title": "как управлять inventory на нескольких складах?",
     "aliases": [],
     "answer": "Inventory management: real-time tracking, multi-warehouse, reservation, reconciliation. Ключевые: accuracy, availability, optimization.",
     "exampleAnswer": "Stock: warehouse A: 100, warehouse B: 50. Order: allocate from closest warehouse. Reservation: decrement available. Reconciliation: weekly count, adjust discrepancies.",
@@ -21177,7 +21177,7 @@
   },
   {
     "id": "yandex-interview-architecture",
-    "title": "Яндекс: как спроектировать кэширование для высоконагруженного сервиса?",
+    "title": "как спроектировать кэширование для высоконагруженного сервиса?",
     "aliases": [],
     "answer": "Многоуровневое кэширование: browser cache → CDN → application cache (Redis) → database cache. Invalidation strategies: TTL, event-based, versioning. Hot keys: replication, local cache.",
     "exampleAnswer": "Levels: browser (1 hour) → CDN (5 min) → Redis (1 min) → DB. Hot key \"popular_product\": replicate across 5 Redis instances. Invalidation: product update → event → invalidate all caches. Cache stampede: lock + early expiration.",

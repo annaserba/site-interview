@@ -1,6 +1,6 @@
 ---
 id: yandex-interview-architecture
-title: Яндекс: как спроектировать кэширование для высоконагруженного сервиса?
+title: как спроектировать кэширование для высоконагруженного сервиса?
 category: System Design
 scope: universal
 languages: []

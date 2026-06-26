@@ -1,6 +1,6 @@
 ---
 id: okko-interview-recommendations
-title: Okko: как построить system рекомендаций для контента?
+title: как построить system рекомендаций для контента?
 category: System Design
 scope: universal
 languages: []

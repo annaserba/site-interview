@@ -1,6 +1,6 @@
 ---
 id: vk-interview-scale
-title: VK: как масштабировать chat system на миллионы пользователей?
+title: как масштабировать chat system на миллионы пользователей?
 category: System Design
 scope: universal
 languages: []

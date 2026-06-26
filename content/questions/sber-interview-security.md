@@ -1,6 +1,6 @@
 ---
 id: sber-interview-security
-title: Сбер: как спроектировать безопасную authentication system?
+title: как спроектировать безопасную authentication system?
 category: System Design
 scope: universal
 languages: []
