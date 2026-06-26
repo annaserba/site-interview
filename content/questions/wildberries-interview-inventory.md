@@ -1,6 +1,6 @@
 ---
 id: wildberries-interview-inventory
-title: как управлять inventory на нескольких складах?
+title: Как управлять inventory на нескольких складах?
 category: System Design
 scope: universal
 languages: []
