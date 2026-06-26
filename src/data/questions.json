@@ -13755,6 +13755,488 @@
     "videoFrequency": 0
   },
   {
+    "id": "sre-capacity-planning",
+    "title": "Как проводить capacity planning для сервисов?",
+    "aliases": [],
+    "answer": "Capacity planning: определение будущих resource requirements. Методы: usage forecasting, load testing, cost modeling. Метрики: requests/sec, storage growth, connections.",
+    "exampleAnswer": "Current: 1000 req/s, 50% CPU. Growth: +20%/month. Forecast: 6 months → 3000 req/s → need 3x servers. Cost: $500/month → $1500/month. Action: scale horizontally.",
+    "context": "Важный strategic process. Проверяют понимание capacity planning.",
+    "keyPoints": [
+      {
+        "title": "Процесс",
+        "text": "1. Measure current usage. 2. Forecast growth. 3. Identify bottlenecks. 4. Plan resources. 5. Cost analysis."
+      },
+      {
+        "title": "Методы",
+        "text": "Load testing: k6, Locust. Forecasting: linear regression, seasonality. Cost modeling: cloud pricing."
+      },
+      {
+        "title": "Метрики",
+        "text": "CPU, memory, storage, network, database connections, queue depth."
+      }
+    ],
+    "pitfalls": [
+      "Не прогнозировать growth",
+      "Игнорировать peak loads",
+      "Не учитывать cost",
+      "Делать capacity planning только один раз"
+    ],
+    "followUps": [
+      "Как провести load testing?",
+      "Что такое auto-scaling?",
+      "Как связать capacity planning и cost optimization?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Capacity Planning",
+      "Scaling"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-chaos-engineering",
+    "title": "Что такое chaos engineering и зачем он нужен?",
+    "aliases": [],
+    "answer": "Chaos engineering: целенаправленное внесение failures для проверки resilience. Инструменты: Chaos Monkey, Litmus, Gremlin. Принципы: hypothesis → experiment → observe → improve.",
+    "exampleAnswer": "Experiment: inject 200ms latency between services. Hypothesis: system responds within SLA. Result: p99 latency exceeded 500ms → action: add timeout and retry. Steady state: normal operation metrics.",
+    "context": "Продвинутый topic для reliability. Проверяют понимание chaos engineering principles.",
+    "keyPoints": [
+      {
+        "title": "Принципы",
+        "text": "1. Define steady state. 2. Hypothesize: system continues working. 3. Inject failure. 4. Observe. 5. Improve."
+      },
+      {
+        "title": "Типы experiments",
+        "text": "Network: latency, partition. CPU/Memory: stress. Service: kill instances. Database: failover."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Chaos Monkey: Netflix. Litmus: Kubernetes. Gremlin: commercial."
+      }
+    ],
+    "pitfalls": [
+      "Делать experiments в production без preparation",
+      "Не иметь rollback plan",
+      "Не измерять results",
+      "Не улучшать после experiments"
+    ],
+    "followUps": [
+      "Как провести первый chaos experiment?",
+      "Что такое steady state в chaos engineering?",
+      "Как связать chaos engineering и SLO?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Chaos Engineering",
+      "Resilience"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-cost-optimization",
+    "title": "Как оптимизировать infrastructure costs?",
+    "aliases": [],
+    "answer": "Cost optimization: right-sizing, reserved instances, spot instances, auto-scaling, resource cleanup. Инструменты: AWS Cost Explorer, Kubecost, CloudHealth. Метрики: cost per request, cost per user.",
+    "exampleAnswer": "Current: m5.xlarge ($0.192/hr) → 30% CPU average → right-size to m5.large ($0.096/hr). Savings: 50%. Reserved: 1 year commitment → 40% discount. Spot: 70% cheaper for batch jobs.",
+    "context": "Важный business aspect. Проверяют понимание cost optimization strategies.",
+    "keyPoints": [
+      {
+        "title": "Стратегии",
+        "text": "Right-sizing: match instance size to usage. Reserved: скидки за commitment. Spot: cheap, interruptible. Auto-scaling: scale based on load."
+      },
+      {
+        "title": "Мониторинг",
+        "text": "AWS Cost Explorer: cost breakdown. Kubecost: Kubernetes costs. Alerts: budget thresholds."
+      },
+      {
+        "title": "Метрики",
+        "text": "Cost per request. Cost per user. Cost per transaction. Infrastructure cost / revenue."
+      }
+    ],
+    "pitfalls": [
+      "Не мониторить costs",
+      "Не right-size instances",
+      "Игнорировать unused resources",
+      "Не использовать reserved/spot"
+    ],
+    "followUps": [
+      "Как провести cost audit?",
+      "Что такое FinOps?",
+      "Как связать cost optimization и SLO?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Cost Optimization",
+      "Cloud"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-disaster-recovery",
+    "title": "Как спроектировать disaster recovery plan?",
+    "aliases": [],
+    "answer": "DR plan: backup → restore → failover. RPO (Recovery Point Objective): максимальная потеря данных. RTO (Recovery Time Objective): время восстановления. Стратегии: backup/restore, pilot light, warm standby, multi-site.",
+    "exampleAnswer": "RPO: 1 hour, RTO: 4 hours. Strategy: warm standby в second region. Backup: hourly snapshots. Failover: automated DNS switch. Test: quarterly DR drill. Cost: 30% more than single site.",
+    "context": "Критически важный business process. Проверяют понимание DR strategies.",
+    "keyPoints": [
+      {
+        "title": "RPO/RTO",
+        "text": "RPO: сколько данных можно потерять (1 hour). RTO: сколько времени на восстановление (4 hours)."
+      },
+      {
+        "title": "Стратегии",
+        "text": "Backup/restore: cheapest, highest RTO. Pilot light: minimal running. Warm standby: scaled down. Multi-site: active-active."
+      },
+      {
+        "title": "Тестирование",
+        "text": "Regular DR drills. Game days: simulated disasters."
+      }
+    ],
+    "pitfalls": [
+      "Не иметь DR plan",
+      "Не тестировать DR plan",
+      "Игнорировать RPO/RTO",
+      "Не документировать procedures"
+    ],
+    "followUps": [
+      "Как выбрать между DR strategies?",
+      "Что такое RPO и RTO?",
+      "How to test disaster recovery plan?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Disaster Recovery",
+      "Business Continuity"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-incident-management",
+    "title": "Как управлять инцидентами в production?",
+    "aliases": [],
+    "answer": "Incident lifecycle: detection → triage → mitigation → resolution → post-mortem. On-call rotation: ротация, runbooks, escalation. Blameless post-mortems: без вины, с improvements.",
+    "exampleAnswer": "P1 incident: service down. Detection: alert fires. Triage: P1, affects 100% users. Mitigation: rollback to previous version. Resolution: 15 minutes. Post-mortem: root cause - bad deployment, action: add canary deployment.",
+    "context": "Ключевой operational process. Проверяют понимание incident management.",
+    "keyPoints": [
+      {
+        "title": "Detection",
+        "text": "Alerting: PagerDuty, Opsgenie. Monitoring: Prometheus, Grafana. User reports."
+      },
+      {
+        "title": "Triage",
+        "text": "Severity levels: P1 (critical), P2 (high), P3 (medium). Impact assessment."
+      },
+      {
+        "title": "Mitigation",
+        "text": "Rollback, feature flag disable, scaling. Communication: status page, stakeholders."
+      },
+      {
+        "title": "Post-mortem",
+        "text": "Blameless: focus on system, not people. Action items: improvements. Documentation."
+      }
+    ],
+    "pitfalls": [
+      "Нет escalation path",
+      "Не делать blameless post-mortems",
+      "Не документировать incidents",
+      "Не отслеживатьMTTR"
+    ],
+    "followUps": [
+      "Как настроить on-call rotation?",
+      "Что такое blameless post-mortem?",
+      "Как связать incidents и SLO?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Incident Management",
+      "On-Call"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-monitoring",
+    "title": "Как проектировать monitoring для production систем?",
+    "aliases": [],
+    "answer": "Три pillars: metrics (Prometheus), logs (ELK), traces (Jaeger). Методологии: RED (Rate, Errors, Latency), USE (Utilization, Saturation, Errors). Dashboards: Grafana. Alerting: PagerDuty.",
+    "exampleAnswer": "Metrics: Prometheus собирает RED метрики. Grafana: dashboards, alerting. Logs: structured JSON в ELK. Traces: Jaeger, correlation ID. Alerting: latency > 500ms → PagerDuty.",
+    "context": "Критически важный operational aspect. Проверяют понимание monitoring practices.",
+    "keyPoints": [
+      {
+        "title": "Metrics",
+        "text": "Prometheus: TSDB, time series. RED: для services. USE: для resources."
+      },
+      {
+        "title": "Logs",
+        "text": "Structured JSON. ELK: Elasticsearch, Logstash, Kibana. Centralized logging."
+      },
+      {
+        "title": "Traces",
+        "text": "Distributed tracing: Jaeger, OpenTelemetry. Correlation ID: track request across services."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать structured logging",
+      "Игнорировать distributed tracing",
+      "Не планировать alerting strategy",
+      "Не мониторить saturation"
+    ],
+    "followUps": [
+      "Как работает distributed tracing?",
+      "Что такое correlation ID?",
+      "Как связать metrics и SLO?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Monitoring",
+      "Observability"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-release-engineering",
+    "title": "Как организовать safe releases в production?",
+    "aliases": [],
+    "answer": "Canary: deploy для small percentage → monitor → full rollout. Blue/Green: два environment, swap. Feature flags: deploy без reveal. Rollback: автоматический при errors.",
+    "exampleAnswer": "Canary: deploy v2 to 1% traffic → monitor latency, errors → no issues → 10% → 50% → 100%. Feature flag: `enableNewCheckout: true` → gradually enable for users. Rollback: if error rate > 1% → automatic rollback.",
+    "context": "Ключевой practice для safe deployments. Проверяют понимание release strategies.",
+    "keyPoints": [
+      {
+        "title": "Canary",
+        "text": "1% traffic → 10% → 50% → 100%. Monitor metrics на каждом шаге."
+      },
+      {
+        "title": "Blue/Green",
+        "text": "Two identical environments. Deploy to green → test → switch traffic. Instant rollback."
+      },
+      {
+        "title": "Feature flags",
+        "text": "Deploy code без enabling feature. Gradual rollout. Kill switch."
+      }
+    ],
+    "pitfalls": [
+      "Big bang деплой",
+      "Не мониторить после deploy",
+      "Не иметь rollback strategy",
+      "Не использовать feature flags"
+    ],
+    "followUps": [
+      "Как настроить canary deployment?",
+      "Что такое automated rollback?",
+      "Как связать releases и error budget?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "Release",
+      "Deployment"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sre-slo-sla",
+    "title": "Что такое SLO, SLA, SLI и как их применять?",
+    "aliases": [],
+    "answer": "SLI (Service Level Indicator): метрика (latency, error rate). SLO (Objective): целевое значение SLI (99.9% availability). SLA (Agreement): контракт с consequences (compensation). Error budget: допустимое количество ошибок.",
+    "exampleAnswer": "SLI: latency p99 = 150ms. SLO: p99 < 200ms за месяц. SLA: если availability < 99.9% → credit 10%. Error budget: 43 минуты/месяц. If exceeded → freeze deployments.",
+    "context": "Фундаментальные concepts для reliability. Проверяют понимание SRE practices.",
+    "keyPoints": [
+      {
+        "title": "SLI",
+        "text": "Что измеряем: latency (p99 < 200ms), availability (99.9%), error rate (< 0.1%)."
+      },
+      {
+        "title": "SLO",
+        "text": "Цель: 99.9% availability за 30 дней. Error budget: 0.1% = 43 минуты downtime."
+      },
+      {
+        "title": "SLA",
+        "text": "Контракт: если SLO не выполнено → compensation. Юридические последствия."
+      }
+    ],
+    "pitfalls": [
+      "Не иметь SLO",
+      "Использовать SLO как SLA",
+      "Не отслеживать error budget",
+      "Игнорировать SLI в мониторинге"
+    ],
+    "followUps": [
+      "Как определить SLI для своего сервиса?",
+      "Что такое error budget policy?",
+      "Как связать SLO и incident management?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "SRE",
+      "SLO",
+      "SLA",
+      "Reliability"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-angular-change-detection",
     "title": "Как работает Change Detection в Angular и чем отличается от React?",
     "aliases": [],
