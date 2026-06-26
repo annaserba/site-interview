@@ -91,7 +91,8 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current)
     }
-    document.querySelectorAll('.example-answer-body pre code').forEach((el) => {
+    document.querySelectorAll('pre code').forEach((el) => {
+      if (!el.classList.length || el.querySelector('.token')) return
       Prism.highlightElement(el as HTMLElement)
     })
   })
