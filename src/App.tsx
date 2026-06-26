@@ -39,24 +39,27 @@ const youtubeVideoId = (url: string) => {
   } catch { return '' }
 }
 const topicDefinitions = [
-  { id: 'algorithms', label: 'Алгоритмы', terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures', ' algorithms'] },
-  { id: 'frontend', label: 'Frontend', terms: ['frontend', 'browser', 'javascript', 'typescript', 'react', 'css', 'web platform', 'javascript'] },
-  { id: 'data-ml', label: 'Данные и ML', terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик', 'data engineering', 'data quality', 'experimentation'] },
-  { id: 'system-design', label: 'Системный дизайн', terms: ['system design', 'architecture', 'web architecture', 'frontend architecture'] },
-  { id: 'backend', label: 'Backend', terms: ['java', 'kotlin', 'python', 'concurrency', 'go', 'c++'] },
-  { id: 'delivery', label: 'Процессы', terms: ['delivery', 'performance', 'browser performance'] },
+  { id: 'algorithms', label: 'Алгоритмы', categories: ['Algorithms', 'C++', 'Concurrency'], terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
+  { id: 'frontend', label: 'Frontend', categories: ['JavaScript', 'TypeScript', 'React', 'CSS', 'Browser', 'Browser Performance', 'Web Platform', 'Frontend Architecture'], terms: ['frontend', 'browser', 'react', 'css'] },
+  { id: 'data-ml', label: 'Данные и ML', categories: ['Machine Learning', 'Statistics', 'Data Analytics', 'Data Engineering', 'Data Quality', 'Product Analytics', 'Experimentation', 'BI'], terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
+  { id: 'arch', label: 'Архитектура', categories: ['System Design', 'Web Architecture', 'Frontend Architecture'], terms: ['system design', 'architecture'] },
+  { id: 'backend', label: 'Backend', categories: ['Java', 'Kotlin', 'Python', 'Concurrency', 'Go', 'C++'], terms: ['java', 'kotlin', 'python', 'concurrency', 'go', 'c++'] },
+  { id: 'delivery', label: 'Процессы', categories: ['Delivery', 'Performance'], terms: ['delivery'] },
+  { id: 'gamedev', label: 'Game Dev', categories: ['Game Development'], terms: ['unreal', 'game'] },
 ]
 
 const questionTypeDefinitions = [
   { id: 'technical', label: 'Технические' },
-  { id: 'behavioral', label: 'Карьера и команда' },
+  { id: 'behavioral', label: 'Поведенческие' },
   { id: 'system-design', label: 'Системный дизайн' },
   { id: 'hr', label: 'HR' },
+  { id: 'game-dev', label: 'Game Dev' },
 ]
 
 function getQuestionType(item: Question): string {
   const cat = item.category
   if (item.tags.includes('HR')) return 'hr'
+  if (cat === 'Game Development') return 'game-dev'
   if (cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture') return 'system-design'
   if (cat === 'Behavioral') return 'behavioral'
   return 'technical'
@@ -68,7 +71,7 @@ function App() {
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
-  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr']))
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
@@ -94,9 +97,15 @@ function App() {
         setActiveTopic(topicId); setActiveCompany('Все компании'); setActiveRole('Все роли'); return
       }
     }
+    if (path.startsWith('type/')) {
+      const typeId = path.slice(5)
+      if (questionTypeDefinitions.some((t) => t.id === typeId)) {
+        setActiveTypes(new Set([typeId])); setActiveTopic('Все темы'); setActiveCompany('Все компании'); setActiveRole('Все роли'); return
+      }
+    }
     if (path.startsWith('company/')) {
       const name = decodeURIComponent(path.slice(8))
-      if (companyOrder.includes(name)) {
+      if (companyOrder.includes(name) || name === 'Несколько компаний') {
         setActiveCompany(name); setActiveTopic('Все темы'); setActiveRole('Все роли'); return
       }
     }
@@ -117,8 +126,7 @@ function App() {
       const companyMatch = activeCompany === 'Все компании' || item.companies.includes(activeCompany)
       const roleMatch = activeRole === 'Все роли' || item.roles.includes(activeRole)
       const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
-      const topicText = `${item.category} ${item.tags.join(' ')}`.toLocaleLowerCase('ru-RU')
-      const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
+      const topicMatch = !topic || topic.categories.includes(item.category) || topic.terms.some((term) => item.title.toLocaleLowerCase('ru-RU').includes(term))
       const type = getQuestionType(item)
       if (!activeTypes.has(type)) return false
       return companyMatch && roleMatch && topicMatch
@@ -240,6 +248,7 @@ function App() {
             <div className={s.filters}>
               <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
                 { value: 'Все компании', label: 'Все компании' },
+                { value: 'Несколько компаний', label: 'Несколько компаний' },
                 ...companies.map((company) => ({ value: company.name, label: company.name })),
               ]} />
               <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
@@ -313,7 +322,7 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr'])); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
+            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev'])); setSortMode('default'); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
           {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}
@@ -327,7 +336,8 @@ function App() {
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
-          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<b style={{ marginTop: 8, display: 'block' }}>Тип</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => { setActiveTypes(prev => { const next = new Set(prev); if (next.has(type.id)) next.delete(type.id); else next.add(type.id); return next }); window.location.hash = 'questions' }} style={activeTypes.has(type.id) ? {} : { opacity: 0.4 }}>{type.label}</button>)}</div>
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
+          <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => { setActiveTypes(prev => { const next = new Set(prev); if (next.has(type.id)) next.delete(type.id); else next.add(type.id); return next }); window.location.hash = 'questions' }} style={activeTypes.has(type.id) ? {} : { opacity: 0.4 }}>{type.label}</button>)}</div>
           <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => navigateRole(role)}>{role}</button>)}</div>
         </div>
         <span>© 2026 in.depth</span>

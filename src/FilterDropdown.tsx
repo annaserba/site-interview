@@ -18,7 +18,7 @@ export function FilterDropdown({ label, value, options, onChange, multiple, sele
   const rootRef = useRef<HTMLDivElement>(null)
 
   const selectedLabel = multiple
-    ? selected.length ? `Выбрано: ${selected.length}` : 'Все'
+    ? selected.length === options.length ? 'Все' : selected.length ? `Выбрано: ${selected.length}` : 'Нет'
     : options.find((option) => option.value === value)?.label || value
 
   useEffect(() => {
