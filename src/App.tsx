@@ -222,6 +222,10 @@ function App() {
           </div>
 
           <div className={s['company-row']}>
+            <button className={`${s['company-pill']} ${activeCompany === 'Все компании' ? s.selected : ''}`}
+              onClick={() => setActiveCompany('Все компании')}>
+              <span><b>Все</b></span>
+            </button>
             {companies.map((company) => (
               <button
                 className={`${s['company-pill']} ${activeCompany === company.name ? s.selected : ''}`}
