@@ -55,40 +55,9 @@
 .example-answer-body strong { font-weight: 700; color: var(--ink); }
 .example-answer-body em { font-style: italic; color: #5a5b55; }
 .example-answer-body code:not(pre code) { font: 11px/1.5 'JetBrains Mono', monospace; background: rgba(0,0,0,0.04); padding: 2px 5px; border-radius: 3px; color: #3a3b35; }
-.example-answer-body pre { margin: 12px 0; padding: 14px; background: var(--dark); color: #e7e9e1; border-radius: var(--radius); overflow-x: auto; }
-.example-answer-body pre code { background: transparent; padding: 0; color: inherit; font-size: 11px; line-height: 1.6; }
-
-/* PrismJS Syntax Highlighting — only inside pre code */
-.example-answer-body pre :global(.token.comment),
-.example-answer-body pre :global(.token.prolog),
-.example-answer-body pre :global(.token.doctype),
-.example-answer-body pre :global(.token.cdata) { color: #6a737d; }
-.example-answer-body pre :global(.token.punctuation) { color: #e7e9e1; }
-.example-answer-body pre :global(.token.property),
-.example-answer-body pre :global(.token.tag),
-.example-answer-body pre :global(.token.boolean),
-.example-answer-body pre :global(.token.number),
-.example-answer-body pre :global(.token.constant),
-.example-answer-body pre :global(.token.symbol) { color: #79c0ff; }
-.example-answer-body pre :global(.token.selector),
-.example-answer-body pre :global(.token.attr-name),
-.example-answer-body pre :global(.token.string),
-.example-answer-body pre :global(.token.char),
-.example-answer-body pre :global(.token.builtin) { color: #a5d6ff; }
-.example-answer-body pre :global(.token.operator),
-.example-answer-body pre :global(.token.entity),
-.example-answer-body pre :global(.token.url) { color: #d2a8ff; }
-.example-answer-body pre :global(.token.atrule),
-.example-answer-body pre :global(.token.attr-value),
-.example-answer-body pre :global(.token.keyword) { color: #ff7b72; }
-.example-answer-body pre :global(.token.function),
-.example-answer-body pre :global(.token.class-name) { color: #d2a8ff; }
-.example-answer-body pre :global(.token.regex),
-.example-answer-body pre :global(.token.important),
-.example-answer-body pre :global(.token.variable) { color: #ffa657; }
-.example-answer-body pre :global(.token.bold) { font-weight: bold; }
-.example-answer-body pre :global(.token.italic) { font-style: italic; }
-.example-answer-body pre :global(.token.important) { font-weight: bold; }
+.example-answer-body pre { margin: 12px 0; padding: 14px; background: #0d1117; color: #e6edf3; border-radius: var(--radius); overflow-x: auto; }
+.example-answer-body pre code { background: transparent; padding: 0; color: inherit; font-size: 11px; line-height: 1.6; font-family: 'JetBrains Mono', monospace; }
+.example-answer-body pre code.hljs { background: transparent; padding: 0; }
 
 .interview-code { margin: 0 0 40px; background: var(--dark); color: #e7e9e1; border: 1px solid var(--dark-line); border-radius: var(--radius-lg); box-shadow: 8px 9px 0 rgba(201,255,50,.2); overflow: hidden; }
 .interview-code-head { min-height: 40px; padding: 0 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--dark-line); color: var(--acid); font: 8px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; }

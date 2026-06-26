@@ -2,17 +2,8 @@ import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Code2, ExternalLink, La
 import { useEffect, useRef } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import Prism from 'prismjs'
-import 'prismjs/components/prism-typescript'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/components/prism-css'
-import 'prismjs/components/prism-python'
-import 'prismjs/components/prism-sql'
-import 'prismjs/components/prism-bash'
-import 'prismjs/components/prism-json'
-import 'prismjs/components/prism-yaml'
-import 'prismjs/components/prism-markdown'
-import 'prismjs/components/prism-go'
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/github-dark.css'
 import type { Question } from './types'
 import s from './QuestionDetail.module.css'
 
@@ -58,15 +49,8 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   }, [question.id])
 
   useEffect(() => {
-    if (codeRef.current) {
-      Prism.highlightElement(codeRef.current)
-    }
-    document.querySelectorAll('.example-answer-body pre code').forEach((el) => {
-      if (!el.querySelector('.token')) {
-        Prism.highlightElement(el as HTMLElement)
-      }
-    })
-  })
+    // rehype-highlight handles syntax highlighting automatically
+  }, [question.id])
 
   return (
     <article className={s['detail-page']}>
@@ -131,7 +115,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
               <div className={s['example-answer']}>
                 <div className={s['example-answer-head']}><BookOpen size={17} /><span>Пример ответа</span></div>
                 <div className={s['example-answer-body']}>
-                  <Markdown remarkPlugins={[remarkGfm]}>{question.exampleAnswer}</Markdown>
+                  <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{question.exampleAnswer}</Markdown>
                 </div>
               </div>
             </section>
