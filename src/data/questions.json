@@ -5005,6 +5005,605 @@
     "videoFrequency": 0
   },
   {
+    "id": "http-auth-methods",
+    "title": "Какие методы аутентификации существуют в HTTP?",
+    "aliases": [],
+    "answer": "Basic Auth: base64(username:password) в заголовке. Bearer Token: JWT в Authorization header. API Keys: в header/query. OAuth2: delegated authorization. mTLS: certificate-based.",
+    "exampleAnswer": "Basic Auth: `Authorization: Basic YW5uYToxMjM0NTY=` (anna:123456). Bearer: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...`. API Key: `X-API-Key: abc123xyz`.",
+    "context": "Фундаментальные auth mechanisms. Проверяют понимание HTTP auth.",
+    "keyPoints": [
+      {
+        "title": "Basic Auth",
+        "text": "`Authorization: Basic base64(user:pass)`. Простой, но insecure (base64, не encryption). HTTPS обязателен."
+      },
+      {
+        "title": "Bearer Token",
+        "text": "`Authorization: Bearer <token>`. JWT, OAuth2 tokens. Stateless, scalable."
+      },
+      {
+        "title": "API Keys",
+        "text": "`X-API-Key: <key>` или `?api_key=<key>`. Простой для integration. Не для user auth."
+      }
+    ],
+    "pitfalls": [
+      "Использовать Basic Auth без HTTPS",
+      "Хранить API keys в коде",
+      "Не делать token expiry",
+      "Использовать query params для敏感 data"
+    ],
+    "followUps": [
+      "Как работает Bearer token flow?",
+      "Что такое API key rotation?",
+      "Как связать HTTP auth и CORS?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Authentication",
+      "Security"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-basics",
+    "title": "Что такое HTTP и как он работает?",
+    "aliases": [],
+    "answer": "HTTP (HyperText Transfer Protocol): Stateless request-response protocol. Методы: GET, POST, PUT, DELETE, PATCH. Статус-коды: 2xx (success), 3xx (redirect), 4xx (client error), 5xx (server error).",
+    "exampleAnswer": "GET /api/users → 200 OK, [{id: 1, name: \"Анна\"}]. POST /api/users → 201 Created. GET /api/users/999 → 404 Not Found. DELETE /api/users/1 → 204 No Content.",
+    "context": "Фундаментальный protocol для web. Проверяют базовые знания.",
+    "keyPoints": [
+      {
+        "title": "Методы",
+        "text": "GET: retrieve resource. POST: create resource. PUT: update resource. DELETE: delete resource. PATCH: partial update."
+      },
+      {
+        "title": "Статус-коды",
+        "text": "200 OK. 201 Created. 301 Moved Permanently. 400 Bad Request. 401 Unauthorized. 403 Forbidden. 404 Not Found. 500 Internal Server Error."
+      },
+      {
+        "title": "Headers",
+        "text": "Content-Type, Authorization, Cache-Control, Accept, User-Agent."
+      }
+    ],
+    "pitfalls": [
+      "Использовать GET для создания данных",
+      "Не обрабатывать ошибки",
+      "Не использовать правильные статус-коды",
+      "Игнорировать headers"
+    ],
+    "followUps": [
+      "Чем GET отличается от POST?",
+      "Что такое idempotency в HTTP?",
+      "Как работает Content-Type negotiation?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Protocol",
+      "Web"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-caching",
+    "title": "Как работает HTTP кеширование?",
+    "aliases": [],
+    "answer": "HTTP caching: браузер/proxy хранят responses. Headers: Cache-Control (policy), ETag (validation), Last-Modified, Expires. Типы: strong cache (no request),协商 cache (revalidate).",
+    "exampleAnswer": "`Cache-Control: max-age=3600` → browser caches 1 hour. After 1 hour: `If-None-Match: \"abc123\"` → server: 304 Not Modified → use cache. `Cache-Control: no-store` → never cache (sensitive data).",
+    "context": "Ключевой concept для performance. Проверяют понимание caching mechanisms.",
+    "keyPoints": [
+      {
+        "title": "Strong cache",
+        "text": "Cache-Control: max-age=3600 (1 hour). Expires: absolute date. Браузер не отправляет request."
+      },
+      {
+        "title": "协商 Cache",
+        "text": "ETag: version identifier. Last-Modified: timestamp. Браузер отправляет request с `If-None-Match`/`If-Modified-Since`. 304 Not Modified: use cache."
+      },
+      {
+        "title": "Инструкции",
+        "text": "no-cache: revalidate always. no-store: never cache. public/private: who can cache."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать Cache-Control",
+      "Кешировать sensitive data",
+      "Не делать cache invalidation",
+      "Использовать expires вместо max-age"
+    ],
+    "followUps": [
+      "Как сделать cache invalidation?",
+      "Что такое ETag и как его генерировать?",
+      "Как связаны CDN и HTTP caching?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Caching",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-cookies",
+    "title": "Как работают cookies и зачем они нужны?",
+    "aliases": [],
+    "answer": "Cookies: small text data, хранимые в браузере. Отправляются с каждым request к domain. Атрибуты: HttpOnly (no JS), Secure (HTTPS), SameSite (CSRF), Path, Expires/Max-Age. Использование: sessions, auth, preferences.",
+    "exampleAnswer": "`Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`. Response: cookie stored. Next request: `Cookie: session=abc123`. Server: validates session.",
+    "context": "Фундаментальный mechanism для state management. Проверяют понимание cookie security.",
+    "keyPoints": [
+      {
+        "title": "Зачем",
+        "text": "HTTP stateless: cookies хранят state между requests. Sessions: session ID в cookie."
+      },
+      {
+        "title": "Атрибуты",
+        "text": "HttpOnly: prevents XSS access. Secure: HTTPS only. SameSite: prevents CSRF. Path: scope. Expires: lifetime."
+      },
+      {
+        "title": "Безопасность",
+        "text": "HttpOnly + Secure + SameSite: minimum requirements. Never: sensitive data в cookies."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать HttpOnly",
+      "Не делать Secure",
+      "Хранить sensitive data в cookies",
+      "Не использовать SameSite"
+    ],
+    "followUps": [
+      "Как работает SameSite cookie?",
+      "Что такое session cookie vs persistent cookie?",
+      "Как связаны cookies и JWT?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Cookies",
+      "Sessions"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-headers",
+    "title": "Какие HTTP заголовки важны и зачем они нужны?",
+    "aliases": [],
+    "answer": "Ключевые headers: Content-Type, Authorization, Cache-Control, Accept, CORS headers (Access-Control-*), Security headers (CSP, HSTS, X-Frame-Options). Каждый решает конкретную проблему.",
+    "exampleAnswer": "Request: `Authorization: Bearer abc123`, `Content-Type: application/json`, `Accept: application/json`. Response: `Cache-Control: max-age=3600`, `Content-Type: application/json`. Security: `Content-Security-Policy: default-src 'self'`, `Strict-Transport-Security: max-age=31536000`.",
+    "context": "Важный topic для web security и performance. Проверяют понимание headers usage.",
+    "keyPoints": [
+      {
+        "title": "Request headers",
+        "text": "Content-Type: формат body. Authorization: credentials. Accept: ожидаемый формат. User-Agent: client info."
+      },
+      {
+        "title": "Response headers",
+        "text": "Cache-Control: caching policy. Content-Type: формат response. CORS: cross-origin access."
+      },
+      {
+        "title": "Security headers",
+        "text": "Content-Security-Policy: XSS prevention. Strict-Transport-Security: HTTPS only. X-Frame-Options: clickjacking prevention."
+      }
+    ],
+    "pitfalls": [
+      "Не устанавливать Content-Type",
+      "Не использовать security headers",
+      "Игнорировать Cache-Control",
+      "Не проверять Authorization header"
+    ],
+    "followUps": [
+      "Как настроить Content-Security-Policy?",
+      "Что такое Cache-Control directives?",
+      "Как связаны headers и CORS?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Headers",
+      "Security"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-methods",
+    "title": "Какие HTTP методы существуют и когда их использовать?",
+    "aliases": [],
+    "answer": "GET (read), POST (create), PUT (replace), PATCH (update), DELETE (remove), HEAD (headers only), OPTIONS (CORS/preflight), TRACE (diagnostic). Safe: GET, HEAD, OPTIONS. Idempotent: GET, PUT, DELETE, HEAD.",
+    "exampleAnswer": "GET /users — safe, idempotent. POST /users — unsafe, not idempotent (создаёт нового user). PUT /users/1 — idempotent (заменяет entire user). PATCH /users/1 — not idempotent (частичное обновление). DELETE /users/1 — idempotent.",
+    "context": "Фундаментальные methods для REST API. Проверяют понимание semantics.",
+    "keyPoints": [
+      {
+        "title": "CRUD маппинг",
+        "text": "GET → Read. POST → Create. PUT → Replace. PATCH → Update. DELETE → Remove."
+      },
+      {
+        "title": "Properties",
+        "text": "Safe: не изменяют state (GET). Idempotent: повторный вызов = тот же результат (GET, PUT, DELETE)."
+      },
+      {
+        "title": "Специальные",
+        "text": "HEAD: same как GET, но без body (для headers). OPTIONS: для CORS preflight. TRACE: echo request."
+      }
+    ],
+    "pitfalls": [
+      "Использовать POST для reads",
+      "Использовать GET для mutations",
+      "Не понимать idempotency",
+      "Использовать PATCH как PUT"
+    ],
+    "followUps": [
+      "Что такое safe и idempotent methods?",
+      "Как связаны HTTP methods и REST?",
+      "Когда использовать HEAD vs GET?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Methods",
+      "REST"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-rest",
+    "title": "Что такое REST API и как его проектировать?",
+    "aliases": [],
+    "answer": "REST (Representational State Transfer): архитектурный стиль для APIs. Принципы: stateless, uniform interface, resource-based URLs, HTTP methods semantics. Versioning: URL path, header, query param.",
+    "exampleAnswer": "GET /api/v1/users — list users. GET /api/v1/users/1 — get user. POST /api/v1/users — create user. PUT /api/v1/users/1 — update user. DELETE /api/v1/users/1 — delete user.",
+    "context": "Ключевой API design style. Проверяют понимание REST principles.",
+    "keyPoints": [
+      {
+        "title": "Принципы",
+        "text": "Stateless: no server state. Resource-based: /users, /users/1. Uniform interface: standard methods. HATEOAS: links в ответах."
+      },
+      {
+        "title": "URL design",
+        "text": "nouns, не verbs: /users (не /getUsers). Плагиальное число: /users. Иерархия: /users/1/orders."
+      },
+      {
+        "title": "Versioning",
+        "text": "URL: /api/v1/users. Header: Accept: application/vnd.api.v1+json. Query: ?version=1."
+      }
+    ],
+    "pitfalls": [
+      "Использовать verbs в URLs",
+      "Не делать versioning",
+      "Нарушать statelessness",
+      "Не документировать API"
+    ],
+    "followUps": [
+      "Как выбрать between REST и GraphQL?",
+      "Что такое HATEOAS?",
+      "Как документировать REST API (OpenAPI)?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "HTTP",
+      "REST",
+      "API Design"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-status-codes",
+    "title": "Какие HTTP статус-коды и когда их использовать?",
+    "aliases": [],
+    "answer": "1xx: informational. 2xx: success (200 OK, 201 Created, 204 No Content). 3xx: redirect (301, 302, 304). 4xx: client error (400, 401, 403, 404, 409, 422, 429). 5xx: server error (500, 502, 503).",
+    "exampleAnswer": "POST /users с валидными данными → 201 Created. GET /users/999 → 404 Not Found. POST /users с невалидным email → 422 Unprocessable Entity. DELETE /users/1 → 204 No Content. Rate limit exceeded → 429 Too Many Requests.",
+    "context": "Фундаментальные codes для API design. Проверяют понимание when to use each.",
+    "keyPoints": [
+      {
+        "title": "2xx Success",
+        "text": "200 OK: successful request. 201 Created: resource created. 204 No Content: success, no body (DELETE)."
+      },
+      {
+        "title": "4xx Client Error",
+        "text": "400 Bad Request: invalid input. 401 Unauthorized: not authenticated. 403 Forbidden: not authorized. 404 Not Found: resource doesn't exist. 409 Conflict: duplicate. 422 Unprocessable: validation error. 429 Too Many Requests: rate limit."
+      },
+      {
+        "title": "5xx Server Error",
+        "text": "500 Internal Server Error: unexpected error. 502 Bad Gateway: upstream error. 503 Service Unavailable: temporarily unavailable."
+      }
+    ],
+    "pitfalls": [
+      "Использовать 200 для всех ответов",
+      "Возвращать 500 для client errors",
+      "Не использовать 429 для rate limiting",
+      "Не информативные error messages"
+    ],
+    "followUps": [
+      "Как связать статус-коды и error handling?",
+      "Что такое 304 Not Found и caching?",
+      "Как документировать статус-коды в API?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "Status Codes",
+      "API"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http-websocket",
+    "title": "Что такое WebSocket и когда его использовать?",
+    "aliases": [],
+    "answer": "WebSocket: two-way communication protocol для real-time. Отличия от HTTP: persistent connection, server push, lower overhead. Use cases: chat, notifications, live data, gaming. Fallback: SSE, long polling.",
+    "exampleAnswer": "Chat app: HTTP для login, registration. WebSocket для messages. Flow: HTTP GET /token → WebSocket connection → send/receive messages. Server: broadcast to all connected clients.",
+    "context": "Альтернатива HTTP для real-time. Проверяют понимание when to use WebSocket.",
+    "keyPoints": [
+      {
+        "title": "HTTP vs WebSocket",
+        "text": "HTTP: request-response, stateless, overhead headers. WebSocket: persistent, bidirectional, frames."
+      },
+      {
+        "title": "Установка",
+        "text": "HTTP upgrade handshake → WebSocket connection → bidirectional messaging."
+      },
+      {
+        "title": "Use cases",
+        "text": "Chat: real-time messaging. Notifications: server push. Live data: stock prices, sports. Gaming: low-latency updates."
+      }
+    ],
+    "pitfalls": [
+      "Использовать WebSocket для всего",
+      "Не обрабатывать disconnection",
+      "Не делать fallback (SSE, long polling)",
+      "Игнорировать scalability"
+    ],
+    "followUps": [
+      "Как обрабатывать reconnection?",
+      "Что такое Server-Sent Events?",
+      "Как масштабировать WebSocket connections?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "HTTP",
+      "WebSocket",
+      "Real-time"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "http2-http3",
+    "title": "Чем HTTP/2 и HTTP/3 отличаются от HTTP/1.1?",
+    "aliases": [],
+    "answer": "HTTP/2: multiplexing, header compression, server push, binary protocol. HTTP/3: QUIC protocol (UDP), 0-RTT connection, no head-of-line blocking. Преимущества: speed, performance, reliability.",
+    "exampleAnswer": "HTTP/2: 10 images → 1 connection, 10 parallel streams. HTTP/1.1: 10 connections. HTTP/3: QUIC → no TCP head-of-line blocking → faster page load.",
+    "context": "Эволюция HTTP protocol. Проверяют понимание modern web protocols.",
+    "keyPoints": [
+      {
+        "title": "HTTP/2",
+        "text": "Multiplexing: параллельные streams в одном connection. Header compression: HPACK. Server push: proactively send resources."
+      },
+      {
+        "title": "HTTP/3",
+        "text": "QUIC: UDP-based, eliminates TCP head-of-line blocking. 0-RTT: мгновенное подключение. Connection migration: network switching."
+      },
+      {
+        "title": "Сравнение",
+        "text": "HTTP/1.1: one request per connection. HTTP/2: multiplexing. HTTP/3: UDP + QUIC."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать HTTP/2",
+      "Игнорировать server push",
+      "Не тестировать HTTP/3",
+      "Забывать про fallback"
+    ],
+    "followUps": [
+      "Как работает multiplexing в HTTP/2?",
+      "Что такое QUIC protocol?",
+      "Как связать HTTP/3 и CDN?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "HTTP",
+      "HTTP/2",
+      "HTTP/3",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "it-one-banking-domain-architecture",
     "title": "Как спроектировать фронтенд для банковской системы кредитования?",
     "aliases": [],
