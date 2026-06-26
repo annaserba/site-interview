@@ -7496,6 +7496,186 @@
     "videoFrequency": 0
   },
   {
+    "id": "marketing-custdev",
+    "title": "Что такое CustDev и как его проводить?",
+    "aliases": [],
+    "answer": "CustDev (Customer Development) — методология ValidationError для проверки гипотез о пользователе. Этапы: Customer Discovery → Customer Validation → Customer Creation → Company Building. Ключевой инструмент: интервью с пользователями.",
+    "exampleAnswer": "CustDev: провели 20 интервью с target users. Выяснили: проблема — ручной ввод данных, текущее решение — Excel. Willingness to pay: 50% готовы платить 500₽/мес. Запустили MVP, итерация.",
+    "context": "Важный concept для product management. Проверяют понимание how to validate ideas.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "1. Discovery: интервью, find problems. 2. Validation: проверка willingness to pay. 3. Creation: масштабирование. 4. Building: org structure."
+      },
+      {
+        "title": "Интервью",
+        "text": "Открытые вопросы, не selling. Сколько: 15-20 интервью. Паттерны:Jobs to be Done."
+      },
+      {
+        "title": "Гипотезы",
+        "text": "Problem hypothesis: users have this problem. Solution hypothesis: our solution solves it. Value hypothesis: users will pay."
+      }
+    ],
+    "pitfalls": [
+      "Продавать на интервью",
+      "Не слушать пользователя",
+      "Делать выводы на основе 2-3 интервью",
+      "Игнорировать negative feedback"
+    ],
+    "followUps": [
+      "Как составить интервью для CustDev?",
+      "Что такое Jobs to be Done?",
+      "Как связаны CustDev и Lean Startup?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "CustDev",
+      "Product",
+      "Interview"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "marketing-design-thinking",
+    "title": "Что такое дизайн-мышление и как его применять?",
+    "aliases": [],
+    "answer": "Design Thinking — методология для решения проблем черезEmpathy → Define → Ideate → Prototype → Test. Фокус на пользователе, быстрые прототипы, итерации.",
+    "exampleAnswer": "Design Thinking: empathy interviews →define problem \"пользователи теряют данные\" → ideate (10 решений) → paper prototype → test с 5 пользователями. Результат: 80% поняли решение.",
+    "context": "Методология для product innovation. Проверяют понимание human-centered design.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "1. Empathy: понять пользователя. 2. Define: сформулировать проблему. 3. Ideate: генерация идей. 4. Prototype: быстрый прототип. 5. Test: проверка с пользователями."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Empathy map, journey map, brainstorming, paper prototype, A/B testing."
+      },
+      {
+        "title": "Преимущества",
+        "text": "Human-centered, interdisciplinary, fast iteration."
+      }
+    ],
+    "pitfalls": [
+      "Пропускать empathy stage",
+      "Делать идеальный прототип",
+      "Не тестировать с реальными пользователями",
+      "Игнорировать feedback"
+    ],
+    "followUps": [
+      "Как провести empathy interview?",
+      "Что такое journey map?",
+      "Как связан design thinking с product discovery?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Design Thinking",
+      "Product",
+      "Innovation"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "marketing-unit-economics",
+    "title": "Как рассчитать юнит-экономику продукта?",
+    "aliases": [],
+    "answer": "Юнит-экономика: LTV (Lifetime Value) и CAC (Customer Acquisition Cost). LTV > CAC = profitable. Формулы: LTV = ARPU × Lifetime, CAC = Marketing spend / Customers acquired. Benchmark: LTV/CAC > 3.",
+    "exampleAnswer": "LTV: ARPU 1000₽/мес, lifetime 12 мес → LTV 12000₽. CAC: потратили 100000₽, привлекли 100 → CAC 1000₽. LTV/CAC = 12 — excellent. Payback: 1 мес.",
+    "context": "Ключевой financial metric для product. Проверяют понимание business metrics.",
+    "keyPoints": [
+      {
+        "title": "LTV",
+        "text": "Сколько денег приносит customer за lifetime. ARPU × months. С учётом churn."
+      },
+      {
+        "title": "CAC",
+        "text": "Стоимость привлечения customer. Marketing spend / new customers. Включает все costs."
+      },
+      {
+        "title": "Метрики",
+        "text": "LTV/CAC > 3 — good. Payback period < 12 months. Churn rate < 5%/month."
+      }
+    ],
+    "pitfalls": [
+      "Не учитывать churn в LTV",
+      "Считать CAC без overhead costs",
+      "Игнорировать payback period",
+      "Не сегментировать метрики"
+    ],
+    "followUps": [
+      "Как рассчитать LTV с учётом churn?",
+      "Что такое payback period?",
+      "Как связаны unit economics и pricing?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Unit Economics",
+      "Product",
+      "Finance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "monitoring-observability",
     "title": "Как настроить monitoring и observability для приложения?",
     "aliases": [],
@@ -9610,6 +9790,601 @@
     "sources": [
       {
         "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-ab-testing",
+    "title": "Как проводить A/B тесты и анализировать результаты?",
+    "aliases": [],
+    "answer": "A/B тест: сравнение двух вариантов на random samples. Этапы: гипотеза → sample size → randomization → collection → analysis. Статистическая значимость: p-value < 0.05, power > 80%.",
+    "exampleAnswer": "A/B: гипотеза \"новый checkout increase conversion\". Sample: 10000 users per variant. Duration: 2 недели. Результат: +5% conversion, p-value 0.03 → deploy.",
+    "context": "Ключевой инструмент для product decisions. Проверяют понимание statistics.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "1. Гипотеза: вариант B лучше A. 2. Sample size: calculator. 3. Randomization: равные группы. 4. Collection:足够 data. 5. Analysis: p-value, confidence interval."
+      },
+      {
+        "title": "Статистика",
+        "text": "p-value < 0.05: significance. Power > 80%: detects effect. Confidence interval: range of true value."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Optimizely, LaunchDarkly, GA4, internal tools."
+      }
+    ],
+    "pitfalls": [
+      "Останавливать тест рано",
+      "Не рассчитывать sample size",
+      "Игнорировать multiple testing",
+      "Не учитывать novelty effect"
+    ],
+    "followUps": [
+      "Как рассчитать sample size?",
+      "Что такое multiple testing correction?",
+      "Как избежать peeking problem?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "A/B Testing",
+      "Product Analytics",
+      "Statistics"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-analytics-metrics",
+    "title": "Какие метрики нужны продуктовому аналитику?",
+    "aliases": [],
+    "answer": "AARRR (Pirate Metrics): Acquisition → Activation → Retention → Revenue → Referral. Ключевые: conversion rate, churn, DAU/MAU, ARPU, NPS. Инструменты: Amplitude, Mixpanel, GA4.",
+    "exampleAnswer": "AARRR: 1000 visitors → 200 signup (20%) → 100 activated (50%) → 80 retained (80%) → 60 paying (75%) → 10 referral (17%). Churn: 5%/мес. DAU/MAU: 30%.",
+    "context": "Фундаментальный concept для product analytics. Проверяют понимание key metrics.",
+    "keyPoints": [
+      {
+        "title": "AARRR",
+        "text": "Acquisition: откуда users. Activation: first value. Retention: возвращаются ли. Revenue: монетизация. Referral: рекомендуют ли."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Amplitude: cohort analysis. Mixpanel: funnel analysis. GA4: traffic sources."
+      },
+      {
+        "title": "Метрики",
+        "text": "DAU/MAU: engagement. Churn: отток. NPS: satisfaction. ARPU: revenue per user."
+      }
+    ],
+    "pitfalls": [
+      "Фокусироваться только на acquisition",
+      "Игнорировать retention",
+      "Не сегментировать метрики",
+      "Не проводить A/B тесты"
+    ],
+    "followUps": [
+      "Как провести cohort analysis?",
+      "Что такое funnel analysis?",
+      "Как связать метрики с бизнес-целями?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Product Analytics",
+      "Metrics",
+      "A/B Testing"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-cohort-analysis",
+    "title": "Как проводить cohort analysis для понимания retention?",
+    "aliases": [],
+    "answer": "Cohort analysis: группировка users по共同特征 (дата signup, источник). Отслеживание behavior over time. Ключевое: retention curves, comparison between cohorts.",
+    "exampleAnswer": "Cohort: January 2024 signup. Week 1: 100% → Week 4: 60% → Week 12: 40%. Comparison: January vs February cohorts. January: +10% retention (onboarding improved).",
+    "context": "Важный инструмент для retention analysis. Проверяют понимание cohort methodology.",
+    "keyPoints": [
+      {
+        "title": "Типы когорт",
+        "text": "Acquisition cohort: по дате signup. Behavioral cohort: по actions. Size cohort: по размеру company."
+      },
+      {
+        "title": "Метрики",
+        "text": "Retention rate: % users returning. Churn rate: % users leaving. Revenue per cohort."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Amplitude, Mixpanel, GA4, SQL."
+      }
+    ],
+    "pitfalls": [
+      "Не сегментировать когорты",
+      "Игнорировать time-based analysis",
+      "Не сравнивать когорты",
+      "Не учитывать acquisition source"
+    ],
+    "followUps": [
+      "Как определить cohort boundaries?",
+      "Что такое retention curve?",
+      "Как использовать cohort analysis для product decisions?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Cohort Analysis",
+      "Product Analytics",
+      "Retention"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-competitor-analysis",
+    "title": "Как проводить competitor analysis?",
+    "aliases": [],
+    "answer": "Competitor analysis: изучение strengths/weaknesses competitors. Инструменты: SWOT, feature comparison, pricing analysis, user reviews. Ключевое: find gaps, differentiate.",
+    "exampleAnswer": "Competitor analysis: 3 competitors. SWOT: Competitor A — сильный brand, слабый UX. B — дешевле, fewer features. C —最好的 UX, дороже. Gap: средний ценовой segment с好的 UX.",
+    "context": "Важный strategic tool. Проверяют понимание competitive landscape.",
+    "keyPoints": [
+      {
+        "title": "SWOT",
+        "text": "Strengths, Weaknesses, Opportunities, Threats для каждого competitor."
+      },
+      {
+        "title": "Сравнение",
+        "text": "Features: что offer. Pricing: сколько стоят. UX: как выглядят. Market share: сколько users."
+      },
+      {
+        "title": "Источники",
+        "text": "App Store/Play Store reviews, G2/Capterra, social media, website."
+      }
+    ],
+    "pitfalls": [
+      "Игнорировать competitors",
+      "Не обновлять analysis",
+      "Копировать competitors",
+      "Не использовать data"
+    ],
+    "followUps": [
+      "Как провести SWOT analysis?",
+      "Что такое competitive moat?",
+      "Как использовать competitor analysis для product roadmap?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Competitor Analysis",
+      "Product",
+      "Strategy"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-customer-segmentation",
+    "title": "Как сегментировать пользователей для роста продукта?",
+    "aliases": [],
+    "answer": "Сегментация: RFM (Recency, Frequency, Monetary), behavioral (по действиям), demographic (по признакам). Ключевое: найти segments с highest LTV и lowest CAC.",
+    "exampleAnswer": "RFM: high-value (недавно, часто, много) → loyalty program. Medium → upsell. Low → re-engagement. Behavioral: onboarding completed → feature suggestions. Not completed → help.",
+    "context": "Важный tool для growth. Проверяют понимание user segments.",
+    "keyPoints": [
+      {
+        "title": "RFM",
+        "text": "Recency: когда последний раз. Frequency: как часто. Monetary: сколько тратят."
+      },
+      {
+        "title": "Behavioral",
+        "text": "По действиям: power users, casual, dormant. По funnel: those who completed onboarding vs not."
+      },
+      {
+        "title": "Применение",
+        "text": "Personalized marketing. Retention strategies. Pricing tiers."
+      }
+    ],
+    "pitfalls": [
+      "Не сегментировать",
+      "Использовать только demographics",
+      "Игнорировать behavioral data",
+      "Не обновлять segments"
+    ],
+    "followUps": [
+      "Как провести RFM анализ?",
+      "Что такое cohort analysis для сегментации?",
+      "Как связать сегментацию с персонализацией?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Segmentation",
+      "Product Analytics",
+      "Growth"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-funnel-analysis",
+    "title": "Как проводить funnel analysis и увеличивать conversion?",
+    "aliases": [],
+    "answer": "Funnel analysis: визуализация drop-off на каждом шаге. Этапы: define steps → collect data → identify drops → experiment → measure. Ключевое: найти biggest drop и оптимизировать.",
+    "exampleAnswer": "Funnel: 1000 visitors → 200 signup (20%) → 100 onboarding (50%) → 60 first action (60%) → 30 purchase (50%). Biggest drop: onboarding. Experiment: simplified form → +20% onboarding completion.",
+    "context": "Ключевой инструмент для conversion optimization. Проверяют понимание funnel methodology.",
+    "keyPoints": [
+      {
+        "title": "Этапы",
+        "text": "1. Define steps: registration → onboarding → first action → purchase. 2. Collect: track events. 3. Identify: biggest drop. 4. Experiment: test solutions. 5. Measure: conversion improvement."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Amplitude, Mixpanel, GA4, Hotjar (heatmap)."
+      },
+      {
+        "title": "Оптимизация",
+        "text": "Simplify steps. Reduce friction. Add social proof. A/B test changes."
+      }
+    ],
+    "pitfalls": [
+      "Не определять steps",
+      "Не сегментировать funnel",
+      "Игнорировать biggest drop",
+      "Не проводить experiments"
+    ],
+    "followUps": [
+      "Как определить funnel steps?",
+      "Что такое drop-off analysis?",
+      "Как увеличить conversion на каждом шаге?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Funnel Analysis",
+      "Product Analytics",
+      "Conversion"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-growth-hacking",
+    "title": "Что такое growth hacking и какие техники использовать?",
+    "aliases": [],
+    "answer": "Growth hacking: быстрые experiments для роста через product, marketing, viral loops. Техники: referral programs, content marketing, SEO, A/B testing, viral features.",
+    "exampleAnswer": "Growth: focus на retention (biggest drop). Experiment: personalized onboarding → +15% activation. Referral: give 1GB for invite → +20% signups. Content: blog → organic traffic +50%.",
+    "context": "Approach для rapid growth. Проверяют понимание growth strategies.",
+    "keyPoints": [
+      {
+        "title": "Framework",
+        "text": "AARRR: focus на biggest leak. Experiments: быстрые, cheap. Data-driven: measure everything."
+      },
+      {
+        "title": "Техники",
+        "text": "Referral: Dropbox (invite friends). Viral: Hotmail (signature). Content: blog, SEO. Product: onboarding optimization."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Mixpanel, Amplitude, Google Optimize, Hotjar."
+      }
+    ],
+    "pitfalls": [
+      "Фокусироваться на acquisition",
+      "Не делать experiments",
+      "Игнорировать retention",
+      "Не измерять results"
+    ],
+    "followUps": [
+      "Как провести growth experiment?",
+      "Что такое viral loop?",
+      "Как связан growth hacking с product-market fit?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Growth Hacking",
+      "Product",
+      "Marketing"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-nps-survey",
+    "title": "Как проводить NPS и анализировать результаты?",
+    "aliases": [],
+    "answer": "NPS (Net Promoter Score): \"Порекомендовали бы друзьям?\" 0-10. Промоутеры (9-10), пассивные (7-8), детракторы (0-6). NPS = %Promoters - %Detractors. Benchmark: > 50 good.",
+    "exampleAnswer": "NPS survey: 100 respondents. 60 promoters, 30 passives, 10 detractors. NPS = 60% - 10% = 50. Benchmark: > 50 good. Follow up: pourquoi detractors unhappy?",
+    "context": "Ключевой satisfaction metric. Проверяют понимание NPS interpretation.",
+    "keyPoints": [
+      {
+        "title": "Сегменты",
+        "text": "Promoters (9-10): лояльные, рекомендуют. Passives (7-8): довольны, но могут уйти. Detractors (0-6): недовольны."
+      },
+      {
+        "title": "Расчёт",
+        "text": "NPS = %Promoters - %Detractors. Range: -100 to +100."
+      },
+      {
+        "title": "Использование",
+        "text": "Track over time. Segment by user groups. Follow up with detractors."
+      }
+    ],
+    "pitfalls": [
+      "Не проводить регулярно",
+      "Не follow up с detractors",
+      "Использовать NPS как единственную метрику",
+      "Не сегментировать результаты"
+    ],
+    "followUps": [
+      "Как улучшить NPS?",
+      "Что такое follow-up survey?",
+      "Как связан NPS с retention?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "NPS",
+      "Product Analytics",
+      "Survey"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-pricing-strategy",
+    "title": "Как разработать pricing strategy для продукта?",
+    "aliases": [],
+    "answer": "Pricing models: freemium, subscription, tiered, usage-based. Pricing strategy: value-based, cost-plus, competition-based. Ключевое: perceived value, willingness to pay.",
+    "exampleAnswer": "Pricing: value-based. Research: users value time savings 1000₽/мес. Price: 500₽/мес (50% value). Tiered: Basic (500₽), Pro (1000₽), Enterprise (custom). A/B testing: test price points.",
+    "context": "Ключевой strategic decision. Проверяют понимание pricing approaches.",
+    "keyPoints": [
+      {
+        "title": "Модели",
+        "text": "Freemium: базовая бесплатно, premium платно. Subscription: ежемесячный платёж. Tiered: несколько tiers. Usage-based: по использованию."
+      },
+      {
+        "title": "Стратегии",
+        "text": "Value-based: цена = perceived value. Cost-plus: cost + margin. Competition-based: рынок."
+      },
+      {
+        "title": "Исследование",
+        "text": "Van Westendorp: price sensitivity. Conjoint analysis: feature trade-offs."
+      }
+    ],
+    "pitfalls": [
+      "Копировать competitors",
+      "Не исследовать willingness to pay",
+      "Игнорировать perceived value",
+      "Не тестировать price points"
+    ],
+    "followUps": [
+      "Как провести Van Westendorp analysis?",
+      "Что такое conjoint analysis?",
+      "Как связать pricing с unit economics?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Pricing",
+      "Product",
+      "Strategy"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "product-roadmap",
+    "title": "Как составить product roadmap?",
+    "aliases": [],
+    "answer": "Product roadmap: vision → strategy → themes → initiatives → features. Форматы: timeline, now-next-later, outcome-based. Ключевое: align with business goals, communicate priorities.",
+    "exampleAnswer": "Roadmap: Q1 — improve onboarding (+20% activation), Q2 — new feature X, Q3 — scale infrastructure. Format: now-next-later. Prioritization: RICE score.",
+    "context": "Ключевой strategic artifact. Проверяют понимание roadmap methodology.",
+    "keyPoints": [
+      {
+        "title": "Уровни",
+        "text": "Vision: куда идём. Strategy: как. Themes: что important. Initiatives: крупные projects. Features: конкретные solutions."
+      },
+      {
+        "title": "Форматы",
+        "text": "Timeline: даты. Now-next-later: без дат. Outcome-based: focus на results."
+      },
+      {
+        "title": "Приоритизация",
+        "text": "RICE: Reach, Impact, Confidence, Effort. MoSCoW: Must, Should, Could, Won't."
+      }
+    ],
+    "pitfalls": [
+      "Фокусироваться на features, не outcomes",
+      "Неcommunicate roadmap",
+      "Игнорировать feedback",
+      "Не обновлять roadmap"
+    ],
+    "followUps": [
+      "Как приоритизировать features?",
+      "Что такое RICE scoring?",
+      "Как связать roadmap с OKR?"
+    ],
+    "category": "Product Analytics",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Product Analytics",
+      "Leadership"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Product Roadmap",
+      "Strategy",
+      "Planning"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
         "url": "",
         "type": "aggregated"
       }
