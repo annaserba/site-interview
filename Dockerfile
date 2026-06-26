@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build:ci
+RUN npx tsc -b && npx vite build
 
 FROM nginx:alpine
 
