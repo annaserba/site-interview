@@ -29,9 +29,13 @@ function renderMarkdown(text: string): string {
     if (line.includes('</pre>')) { inPre = false; html += line; continue }
     if (inPre) { html += line; continue }
     const bulletMatch = line.match(/^[-*]\s+(.+)/)
+    const numberedMatch = line.match(/^\d+\.\s+(.+)/)
     if (bulletMatch) {
       if (!inList) { html += '<ul>'; inList = true }
       html += `<li>${bulletMatch[1]}</li>`
+    } else if (numberedMatch) {
+      if (!inList) { html += '<ol class="numbered-list">'; inList = true }
+      html += `<li>${numberedMatch[1]}</li>`
     } else {
       if (inList) { html += '</ul>'; inList = false }
       const trimmed = line.trim()

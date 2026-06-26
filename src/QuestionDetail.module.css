@@ -51,6 +51,7 @@
 .example-answer-body p { color: #4a4b45; font-size: 13px; line-height: 1.65; margin: 0 0 12px; }
 .example-answer-body p:last-child { margin-bottom: 0; }
 .example-answer-body ul { padding-left: 18px; margin: 8px 0; }
+.example-answer-body ol { padding-left: 18px; margin: 8px 0; list-style-type: decimal; }
 .example-answer-body li { color: #4a4b45; font-size: 13px; line-height: 1.6; margin-bottom: 4px; }
 .example-answer-body strong { font-weight: 700; color: var(--ink); }
 .example-answer-body em { font-style: italic; color: #5a5b55; }
