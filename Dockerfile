@@ -2,11 +2,11 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-COPY package*.json .npmrc ./
-RUN npm install --omit=optional
+COPY package*.json ./
+RUN npm install
 
 COPY . .
-RUN node_modules/.bin/vite build
+RUN npm run build:ci
 
 FROM nginx:alpine
 
