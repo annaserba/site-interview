@@ -39,10 +39,28 @@ const youtubeVideoId = (url: string) => {
   } catch { return '' }
 }
 const topicDefinitions = [
-  { id: 'algorithms', label: 'Алгоритмы', terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
-  { id: 'frontend', label: 'Frontend', terms: ['frontend', 'browser', 'javascript', 'typescript', 'react', 'css', 'web platform'] },
-  { id: 'data-ml', label: 'Данные и ML', terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
+  { id: 'algorithms', label: 'Алгоритмы', terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures', ' algorithms'] },
+  { id: 'frontend', label: 'Frontend', terms: ['frontend', 'browser', 'javascript', 'typescript', 'react', 'css', 'web platform', 'javascript'] },
+  { id: 'data-ml', label: 'Данные и ML', terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик', 'data engineering', 'data quality', 'experimentation'] },
+  { id: 'system-design', label: 'Системный дизайн', terms: ['system design', 'architecture', 'web architecture', 'frontend architecture'] },
+  { id: 'backend', label: 'Backend', terms: ['java', 'kotlin', 'python', 'concurrency', 'go', 'c++'] },
+  { id: 'delivery', label: 'Процессы', terms: ['delivery', 'performance', 'browser performance'] },
 ]
+
+const questionTypeDefinitions = [
+  { id: 'technical', label: 'Технические' },
+  { id: 'behavioral', label: 'Карьера и команда' },
+  { id: 'system-design', label: 'Системный дизайн' },
+  { id: 'hr', label: 'HR' },
+]
+
+function getQuestionType(item: Question): string {
+  const cat = item.category
+  if (item.tags.includes('HR')) return 'hr'
+  if (cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture') return 'system-design'
+  if (cat === 'Behavioral') return 'behavioral'
+  return 'technical'
+}
 
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
@@ -50,10 +68,7 @@ function App() {
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
-  const [showBehavioral, setShowBehavioral] = useState(true)
-  const [showSystemDesign, setShowSystemDesign] = useState(true)
-  const [showTechnical, setShowTechnical] = useState(true)
-  const [showHR, setShowHR] = useState(true)
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr']))
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
@@ -104,15 +119,8 @@ function App() {
       const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
       const topicText = `${item.category} ${item.tags.join(' ')}`.toLocaleLowerCase('ru-RU')
       const topicMatch = !topic || topic.terms.some((term) => topicText.includes(term))
-      const cat = item.category
-      const isBehavioral = cat === 'Behavioral'
-      const isSystemDesign = cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture'
-      const isHR = item.tags.includes('HR')
-      const isTechnical = !isBehavioral && !isSystemDesign
-      if (isBehavioral && !showBehavioral && !(isHR && showHR)) return false
-      if (isSystemDesign && !showSystemDesign) return false
-      if (isHR && !showHR && !showBehavioral) return false
-      if (isTechnical && !showTechnical) return false
+      const type = getQuestionType(item)
+      if (!activeTypes.has(type)) return false
       return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
@@ -123,7 +131,7 @@ function App() {
       const frequency = (question: Question) => videoFrequency(question) + question.companies.filter((company) => company !== 'Несколько компаний').length
       return frequency(right) - frequency(left)
     })
-  }, [activeCompany, activeRole, activeTopic, sortMode, showBehavioral, showSystemDesign, questions])
+  }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes, questions])
 
   const companies = useMemo(() => companyOrder.map((name) => ({
     name,
@@ -145,7 +153,7 @@ function App() {
   const universalCount = questions.filter((question) => question.scope === 'universal').length
   const visibleQuestions = filtered.slice(0, visibleCount)
 
-  useEffect(() => { setVisibleCount(4) }, [activeCompany, activeRole, activeTopic, sortMode, showBehavioral, showSystemDesign])
+  useEffect(() => { setVisibleCount(4) }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes])
 
   useEffect(() => {
     const sentinel = feedSentinelRef.current
@@ -250,19 +258,16 @@ function App() {
                 { value: 'title', label: 'По названию' },
               ]} />
               <FilterDropdown label="Тип вопросов" value="" multiple
-                selected={[...(showSystemDesign ? ['system-design'] : []), ...(showBehavioral ? ['behavioral'] : []), ...(showTechnical ? ['technical'] : []), ...(showHR ? ['hr'] : [])]}
+                selected={[...activeTypes]}
                 onToggle={(val) => {
-                  if (val === 'system-design') setShowSystemDesign(!showSystemDesign)
-                  if (val === 'behavioral') setShowBehavioral(!showBehavioral)
-                  if (val === 'technical') setShowTechnical(!showTechnical)
-                  if (val === 'hr') setShowHR(!showHR)
+                  setActiveTypes(prev => {
+                    const next = new Set(prev)
+                    if (next.has(val)) next.delete(val)
+                    else next.add(val)
+                    return next
+                  })
                 }}
-                options={[
-                  { value: 'system-design', label: 'Системный дизайн' },
-                  { value: 'behavioral', label: 'Карьера и команда' },
-                  { value: 'technical', label: 'Технические' },
-                  { value: 'hr', label: 'HR' },
-                ]} />
+                options={questionTypeDefinitions} />
             </div>
           </div>
 
@@ -308,7 +313,7 @@ function App() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setShowBehavioral(true); setShowSystemDesign(true); setShowTechnical(true); setShowHR(true); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
+            <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr'])); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
           {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}
@@ -322,7 +327,7 @@ function App() {
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
-          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<button onClick={() => { setShowSystemDesign(!showSystemDesign); window.location.hash = 'questions' }} style={showSystemDesign ? {} : { opacity: 0.4 }}>Системный дизайн</button><button onClick={() => { setShowBehavioral(!showBehavioral); window.location.hash = 'questions' }} style={showBehavioral ? {} : { opacity: 0.4 }}>Карьера и команда</button><button onClick={() => { setShowTechnical(!showTechnical); window.location.hash = 'questions' }} style={showTechnical ? {} : { opacity: 0.4 }}>Технические</button><button onClick={() => { setShowHR(!showHR); window.location.hash = 'questions' }} style={showHR ? {} : { opacity: 0.4 }}>HR</button></div>
+          <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}<b style={{ marginTop: 8, display: 'block' }}>Тип</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => { setActiveTypes(prev => { const next = new Set(prev); if (next.has(type.id)) next.delete(type.id); else next.add(type.id); return next }); window.location.hash = 'questions' }} style={activeTypes.has(type.id) ? {} : { opacity: 0.4 }}>{type.label}</button>)}</div>
           <div><b>Роли</b>{roles.map((role) => <button key={role} onClick={() => navigateRole(role)}>{role}</button>)}</div>
         </div>
         <span>© 2026 in.depth</span>
