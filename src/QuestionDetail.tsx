@@ -15,34 +15,68 @@ import type { Question } from './types'
 import s from './QuestionDetail.module.css'
 
 function renderMarkdown(text: string): string {
-  let result = text
-    .replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => `<pre><code class="language-${lang || 'text'}">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`)
-    .replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+  // First handle code blocks
+  let result = text.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><code class="language-${lang || 'text'}">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`
+  })
+  
+  // Handle inline code (before other formatting to avoid conflicts)
+  result = result.replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
+  
+  // Handle bold and italic
+  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  result = result.replace(/\*(.+?)\*/g, '<em>$1</em>')
+  
+  // Process lines
   const lines = result.split('\n')
   let html = ''
   let inList = false
   let inPre = false
+  let listType = 'ul'
+  
   for (const line of lines) {
+    // Skip processing inside pre blocks
     if (line.includes('<pre>')) { inPre = true; html += line; continue }
     if (line.includes('</pre>')) { inPre = false; html += line; continue }
     if (inPre) { html += line; continue }
+    
+    // Check for list items
     const bulletMatch = line.match(/^[-*]\s+(.+)/)
     const numberedMatch = line.match(/^\d+\.\s+(.+)/)
+    
     if (bulletMatch) {
-      if (!inList) { html += '<ul>'; inList = true }
+      if (!inList || listType !== 'ul') {
+        if (inList) html += `</${listType}>`
+        html += '<ul>'
+        inList = true
+        listType = 'ul'
+      }
       html += `<li>${bulletMatch[1]}</li>`
     } else if (numberedMatch) {
-      if (!inList) { html += '<ol class="numbered-list">'; inList = true }
+      if (!inList || listType !== 'ol') {
+        if (inList) html += `</${listType}>`
+        html += '<ol>'
+        inList = true
+        listType = 'ol'
+      }
       html += `<li>${numberedMatch[1]}</li>`
     } else {
-      if (inList) { html += '</ul>'; inList = false }
+      if (inList) {
+        html += `</${listType}>`
+        inList = false
+      }
       const trimmed = line.trim()
-      if (trimmed) html += `<p>${trimmed}</p>`
+      if (trimmed) {
+        // Don't wrap pre/code tags in p
+        if (trimmed.startsWith('<pre>') || trimmed.startsWith('</pre>')) {
+          html += trimmed
+        } else {
+          html += `<p>${trimmed}</p>`
+        }
+      }
     }
   }
-  if (inList) html += '</ul>'
+  if (inList) html += `</${listType}>`
   return html
 }
 
