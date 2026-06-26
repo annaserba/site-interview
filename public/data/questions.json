@@ -7590,6 +7590,193 @@
     "videoFrequency": 0
   },
   {
+    "id": "tbank-hr-salary-negotiation",
+    "title": "Как вы обсуждаете зарплату на интервью?",
+    "aliases": [],
+    "answer": "Не называйте первую цифру. Спросите диапазон бюджета на позицию. Обоснуйте свою позицию рыночными данными и своим impact. Будьте готовы к trade-off: зарплата vs equity vs benefits.",
+    "exampleAnswer": "Я не называю конкретную цифру первым — спрашиваю диапазон бюджета. Потом обосновываю: «по рынку Senior Frontend получает X–Y, мой опыт с Z дает мне основание ожидать верхнюю границу». Если предлагают ниже — обсуждаю bonus structure, equity, remote benefits. Важно: не ультиматум, а диалог.",
+    "context": "HR проверяет переговорные навыки и понимание рыночной стоимости.",
+    "keyPoints": [
+      {
+        "title": "Не называйте первую цифру",
+        "text": "Пусть работодатель назовёт бюджет. Вы — аргументируете."
+      },
+      {
+        "title": "Рыночные данные",
+        "text": "Ссылайтесь на HeadHunter, Хабр Карьера, Levels.fyi."
+      },
+      {
+        "title": "Trade-off",
+        "text": "Зарплата, бонус, equity, benefits — всё в пакете."
+      }
+    ],
+    "pitfalls": [
+      "Назвать первую цифру (теряете leverage)",
+      "Не знать рыночную стоимость",
+      "Согласиться сразу без обсуждения",
+      "Ультиматум «или больше, или ухожу»"
+    ],
+    "followUps": [
+      "Что для вас важно помимо зарплаты?",
+      "Как вы оцениваете свой вклад в проект?",
+      "Готовы ли вы к снижению зарплаты за интересный проект?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Mobile-разработчик",
+      "QA",
+      "DevOps"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Финал",
+    "tags": [
+      "HR",
+      "Salary",
+      "Negotiation"
+    ],
+    "duration": "5 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-hr-strengths-weaknesses",
+    "title": "назовите ваши сильные и слабые стороны",
+    "aliases": [],
+    "answer": "Сильные — конкретный навык + пример: «React Performance — оптимизировал SPA, снизил FCP на 40%». Слабые — реальная, но управляемая: «иногда перфекционизм — научился выставлять timebox».",
+    "exampleAnswer": "Сильная сторона: оптимизация производительности — на прошлом проекте снизил FCP с 4.2с до 1.8с через code splitting и lazy loading. Слабая: иногда слишком углубляюсь в детали — научился ставить timebox на исследование (максимум 2 часа), потом принимаю решение.",
+    "context": "Классический HR-вопрос: проверяют самоосознанность и честность.",
+    "keyPoints": [
+      {
+        "title": "Сильные",
+        "text": "Конкретный навык + измеримый результат. Не «я трудолюбивый»."
+      },
+      {
+        "title": "Слабые",
+        "text": "Реальная слабость + что делаете для улучшения. Не «я перфекционист»."
+      },
+      {
+        "title": "Баланс",
+        "text": "1 сильная сторона + 1 слабая — достаточно."
+      }
+    ],
+    "pitfalls": [
+      "«Мне нечего сказать о слабых сторонах»",
+      "Слабость, которая на самом деле сильная",
+      "Без конкретных примеров",
+      "Слишком много слабостей"
+    ],
+    "followUps": [
+      "Как вы развиваетесь технически?",
+      "Что было самым сложным в вашей карьере?",
+      "Как вы справляетесь со стрессом?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Mobile-разработчик",
+      "QA",
+      "DevOps"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "HR",
+    "tags": [
+      "HR",
+      "Self-assessment"
+    ],
+    "duration": "5 мин",
+    "difficulty": 1,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-hr-why-left",
+    "title": "почему вы ушли с прошлого места работы?",
+    "aliases": [],
+    "answer": "Говорите о позитивных причинах: рост, новые вызовы, интерес к продукту. Не критикуйте бывшего руководителя/команду. Покажите, что выбор осознанный.",
+    "exampleAnswer": "На прошлом месте я вырос до Senior, но хотел работать с высоконагруженными системами и финтехом. Т-Банк — идеальная платформа: масштаб, сложные задачи, сильная команда. Уход был осознанным решением, не конфликтом.",
+    "context": "HR проверяет红flags: конфликтность, нестабильность, нечестность.",
+    "keyPoints": [
+      {
+        "title": "Позитив",
+        "text": "«Хотел расти в архитектурном направлении» — не «там всё плохо»."
+      },
+      {
+        "title": "Конкретика",
+        "text": "Назовите реальную причину, но без негатива."
+      },
+      {
+        "title": "Связь с новой позицией",
+        "text": "Покажите, что Т-Банк решает вашу проблему."
+      }
+    ],
+    "pitfalls": [
+      "Критиковать бывшего руководителя",
+      "«Было скучно» — звучит незрело",
+      "Врать о причине ухода",
+      "Не иметь конкретной причины"
+    ],
+    "followUps": [
+      "Что бы вы изменили на прошлом месте?",
+      "Какие отношения у вас с бывшим руководителем?",
+      "Как вы принимаете решение о смене работы?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Mobile-разработчик",
+      "QA",
+      "DevOps"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "HR",
+    "tags": [
+      "HR",
+      "Career"
+    ],
+    "duration": "5 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-java-concurrency-deadlock",
     "title": "Найдите deadlock в коде и предложите исправление",
     "aliases": [],
@@ -7783,6 +7970,447 @@
         "company": "Т-Банк",
         "url": "",
         "type": "candidate-report"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-language-design-patterns",
+    "title": "Какие паттерны проектирования вы используете чаще всего?",
+    "aliases": [],
+    "answer": "Singleton (конфиг, DI), Factory (создание объектов с вариантами), Observer (события), Strategy (алгоритмы), Adapter (интеграция с legacy). Не засоряйте код паттернами — используйте только когда решаете реальную проблему.",
+    "exampleAnswer": "Чаще использую: 1) Strategy — для разных алгоритмов (сортировка, валидация), 2) Observer — для событийной системы (WebSocket, UI events), 3) Factory — когда создание объекта зависит от входных данных. Singleton — для конфига, но с осторожностью (тестирование). Не использую паттерн, если он не решает конкретную проблему.",
+    "context": "Проверяют знание классических паттернов и понимание, когда они действительно нужны.",
+    "keyPoints": [
+      {
+        "title": "Практические паттерны",
+        "text": "Singleton, Factory, Observer, Strategy, Adapter, Decorator."
+      },
+      {
+        "title": "Когда НЕ использовать",
+        "text": "Over-engineering: паттерн ради паттерна — антипаттерн."
+      },
+      {
+        "title": "Примеры из опыта",
+        "text": "Покажите реальный case, не просто перечислите."
+      }
+    ],
+    "pitfalls": [
+      "Использовать Singleton везде",
+      "Factory с 100 подклассами",
+      "Observer без отписки (утечка)",
+      "Декоратор ради красоты"
+    ],
+    "followUps": [
+      "Что такое Dependency Injection?",
+      "Чем отличается Strategy от State?",
+      "Как рефакторите legacy без паттернов?"
+    ],
+    "codeSnippet": "// Strategy — разные алгоритмы сортировки\ninterface SortStrategy<T> {\n  sort(items: T[]): T[];\n}\n\nclass QuickSort<T> implements SortStrategy<T> {\n  sort(items: T[]): T[] { /* ... */ }\n}\n\nclass MergeSort<T> implements SortStrategy<T> {\n  sort(items: T[]): T[] { /* ... */ }\n}\n\nclass Sorter<T> {\n  constructor(private strategy: SortStrategy<T>) {}\n  sort(items: T[]) { return this.strategy.sort(items); }\n}",
+    "codeLanguage": "typescript",
+    "category": "Algorithms",
+    "scope": "language",
+    "languages": [
+      "TypeScript",
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Язык",
+    "tags": [
+      "Design Patterns",
+      "Architecture",
+      "OOP",
+      "Language"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-language-kotlin-coroutines",
+    "title": "Как работают корутины в Kotlin? Чем отличаются от потоков?",
+    "aliases": [],
+    "answer": "Корутины — lightweight concurrency: не блокируют поток, работают через state machine. Диспетчеры (Dispatchers) определяют, на каком потоке выполняется: Default (CPU), IO (disk/network), Main (UI). Suspension — сохранение контекста без блокировки потока. Structured concurrency — запуск корутин в scope, автоматическая отмена.",
+    "exampleAnswer": "Корутины — cooperative concurrency: при遇到suspend-функции корутина приостанавливается, освобождая поток. Диспетчеры определяют контекст: IO для сети, Default для CPU. Structured concurrency через coroutineScope guarantee отмену при ошибке. Главное отличие от потоков: 10K+ корутин на одном потоке vs ~1000 потоков.",
+    "context": "Языковой вопрос: понимает ли кандидат model concurrency в Kotlin.",
+    "keyPoints": [
+      {
+        "title": "Корутины vs потоки",
+        "text": "Корутины — cooperative, lightweight (10K+ на одном потоке), suspension points. Потоки — OS-level, ~1K."
+      },
+      {
+        "title": "Диспетчеры",
+        "text": "Default (CPU-bound), IO (network/disk), Main (UI), Unconfined."
+      },
+      {
+        "title": "Structured concurrency",
+        "text": "launch/async в scope → автоматическая отмена при выходе из scope."
+      }
+    ],
+    "pitfalls": [
+      "Думать, что корутины = потоки",
+      "Не использовать structured concurrency",
+      "Блокировать Main поток",
+      "Не отменять корутины при уничтожении UI"
+    ],
+    "followUps": [
+      "Что такое Flow в Kotlin?",
+      "Как тестируете корутины?",
+      "Чем отличается launch от async?"
+    ],
+    "codeSnippet": "// Запуск корутины\nviewModelScope.launch(Dispatchers.IO) {\n    val data = repository.fetchData() // suspend function\n    withContext(Dispatchers.Main) {\n        uiState.value = data\n    }\n}\n\n// Structured concurrency\nsuspend fun loadUser() = coroutineScope {\n    val profile = async { fetchProfile() }\n    val settings = async { fetchSettings() }\n    User(profile.await(), settings.await())\n}",
+    "codeLanguage": "kotlin",
+    "category": "C++",
+    "scope": "language",
+    "languages": [
+      "Kotlin"
+    ],
+    "roles": [
+      "Backend-разработчик",
+      "Mobile-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Язык",
+    "tags": [
+      "Kotlin",
+      "Coroutines",
+      "Concurrency",
+      "Language"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-language-sql-optimization",
+    "title": "Как оптимизировать медленный SQL-запрос?",
+    "aliases": [],
+    "answer": "EXPLAIN ANALYZE → найти sequential scan → добавить индекс → переписать запрос (avoid N+1, use JOIN instead of subquery). Проверить plan: index scan, hash join, cost. Убрать SELECT * → выбирать нужные колонки. PARTITION для больших таблиц.",
+    "exampleAnswer": "Начинаю с EXPLAIN ANALYZE: смотрю cost, rows, actual time. Часто проблема в sequential scan — добавляю индекс. Если subquery — переписываю на JOIN. SELECT * заменяю на конкретные колонки. Для больших таблиц — partitioning. Для частых фильтров — partial index.",
+    "context": "Языковой/инженерный вопрос: понимает ли кандидат работу СУБД и оптимизацию.",
+    "keyPoints": [
+      {
+        "title": "EXPLAIN ANALYZE",
+        "text": "Первый шаг: посмотреть execution plan."
+      },
+      {
+        "title": "Индексы",
+        "text": "B-tree для equality/range, GIN для full-text, Partial для filtered queries."
+      },
+      {
+        "title": "Переписывание",
+        "text": "Subquery → JOIN, SELECT * → конкретные колонки, UNION → UNION ALL."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать EXPLAIN ANALYZE",
+      "Добавлять индексы без анализа",
+      "SELECT * в production",
+      "Не анализировать cardinality"
+    ],
+    "followUps": [
+      "Что такое covering index?",
+      "Как работает B-tree индекс?",
+      "Чем отличается LIMIT от EXISTS?"
+    ],
+    "codeSnippet": "-- Медленный запрос\nSELECT * FROM orders\nWHERE user_id IN (SELECT id FROM users WHERE status = 'active')\nAND created_at > NOW() - INTERVAL '30 days';\n\n-- Оптимизированный\nSELECT o.id, o.total, o.created_at\nFROM orders o\nINNER JOIN users u ON u.id = o.user_id\nWHERE u.status = 'active'\nAND o.created_at > NOW() - INTERVAL '30 days';\n\n-- Индекс\nCREATE INDEX idx_orders_user_created ON orders(user_id, created_at)\nWHERE created_at > NOW() - INTERVAL '90 days';",
+    "codeLanguage": "sql",
+    "category": "Algorithms",
+    "scope": "language",
+    "languages": [
+      "SQL"
+    ],
+    "roles": [
+      "Backend-разработчик",
+      "Data Engineer"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Middle",
+    "stage": "Язык",
+    "tags": [
+      "SQL",
+      "Performance",
+      "Database",
+      "Index"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-management-code-review",
+    "title": "Как вы организуете code review в команде?",
+    "aliases": [],
+    "answer": "Минимум 2 ревьюера, автоматический CI + linting до ревью, чеклист для ревьюеров (безопасность, производительность, читаемость). Обратная связь — конструктивная, с примерами. Не блокер: если 2 одобрения — мержим.",
+    "exampleAnswer": "У нас PR проходит: 1) CI (lint, test, build), 2) минимум 2 одобрения, 3) changelog в PR. Ревьюеры используют чеклист: безопасность, производительность, читаемость, тесты. Мы ограничиваем PR 400 строками — больше很难.review. Обратная связь: «в строке 42 предлагаю X, потому что Y». Результат: снижение багов в production на 60%.",
+    "context": "Проверяют понимание процессов质量和 командной культуры.",
+    "keyPoints": [
+      {
+        "title": "Процесс",
+        "text": "CI → lint → 2 ревьюера → одобрение → мерж. PR не больше 400 строк."
+      },
+      {
+        "title": "Культура",
+        "text": "Обратная связь с примерами: «предлагаю заменить X на Y, потому что Z»."
+      },
+      {
+        "title": "Автоматизация",
+        "text": "Linter, formatter, unit-тесты — всё до ревью."
+      }
+    ],
+    "pitfalls": [
+      "1 ревьюер и формальное одобрение",
+      "PR на 2000 строк",
+      "«Всё ок» без конкретики",
+      "Не автоматизировать lint/test"
+    ],
+    "followUps": [
+      "Как вы менторитеjunior через code review?",
+      "Как обрабатываете разногласия в ревью?",
+      "Как.measure качество code review?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Tech Lead"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Code Review",
+      "Process"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-management-task-priority",
+    "title": "Как вы определяете приоритет задач в команде?",
+    "aliases": [],
+    "answer": "Опираюсь на бизнес-влияние × срочность × стоимость промедления. Использую ICE-модель (Impact, Confidence, Ease) или RICE (Reach × Impact × Confidence / Effort). Приоритеты согласовываю с product owner и stakeholder. Важно: декомпозиция, оценка трудозатрат, visible backlog, регулярные sync.",
+    "exampleAnswer": "В прошлом проекте мы использовали RICE: каждую задачу оценивали по Reach (сколько пользователей затронет), Impact (насколько сильно), Confidence (насколько уверены в оценке) и Effort (затраты). Раз в спринт проводили grooming с product owner. Критические баги шли вне очереди, tech debt — выделяли 20% спринта. Результат: снижение time-to-market на 30% за полгода.",
+    "context": "Это управленческий вопрос — проверяют, понимает ли кандидат, как управлять потоком задач, балансировать между срочным и важным.",
+    "keyPoints": [
+      {
+        "title": "Показать систему",
+        "text": "Опишите конкретную модель оценки (ICE, RICE, MoSCoW), а не просто «смотрю по ситуации»."
+      },
+      {
+        "title": "Привести пример",
+        "text": "Расскажите реальную ситуацию, когда пришлось переприоритезировать."
+      },
+      {
+        "title": "Баланс",
+        "text": "Как вы балансируете между tech debt, фичами и багами."
+      }
+    ],
+    "pitfalls": [
+      "Опираться только на мнение тимлида",
+      "Не декомпозировать задачи",
+      "Игнорировать tech debt",
+      "Не согласовывать приоритеты со стейкхолдерами"
+    ],
+    "followUps": [
+      "Как вы делегируете задачи?",
+      "Как мотивируете команду на скучные задачи?",
+      "Как обрабатываете конфликты приоритетов?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Tech Lead",
+      "Engineering Manager"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Priority",
+      "Team"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-management-team-conflict",
+    "title": "Как вы разрешаете конфликты в команде?",
+    "aliases": [],
+    "answer": "Выслушиваю обе стороны отдельно, нахожу корень (не симптом), предлагаю компромисс с фокусом на shared goal. Не беру сторону публично. Если конфликт повторяется — структурирую: role clarity, decision-making process (RACI), regular 1:1.",
+    "exampleAnswer": "Два senior-разработчика спорили об архитектуре. Я провёл отдельные разговоры: выяснилось, что конфликт не про технологии, а про ownership — оба хотели отвечать за модуль. Решение: RACI-матрица, где один — owner, другой — reviewer. Добавили ADR (Architecture Decision Records) для прозрачности. Конфликт исчез.",
+    "context": "Проверяют soft skills: способность управлять командой, не подавляя, а направляя.",
+    "keyPoints": [
+      {
+        "title": "Шаг 1: Слушать",
+        "text": "Отдельные разговоры, не публично."
+      },
+      {
+        "title": "Шаг 2: Корень",
+        "text": "Часто конфликт — не про技術, а про ownership/expectations."
+      },
+      {
+        "title": "Шаг 3: Решение",
+        "text": "RACI-матрица, decision log, regular sync."
+      }
+    ],
+    "pitfalls": [
+      "Игнорировать конфликт",
+      "Быстро принимать сторону",
+      "Не фиксировать решение",
+      "Не следить за повторением"
+    ],
+    "followUps": [
+      "Как вы мотивируете слабого члена команды?",
+      "Как обрабатываете конфликт с product owner?",
+      "Как создаёте психологическую безопасность?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Tech Lead",
+      "Engineering Manager"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Conflict",
+      "Team"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-management-tech-debt",
+    "title": "Как вы управляете техническим долгом?",
+    "aliases": [],
+    "answer": "Измеряйте и визуализируйте: тегайте tech debt в задачах, выделяйте 20–30% спринта на погашение, объясняйте бизнесу ROI. Не боритесь с долгом абстрактно — переводите в конкретные метрики: время на feature, количество инцидентов, скорость онбординга.",
+    "exampleAnswer": "Мы завели tech-debt реестр в Jira с тегами: performance, maintainability, security. Каждую задачу оценивали по impact (сколько времени экономит погашение) и risk (какой ущерб при игнорировании). 25% спринта — на tech debt. За квартал время на feature снизилось на 20%, количество инцидентов — на 40%. Бизнес увидел конкретные цифры и поддержал инициативу.",
+    "context": "Проверяют зрелость: понимает ли кандидат, что tech debt — это не «плохо», а инвестиция, которая требует управления.",
+    "keyPoints": [
+      {
+        "title": "Категоризация",
+        "text": "Разделяйте архитектурный долг (неправильные абстракции), кодовый (костыли) и инфраструктурный (устаревшие зависимости)."
+      },
+      {
+        "title": "Процесс",
+        "text": "Тегайте задачи, ведите реестр, выделяйте время, приоритизируйте по impact."
+      },
+      {
+        "title": "Коммуникация",
+        "text": "Объясняйте бизнесу языком: «если не сделаем X, время на Y вырастет на Z%»."
+      }
+    ],
+    "pitfalls": [
+      "«Мы всегда погашаем tech debt» без конкретного процесса",
+      "Не измерять impact",
+      "Пытаться погасить весь долг сразу",
+      "Не коммуницировать с бизнесом"
+    ],
+    "followUps": [
+      "Как вы рефакторите legacy код?",
+      "Как балансируете фичи и tech debt?",
+      "Как убеждаете менеджмент выделить время на refactoring?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend-разработчик",
+      "Backend-разработчик",
+      "Tech Lead",
+      "Engineering Manager"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Управление",
+    "tags": [
+      "Management",
+      "Tech Debt",
+      "Architecture"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
       }
     ],
     "videoFrequency": 0
@@ -8180,6 +8808,136 @@
     "videoFrequency": 0
   },
   {
+    "id": "tbank-system-design-caching",
+    "title": "Спроектируйте кеш для продукта с высоким трафиком",
+    "aliases": [],
+    "answer": "Многоуровневый кеш: CDN (статика) → Application Cache (in-memory LRU) → Redis (distributed) → Database. Стратегии: Cache-Aside (lazy loading), Write-Through (синхронная запись), Write-Behind (асинхронная). Инвалидация через events (TTL + pub/sub). Проблема: cache stampede — решаем через lock/cross-request deduplication.",
+    "exampleAnswer": "Многоуровневый кеш: CDN для статики, in-memory LRU для горячих данных (TTL 5мин), Redis для распределённого кеша (TTL 30мин), DB как fallback. Cache-Aside: сначала кеш, потом DB. Инвалидация: TTL + Redis pub/sub при записи. Cache stampede: lock через SETNX + exponential backoff.",
+    "context": "Системный дизайн для финтех с высоким трафиком: производительность vs consistency.",
+    "keyPoints": [
+      {
+        "title": "Уровни кеша",
+        "text": "CDN → In-Memory → Redis → DB. Чем выше — тем быстрее и менее свежие данные."
+      },
+      {
+        "title": "Стратегии",
+        "text": "Cache-Aside (простой), Write-Through (consistency), Write-Behind (performance)."
+      },
+      {
+        "title": "Инвалидация",
+        "text": "TTL + pub/sub + версионирование."
+      }
+    ],
+    "pitfalls": [
+      "Один уровень кеша",
+      "Без инвалидации (stale data)",
+      "Cache stampede без защиты",
+      "Не учитывать一致性 vs availability"
+    ],
+    "followUps": [
+      "Как тестируете кеш?",
+      "Что если Redis недоступен?",
+      "Как измеряете cache hit ratio?"
+    ],
+    "category": "System Design",
+    "scope": "system-design",
+    "languages": [
+      "Java",
+      "Go"
+    ],
+    "roles": [
+      "Backend-разработчик",
+      "Tech Lead"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "System Design",
+      "Caching",
+      "Redis",
+      "CDN"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-system-design-notification",
+    "title": "Спроектируйте систему уведомлений для банка",
+    "aliases": [],
+    "answer": "Используйте event-driven архитектуру: источник событий → Kafka → Notification Service → каналы (push, SMS, email). Гарантия доставки через outbox pattern + retry с exponential backoff. Приоритизация: критические (OTP) → важные (платежи) → маркетинг. Идемпотентность через message ID.",
+    "exampleAnswer": "Event-driven: событие (платеж, OTP) попадает в Kafka. Notification Service потребляет, определяет канал и приоритет. Critical (OTP) — отдельная очередь, гарантированная доставка. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Мониторинг: latency, delivery rate, error rate.",
+    "context": "Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация.",
+    "keyPoints": [
+      {
+        "title": "Архитектура",
+        "text": "Event Source → Kafka → Notification Service → Multi-channel delivery."
+      },
+      {
+        "title": "Гарантии",
+        "text": "Outbox pattern, retry, idempotency, dead letter queue."
+      },
+      {
+        "title": "Приоритизация",
+        "text": "Критические уведомления — отдельная очередь с гарантированной доставкой."
+      }
+    ],
+    "pitfalls": [
+      "Синхронная отправка (блокирует источник)",
+      "Без retry — потеря уведомлений",
+      "Без приоритизации — OTP ждут вместе с маркетингом",
+      "Без мониторинга — незаметные сбои"
+    ],
+    "followUps": [
+      "Как обрабатываете отказ канала (SMS недоступен)?",
+      "Как масштабируете при 10M уведомлений в день?",
+      "Как тестируете system design?"
+    ],
+    "codeSnippet": "// Outbox pattern —保证Delivery\n@Entity\nclass OutboxEvent {\n    String eventType;\n    String payload;\n    String status; // PENDING, SENT, FAILED\n    int retryCount;\n}\n\n// Retry с exponential backoff\n@Scheduled(fixedDelay = 1000)\npublic void retryPending() {\n    List<OutboxEvent> pending = outboxRepo.findByStatus(\"PENDING\");\n    for (OutboxEvent event : pending) {\n        try {\n            sendNotification(event);\n            event.setStatus(\"SENT\");\n        } catch (Exception e) {\n            event.setRetryCount(event.getRetryCount() + 1);\n            if (event.getRetryCount() > MAX_RETRIES) {\n                event.setStatus(\"FAILED\");\n            }\n        }\n        outboxRepo.save(event);\n    }\n}",
+    "codeLanguage": "java",
+    "category": "System Design",
+    "scope": "system-design",
+    "languages": [
+      "Java",
+      "Kotlin"
+    ],
+    "roles": [
+      "Backend-разработчик",
+      "Tech Lead"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "System Design",
+      "Notifications",
+      "Distributed",
+      "Reliability"
+    ],
+    "duration": "25 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-system-design-payment",
     "title": "Спроектируйте систему уведомлений для платёжной платформы на миллионы пользователей",
     "aliases": [],
@@ -8241,6 +8999,71 @@
     ],
     "duration": "60 мин",
     "difficulty": 5,
+    "sources": [
+      {
+        "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "tbank-system-design-rate-limiter",
+    "title": "Спроектируйте rate limiter для API банка",
+    "aliases": [],
+    "answer": "Token Bucket для client-side, Sliding Window для server-side. Хранение: Redis с Lua-скриптом для атомарности. Ключи: user_id + endpoint. Лимиты: per-user, per-endpoint, global. При превышении — 429 Retry-After.",
+    "exampleAnswer": "Token Bucket: каждый пользователь получает N токенов в секунду. Токены хранятся в Redis, декремент атомарный через Lua. Если токенов нет — 429 + Retry-After. Для глобального лимита — отдельный ключ. Для распределённых систем — consistent hashing по user_id на один Redis-шард.",
+    "context": "Системный дизайн для финтех-API: защита от abuse, fair usage, DDoS.",
+    "keyPoints": [
+      {
+        "title": "Алгоритмы",
+        "text": "Token Bucket (популярный, гибкий), Sliding Window (точный), Fixed Window (простой)."
+      },
+      {
+        "title": "Хранение",
+        "text": "Redis + Lua для атомарных операций."
+      },
+      {
+        "title": "Лимиты",
+        "text": "Per-user, per-IP, per-endpoint, global."
+      }
+    ],
+    "pitfalls": [
+      "Race condition без Lua",
+      "Один лимит на всех",
+      "Без Retry-After заголовка",
+      "Не учитывать распределённость"
+    ],
+    "followUps": [
+      "Как масштабируете Redis?",
+      "Как тестируете rate limiter?",
+      "Что если Redis упал?"
+    ],
+    "codeSnippet": "// Token Bucket в Redis (Lua)\nlocal tokens = redis.call('GET', KEYS[1]) or ARGV[1]\nif tonumber(tokens) > 0 then\n    redis.call('DECR', KEYS[1])\n    return 1\nelse\n    return 0\nend",
+    "codeLanguage": "go",
+    "category": "System Design",
+    "scope": "system-design",
+    "languages": [
+      "Go",
+      "Java"
+    ],
+    "roles": [
+      "Backend-разработчик"
+    ],
+    "companies": [
+      "Т-Банк"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "System Design",
+      "Rate Limiting",
+      "API",
+      "Distributed"
+    ],
+    "duration": "20 мин",
+    "difficulty": 4,
     "sources": [
       {
         "company": "Т-Банк",
@@ -8596,6 +9419,137 @@
     "sources": [
       {
         "company": "Т-Банк",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ue-blueprints-vs-cpp",
+    "title": "Blueprints vs C++ — когда что использовать?",
+    "aliases": [],
+    "answer": "C++ — для производительности, низкоуровневой логики, работы с памятью, сетевого кода, AI-систем. Blueprints — для быстрого прототипирования, визуальной логики, анимаций, UI-событий, настройки параметров дизайнерам. Оптимальный подход: C++ как базовый класс, Blueprints как наследники с визуальной доработкой.",
+    "exampleAnswer": "C++ используем для тяжёлой логики — физика, AI, сеть, память. Blueprints — для дизайн-логики, прототипов, UI. Лучшая практика: C++ базовый класс с UFUNCTION(BlueprintImplementableEvent), а Blueprint наследник переопределяет визуально. Это даёт производительность C++ и скорость итераций Blueprints. Нельзя вызывать C++ из Blueprint напрямую — только через UFUNCTION(BlueprintCallable).",
+    "context": "Вопрос о архитектурном выборе: понимает ли кандидат компромиссы двух подходов.",
+    "keyPoints": [
+      {
+        "title": "Когда C++",
+        "text": "Высокая производительность (Tick, физика), работа с памятью, нативные плагины, серверный код, криптография, complex algorithms."
+      },
+      {
+        "title": "Когда Blueprints",
+        "text": "Прототипирование, визуальные эффекты, UI-события, анимации, дизайн-параметры, быстрые итерации без перекомпиляции."
+      },
+      {
+        "title": "Микс",
+        "text": "C++ базовый класс + Blueprint наследник = лучшее из обоих миров."
+      }
+    ],
+    "pitfalls": [
+      "Вся логика в Blueprints — медленно, сложно дебажить",
+      "Вся логика в C++ — долго итерироваться, дизайнеры не могут настраивать",
+      "Blueprint-спагетти: 50+ нод без структуры",
+      "Не использовать C++ для частых вызовов (Tick каждый кадр)"
+    ],
+    "followUps": [
+      "Как дебажить Blueprints?",
+      "Как оптимизировать Blueprint-ноды?",
+      "Что такое Blueprint Nativization?"
+    ],
+    "codeSnippet": "// Базовый класс в C++\nUCLASS(Blueprintable)\nclass AMyCharacter : public ACharacter {\n    GENERATED_BODY()\npublic:\n    UFUNCTION(BlueprintImplementableEvent)\n    void OnDamageTaken(float Damage);\n};\n\n// Blueprint наследует и переопределяет OnDamageTaken",
+    "codeLanguage": "cpp",
+    "category": "Game Development",
+    "scope": "game-dev",
+    "languages": [
+      "C++",
+      "Blueprint"
+    ],
+    "roles": [
+      "Game Developer",
+      "C++ Developer"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое интервью",
+    "tags": [
+      "Unreal Engine",
+      "Blueprints",
+      "C++",
+      "Architecture"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ue-gc-uobject",
+    "title": "Как работает сборка мусора (GC) в Unreal Engine?",
+    "aliases": [],
+    "answer": "UE использует mark-and-sweep GC для UObject. Объекты создаются через NewObject/UObject::Create, автоматически регистрируются в GC. Сборка запускается по таймеру (по умолчанию ~60 сек или при нехватке памяти). Reachable-объекты (из корневых указателей GUObjectArray) остаются, остальные удаляются. Указатели хранятся как UObject* (сильные) и TWeakObjectPtr (слабые).",
+    "exampleAnswer": "GC в UE работает через mark-and-sweep: есть корневые объекты (мир,引擎, активоры), из них рекурсивно помечаются все достижимые UObject. Непомеченные удаляются. Сборка запускается примерно раз в 60 секунд или по требованию. Важно понимать разницу между UObject* (сильная), TWeakObjectPtr (слабая, обнуляется) и TSoftObjectPtr (ленивая загрузка). Для кастомных указателей нужно переопределять AddReferencedObjects.",
+    "context": "GC — ключевая тема для UE-разработчиков: неправильное управление памятью вызывает утечки и краши.",
+    "keyPoints": [
+      {
+        "title": "Механизм",
+        "text": "UE GC — поколенческий mark-and-sweep. Корневые объекты (GWorld, GEngine, активоры в уровне) помечаются как reachable. Рекурсивно помечаются все объекты, на которые они ссылаются. Непомеченные удаляются."
+      },
+      {
+        "title": "Тайминг",
+        "text": "GC запускается каждые ~60 сек (настраивается через `gc.TimeBetweenPurgingPendingKillObjects`). Также принудительно при `ForceGarbageCollection()`."
+      },
+      {
+        "title": "Типы указателей",
+        "text": "- `UObject*` — сильная ссылка, объект не удаляется\n- `TWeakObjectPtr` — слабая, обнуляется при удалении объекта\n- `TSoftObjectPtr` — ленивая загрузка, не держит в памяти"
+      }
+    ],
+    "pitfalls": [
+      "Хранить UObject* в TSharedPtr — двойное управление памятью, крашит",
+      "Забыть обнулить указатель после удаления объекта",
+      "Не вызывать AddReferencedObjects для кастомных GC-корней",
+      "Держать сильные ссылки в цикле (objA→objB→objA)"
+    ],
+    "followUps": [
+      "Как работает предзагрузка (streaming) уровней?",
+      "В чём разница между UPROPERTY и UPROPERTY()?",
+      "Как измерить потребление памяти в UE?"
+    ],
+    "codeSnippet": "// Создание объекта через GC\nUObject* Obj = NewObject<UMyClass>(GetOuter());\n\n// Слабая ссылка\nTWeakObjectPtr<UObject> WeakRef = Obj;\n\n// Принудительная сборка мусора\nGEngine->ForceGarbageCollection(true);\n\n// Проверка валидности слабой ссылки\nif (WeakRef.IsValid()) {\n    // Объект жив\n}",
+    "codeLanguage": "cpp",
+    "category": "C++",
+    "scope": "game-dev",
+    "languages": [
+      "C++"
+    ],
+    "roles": [
+      "Game Developer",
+      "C++ Developer"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое интервью",
+    "tags": [
+      "Unreal Engine",
+      "GC",
+      "Memory",
+      "UObject"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
         "url": "",
         "type": "aggregated"
       }

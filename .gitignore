@@ -5,3 +5,4 @@ dist
 .env
 *.log
 docker-compose.override.yml
+.env
