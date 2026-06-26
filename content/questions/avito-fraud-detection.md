@@ -1,6 +1,6 @@
 ---
 id: avito-fraud-detection
-title: как Avito борётся с мошенничеством на площадке?
+title: Как Avito борётся с мошенничеством на площадке?
 category: System Design
 scope: universal
 languages: []

@@ -1,6 +1,6 @@
 ---
 id: vk-ads-platform
-title: как VK строит рекламную платформу?
+title: Как VK строит рекламную платформу?
 category: System Design
 scope: universal
 languages: []

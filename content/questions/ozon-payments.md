@@ -1,6 +1,6 @@
 ---
 id: ozon-payments
-title: как Ozon обрабатывает платежи и возвраты?
+title: Как Ozon обрабатывает платежи и возвраты?
 category: System Design
 scope: universal
 languages: []

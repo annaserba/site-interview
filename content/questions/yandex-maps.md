@@ -1,6 +1,6 @@
 ---
 id: yandex-maps
-title: как Яндекс строит навигатор и карты?
+title: Как Яндекс строит навигатор и карты?
 category: System Design
 scope: universal
 languages: []

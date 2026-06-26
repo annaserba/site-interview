@@ -1,6 +1,6 @@
 ---
 id: tbank-hr-strengths-weaknesses
-title: назовите ваши сильные и слабые стороны
+title: Назовите ваши сильные и слабые стороны
 category: Behavioral
 scope: universal
 languages: []

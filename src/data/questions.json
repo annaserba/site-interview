@@ -144,7 +144,7 @@
   },
   {
     "id": "avito-fraud-detection",
-    "title": "как Avito борётся с мошенничеством на площадке?",
+    "title": "Как Avito борётся с мошенничеством на площадке?",
     "aliases": [],
     "answer": "Fraud detection: ML models (anomaly detection), rules engine, user verification, content moderation. Ключевые: real-time scoring, false positive balancing, seller reputation.",
     "exampleAnswer": "Listing: iPhone за 1000₽ (anomaly: too cheap) → fraud score 0.9 → flag. User behavior: new account, bulk listings → risk score. Rules: electronics category → additional verification.",
@@ -460,7 +460,7 @@
   },
   {
     "id": "avito-moderation",
-    "title": "как Avito модерирует контент на площадке?",
+    "title": "Как Avito модерирует контент на площадке?",
     "aliases": [],
     "answer": "Content moderation: automated ML (text, images, video), rules engine, human review. Ключевые: scale (millions listings), accuracy, speed.",
     "exampleAnswer": "Listing: text contains \"garant\" → spam score 0.9 → auto-block. Image: nudity detected → block. Uncertain: human reviewer → approve/block → feedback to ML.",
@@ -3522,76 +3522,6 @@
       }
     ],
     "videoFrequency": 0
-  },
-  {
-    "id": "frontend-cors",
-    "title": "Что такое CORS?",
-    "aliases": [],
-    "answer": "CORS — HTTP-механизм, через который сервер разрешает браузеру читать cross-origin response. Same-origin policy применяется браузером; сервер не «блокирует CORS». Для non-simple запроса браузер отправляет preflight `OPTIONS`, проверяя origin, method и headers. При credentials нельзя использовать wildcard origin: сервер должен вернуть конкретный Origin, `Access-Control-Allow-Credentials: true` и корректный `Vary: Origin`.",
-    "exampleAnswer": "CORS (Cross-Origin Resource Sharing) — механизм безопасности браузера, который блокирует запросы с другого origin (домена, порта, протокола). CORS работает через HTTP-заголовки: сервер отправляет Access-Control-Allow-Origin, Access-Control-Allow-Methods и т.д. Preflight (OPTIONS) запрос проверяет, разрешён ли CORS для сложных запросов. Пример:\n\n```javascript\napp.use(cors({\n  origin: 'https://mysite.com',\n  methods: ['GET', 'POST'],\n  credentials: true\n}));\n```\n\nНа практике: CORS настраивается на сервере. Типичные проблемы: Access-Control-Allow-Origin не может быть * при credentials: true. Решение — proxy на бэкенде или API gateway.",
-    "context": "Нужно отличать CORS от CSRF, аутентификации и сетевого контроля доступа.",
-    "keyPoints": [
-      {
-        "title": "Определить origin",
-        "text": "Origin образуют scheme, host и port. Разные subdomain или port уже являются cross-origin."
-      },
-      {
-        "title": "Объяснить preflight",
-        "text": "Браузер кеширует разрешение на ограниченное время; фактический запрос отправляется только после успешной проверки."
-      },
-      {
-        "title": "Указать границы безопасности",
-        "text": "CORS не мешает curl или серверу отправить запрос и не защищает от CSRF; для cookies нужны SameSite, CSRF token и проверка Origin."
-      }
-    ],
-    "pitfalls": [
-      "Добавлять `Access-Control-Allow-Origin` в request.",
-      "Использовать `*` вместе с credentials.",
-      "Считать CORS механизмом авторизации API."
-    ],
-    "followUps": [
-      "Какие запросы считаются simple?",
-      "Зачем нужен `Vary: Origin`?",
-      "Чем CORS отличается от CSRF?"
-    ],
-    "codeSnippet": "// CORS: browser enforces Same-Origin Policy via HTTP headers\n// Server must explicitly allow cross-origin reads\n\n// Simple request (GET, HEAD, POST with safe headers) → no preflight\nfetch('https://api.other.com/data', {\n  method: 'GET',\n  credentials: 'include', // sends cookies\n});\n\n// Non-simple request → browser sends OPTIONS preflight first\nfetch('https://api.other.com/data', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json', 'X-Custom': 'yes' },\n  body: JSON.stringify({ key: 'value' }),\n});\n\n// Server response headers needed:\n// Access-Control-Allow-Origin: https://mysite.com\n// Access-Control-Allow-Methods: GET, POST, PUT\n// Access-Control-Allow-Headers: Content-Type, X-Custom\n// Access-Control-Allow-Credentials: true\n// Access-Control-Max-Age: 86400 (cache preflight result)\n\n// Node/Express example\n// app.use(cors({\n//   origin: 'https://mysite.com',\n//   methods: ['GET', 'POST'],\n//   credentials: true\n// }));",
-    "codeLanguage": "typescript",
-    "category": "Web Platform",
-    "scope": "multi-language",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [
-      "Wildberries",
-      "Т-Банк"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "CORS",
-      "HTTP",
-      "Security"
-    ],
-    "duration": "12 мин",
-    "difficulty": 4,
-    "sources": [
-      {
-        "company": "Т-Банк",
-        "url": "",
-        "type": "candidate-report"
-      },
-      {
-        "company": "Wildberries",
-        "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1451s",
-        "type": "youtube"
-      }
-    ],
-    "videoFrequency": 1
   },
   {
     "id": "frontend-css-sass-file-size",
@@ -10560,7 +10490,7 @@
   },
   {
     "id": "okko-content-delivery",
-    "title": "как Okko оптимизирует доставку контента пользователям?",
+    "title": "Как Okko оптимизирует доставку контента пользователям?",
     "aliases": [],
     "answer": "Content delivery: CDN (edge locations), adaptive streaming (HLS/DASH), prefetching, device optimization. Ключевые: minimize latency, maximize quality, reduce buffering.",
     "exampleAnswer": "CDN: user in Moscow → edge server Moscow → 10ms latency. Adaptive: 100 Mbps → 4K, 10 Mbps → 720p. Prefetch: user watching episode 1 → preload episode 2.",
@@ -12465,7 +12395,7 @@
   },
   {
     "id": "ozon-payments",
-    "title": "как Ozon обрабатывает платежи и возвраты?",
+    "title": "Как Ozon обрабатывает платежи и возвраты?",
     "aliases": [],
     "answer": "Payments: payment processing, escrow, seller payouts, refunds, fraud prevention. Ключевые: security (PCI DSS), reliability, reconciliation.",
     "exampleAnswer": "Order: buyer pays 5000₽ → escrow → seller ships → delivery confirmed → release to seller (minus commission). Refund: buyer returns → inspect → refund. Reconciliation: daily batch с bank.",
@@ -12524,7 +12454,7 @@
   },
   {
     "id": "ozon-personalization",
-    "title": "как Ozon персонализирует пользовательский опыт?",
+    "title": "Как Ozon персонализирует пользовательский опыт?",
     "aliases": [],
     "answer": "Персонализация: user behavior tracking, ML recommendations, dynamic pricing, personalized search. Ключевые: real-time processing, A/B testing, privacy compliance.",
     "exampleAnswer": "User viewed shoes → ML: recommend similar shoes + accessories. Dynamic pricing: high demand → price adjustment. Personalized search: \"phone\" → show phones user's brand preference.",
@@ -13394,7 +13324,7 @@
   },
   {
     "id": "sber-chatbot",
-    "title": "как Сбер строит AI-чатботы для банковских сервисов?",
+    "title": "Как Сбер строит AI-чатботы для банковских сервисов?",
     "aliases": [],
     "answer": "AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,安全保障. Ключевые: точность распознавания, безопасность, compliance.",
     "exampleAnswer": "User: \"Переведи 1000₽ на карту 1234\" → intent: transfer, amount: 1000, card: 1234. Bot: \"Подтвердите перевод 1000₽ на карту ****1234?\" → user: \"Да\" → execute transfer.",
@@ -13882,7 +13812,7 @@
   },
   {
     "id": "sber-payments",
-    "title": "как Сбер обеспечивает безопасность онлайн-платежей?",
+    "title": "Как Сбер обеспечивает безопасность онлайн-платежей?",
     "aliases": [],
     "answer": "Безопасность платежей: tokenization, 3D Secure, fraud detection, encryption, PCI DSS compliance. Ключевые: real-time fraud scoring, secure authentication.",
     "exampleAnswer": "Payment: card data → tokenization → 3DS2 authentication → fraud score 0.1 → approve. Token: replace card number → secure storage. 3DS: risk-based → frictionless для trusted devices.",
@@ -15537,7 +15467,7 @@
   },
   {
     "id": "tbank-hr-strengths-weaknesses",
-    "title": "назовите ваши сильные и слабые стороны",
+    "title": "Назовите ваши сильные и слабые стороны",
     "aliases": [],
     "answer": "Сильные — конкретный навык + пример: «React Performance — оптимизировал SPA, снизил FCP на 40%». Слабые — реальная, но управляемая: «иногда перфекционизм — научился выставлять timebox».",
     "exampleAnswer": "Сильная сторона: оптимизация производительности — на прошлом проекте снизил FCP с 4.2с до 1.8с через code splitting и lazy loading. Слабая: иногда слишком углубляюсь в детали — научился ставить timebox на исследование (максимум 2 часа), потом принимаю решение.",
@@ -19738,7 +19668,7 @@
   },
   {
     "id": "vk-ads-platform",
-    "title": "как VK строит рекламную платформу?",
+    "title": "Как VK строит рекламную платформу?",
     "aliases": [],
     "answer": "Ads platform: targeting (user segments), bidding (auction), ad serving, conversion tracking, reporting. Ключевые: real-time bidding, relevance scoring, budget optimization.",
     "exampleAnswer": "Advertiser: target \"мужчины 25-35, интересы: technology\". User visits → auction → bid $0.50 → relevance score 0.8 → win → show ad. Conversion tracking: click → purchase → report.",
@@ -20629,7 +20559,7 @@
   },
   {
     "id": "wildberries-seller-tools",
-    "title": "какие инструменты Wildberries предоставляет продавцам?",
+    "title": "Какие инструменты Wildberries предоставляет продавцам?",
     "aliases": [],
     "answer": "Seller tools: analytics dashboard, inventory management, pricing tools, advertising, order processing. Ключевые: real-time data, actionable insights, automation.",
     "exampleAnswer": "Dashboard: sales today: 50 orders, revenue: 150,000₽. Analytics: conversion 3%, average order 3,000₽. Inventory: 3 items low stock → alert. Pricing: competitor sold for less → adjust.",
@@ -21437,7 +21367,7 @@
   },
   {
     "id": "yandex-maps",
-    "title": "как Яндекс строит навигатор и карты?",
+    "title": "Как Яндекс строит навигатор и карты?",
     "aliases": [],
     "answer": "Яндекс Карты: GPS tracking, route calculation (Dijkstra/A*), traffic prediction (ML), POI search. Ключевые: real-time traffic, route optimization, offline maps.",
     "exampleAnswer": "Route: from A to B → graph search →考虑 traffic → optimal route. Traffic: GPS data от millions users → ML prediction → \"пробки через 20 минут\". Offline: vector tiles → compressed maps.",

@@ -1,6 +1,6 @@
 ---
 id: wildberries-seller-tools
-title: какие инструменты Wildberries предоставляет продавцам?
+title: Какие инструменты Wildberries предоставляет продавцам?
 category: System Design
 scope: universal
 languages: []

@@ -1,6 +1,6 @@
 ---
 id: ozon-personalization
-title: как Ozon персонализирует пользовательский опыт?
+title: Как Ozon персонализирует пользовательский опыт?
 category: System Design
 scope: universal
 languages: []

@@ -1,6 +1,6 @@
 ---
 id: okko-content-delivery
-title: как Okko оптимизирует доставку контента пользователям?
+title: Как Okko оптимизирует доставку контента пользователям?
 category: System Design
 scope: universal
 languages: []

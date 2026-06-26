@@ -1,6 +1,6 @@
 ---
 id: avito-moderation
-title: как Avito модерирует контент на площадке?
+title: Как Avito модерирует контент на площадке?
 category: System Design
 scope: universal
 languages: []

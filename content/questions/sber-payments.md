@@ -1,6 +1,6 @@
 ---
 id: sber-payments
-title: как Сбер обеспечивает безопасность онлайн-платежей?
+title: Как Сбер обеспечивает безопасность онлайн-платежей?
 category: System Design
 scope: universal
 languages: []

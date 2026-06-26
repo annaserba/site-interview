@@ -1,6 +1,6 @@
 ---
 id: sber-chatbot
-title: как Сбер строит AI-чатботы для банковских сервисов?
+title: Как Сбер строит AI-чатботы для банковских сервисов?
 category: System Design
 scope: universal
 languages: []
