@@ -102,7 +102,15 @@
 .section-heading h2 { font-size: clamp(42px, 5vw, 67px); letter-spacing: -.055em; margin: 11px 0 6px; line-height: .98; font-weight: 700; }
 .section-heading p { color: var(--muted); font-size: 13px; margin: 0; }
 
-.filters { display: flex; gap: 10px; width: 100%; overflow-x: auto; padding-bottom: 3px; flex-wrap: wrap; align-items: stretch; }
+.filters { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.filters-row { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; align-items: stretch; }
+.type-pills { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.type-label { font: 7px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; color: #92938d; margin-right: 4px; }
+.type-pill { padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.08); background: var(--surface); font-size: 11px; font-weight: 500; color: #555; cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; }
+.type-pill:hover { border-color: rgba(0,0,0,0.15); background: rgba(0,0,0,0.02); }
+.type-pill.active { background: var(--ink); color: white; border-color: var(--ink); }
+.type-pill-select { padding: 6px 12px; border-radius: 20px; border: 1px dashed rgba(0,0,0,0.12); background: transparent; font-size: 10px; font-weight: 500; color: #999; cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; }
+.type-pill-select:hover { border-color: rgba(0,0,0,0.2); color: #555; }
 
 .question-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .question-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 16px 20px 0; min-height: 0; transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-out), border-color .25s var(--ease-out); display: flex; flex-direction: column; }
@@ -185,7 +193,8 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   .company-row { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
   .question-section { padding: 105px 5.5vw 115px; }
   .section-heading { flex-direction: row; align-items: flex-end; }
-  .filters { width: auto; overflow-x: visible; padding-bottom: 0; flex-wrap: wrap; }
+  .filters { width: auto; overflow-x: visible; padding-bottom: 0; }
+  .filters-row { flex-wrap: nowrap; }
   .question-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .question-card { padding: 16px 20px 0; }
   .card-footer { gap: 10px; height: 40px; }

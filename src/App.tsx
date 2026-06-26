@@ -246,36 +246,41 @@ function App() {
               <p>Восстановлены кандидатами после реальных интервью</p>
             </div>
             <div className={s.filters}>
-              <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
-                { value: 'Все компании', label: 'Все компании' },
-                ...companies.map((company) => ({ value: company.name, label: company.name })),
-              ]} />
-              <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
-                { value: 'Все роли', label: 'Все роли' },
-                ...roles.map((role) => ({ value: role, label: role })),
-              ]} />
-              <FilterDropdown label="Тема" value={activeTopic} onChange={setActiveTopic} options={[
-                { value: 'Все темы', label: 'Все темы' },
-                ...topicDefinitions.map((topic) => ({ value: topic.id, label: topic.label })),
-              ]} />
-              <FilterDropdown label="Сортировка" value={sortMode} onChange={setSortMode} options={[
-                { value: 'default', label: 'По частоте (компании + видео)' },
-                { value: 'difficulty-desc', label: 'Сложные сначала' },
-                { value: 'difficulty-asc', label: 'Простые сначала' },
-                { value: 'company', label: 'По компании' },
-                { value: 'title', label: 'По названию' },
-              ]} />
-              <FilterDropdown label="Тип вопросов" value="" multiple
-                selected={[...activeTypes]}
-                onToggle={(val) => {
-                  setActiveTypes(prev => {
-                    const next = new Set(prev)
-                    if (next.has(val)) next.delete(val)
-                    else next.add(val)
-                    return next
-                  })
-                }}
-                options={questionTypeDefinitions} />
+              <div className={s['filters-row']}>
+                <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
+                  { value: 'Все компании', label: 'Все компании' },
+                  ...companies.map((company) => ({ value: company.name, label: company.name })),
+                ]} />
+                <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
+                  { value: 'Все роли', label: 'Все роли' },
+                  ...roles.map((role) => ({ value: role, label: role })),
+                ]} />
+                <FilterDropdown label="Тема" value={activeTopic} onChange={setActiveTopic} options={[
+                  { value: 'Все темы', label: 'Все темы' },
+                  ...topicDefinitions.map((topic) => ({ value: topic.id, label: topic.label })),
+                ]} />
+                <FilterDropdown label="Сортировка" value={sortMode} onChange={setSortMode} options={[
+                  { value: 'default', label: 'По частоте' },
+                  { value: 'difficulty-desc', label: 'Сложные' },
+                  { value: 'difficulty-asc', label: 'Простые' },
+                  { value: 'company', label: 'По компании' },
+                  { value: 'title', label: 'По названию' },
+                ]} />
+              </div>
+              <div className={s['filters-row']}>
+                <div className={s['type-pills']}>
+                  <span className={s['type-label']}>Тип</span>
+                  {questionTypeDefinitions.map((type) => (
+                    <button key={type.id} className={`${s['type-pill']} ${activeTypes.has(type.id) ? s.active : ''}`}
+                      onClick={() => { setActiveTypes(prev => { const next = new Set(prev); if (next.has(type.id)) next.delete(type.id); else next.add(type.id); return next }) }}>
+                      {type.label}
+                    </button>
+                  ))}
+                  <button className={s['type-pill-select']} onClick={() => { setActiveTypes(prev => prev.size === questionTypeDefinitions.length ? new Set() : new Set(questionTypeDefinitions.map(t => t.id))) }}>
+                    {activeTypes.size === questionTypeDefinitions.length ? 'Снять все' : 'Все'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
