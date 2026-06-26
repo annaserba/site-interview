@@ -1,5 +1,7 @@
 import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Code2, ExternalLink, Layers3, ShieldAlert, Users } from 'lucide-react'
 import { useEffect, useRef } from 'react'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-typescript'
 import 'prismjs/components/prism-javascript'
@@ -13,72 +15,6 @@ import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-go'
 import type { Question } from './types'
 import s from './QuestionDetail.module.css'
-
-function renderMarkdown(text: string): string {
-  // First handle code blocks
-  let result = text.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    return `<pre><code class="language-${lang || 'text'}">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`
-  })
-  
-  // Handle inline code (before other formatting to avoid conflicts)
-  result = result.replace(/`([^`]+)`/g, '<code class="inline">$1</code>')
-  
-  // Handle bold and italic
-  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-  result = result.replace(/\*(.+?)\*/g, '<em>$1</em>')
-  
-  // Process lines
-  const lines = result.split('\n')
-  let html = ''
-  let inList = false
-  let inPre = false
-  let listType = 'ul'
-  
-  for (const line of lines) {
-    // Skip processing inside pre blocks
-    if (line.includes('<pre>')) { inPre = true; html += line; continue }
-    if (line.includes('</pre>')) { inPre = false; html += line; continue }
-    if (inPre) { html += line; continue }
-    
-    // Check for list items
-    const bulletMatch = line.match(/^[-*]\s+(.+)/)
-    const numberedMatch = line.match(/^\d+\.\s+(.+)/)
-    
-    if (bulletMatch) {
-      if (!inList || listType !== 'ul') {
-        if (inList) html += `</${listType}>`
-        html += '<ul>'
-        inList = true
-        listType = 'ul'
-      }
-      html += `<li>${bulletMatch[1]}</li>`
-    } else if (numberedMatch) {
-      if (!inList || listType !== 'ol') {
-        if (inList) html += `</${listType}>`
-        html += '<ol>'
-        inList = true
-        listType = 'ol'
-      }
-      html += `<li>${numberedMatch[1]}</li>`
-    } else {
-      if (inList) {
-        html += `</${listType}>`
-        inList = false
-      }
-      const trimmed = line.trim()
-      if (trimmed) {
-        // Don't wrap pre/code tags in p
-        if (trimmed.startsWith('<pre>') || trimmed.startsWith('</pre>')) {
-          html += trimmed
-        } else {
-          html += `<p>${trimmed}</p>`
-        }
-      }
-    }
-  }
-  if (inList) html += `</${listType}>`
-  return html
-}
 
 type QuestionDetailProps = { question: Question; onBack: () => void }
 
@@ -125,9 +61,10 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current)
     }
-    document.querySelectorAll('pre code').forEach((el) => {
-      if (!el.classList.length || el.querySelector('.token')) return
-      Prism.highlightElement(el as HTMLElement)
+    document.querySelectorAll('.example-answer-body pre code').forEach((el) => {
+      if (!el.querySelector('.token')) {
+        Prism.highlightElement(el as HTMLElement)
+      }
     })
   })
 
@@ -193,7 +130,9 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
               <span className={s['detail-index']}>04</span>
               <div className={s['example-answer']}>
                 <div className={s['example-answer-head']}><BookOpen size={17} /><span>Пример ответа</span></div>
-                <div className={s['example-answer-body']} dangerouslySetInnerHTML={{ __html: renderMarkdown(question.exampleAnswer) }} />
+                <div className={s['example-answer-body']}>
+                  <Markdown remarkPlugins={[remarkGfm]}>{question.exampleAnswer}</Markdown>
+                </div>
               </div>
             </section>
           )}
