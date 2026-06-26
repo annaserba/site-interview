@@ -11789,68 +11789,6 @@
     "videoFrequency": 2
   },
   {
-    "id": "okko-throttle-debounce",
-    "title": "Реализуйте debounce и throttle с leading и trailing вызовами",
-    "aliases": [],
-    "answer": "Debounce переносит вызов до паузы, throttle ограничивает частоту в окне. Production-реализация сохраняет последние `this` и arguments, отдельно задаёт leading/trailing, предоставляет `cancel` и `flush`, очищает ссылки после выполнения. Для throttle учитывайте remaining time и планируйте trailing-вызов с последними аргументами; `Date.now()` устойчивее подсчёта числа событий.",
-    "exampleAnswer": "Debounce: вызывает функцию после того, как прошло N ms с последнего вызова. Throttle: вызывает функцию не чаще чем раз в N ms. Реализация:\n\n```javascript\nfunction debounce(fn, ms) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), ms);\n  };\n}\n\nfunction throttle(fn, ms) {\n  let last = 0;\n  return (...args) => {\n    const now = Date.now();\n    if (now - last >= ms) {\n      last = now;\n      fn(...args);\n    }\n  };\n}\n```\n\nПрименения: debounce — search input, resize handler. throttle — scroll handler, mousemove. В React: useCallback + useMemo для стабилизации функции, lodash.throttle/debounce для production.",
-    "context": "Проверяются таймеры, closure и точная семантика крайних случаев.",
-    "keyPoints": [
-      {
-        "title": "Зафиксировать контракт",
-        "text": "Leading, trailing, return value, cancel и flush."
-      },
-      {
-        "title": "Хранить состояние",
-        "text": "Timer, lastInvokeTime, lastArgs и lastThis."
-      },
-      {
-        "title": "Проверить timeline",
-        "text": "Один вызов, burst, вызов на границе и отмена."
-      }
-    ],
-    "pitfalls": [
-      "Терять последний вызов throttle.",
-      "Удерживать аргументы после завершения.",
-      "Не определить поведение одного события."
-    ],
-    "followUps": [
-      "Когда нужен `requestAnimationFrame`?",
-      "Чем debounce отличается от deferred value?"
-    ],
-    "codeSnippet": "type AnyFunction = (...args: any[]) => any\n\nfunction throttle<T extends AnyFunction>(fn: T, delay: number): T {\n  // Реализуйте leading-вызов и trailing-вызов\n  // с последними аргументами.\n}",
-    "codeLanguage": "ts",
-    "category": "JavaScript",
-    "scope": "language-specific",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [
-      "Okko"
-    ],
-    "level": "Senior",
-    "stage": "Live coding",
-    "tags": [
-      "Throttle",
-      "Debounce",
-      "Timers"
-    ],
-    "duration": "30 мин",
-    "difficulty": 4,
-    "sources": [
-      {
-        "company": "Okko",
-        "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=1740s",
-        "type": "youtube"
-      }
-    ],
-    "videoFrequency": 1
-  },
-  {
     "id": "okko-unclear-requirements",
     "title": "Как вы работаете с задачей без описания или с неполными требованиями?",
     "aliases": [
@@ -13990,62 +13928,6 @@
     "videoFrequency": 0
   },
   {
-    "id": "security-csrf",
-    "title": "Что такое CSRF и как защититься?",
-    "aliases": [],
-    "answer": "CSRF (Cross-Site Request Forgery): атакующий заставляет браузер выполнить запрос от имени пользователя. Защита: CSRF tokens, SameSite cookies, проверка Origin header.",
-    "exampleAnswer": "Attack: `<img src=\"https://bank.com/transfer?to=attacker&amount=1000\">` → browser sends cookies → bank executes transfer. Защита: CSRF token в form, сервер проверяет token. SameSite=Strict: cookies не отправляются с cross-site requests.",
-    "context": "Классическая web vulnerability. Проверяют понимание attack mechanism.",
-    "keyPoints": [
-      {
-        "title": "Механизм",
-        "text": "User logged in → visits malicious site → malicious site sends request к bank → browser sends cookies → bank thinks это user."
-      },
-      {
-        "title": "Защита",
-        "text": "CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка."
-      }
-    ],
-    "pitfalls": [
-      "Не использовать CSRF tokens",
-      "Не проверять Origin header",
-      "Не использовать SameSite cookies",
-      "Полагаться только на JavaScript"
-    ],
-    "followUps": [
-      "Как генерировать CSRF tokens?",
-      "Что такое SameSite cookie attribute?",
-      "Как CSRF связан с CORS?"
-    ],
-    "category": "Frontend Architecture",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "Security",
-      "CSRF",
-      "Web"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
     "id": "security-dependencies",
     "title": "Как проверять зависимости на уязвимости?",
     "aliases": [],
@@ -14507,62 +14389,6 @@
       "Security",
       "SQL",
       "Injection"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated"
-      }
-    ],
-    "videoFrequency": 0
-  },
-  {
-    "id": "security-xss",
-    "title": "Что такое XSS и как защититься?",
-    "aliases": [],
-    "answer": "XSS (Cross-Site Scripting): внедрение malicious scripts в страницы. Типы: Stored (в БД), Reflected (в URL), DOM-based (в клиентском коде). Защита: sanitization, CSP, escape output.",
-    "exampleAnswer": "Stored XSS: user вводит `<script>steal(cookies)</script>` в комментарий, другой user видит → cookies украдены. Защита: sanitize input (DOMPurify), escape output, CSP: `script-src 'self'`. DOM XSS: `element.innerHTML = location.hash.slice(1)` → защищаем через `textContent`.",
-    "context": "Одна из самых частых web vulnerabilities. Проверяют понимание attack vectors.",
-    "keyPoints": [
-      {
-        "title": "Типы XSS",
-        "text": "Stored: скрипт сохранён в БД, показывается всем. Reflected: скрипт в URL, execute при открытии. DOM-based: скрипт через DOM manipulation."
-      },
-      {
-        "title": "Защита",
-        "text": "Sanitize: DOMPurify, bleach. Escape: HTML entities. CSP: Content-Security-Policy header. HttpOnly cookies."
-      }
-    ],
-    "pitfalls": [
-      "Не sanitize user input",
-      "Не escape output",
-      "Не использовать CSP",
-      "innerHTML с user data"
-    ],
-    "followUps": [
-      "Как работает Content-Security-Policy?",
-      "Что такое DOMPurify?",
-      "Как связаны XSS и CSRF?"
-    ],
-    "category": "Frontend Architecture",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "Security",
-      "XSS",
-      "Frontend"
     ],
     "duration": "10 мин",
     "difficulty": 3,
