@@ -143,6 +143,66 @@
     "videoFrequency": 0
   },
   {
+    "id": "avito-fraud-detection",
+    "title": "как Avito борётся с мошенничеством на площадке?",
+    "aliases": [],
+    "answer": "Fraud detection: ML models (anomaly detection), rules engine, user verification, content moderation. Ключевые: real-time scoring, false positive balancing, seller reputation.",
+    "exampleAnswer": "Listing: iPhone за 1000₽ (anomaly: too cheap) → fraud score 0.9 → flag. User behavior: new account, bulk listings → risk score. Rules: electronics category → additional verification.",
+    "context": "Критически важно для доверия к площадке. Проверяют понимание fraud prevention.",
+    "keyPoints": [
+      {
+        "title": "ML models",
+        "text": "Anomaly detection: unusual patterns. Classification: fraud vs legitimate. Features: listing patterns, user behavior."
+      },
+      {
+        "title": "Rules engine",
+        "text": "Business rules: price thresholds, category restrictions. Whitelists, blacklists."
+      },
+      {
+        "title": "User verification",
+        "text": "Identity verification. Phone/email verification. Seller reputation scoring."
+      }
+    ],
+    "pitfalls": [
+      "Слишком строгие правила (block legitimate)",
+      "Игнорировать false positives",
+      "Не обновлять ML models",
+      "Не мониторить fraud patterns"
+    ],
+    "followUps": [
+      "How to build fraud detection ML model?",
+      "What is anomaly detection?",
+      "Как балансировать fraud prevention и UX?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Security",
+      "Fraud",
+      "Marketplace"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "avito-inverted-index-search",
     "title": "Как устроен полнотекстовый поиск и зачем Avito использует Elasticsearch?",
     "aliases": [],
@@ -330,6 +390,66 @@
     ],
     "duration": "15 мин",
     "difficulty": 5,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "avito-moderation",
+    "title": "как Avito модерирует контент на площадке?",
+    "aliases": [],
+    "answer": "Content moderation: automated ML (text, images, video), rules engine, human review. Ключевые: scale (millions listings), accuracy, speed.",
+    "exampleAnswer": "Listing: text contains \"garant\" → spam score 0.9 → auto-block. Image: nudity detected → block. Uncertain: human reviewer → approve/block → feedback to ML.",
+    "context": "Ключевой для trust and safety. Проверяют понимание moderation system.",
+    "keyPoints": [
+      {
+        "title": "Automated moderation",
+        "text": "ML models: text classification (spam, fraud). Image recognition: nudity, violence. Video analysis."
+      },
+      {
+        "title": "Rules engine",
+        "text": "Business rules: prohibited items, pricing rules. Keyword filtering."
+      },
+      {
+        "title": "Human review",
+        "text": "Escalation: uncertain cases. Quality: accuracy improvements. Training: feedback loop."
+      }
+    ],
+    "pitfalls": [
+      "Использовать только automated moderation",
+      "Не делать human review",
+      "Не обновлять ML models",
+      "Не монитеритьaccuracy"
+    ],
+    "followUps": [
+      "How to build content moderation ML model?",
+      "What is human-in-the-loop moderation?",
+      "How to measure moderation accuracy?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Moderation",
+      "ML",
+      "Content"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
     "sources": [
       {
         "company": "Avito",
@@ -10380,6 +10500,65 @@
     "videoFrequency": 1
   },
   {
+    "id": "okko-content-delivery",
+    "title": "как Okko оптимизирует доставку контента пользователям?",
+    "aliases": [],
+    "answer": "Content delivery: CDN (edge locations), adaptive streaming (HLS/DASH), prefetching, device optimization. Ключевые: minimize latency, maximize quality, reduce buffering.",
+    "exampleAnswer": "CDN: user in Moscow → edge server Moscow → 10ms latency. Adaptive: 100 Mbps → 4K, 10 Mbps → 720p. Prefetch: user watching episode 1 → preload episode 2.",
+    "context": "Ключевой aspect для streaming quality. Проверяют понимание content delivery.",
+    "keyPoints": [
+      {
+        "title": "CDN",
+        "text": "Edge locations: nearby servers. Caching: video segments. Origin: source storage."
+      },
+      {
+        "title": "Adaptive streaming",
+        "text": "Multiple quality levels. Client-side switching. Bandwidth estimation."
+      },
+      {
+        "title": "Prefetching",
+        "text": "Predict user behavior. Pre-load next episodes. Pre-buffer: reduce start time."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать CDN",
+      "Игнорировать adaptive bitrate",
+      "Не prefetching popular content",
+      "Не оптимизировать для devices"
+    ],
+    "followUps": [
+      "How to optimize CDN caching strategy?",
+      "What is prefetching для video?",
+      "How to reduce buffering complaints?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "CDN",
+      "Streaming",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "okko-cross-team-blocker",
     "title": "Что делать, если задача заблокирована смежной командой?",
     "aliases": [],
@@ -12107,6 +12286,125 @@
     "videoFrequency": 0
   },
   {
+    "id": "ozon-payments",
+    "title": "как Ozon обрабатывает платежи и возвраты?",
+    "aliases": [],
+    "answer": "Payments: payment processing, escrow, seller payouts, refunds, fraud prevention. Ключевые: security (PCI DSS), reliability, reconciliation.",
+    "exampleAnswer": "Order: buyer pays 5000₽ → escrow → seller ships → delivery confirmed → release to seller (minus commission). Refund: buyer returns → inspect → refund. Reconciliation: daily batch с bank.",
+    "context": "Критически важный для маркетплейса. Проверяют понимание payment system.",
+    "keyPoints": [
+      {
+        "title": "Payment processing",
+        "text": "Multiple methods: cards, wallets, SBP. Idempotency:防止 double charges. 3D Secure: authentication."
+      },
+      {
+        "title": "Escrow",
+        "text": "Hold funds until delivery. Release: confirmation received. Disputes: arbitration."
+      },
+      {
+        "title": "Reconciliation",
+        "text": "Match transactions с bank statements. Reconcile daily. Handle mismatches."
+      }
+    ],
+    "pitfalls": [
+      "Не делать idempotency",
+      "Игнорировать reconciliation",
+      "Не обрабатывать disputes",
+      "Не обеспечивать PCI DSS"
+    ],
+    "followUps": [
+      "How to implement idempotent payments?",
+      "What is escrow payment system?",
+      "How to handle payment reconciliation?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Payments",
+      "E-commerce",
+      "Security"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "ozon-personalization",
+    "title": "как Ozon персонализирует пользовательский опыт?",
+    "aliases": [],
+    "answer": "Персонализация: user behavior tracking, ML recommendations, dynamic pricing, personalized search. Ключевые: real-time processing, A/B testing, privacy compliance.",
+    "exampleAnswer": "User viewed shoes → ML: recommend similar shoes + accessories. Dynamic pricing: high demand → price adjustment. Personalized search: \"phone\" → show phones user's brand preference.",
+    "context": "Ключевой growth driver для e-commerce. Проверяют понимание personalization system.",
+    "keyPoints": [
+      {
+        "title": "Tracking",
+        "text": "User events: views, clicks, purchases. Session tracking. Identity resolution."
+      },
+      {
+        "title": "ML models",
+        "text": "Recommendations: collaborative filtering. Search ranking: personal signals. Pricing: demand-based."
+      },
+      {
+        "title": "Implementation",
+        "text": "Real-time pipeline: Kafka → ML → serving. A/B testing: measure impact."
+      }
+    ],
+    "pitfalls": [
+      "Не tracking user behavior",
+      "Игнорировать privacy (GDPR)",
+      "Не A/B тестировать",
+      "Не обновлять ML models"
+    ],
+    "followUps": [
+      "How to implement real-time personalization?",
+      "What is dynamic pricing?",
+      "Как балансировать персонализацию и privacy?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "Ozon"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Personalization",
+      "ML",
+      "E-commerce"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Ozon",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "ozon-react-server-components",
     "title": "Как работают React Server Components и зачем они нужны в e-commerce?",
     "aliases": [],
@@ -12917,6 +13215,65 @@
     "videoFrequency": 0
   },
   {
+    "id": "sber-chatbot",
+    "title": "как Сбер строит AI-чатботы для банковских сервисов?",
+    "aliases": [],
+    "answer": "AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,安全保障. Ключевые: точность распознавания, безопасность, compliance.",
+    "exampleAnswer": "User: \"Переведи 1000₽ на карту 1234\" → intent: transfer, amount: 1000, card: 1234. Bot: \"Подтвердите перевод 1000₽ на карту ****1234?\" → user: \"Да\" → execute transfer.",
+    "context": "Ключевой AI use case для банка. Проверяют понимание conversational AI.",
+    "keyPoints": [
+      {
+        "title": "NLU",
+        "text": "Intent recognition: transfer money, check balance. Entity extraction: amount, recipient.槽 filling: gathering required info."
+      },
+      {
+        "title": "Dialogue management",
+        "text": "State tracking: conversation context. Policy: next action. Fallback: transfer to human."
+      },
+      {
+        "title": "Integration",
+        "text": "Banking API: account info, transfers. Security: authentication, authorization."
+      }
+    ],
+    "pitfalls": [
+      "Не распознавать intents correctly",
+      "Игнорировать security",
+      "Не делать fallback на human",
+      "Не тестировать edge cases"
+    ],
+    "followUps": [
+      "How to improve NLU accuracy?",
+      "What is dialogue state tracking?",
+      "Как обеспечить безопасность чатбота в банке?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Сбер"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "AI",
+      "Chatbot",
+      "Banking"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Сбер",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "sber-fintech",
     "title": "Как Сбер обеспечивает безопасность финансовых сервисов?",
     "aliases": [],
@@ -13277,6 +13634,65 @@
     ],
     "duration": "10 мин",
     "difficulty": 3,
+    "sources": [
+      {
+        "company": "Сбер",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "sber-payments",
+    "title": "как Сбер обеспечивает безопасность онлайн-платежей?",
+    "aliases": [],
+    "answer": "Безопасность платежей: tokenization, 3D Secure, fraud detection, encryption, PCI DSS compliance. Ключевые: real-time fraud scoring, secure authentication.",
+    "exampleAnswer": "Payment: card data → tokenization → 3DS2 authentication → fraud score 0.1 → approve. Token: replace card number → secure storage. 3DS: risk-based → frictionless для trusted devices.",
+    "context": "Критически важный для банка. Проверяют понимание payment security.",
+    "keyPoints": [
+      {
+        "title": "Tokenization",
+        "text": "Replace card data с tokens. No card storage. Secure vault."
+      },
+      {
+        "title": "3D Secure",
+        "text": "Two-factor authentication. 3DS2: frictionless flow для low-risk."
+      },
+      {
+        "title": "Fraud detection",
+        "text": "ML models: transaction patterns. Real-time scoring: < 100ms. Rules + ML."
+      }
+    ],
+    "pitfalls": [
+      "Хранить card data",
+      "Не использовать 3D Secure",
+      "Игнорировать fraud detection",
+      "Не делать tokenization"
+    ],
+    "followUps": [
+      "How does tokenization work?",
+      "What is 3D Secure 2.0?",
+      "How to implement real-time fraud detection?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Сбер"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Payments",
+      "Security",
+      "Banking"
+    ],
+    "duration": "10 мин",
+    "difficulty": 5,
     "sources": [
       {
         "company": "Сбер",
@@ -19084,6 +19500,66 @@
     "videoFrequency": 0
   },
   {
+    "id": "vk-ads-platform",
+    "title": "как VK строит рекламную платформу?",
+    "aliases": [],
+    "answer": "Ads platform: targeting (user segments), bidding (auction), ad serving, conversion tracking, reporting. Ключевые: real-time bidding, relevance scoring, budget optimization.",
+    "exampleAnswer": "Advertiser: target \"мужчины 25-35, интересы: technology\". User visits → auction → bid $0.50 → relevance score 0.8 → win → show ad. Conversion tracking: click → purchase → report.",
+    "context": "Ключевой revenue stream для соцсети. Проверяют понимание ads architecture.",
+    "keyPoints": [
+      {
+        "title": "Targeting",
+        "text": "User segments: demographics, interests, behavior. Custom audiences:上传 user lists."
+      },
+      {
+        "title": "Bidding",
+        "text": "Second-price auction. Budget optimization: pacing. Real-time bidding: < 100ms."
+      },
+      {
+        "title": "Ad serving",
+        "text": "Relevance scoring: ad quality, user interest. Frequency capping. Rotation."
+      }
+    ],
+    "pitfalls": [
+      "Не оптимизировать relevance",
+      "Игнорировать frequency capping",
+      "Не делать conversion tracking",
+      "Не балансировать advertiser и user experience"
+    ],
+    "followUps": [
+      "How does real-time bidding work?",
+      "What is ad relevance scoring?",
+      "How to optimize ad budget pacing?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Data Engineering"
+    ],
+    "companies": [
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Ads",
+      "Platform",
+      "Data"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "VK",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "vk-event-loop-race-condition",
     "title": "Предскажите результат кода с гонкой микро- и макрозадач",
     "aliases": [],
@@ -19797,6 +20273,65 @@
     "videoFrequency": 1
   },
   {
+    "id": "wildberries-seller-tools",
+    "title": "какие инструменты Wildberries предоставляет продавцам?",
+    "aliases": [],
+    "answer": "Seller tools: analytics dashboard, inventory management, pricing tools, advertising, order processing. Ключевые: real-time data, actionable insights, automation.",
+    "exampleAnswer": "Dashboard: sales today: 50 orders, revenue: 150,000₽. Analytics: conversion 3%, average order 3,000₽. Inventory: 3 items low stock → alert. Pricing: competitor sold for less → adjust.",
+    "context": "Ключевой feature для привлечения sellers. Проверяют понимание seller ecosystem.",
+    "keyPoints": [
+      {
+        "title": "Analytics",
+        "text": "Sales metrics: revenue, orders, conversion. Traffic: views, clicks, CTR. Competitor analysis."
+      },
+      {
+        "title": "Inventory management",
+        "text": "Stock levels. Reorder alerts. Multi-warehouse support."
+      },
+      {
+        "title": "Pricing tools",
+        "text": "Dynamic pricing. Competitor price monitoring. Discount management."
+      }
+    ],
+    "pitfalls": [
+      "Не показывать real-time data",
+      "Игнорировать actionable insights",
+      "Не делать automation",
+      "Не учитывать seller feedback"
+    ],
+    "followUps": [
+      "How to build seller analytics dashboard?",
+      "What is dynamic pricing для sellers?",
+      "How to improve seller experience?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Wildberries"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Marketplace",
+      "Seller Tools",
+      "Analytics"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Wildberries",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "wildberries-websocket-sse",
     "title": "Когда выбирать WebSocket, SSE или polling?",
     "aliases": [],
@@ -19936,6 +20471,65 @@
       }
     ],
     "videoFrequency": 1
+  },
+  {
+    "id": "yandex-autocomplete",
+    "title": "Как Яндекс реализует автодополнение запросов?",
+    "aliases": [],
+    "answer": "Autocomplete: prefix search + ranking + caching. Индекс: trie/ prefix tree + frequency data. Serving: edge caching, CDN. ML: personalization, query reformulation.",
+    "exampleAnswer": "Query \"как\" → trie lookup → top suggestions: \"как сварить кофе\" (100K), \"как настроить WiFi\" (80K). Personalization: user searched \"Python\" → \"как выучить Python\" higher.",
+    "context": "Ключевая feature для поисковика. Проверяют понимание autocomplete architecture.",
+    "keyPoints": [
+      {
+        "title": "Indexing",
+        "text": "Trie structure для prefix lookup. Frequency data: popular queries. Real-time updates."
+      },
+      {
+        "title": "Ranking",
+        "text": "Personalization: user history. Popularity: global frequency. Freshness: trending queries."
+      },
+      {
+        "title": "Serving",
+        "text": "Edge caching: CDN. Pre-computation: popular prefixes. Latency: < 50ms."
+      }
+    ],
+    "pitfalls": [
+      "Не кешировать popular prefixes",
+      "Игнорировать personalization",
+      "Не обновлятьfrequency data",
+      "Не учитывать latency"
+    ],
+    "followUps": [
+      "Как построить trie для autocomplete?",
+      "What is personalization в autocomplete?",
+      "How to handle real-time trending queries?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Search",
+      "Autocomplete",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
   },
   {
     "id": "yandex-cicd-setup",
@@ -20418,6 +21012,65 @@
     ],
     "duration": "10 мин",
     "difficulty": 4,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "yandex-maps",
+    "title": "как Яндекс строит навигатор и карты?",
+    "aliases": [],
+    "answer": "Яндекс Карты: GPS tracking, route calculation (Dijkstra/A*), traffic prediction (ML), POI search. Ключевые: real-time traffic, route optimization, offline maps.",
+    "exampleAnswer": "Route: from A to B → graph search →考虑 traffic → optimal route. Traffic: GPS data от millions users → ML prediction → \"пробки через 20 минут\". Offline: vector tiles → compressed maps.",
+    "context": "Ключевой product для навигации. Проверяют понимание maps architecture.",
+    "keyPoints": [
+      {
+        "title": "Route calculation",
+        "text": "Graph algorithms: Dijkstra, A*. Multi-modal: car, transit, walking. Contraction hierarchies."
+      },
+      {
+        "title": "Traffic prediction",
+        "text": "ML models: historical data, real-time signals. Prediction: next 30-60 minutes."
+      },
+      {
+        "title": "GPS tracking",
+        "text": "User location streaming. Privacy: anonymization. Aggregation: traffic patterns."
+      }
+    ],
+    "pitfalls": [
+      "Не учитывать real-time traffic",
+      "Игнорировать隐私 user location",
+      "Не оптимизировать route calculation",
+      "Не делать offline support"
+    ],
+    "followUps": [
+      "How does traffic prediction work?",
+      "What is contraction hierarchy algorithm?",
+      "How to handle offline maps?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "Maps",
+      "Navigation",
+      "Real-time"
+    ],
+    "duration": "10 мин",
+    "difficulty": 5,
     "sources": [
       {
         "company": "Яндекс",
