@@ -15327,6 +15327,61 @@
     "videoFrequency": 0
   },
   {
+    "id": "ux-design-principles",
+    "title": "Какие ключевые принципы UX-дизайна важно знать?",
+    "aliases": [],
+    "answer": "Принципы: visibility of system status (показывайте что происходит), match between system and real world (понятный язык), user control and freedom (undo), consistency, error prevention, recognition over recall, flexibility and efficiency, aesthetic and minimalist design.",
+    "exampleAnswer": "Visibility: progress bar при загрузке. Real world: иконки корзины, папки. User control: кнопка \"Назад\". Consistency: одинаковые кнопки. Error prevention: disable unavailable buttons. Recognition: recent searches. Minimalist: только essential UI.",
+    "context": "Фундаментальные heuristics Нильсена. Проверяют понимание UX principles.",
+    "keyPoints": [
+      {
+        "title": "10 heuristics",
+        "text": "1. Visibility of system status. 2. Match real world. 3. User control. 4. Consistency. 5. Error prevention. 6. Recognition > recall. 7. Flexibility. 8. Minimalist design. 9. Help recognize errors. 10. Help and documentation."
+      },
+      {
+        "title": "Примеры",
+        "text": "Loading indicators → visibility. Confirm dialogs → error prevention. Undo → user control."
+      }
+    ],
+    "pitfalls": [
+      "Игнорировать loading states",
+      "Не давать feedback",
+      "Делать complex navigation",
+      "Не тестировать с реальными пользователями"
+    ],
+    "followUps": [
+      "Как применять heuristics на практике?",
+      "Что такое usability testing?",
+      "Как связаны UX и conversion rate?"
+    ],
+    "category": "Frontend Architecture",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "UX",
+      "Design",
+      "Frontend"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "vk-event-loop-race-condition",
     "title": "Предскажите результат кода с гонкой микро- и макрозадач",
     "aliases": [],

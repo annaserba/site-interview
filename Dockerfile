@@ -3,10 +3,10 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
-RUN npx vite build
+RUN node_modules/.bin/vite build
 
 FROM nginx:alpine
 
