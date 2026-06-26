@@ -10773,6 +10773,712 @@
     "videoFrequency": 0
   },
   {
+    "id": "security-auth",
+    "title": "Что такое аутентификация и авторизация? Как их реализовать?",
+    "aliases": [],
+    "answer": "Аутентификация: кто вы (login + password, token). Авторизация: что вам можно (roles, permissions). JWT: stateless token с payload. OAuth2: delegated authorization. Session: server-side storage.",
+    "exampleAnswer": "JWT flow: login → server creates JWT (userId, role, exp) → client stores в localStorage/cookie →每个 request в Authorization header → server verifies signature. RBAC: admin can edit, user can read. OAuth2: \"Login with Google\" → Google authenticates, gives token.",
+    "context": "Фундаментальный security concept. Проверяют понимание auth flows.",
+    "keyPoints": [
+      {
+        "title": "Аутентификация",
+        "text": "JWT: token в header, payload с user info, signature для verification. Session: cookie с session ID, server-side storage."
+      },
+      {
+        "title": "Авторизация",
+        "text": "RBAC: roles (admin, user). ABAC: attributes (department, level). ACL: access control lists."
+      },
+      {
+        "title": "Практики",
+        "text": "Never store passwords в plain text. Use bcrypt/argon2. Implement rate limiting. Use HTTPS."
+      }
+    ],
+    "pitfalls": [
+      "Хранить JWT в localStorage (XSS)",
+      "Не валидировать JWT на сервере",
+      "Использовать MD5 для паролей",
+      "Не делать logout (invalidate token)"
+    ],
+    "followUps": [
+      "Как сделать refresh token flow?",
+      "Что такое OAuth2 PKCE?",
+      "Как защитить от JWT theft?"
+    ],
+    "category": "System Design",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Auth",
+      "JWT"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-cors",
+    "title": "Что такое CORS и как его настроить?",
+    "aliases": [],
+    "answer": "CORS (Cross-Origin Resource Sharing): механизм безопасности браузера, контролирующий доступ к ресурсам с другого origin. Заголовки: Access-Control-Allow-Origin, Access-Control-Allow-Methods. Preflight: OPTIONS запрос для complex requests.",
+    "exampleAnswer": "Frontend (localhost:3000) → API (api.example.com). Без CORS: blocked. С CORS: `Access-Control-Allow-Origin: http://localhost:3000`. Preflight: OPTIONS → сервер отвечает哪些 methods allowed → actual request.",
+    "context": "Фундаментальный web security concept. Проверяют понимание browser security model.",
+    "keyPoints": [
+      {
+        "title": "Same-origin policy",
+        "text": "Браузер блокирует requests между разными origins (protocol + host + port)."
+      },
+      {
+        "title": "CORS headers",
+        "text": "Access-Control-Allow-Origin: какие origins могут доступиться. Access-Control-Allow-Methods: разрешённые HTTP methods."
+      },
+      {
+        "title": "Preflight",
+        "text": "Для complex requests (PUT, DELETE, custom headers) браузер сначала отправляет OPTIONS request."
+      }
+    ],
+    "pitfalls": [
+      "Использовать `Access-Control-Allow-Origin: *` в production",
+      "Не об_PREFLIGHT OPTIONS requests",
+      "Забывать про credentials (cookies)",
+      "Не ограничивать methods"
+    ],
+    "followUps": [
+      "Как настроить CORS в Express/Nginx?",
+      "Что такое credentials в CORS?",
+      "Как связаны CORS и CSRF?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "CORS",
+      "Web"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-csrf",
+    "title": "Что такое CSRF и как защититься?",
+    "aliases": [],
+    "answer": "CSRF (Cross-Site Request Forgery): атакующий заставляет браузер выполнить запрос от имени пользователя. Защита: CSRF tokens, SameSite cookies, проверка Origin header.",
+    "exampleAnswer": "Attack: `<img src=\"https://bank.com/transfer?to=attacker&amount=1000\">` → browser sends cookies → bank executes transfer. Защита: CSRF token в form, сервер проверяет token. SameSite=Strict: cookies не отправляются с cross-site requests.",
+    "context": "Классическая web vulnerability. Проверяют понимание attack mechanism.",
+    "keyPoints": [
+      {
+        "title": "Механизм",
+        "text": "User logged in → visits malicious site → malicious site sends request к bank → browser sends cookies → bank thinks это user."
+      },
+      {
+        "title": "Защита",
+        "text": "CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка来源."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать CSRF tokens",
+      "Не проверять Origin header",
+      "Не использовать SameSite cookies",
+      "Полагаться только на JavaScript"
+    ],
+    "followUps": [
+      "Как генерировать CSRF tokens?",
+      "Что такое SameSite cookie attribute?",
+      "Как CSRF связан с CORS?"
+    ],
+    "category": "Frontend Architecture",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "CSRF",
+      "Web"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-dependencies",
+    "title": "Как проверять зависимости на уязвимости?",
+    "aliases": [],
+    "answer": "Проверка зависимостей: npm audit, Snyk, Dependabot, OWASP Dependency-Check. Автоматическое обновление: Dependabot PRs, Renovate. Мониторинг: CVE databases, security advisories.",
+    "exampleAnswer": "`npm audit` → 2 vulnerabilities found. Fix: `npm audit fix`. Snyk: integrates в CI, blocks PR с vulnerabilities. Dependabot: автоматические PRs для updates. Lock file: guarantees consistent installs.",
+    "context": "Supply chain security. Проверяют понимание dependency management.",
+    "keyPoints": [
+      {
+        "title": "Инструменты",
+        "text": "npm audit: built-in. Snyk: comprehensive scanning. Dependabot: auto PRs. Renovate: auto updates."
+      },
+      {
+        "title": "Процесс",
+        "text": "npm audit → fix vulnerabilities → update dependencies → test → deploy."
+      },
+      {
+        "title": "Практики",
+        "text": "Lock файлы: package-lock.json. Pin versions. Regular updates. CI/CD integration."
+      }
+    ],
+    "pitfalls": [
+      "Игнорировать npm audit",
+      "Не обновлять зависимости",
+      "Использовать `latest` без проверки",
+      "Не мониторить CVE"
+    ],
+    "followUps": [
+      "Как настроить Dependabot?",
+      "Что такое Snyk и как он работает?",
+      "Как связана supply chain security и SBOM?"
+    ],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend",
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Dependencies",
+      "Supply Chain"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-hashing",
+    "title": "Как хешировать пароли и зачем это нужно?",
+    "aliases": [],
+    "answer": "Хеширование паролей: односторонняя функция (password → hash, обратно нельзя). Используйте bcrypt, argon2, scrypt. Никогда: MD5, SHA-256, plain text. Salt: уникальный для каждого пароля.",
+    "exampleAnswer": "Registration: password → bcrypt(password, salt) → hash в БД. Login: password → bcrypt(password, stored_hash) → comparison. Bcrypt: 12 rounds, ~100ms. Argon2: memory-hard,抵抗 GPU attacks.",
+    "context": "Ключевой security practice. Проверяют понимание password storage.",
+    "keyPoints": [
+      {
+        "title": "Хеширование",
+        "text": "Bcrypt: slow hash, built-in salt. Argon2: memory-hard, resistant to GPU. Scrypt: memory-hard."
+      },
+      {
+        "title": "Salt",
+        "text": "Уникальный random value для каждого пароля. Предотвращает rainbow table attacks."
+      },
+      {
+        "title": "Практики",
+        "text": "Never: plain text, MD5, SHA-256. Always: bcrypt/argon2, salt, pepper (optional)."
+      }
+    ],
+    "pitfalls": [
+      "Хранить пароли в plain text",
+      "Использовать MD5/SHA",
+      "Не использовать salt",
+      "Слишком быстрый hashing (менее 100ms)"
+    ],
+    "followUps": [
+      "Как выбрать между bcrypt и argon2?",
+      "Что такое pepper?",
+      "Как защитить от rainbow table attacks?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Hashing",
+      "Passwords"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-https",
+    "title": "Зачем нужен HTTPS и как его настроить?",
+    "aliases": [],
+    "answer": "HTTPS: HTTP + TLS encryption. Защита: шифрование данных, authentication сервера, integrity. Сертификаты: Let's Encrypt (free), Comodo, DigiCert. Настройка: nginx + certbot.",
+    "exampleAnswer": "Setup: `certbot --nginx -d example.com`. Nginx: `listen 443 ssl; ssl_certificate /etc/letsencrypt/...`. Redirect: HTTP → HTTPS. HSTS: `Strict-Transport-Security: max-age=31536000`.",
+    "context": "Обязательный для любого сайта. Проверяют понимание importance of HTTPS.",
+    "keyPoints": [
+      {
+        "title": "Зачем",
+        "text": "Шифрование: данные не перехватываются. Authentication: сервер — тот, за кого себя выдаёт. Integrity: данные не изменяются."
+      },
+      {
+        "title": "Сертификаты",
+        "text": "Let's Encrypt: free, автоматическое обновление. Wildcard: для поддоменов."
+      },
+      {
+        "title": "Настройка",
+        "text": "Nginx: ssl_certificate, ssl_certificate_key. Certbot: автоматическое получение."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать HTTPS",
+      "Не делать redirect HTTP → HTTPS",
+      "Не обновлять сертификаты",
+      "Не использовать HSTS"
+    ],
+    "followUps": [
+      "Как работает Let's Encrypt?",
+      "Что такое HSTS?",
+      "Как настроить HTTPS в Docker?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "HTTPS",
+      "TLS"
+    ],
+    "duration": "5 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-input-validation",
+    "title": "Как валидировать user input на клиенте и сервере?",
+    "aliases": [],
+    "answer": "Валидация: проверка input на correctness и security. Клиент: UX (мгновенный feedback). Сервер: security (единственный source of truth). Инструменты: Zod, Joi, Yup,express-validator.",
+    "exampleAnswer": "Zod schema: `z.object({ email: z.string().email(), age: z.number().min(0) })`. Клиент: React Hook Form + Zod resolver. Сервер: express-validator middleware. Never: доверять client validation.",
+    "context": "Ключевой security layer. Проверяют понимание defense in depth.",
+    "keyPoints": [
+      {
+        "title": "Клиентская валидация",
+        "text": "UX: мгновенный feedback,减少 server load. Не security: можно bypass."
+      },
+      {
+        "title": "Серверная валидация",
+        "text": "Security: единственный source of truth. Never доверять client input."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Zod: TypeScript-first. Joi: popular. Yup: React forms. express-validator: middleware."
+      }
+    ],
+    "pitfalls": [
+      "Доверять клиентской валидации",
+      "Не валидировать на сервере",
+      "Использовать regex для email",
+      "Не escaping special characters"
+    ],
+    "followUps": [
+      "Как выбрать между Zod и Joi?",
+      "Что такое schema validation?",
+      "Как связаны валидация и injection attacks?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Validation",
+      "Input"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-rate-limiting",
+    "title": "Как реализовать rate limiting для защиты от атак?",
+    "aliases": [],
+    "answer": "Rate limiting: ограничение количества requests за период. Алгоритмы: fixed window, sliding window, token bucket. Инструменты: nginx, Redis, API Gateway. Защита от: brute force, DDoS, scraping.",
+    "exampleAnswer": "Nginx: `limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s`. Redis: `INCR key; EXPIRE key 60`. Response: 429 Too Many Requests. Headers: X-RateLimit-Limit, X-RateLimit-Remaining.",
+    "context": "Важный security mechanism. Проверяют понимание rate limiting strategies.",
+    "keyPoints": [
+      {
+        "title": "Алгоритмы",
+        "text": "Fixed window: counter per minute. Sliding window: более плавный. Token bucket: allow bursts."
+      },
+      {
+        "title": "Реализация",
+        "text": "Nginx: `limit_req_zone`. Redis: INCR + EXPIRE. API Gateway: built-in rate limiting."
+      },
+      {
+        "title": "Стратегии",
+        "text": "Per IP: anti-DDoS. Per user: anti-abuse. Per endpoint: protect expensive operations."
+      }
+    ],
+    "pitfalls": [
+      "Не делать rate limiting",
+      "Не возвращать 429 status code",
+      "Не логировать превышения",
+      "Не учитывать X-Forwarded-For"
+    ],
+    "followUps": [
+      "Как выбрать алгоритм rate limiting?",
+      "Что такое token bucket?",
+      "Как связать rate limiting и DDoS protection?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Rate Limiting",
+      "DDoS"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-secrets",
+    "title": "Как хранить секреты в приложении?",
+    "aliases": [],
+    "answer": "Секреты: пароли, API keys, tokens. Хранение: environment variables, vault (HashiCorp Vault), cloud secrets (AWS Secrets Manager). Никогда: в коде, в git, в логах.",
+    "exampleAnswer": ".env file: `DATABASE_URL=postgres://...`. Git: .env в .gitignore. Production: AWS Secrets Manager, rotate every 90 days. CI/CD: GitHub Actions secrets. Never: `const DB_PASS = \"secret123\"` в коде.",
+    "context": "Критически важный security practice. Проверяют понимание secrets management.",
+    "keyPoints": [
+      {
+        "title": "Правила",
+        "text": "Never в коде. Never в git. Never в логах. Rotate regularly. Use最小权限 principle."
+      },
+      {
+        "title": "Инструменты",
+        "text": "Environment variables: simplest. HashiCorp Vault: central management. AWS Secrets Manager: cloud-native. Doppler, 1Password."
+      },
+      {
+        "title": "Практики",
+        "text": ".gitignore: .env files. CI/CD: secrets in pipeline. Docker: secrets, not env vars."
+      }
+    ],
+    "pitfalls": [
+      "Хранить секреты в коде",
+      "Коммитить .env файлы",
+      "Не ротировать секреты",
+      "Логировать секреты"
+    ],
+    "followUps": [
+      "Как работает HashiCorp Vault?",
+      "Как ротировать secrets без downtime?",
+      "Как связаны secrets management и zero trust?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "DevOps"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Secrets",
+      "DevOps"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-session",
+    "title": "Как безопасно управлять сессиями?",
+    "aliases": [],
+    "answer": "Сессии: server-side storage, session ID в cookie. Настройки: HttpOnly (no JS access), Secure (HTTPS only), SameSite (no CSRF), expires/max-age. Ротация: session invalidation при logout.",
+    "exampleAnswer": "Cookie: `Set-Cookie: sid=abc123; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`. Redis: `sessions:abc123 → {userId: 1, expires: ...}`. Logout: `DELETE sessions:abc123`.",
+    "context": "Альтернатива JWT. Проверяют понимание session security.",
+    "keyPoints": [
+      {
+        "title": "Cookie настройки",
+        "text": "HttpOnly: prevents XSS access. Secure: HTTPS only. SameSite: prevents CSRF. Path: ограничивает scope."
+      },
+      {
+        "title": "Безопасность",
+        "text": "Ротация: new session ID after login. Timeout: idle и absolute. Invalidation: logout → delete."
+      },
+      {
+        "title": "Хранение",
+        "text": "Express: express-session. Store: Redis (production), Memory (development)."
+      }
+    ],
+    "pitfalls": [
+      "Не использовать HttpOnly",
+      "Не делать Secure",
+      "Не инвалидировать при logout",
+      "Не делать timeout"
+    ],
+    "followUps": [
+      "Как выбрать между sessions и JWT?",
+      "Что такое session fixation?",
+      "Как связать sessions и Redis?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "Sessions",
+      "Cookies"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-sql-injection",
+    "title": "Что такое SQL injection и как защититься?",
+    "aliases": [],
+    "answer": "SQL injection: внедрение SQL кода в user input. Защита: prepared statements, parameterized queries, ORM. Никогда не конкатенировать SQL строки.",
+    "exampleAnswer": "SQL injection: `\" OR '1'='1' --\"` в поле login → `SELECT * FROM users WHERE login = '' OR '1'='1' --'` → все users. Защита: `SELECT * FROM users WHERE id = $1` с параметром. Never: `query(\"SELECT * FROM users WHERE id = \" + userId)`.",
+    "context": "Классическая vulnerability. Проверяют понимание attack и defense.",
+    "keyPoints": [
+      {
+        "title": "Атака",
+        "text": "`\" OR 1=1 --\"` в login → bypass auth. `\"'; DROP TABLE users;--\"` → удаление таблицы."
+      },
+      {
+        "title": "Защита",
+        "text": "Prepared statements: `SELECT * FROM users WHERE id = $1`. ORM: автоматически parameterizes. Input validation: whitelist."
+      }
+    ],
+    "pitfalls": [
+      "Конкатенировать SQL строки",
+      "Не валидировать input",
+      "Использовать raw SQL без parameterization",
+      "Давать права DB admin приложению"
+    ],
+    "followUps": [
+      "Как работает prepared statement?",
+      "Что такое ORM и как он защищает?",
+      "Как проверить SQL injection vulnerability?"
+    ],
+    "category": "Backend",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "SQL",
+      "Injection"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "security-xss",
+    "title": "Что такое XSS и как защититься?",
+    "aliases": [],
+    "answer": "XSS (Cross-Site Scripting): внедрение malicious scripts в страницы. Типы: Stored (в БД), Reflected (в URL), DOM-based (в клиентском коде). Защита: sanitization, CSP, escape output.",
+    "exampleAnswer": "Stored XSS: user вводит `<script>steal(cookies)</script>` в комментарий, другой user видит → cookies украдены. Защита: sanitize input (DOMPurify), escape output, CSP: `script-src 'self'`. DOM XSS: `element.innerHTML = location.hash.slice(1)` → защищаем через `textContent`.",
+    "context": "Одна из самых частых web vulnerabilities. Проверяют понимание attack vectors.",
+    "keyPoints": [
+      {
+        "title": "Типы XSS",
+        "text": "Stored: скрипт сохранён в БД, показывается всем. Reflected: скрипт в URL, execute при открытии. DOM-based: скрипт через DOM manipulation."
+      },
+      {
+        "title": "Защита",
+        "text": "Sanitize: DOMPurify, bleach. Escape: HTML entities. CSP: Content-Security-Policy header. HttpOnly cookies."
+      }
+    ],
+    "pitfalls": [
+      "Не sanitize user input",
+      "Не escape output",
+      "Не использовать CSP",
+      "innerHTML с user data"
+    ],
+    "followUps": [
+      "Как работает Content-Security-Policy?",
+      "Что такое DOMPurify?",
+      "Как связаны XSS и CSRF?"
+    ],
+    "category": "Frontend Architecture",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Security",
+      "XSS",
+      "Frontend"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "tbank-angular-change-detection",
     "title": "Как работает Change Detection в Angular и чем отличается от React?",
     "aliases": [],
