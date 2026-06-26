@@ -8872,6 +8872,546 @@
     "videoFrequency": 0
   },
   {
+    "id": "math-calculus",
+    "title": "Какой calculus нужен для deep learning?",
+    "aliases": [],
+    "answer": "Производные, градиенты, chain rule, partial derivatives. Применение: backpropagation (chain rule), gradient descent (gradients), optimization (learning rate).",
+    "exampleAnswer": "Loss function: L = (y - ŷ)². Gradient: ∂L/∂w = 2(y - ŷ) × (-x). Update: w = w - α × gradient. Chain rule: ∂L/∂w₁ = ∂L/∂ŷ × ∂ŷ/∂h × ∂h/∂w₁.",
+    "context": "Фундаментальная math для deep learning. Проверяют понимание calculus в ML.",
+    "keyPoints": [
+      {
+        "title": "Производные",
+        "text": "Rate of change. Partial derivatives: derivative по одной переменной. Gradient: vector of partial derivatives."
+      },
+      {
+        "title": "Chain rule",
+        "text": "d/dx f(g(x)) = f'(g(x)) × g'(x). В deep learning: backpropagation = chain rule through layers."
+      },
+      {
+        "title": "Gradient descent",
+        "text": "θ = θ - α × ∇J(θ). Learning rate α controls step size."
+      }
+    ],
+    "pitfalls": [
+      "Не понимать chain rule",
+      "Использовать слишком большой learning rate",
+      "Игнорировать gradient vanishing/exploding",
+      "Не нормализовать входные данные"
+    ],
+    "followUps": [
+      "Как работает backpropagation?",
+      "Что такое vanishing gradient problem?",
+      "Как связаны gradient descent и convexity?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Calculus",
+      "Deep Learning"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-dimensionality-reduction",
+    "title": "Как работает dimensionality reduction?",
+    "aliases": [],
+    "answer": "PCA (Principal Component Analysis): проекция на principal components через eigendecomposition. t-SNE: nonlinear для visualization. UMAP: быстрее t-SNE, сохраняет global structure. LDA: supervised reduction.",
+    "exampleAnswer": "PCA: 100 features → 10 principal components (90% variance explained). t-SNE: 784 pixels (MNIST) → 2D visualization. UMAP: clustering в high-dimensional data.",
+    "context": "Важный technique для data preprocessing и visualization. Проверяют понимание reduction methods.",
+    "keyPoints": [
+      {
+        "title": "PCA",
+        "text": "1. Нормализовать данные. 2. Compute covariance matrix. 3. Eigendecomposition. 4. Select top k eigenvectors. 5. Project data."
+      },
+      {
+        "title": "t-SNE",
+        "text": "Nonlinear, для visualization в 2D/3D. Сохраняет local structure."
+      },
+      {
+        "title": "UMAP",
+        "text": "Быстрее t-SNE, лучше сохраняет global structure."
+      }
+    ],
+    "pitfalls": [
+      "Использовать PCA без нормализации",
+      "Не проверять variance explained",
+      "Использовать t-SNE для clustering",
+      "Игнорировать interpretability"
+    ],
+    "followUps": [
+      "Как выбрать количество components в PCA?",
+      "Что такое variance explained?",
+      "Как связать dimensionality reduction и overfitting?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "PCA",
+      "Dimensionality Reduction"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-distance-metrics",
+    "title": "Какие метрики расстояния используются в ML?",
+    "aliases": [],
+    "answer": "Euclidean (L2), Manhattan (L1), Cosine similarity, Hamming distance, Jaccard distance. Выбор зависит от типа данных: числовые → Euclidean, тексты → Cosine, categorical → Hamming.",
+    "exampleAnswer": "Euclidean: [1,2] и [4,6] → √(9+16) = 5. Cosine: [1,1] и [1,0] → 0.707 (45°). Hamming: \"10101\" и \"10011\" → 2 differences.",
+    "context": "Ключевой concept для clustering, classification, search. Проверяют понимание distance metrics.",
+    "keyPoints": [
+      {
+        "title": "Числовые данные",
+        "text": "Euclidean: √Σ(x_i - y_i)². Manhattan: Σ|x_i - y_i|. Chebyshev: max|x_i - y_i|."
+      },
+      {
+        "title": "Тексты/векторы",
+        "text": "Cosine: similarity angle between vectors. Jaccard: set similarity."
+      },
+      {
+        "title": "Категориальные",
+        "text": "Hamming: number of different positions. Matching coefficient."
+      }
+    ],
+    "pitfalls": [
+      "Использовать Euclidean для текстов",
+      "Не нормализовать данные перед distance calculation",
+      "Игнорировать dimensionality curse",
+      "Не выбирать metric для данных"
+    ],
+    "followUps": [
+      "Когда использовать Cosine vs Euclidean?",
+      "Что такое dimensionality curse?",
+      "Как связаны distance metrics и clustering?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Distance Metrics",
+      "ML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-information-theory",
+    "title": "Какая information theory нужна для ML?",
+    "aliases": [],
+    "answer": "Entropy, cross-entropy, KL divergence, mutual information. Применение: loss functions (cross-entropy), decision trees (information gain), feature selection (mutual information).",
+    "exampleAnswer": "Entropy: fair coin H=1 bit, biased coin H<1 bit. Cross-entropy loss: -Σ y log(ŷ) для classification. KL divergence: quantifies how different predicted distribution is from true.",
+    "context": "Фундаментальная math для ML metrics. Проверяют понимание information theory concepts.",
+    "keyPoints": [
+      {
+        "title": "Entropy",
+        "text": "H(X) = -Σ p(x) log p(x). Мера uncertainty/randomness."
+      },
+      {
+        "title": "Cross-entropy",
+        "text": "H(p, q) = -Σ p(x) log q(x). Loss для classification."
+      },
+      {
+        "title": "KL divergence",
+        "text": "D_KL(p||q) = Σ p(x) log(p(x)/q(x)). Разница между distributions."
+      }
+    ],
+    "pitfalls": [
+      "Путать entropy и cross-entropy",
+      "Использовать wrong loss function",
+      "Игнорировать class imbalance в loss",
+      "Не понимать KL divergence meaning"
+    ],
+    "followUps": [
+      "Как работает cross-entropy loss?",
+      "Что такое information gain в decision trees?",
+      "Как связаны mutual information и feature selection?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Information Theory",
+      "ML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-linear-algebra",
+    "title": "Какая линейная алгебра нужна для ML?",
+    "aliases": [],
+    "answer": "Векторы, матрицы, линейные преобразования, собственные значения, SVD. Применение: embeddings (векторы), PCA (собственные значения), recommendation systems (matrix factorization).",
+    "exampleAnswer": "Embedding: \"кот\" → [0.2, -0.5, 0.8]. Dot product: similarity = 0.2×0.3 + (-0.5)×0.1 + 0.8×0.4 = 0.43. PCA: собственные значения матрицы ковариации → principal components. SVD: U × Σ × V^T → factorize ratings matrix в recommendation system.",
+    "context": "Фундаментальная math для ML. Проверяют понимание mathematical foundations.",
+    "keyPoints": [
+      {
+        "title": "Векторы и матрицы",
+        "text": "Vector operations: add, multiply, dot product. Matrix operations: multiply, transpose, inverse."
+      },
+      {
+        "title": "Ключевые concepts",
+        "text": "Eigenvalues/eigenvectors: важны для PCA. SVD: matrix factorization. Norms: L1, L2 distances."
+      },
+      {
+        "title": "Применение в ML",
+        "text": "Embeddings = векторы. Attention = matrix operations. PCA = eigendecomposition. SVD = dimensionality reduction."
+      }
+    ],
+    "pitfalls": [
+      "Не понимать dot product meaning",
+      "Игнорировать eigendecomposition",
+      "Забывать про numerical stability",
+      "Не нормализовать vectors"
+    ],
+    "followUps": [
+      "Как работает PCA математически?",
+      "Что такое SVD и зачем он нужен?",
+      "Как связаны cosine similarity и dot product?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Linear Algebra",
+      "ML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-optimization",
+    "title": "Какие методы оптимизации используются в ML?",
+    "aliases": [],
+    "answer": "Gradient descent (batch, stochastic, mini-batch), momentum, Adam, RMSprop. Convex vs non-convex optimization. Regularization: L1 (Lasso), L2 (Ridge), dropout.",
+    "exampleAnswer": "SGD: w = w - α × ∂L/∂w для одного sample. Adam: adaptive learning rate для каждого weight. L2: loss + λΣw² → smaller weights. Dropout: random neurons off → prevents co-adaptation.",
+    "context": "Ключевой topic для training ML models. Проверяют понимание optimization methods.",
+    "keyPoints": [
+      {
+        "title": "Градиентные методы",
+        "text": "Batch GD: весь dataset. SGD: one sample. Mini-batch: subset. Adam: adaptive learning rate."
+      },
+      {
+        "title": "Regularization",
+        "text": "L1: sparse models (Lasso). L2: small weights (Ridge). Dropout:防止 overfitting."
+      },
+      {
+        "title": "Метрики",
+        "text": "Loss function: minimize. Learning rate: step size. Convergence: when loss stabilizes."
+      }
+    ],
+    "pitfalls": [
+      "Не настраивать learning rate",
+      "Использовать SGD без momentum",
+      "Не делать regularization",
+      "Игнорировать overfitting"
+    ],
+    "followUps": [
+      "Как работает Adam optimizer?",
+      "Что такое learning rate scheduling?",
+      "Как связаны regularization и overfitting?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Optimization",
+      "ML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-probability",
+    "title": "Какая теория вероятностей нужна для Data Science?",
+    "aliases": [],
+    "answer": "Вероятность, условная вероятность, Bayes theorem, распределения (normal, binomial, Poisson),期望值, variance. Применение: classification, A/B testing, Bayesian inference.",
+    "exampleAnswer": "Bayes: P(spam|word=\"free\") = P(\"free\"|spam) × P(spam) / P(\"free\"). Normal distribution: height, weight, test scores. Poisson: number of events per time unit.",
+    "context": "Фундаментальная math для data science. Проверяют понимание probability theory.",
+    "keyPoints": [
+      {
+        "title": "Основы",
+        "text": "P(A|B) = P(A∩B) / P(B). Bayes: P(A|B) = P(B|A) × P(A) / P(B)."
+      },
+      {
+        "title": "Распределения",
+        "text": "Normal (Gaussian): bell curve. Binomial: binary outcomes. Poisson: rare events."
+      },
+      {
+        "title": "Применение",
+        "text": "Classification: P(class|features). A/B testing: statistical significance. Naive Bayes: text classification."
+      }
+    ],
+    "pitfalls": [
+      "Путать conditional и joint probability",
+      "Не понимать Bayes theorem",
+      "Использовать normal distribution для всего",
+      "Игнорировать prior probability"
+    ],
+    "followUps": [
+      "Как работает Naive Bayes classifier?",
+      "Что такое central limit theorem?",
+      "Как связаны probability и information theory?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Probability",
+      "Statistics"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-regression",
+    "title": "Какие типы регрессии существуют в ML?",
+    "aliases": [],
+    "answer": "Linear: y = wx + b. Polynomial: нелинейные relationships. Ridge/L2: regularization. Lasso/L1: feature selection. Logistic: classification (sigmoid).",
+    "exampleAnswer": "Linear: price = 50×area + 10000. Ridge: same but smaller coefficients. Lasso: some coefficients → 0 (feature selection). Logistic: P(spam) = σ(-2 + 3×\"free\" + 1×\"click\") = 0.87.",
+    "context": "Фундаментальные models для prediction. Проверяют понимание regression types.",
+    "keyPoints": [
+      {
+        "title": "Linear regression",
+        "text": "y = Xw + b. Loss: MSE. Minimize: normal equation or gradient descent."
+      },
+      {
+        "title": "Regularized",
+        "text": "Ridge: MSE + λΣw² → small weights. Lasso: MSE + λΣ|w| → sparse weights. ElasticNet: combination."
+      },
+      {
+        "title": "Logistic",
+        "text": "Classification: σ(Xw + b). Loss: cross-entropy. Output: probability 0-1."
+      }
+    ],
+    "pitfalls": [
+      "Использовать linear regression для classification",
+      "Не делать regularization",
+      "Игнорировать overfitting",
+      "Не нормализовать features"
+    ],
+    "followUps": [
+      "Как работает logistic regression?",
+      "Что такое Ridge vs Lasso?",
+      "Как связаны регрессия и neural networks?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Regression",
+      "ML"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
+    "id": "math-statistics",
+    "title": "Какая статистика нужна для data analysis?",
+    "aliases": [],
+    "answer": "Mean, median, mode, variance, standard deviation, correlation, hypothesis testing, confidence intervals, p-value, A/B testing.",
+    "exampleAnswer": "Mean: (1+2+3+4+5)/5 = 3. Variance: E[(X-μ)²]. Correlation: -1 to 1. A/B test: conversion A=10%, B=12%, p=0.03 → B is better.",
+    "context": "Фундаментальная статистика для data analysis. Проверяют понимание statistical concepts.",
+    "keyPoints": [
+      {
+        "title": "Descriptive statistics",
+        "text": "Mean: average. Median: middle value. Mode: most frequent. Variance/SD: spread."
+      },
+      {
+        "title": "Inferential statistics",
+        "text": "Hypothesis testing: H₀ vs H₁. P-value: probability of observing data given H₀. Confidence interval: range for true parameter."
+      },
+      {
+        "title": "A/B testing",
+        "text": "Compare two variants. Statistical significance: p-value < 0.05. Power: probability of detecting effect."
+      }
+    ],
+    "pitfalls": [
+      "Путать correlation и causation",
+      "Не понимать p-value",
+      "Использовать mean для skewed data",
+      "Игнорировать confidence intervals"
+    ],
+    "followUps": [
+      "Как работает hypothesis testing?",
+      "Что такое p-value и как его интерпретировать?",
+      "Как связаны statistics и machine learning?"
+    ],
+    "category": "Machine Learning",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Data Engineering",
+      "Data Science"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Архитектура",
+    "tags": [
+      "Math",
+      "Statistics",
+      "Data Analysis"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated"
+      }
+    ],
+    "videoFrequency": 0
+  },
+  {
     "id": "monitoring-observability",
     "title": "Как настроить monitoring и observability для приложения?",
     "aliases": [],
