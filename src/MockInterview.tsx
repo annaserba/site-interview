@@ -207,9 +207,24 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   <div className={s['answer-section']}>
                     <h3>Пример ответа</h3>
                     <div className={s['answer-text']}>
-                      {current.exampleAnswer.split('\n').filter(Boolean).map((line, i) => (
-                        <p key={i}>{line}</p>
-                      ))}
+                      {current.exampleAnswer.split('```').map((block, i) => {
+                        if (i % 2 === 0) {
+                          // Regular text
+                          return block.split('\n').filter(Boolean).map((line, j) => (
+                            <p key={`${i}-${j}`}>{line}</p>
+                          ))
+                        } else {
+                          // Code block
+                          const lines = block.split('\n')
+                          const lang = lines[0]?.trim() || ''
+                          const code = lang ? lines.slice(1).join('\n') : block
+                          return (
+                            <pre key={i} className={s.code}>
+                              {code}
+                            </pre>
+                          )
+                        }
+                      })}
                     </div>
                   </div>
                 </div>

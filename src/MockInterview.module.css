@@ -290,6 +290,17 @@
   border-left: 3px solid var(--ink);
 }
 
+.answer-text pre {
+  font: 12px/1.5 'JetBrains Mono', monospace;
+  margin: 0;
+  padding: 14px 16px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  white-space: pre;
+}
+
 .nav {
   display: flex;
   gap: 10px;
