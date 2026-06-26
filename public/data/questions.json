@@ -2038,11 +2038,11 @@
       },
       {
         "title": "Canary",
-        "text": "一小部分 traffic → monitoring → full rollout. Медленно, но безопасно."
+        "text": "Часть  traffic → monitoring → full rollout. Медленно, но безопасно."
       },
       {
         "title": "Rolling",
-        "text": "Обновление по одному instance. Zero downtime, но缓慢 rollback."
+        "text": "Обновление по одному instance. Zero downtime, номедленный  rollback."
       }
     ],
     "pitfalls": [
@@ -4561,7 +4561,7 @@
       },
       {
         "title": "Reverse process",
-        "text": "Noise → model предсказывает noise →逐步 denoise → изображение."
+        "text": "Noise → model предсказывает noise → denoise → изображение."
       },
       {
         "title": "Latent diffusion",
@@ -4792,7 +4792,7 @@
     "title": "Как устроен GPT и чем он отличается от BERT?",
     "aliases": [],
     "answer": "GPT: decoder-only, autoregressive (предсказывает следующий token). BERT: encoder-only, bidirectional (понимает контекст в обе стороны). GPT для генерации, BERT для understanding/classification.",
-    "exampleAnswer": "GPT: \"The cat\" →预测 \"sat\". BERT: \"The [MASK] sat on\" → predicts \"cat\". GPT: chatbot, code generation. BERT: sentiment analysis, named entity recognition.",
+    "exampleAnswer": "GPT: \"The cat\" → \"sat\". BERT: \"The [MASK] sat on\" → predicts \"cat\". GPT: chatbot, code generation. BERT: sentiment analysis, named entity recognition.",
     "context": "Ключевое сравнение для понимания LLM architectures. Проверяют понимание differences.",
     "keyPoints": [
       {
@@ -4972,12 +4972,12 @@
     "title": "Как тренировать LLM и какие этапы включены?",
     "aliases": [],
     "answer": "Этапы: pre-training (language modeling на огромных данных), fine-tuning (на конкретной задаче), RLHF (alignment через human feedback). Compute: GPU clusters,weeks/months training.",
-    "exampleAnswer": "GPT-3 pre-training: 570GB text, 300B tokens,数千 GPUs, weeks. Fine-tuning: instruction following, dialogue. RLHF: human annotators rate responses → reward model → policy optimization.",
+    "exampleAnswer": "GPT-3 pre-training: 570GB text, 300B tokens, GPUs, weeks. Fine-tuning: instruction following, dialogue. RLHF: human annotators rate responses → reward model → policy optimization.",
     "context": "Ключевой topic для понимания LLM development. Проверяют понимание training pipeline.",
     "keyPoints": [
       {
         "title": "Pre-training",
-        "text": "Massive unlabeled data. Objective: predict next token (GPT) or masked token (BERT). Compute:数千 GPU, weeks."
+        "text": "Massive unlabeled data. Objective: predict next token (GPT) or masked token (BERT). Compute: GPU, weeks."
       },
       {
         "title": "Fine-tuning",
@@ -5032,7 +5032,7 @@
     "title": "Как работают Transformers в генеративном AI?",
     "aliases": [],
     "answer": "Transformers: self-attention mechanism для обработки sequences. Encoder-decoder архитектура. Self-attention: каждый token attended к каждому. Positional encoding: порядок tokens. Multi-head attention: параллельные attention heads.",
-    "exampleAnswer": "GPT: decoder-only transformer. Token prediction: P(w_t | w_1, ..., w_{t-1}). Self-attention: \"The cat sat on\" → attention weights определяют relationships. Multi-head: один head может фокуситься на语法, другой на semantics.",
+    "exampleAnswer": "GPT: decoder-only transformer. Token prediction: P(w_t | w_1, ..., w_{t-1}). Self-attention: \"The cat sat on\" → attention weights определяют relationships. Multi-head: один head может фокуситься на, другой на semantics.",
     "context": "Фундаментальная архитектура для GPT, BERT, и других LLM. Проверяют глубокое понимание.",
     "keyPoints": [
       {
@@ -5549,7 +5549,7 @@
     "pitfalls": [
       "Не использовать AI tools вообще",
       "Полностью доверять AI без проверки",
-      "Не знать про最新 tools",
+      "Не знать пронаиболее   tools",
       "Использовать только один инструмент"
     ],
     "followUps": [
@@ -5738,7 +5738,7 @@
       "Использовать Basic Auth без HTTPS",
       "Хранить API keys в коде",
       "Не делать token expiry",
-      "Использовать query params для敏感 data"
+      "Использовать query params для data"
     ],
     "followUps": [
       "Как работает Bearer token flow?",
@@ -5836,7 +5836,7 @@
     "id": "http-caching",
     "title": "Как работает HTTP кеширование?",
     "aliases": [],
-    "answer": "HTTP caching: браузер/proxy хранят responses. Headers: Cache-Control (policy), ETag (validation), Last-Modified, Expires. Типы: strong cache (no request),协商 cache (revalidate).",
+    "answer": "HTTP caching: браузер/proxy хранят responses. Headers: Cache-Control (policy), ETag (validation), Last-Modified, Expires. Типы: strong cache (no request), cache (revalidate).",
     "exampleAnswer": "`Cache-Control: max-age=3600` → browser caches 1 hour. After 1 hour: `If-None-Match: \"abc123\"` → server: 304 Not Modified → use cache. `Cache-Control: no-store` → never cache (sensitive data).",
     "context": "Ключевой concept для performance. Проверяют понимание caching mechanisms.",
     "keyPoints": [
@@ -5845,7 +5845,7 @@
         "text": "Cache-Control: max-age=3600 (1 hour). Expires: absolute date. Браузер не отправляет request."
       },
       {
-        "title": "协商 Cache",
+        "title": "Cache",
         "text": "ETag: version identifier. Last-Modified: timestamp. Браузер отправляет request с `If-None-Match`/`If-Modified-Since`. 304 Not Modified: use cache."
       },
       {
@@ -6342,7 +6342,7 @@
       }
     ],
     "pitfalls": [
-      "Хранить敏感ные данные (номера карт, СНИЛС) в localStorage или Redux.",
+      "Хранитьные данные (номера карт, СНИЛС) в localStorage или Redux.",
       "Не делать серверную валидацию, полагаясь только на клиентскую.",
       "Пропускать аудит действий — это нарушение Compliance.",
       "Использовать один API для всех bounded contexts вместо разделения.",
@@ -6400,7 +6400,7 @@
         "text": "Назовите: microtasks (Promise, queueMicrotask), macrotasks (setTimeout, setInterval, I/O), rendering (requestAnimationFrame), idle (requestIdleCallback), MessageChannel, scheduler.yield()."
       },
       {
-        "title": "Объяснить приоритет执行",
+        "title": "Объяснить приоритет",
         "text": "microtasks выполняются ПЕРЕД каждой макрозадачей и ПЕРЕД рендерингом. Рендеринг происходит ПОСЛЕ очереди микро- и макрозадач, но ДО следующей макрозадачи. scheduler.yield() даёт браузеру возможность отрисовать кадр."
       },
       {
@@ -6462,8 +6462,8 @@
     "id": "it-one-react-redux-patterns",
     "title": "Как организовать 상태 в крупном React-приложении с Redux?",
     "aliases": [],
-    "answer": "Redux组织大型React应用状态的核心在于feature-based architecture: каждый feature (например, `features/auth`, `features/dashboard`) имеет собственные slices, reducers и selectors. Нормализация данных через `createEntityAdapter` упрощает CRUD-операции. Middleware (thunk или saga) обрабатывают side effects, а TypeScript типизация action creators и reducers обеспечивает безопасность на этапе компиляции. Context подходит для глобальных настроек (тема, язык), но не для高频变化 состояния.",
-    "exampleAnswer": "В крупном React-приложении я организую Redux состояние через feature-based architecture. Каждая бизнес-сущность (auth, orders, users) — отдельная папка со своим slice, thunks и selectors. Это упрощает навигацию по кодовой базе и уменьшает конфликты при параллельной разработке.\n\nДля данных, которые приходят из API, я нормализую состояние через `createEntityAdapter` — это даёт O(1) доступ по ID и встроенные методы CRUD. Вместо `{ users: [{ id: 1, name: '...' }, ...] }` получаю `{ users: { ids: [1], entities: { 1: { id: 1, name: '...' } } } }`.\n\nSide effects обрабатываю через thunks для простых запросов (fetch, create, update) и sagas для сложных workflow (retry с экспоненциальной задержкой, отмена запросов, последовательные вызовы API).\n\nTypeScript типизирую через `createSlice` с дженериком и typed hooks (`useAppSelector`, `useAppDispatch`) — это исключает ошибки при обращении к store.\n\nДля Context vs Redux: использую Context для глобальных настроек (тема, язык, текущий пользователь), но не для高频 updates (списки, формы), так как Context вызывает re-render всех consumers.",
+    "answer": "ReduxReact feature-based architecture: каждый feature (например, `features/auth`, `features/dashboard`) имеет собственные slices, reducers и selectors. Нормализация данных через `createEntityAdapter` упрощает CRUD-операции. Middleware (thunk или saga) обрабатывают side effects, а TypeScript типизация action creators и reducers обеспечивает безопасность на этапе компиляции. Context подходит для глобальных настроек (тема, язык), но не для состояния.",
+    "exampleAnswer": "В крупном React-приложении я организую Redux состояние через feature-based architecture. Каждая бизнес-сущность (auth, orders, users) — отдельная папка со своим slice, thunks и selectors. Это упрощает навигацию по кодовой базе и уменьшает конфликты при параллельной разработке.\n\nДля данных, которые приходят из API, я нормализую состояние через `createEntityAdapter` — это даёт O(1) доступ по ID и встроенные методы CRUD. Вместо `{ users: [{ id: 1, name: '...' }, ...] }` получаю `{ users: { ids: [1], entities: { 1: { id: 1, name: '...' } } } }`.\n\nSide effects обрабатываю через thunks для простых запросов (fetch, create, update) и sagas для сложных workflow (retry с экспоненциальной задержкой, отмена запросов, последовательные вызовы API).\n\nTypeScript типизирую через `createSlice` с дженериком и typed hooks (`useAppSelector`, `useAppDispatch`) — это исключает ошибки при обращении к store.\n\nДля Context vs Redux: использую Context для глобальных настроек (тема, язык, текущий пользователь), но не для updates (списки, формы), так как Context вызывает re-render всех consumers.",
     "context": "Интервьюер ожидает понимания архитектурных паттернов для масштабируемых Redux-приложений: organization of code, separation of concerns, типизация, и когда Redux не нужен.",
     "keyPoints": [
       {
@@ -6778,7 +6778,7 @@
     "title": "CAP theorem: зачем это важно знать?",
     "aliases": [],
     "answer": "CAP theorem: в распределённой системе при network partitioning невозможно garantировать одновременно Consistency, Availability, Partition tolerance. Приходится выбирать: CP (согласованность) или AP (доступность). На практике: partition tolerance mandatory, выбор между C и A.",
-    "exampleAnswer": "CAP: при network partition (узлы не видят друг друга) система должна choose: CP — fail writes, guarantee consistency (ZooKeeper: если majority недоступна — service unavailable). AP — continue writes, guarantee availability (Cassandra: пишем на любой available node, eventual consistency). CA: PostgreSQL в single node (нет partitions, но не distributed). PACELC: при partition — A or C;否则 latency vs consistency.",
+    "exampleAnswer": "CAP: при network partition (узлы не видят друг друга) система должна choose: CP — fail writes, guarantee consistency (ZooKeeper: если majority недоступна — service unavailable). AP — continue writes, guarantee availability (Cassandra: пишем на любой available node, eventual consistency). CA: PostgreSQL в single node (нет partitions, но не distributed). PACELC: при partition — A or C; latency vs consistency.",
     "context": "Фундаментальный theorem для distributed systems. Проверяют понимание theoretical foundations.",
     "keyPoints": [
       {
@@ -6843,7 +6843,7 @@
     "keyPoints": [
       {
         "title": "Состояния",
-        "text": "Closed:正常工作, считает failures. Open: превышен threshold, блокирует requests. Half-open: пропускает probe request для проверки."
+        "text": "Closed:, считает failures. Open: превышен threshold, блокирует requests. Half-open: пропускает probe request для проверки."
       },
       {
         "title": "Реализация",
@@ -6894,7 +6894,7 @@
     "title": "Что такое consensus в распределённых системах?",
     "aliases": [],
     "answer": "Consensus — процесс достижения agreement между узлами. Алгоритмы: Paxos, Raft, ZAB. Проблема: impossibilityCAP — при partition tolerance невозможно garantировать agreement.",
-    "exampleAnswer": "Raft: узлы elect leader (term-based). Leader replicate log entries на followers. Majority must agree для commit. При failure:新的leader elected, incomplete entries откатываются. Paxos: prepare → promise → accept → accepted. Сложнее в implementation, но более flexible. Consensus используется в: ZooKeeper (ZAB), etcd (Raft), CockroachDB (Raft).",
+    "exampleAnswer": "Raft: узлы elect leader (term-based). Leader replicate log entries на followers. Majority must agree для commit. При failure:  leader elected, incomplete entries откатываются. Paxos: prepare → promise → accept → accepted. Сложнее в implementation, но более flexible. Consensus используется в: ZooKeeper (ZAB), etcd (Raft), CockroachDB (Raft).",
     "context": "Продвинутый topic распределённых систем. Проверяют глубокое понимание agreement protocols.",
     "keyPoints": [
       {
@@ -6955,7 +6955,7 @@
     "title": "Какие модели согласованности существуют?",
     "aliases": [],
     "answer": "Модели согласованности: linearizable (strongest), sequential, causal, eventual (weakest). Stronger models: better guarantees, но lower availability/higher latency. Выбор зависит от requirements.",
-    "exampleAnswer": "Linearizable: ZooKeeper, etcd. Reads see最新写入. Sequential: many databases с snapshot isolation. Causal: causally consistent distributed systems. Eventual: Cassandra, DynamoDB. Выбор: financial transactions → linearizable. Social feed → eventual. Collaborative editing → causal.",
+    "exampleAnswer": "Linearizable: ZooKeeper, etcd. Reads seeнаиболее  . Sequential: many databases с snapshot isolation. Causal: causally consistent distributed systems. Eventual: Cassandra, DynamoDB. Выбор: financial transactions → linearizable. Social feed → eventual. Collaborative editing → causal.",
     "context": "Продвинутый topic для понимания trade-offs. Проверяют глубокое knowledge.",
     "keyPoints": [
       {
@@ -6972,7 +6972,7 @@
       },
       {
         "title": "Eventual",
-        "text": "最终 consistent: all replicas converge. Weakest guarantee."
+        "text": "наиболее   consistent: all replicas converge. Weakest guarantee."
       }
     ],
     "pitfalls": [
@@ -7079,7 +7079,7 @@
     "title": "Что такое CRDT и как они работают?",
     "aliases": [],
     "answer": "CRDT (Conflict-free Replicated Data Types) — структуры данных, которые могут реплицироваться на несколько узлов и конвергироваться без конфликтов. Основаны на коммутативных, ассоциативных, идемпотентных операциях. Примеры: G-Counter, PN-Counter, OR-Set.",
-    "exampleAnswer": "G-Counter: каждый узел хранит自己的 counter. Merge: max по каждому узлу. Пример: узел A = [1, 0], узел B = [0, 1]. Merge: [1, 1] = 2. PN-Counter: два G-Counter (increment + decrement). OR-Set: каждый add создаёт уникальный tag, remove удаляет конкретные tags. Преимущество: eventual consistency без central coordination. Недостаток: метаданные растут.",
+    "exampleAnswer": "G-Counter: каждый узел хранит  counter. Merge: max по каждому узлу. Пример: узел A = [1, 0], узел B = [0, 1]. Merge: [1, 1] = 2. PN-Counter: два G-Counter (increment + decrement). OR-Set: каждый add создаёт уникальный tag, remove удаляет конкретные tags. Преимущество: eventual consistency без central coordination. Недостаток: метаданные растут.",
     "context": "Продвинутый topic распределённых систем. Проверяют глубокое понимание conflict resolution.",
     "keyPoints": [
       {
@@ -7199,7 +7199,7 @@
     "title": "Что такое согласованность (consistency) в распределённых системах?",
     "aliases": [],
     "answer": "Согласованность — garantия, что все узлы видят одни и те же данные в одно и то же время. Существует сильная (linearizability) и слабая (causal, eventual) согласованность. Компромисс: сильная согласованность снижает доступность.",
-    "exampleAnswer": "Согласованность гарантирует, что чтение возвращает самую свежую запись. Linearizable — strongest: операции выглядят как в однопоточной системе. Eventual — данные в конечном счёте синхронизируются, но短暂но могут быть устаревшими. В CAP при Partition Tolerance выбираем: CP (ZooKeeper — согласованность, но недоступен при split) или AP (Cassandra — доступна, но может вернуть устаревшие данные).",
+    "exampleAnswer": "Согласованность гарантирует, что чтение возвращает самую свежую запись. Linearizable — strongest: операции выглядят как в однопоточной системе. Eventual — данные в конечном счёте синхронизируются, ноно могут быть устаревшими. В CAP при Partition Tolerance выбираем: CP (ZooKeeper — согласованность, но недоступен при split) или AP (Cassandra — доступна, но может вернуть устаревшие данные).",
     "context": "Вопрос из области распределённых систем. Проверяют понимание trade-offs между согласованностью и доступностью (CAP theorem).",
     "keyPoints": [
       {
@@ -7332,7 +7332,7 @@
       },
       {
         "title": "Проблемы",
-        "text": "Clock skew: locks expire prematurely. Fencing: guarantee mutual exclusion即使 failure."
+        "text": "Clock skew: locks expire prematurely. Fencing: guarantee mutual exclusion failure."
       }
     ],
     "pitfalls": [
@@ -7444,11 +7444,11 @@
     "keyPoints": [
       {
         "title": "Принцип",
-        "text": "Каждый узел周期性会选择 random peer, обменивается state. Сloopy convergence: информация reaches all nodes."
+        "text": "Каждый узел random peer, обменивается state. Сloopy convergence: информация reaches all nodes."
       },
       {
         "title": "Типы",
-        "text": "Push: send自己的 state. Pull: request peer's state. Push-pull: оба варианта."
+        "text": "Push: send  state. Pull: request peer's state. Push-pull: оба варианта."
       },
       {
         "title": "Применение",
@@ -7499,7 +7499,7 @@
     "title": "Как обеспечить graceful degradation в системе?",
     "aliases": [],
     "answer": "Graceful degradation — система продолжает работать в reduced functionality при failures. Стратегии: cached responses, default values, feature flags, partial functionality. Важно: определить critical vs non-critical paths.",
-    "exampleAnswer": "E-commerce: payment service down → alternative payment method. Recommendations service down → show popular items instead of personalized. Cache: Redis с TTL. Если backend down → serve from cache. Feature flags:如果search service slow → disable advanced filters. Monitoring: track degradation events, alert на critical failures.",
+    "exampleAnswer": "E-commerce: payment service down → alternative payment method. Recommendations service down → show popular items instead of personalized. Cache: Redis с TTL. Если backend down → serve from cache. Feature flags:search service slow → disable advanced filters. Monitoring: track degradation events, alert на critical failures.",
     "context": "Важный concept для availability. Проверяют понимание как поддерживать service при failures.",
     "keyPoints": [
       {
@@ -7555,7 +7555,7 @@
     "title": "Зачем нужна идемпотентность в распределённых системах?",
     "aliases": [],
     "answer": "Идемпотентность — повторный вызов даёт тот же результат. Критически важна в distributed systems: network failures, retries, message duplicates. Реализация: idempotency keys, database constraints, conditional writes.",
-    "exampleAnswer": "Payment API: клиент генерирует idempotency_key, отправляет с запросом. Сервер: если key уже существует — возвращает cached result. Если нет — обрабатывает и сохраняет result с key. Database:唯一 constraint на idempotency_key. Или: version vector + compare-and-swap. Stripe API: idempotency keys для payment retries.",
+    "exampleAnswer": "Payment API: клиент генерирует idempotency_key, отправляет с запросом. Сервер: если key уже существует — возвращает cached result. Если нет — обрабатывает и сохраняет result с key. Database: constraint на idempotency_key. Или: version vector + compare-and-swap. Stripe API: idempotency keys для payment retries.",
     "context": "Фундаментальный concept для resilient APIs. Проверяют понимание как обрабатывать retries и duplicates.",
     "keyPoints": [
       {
@@ -7610,7 +7610,7 @@
     "id": "klp-inverted-index",
     "title": "Как работает inverted index и почему он важен для поиска?",
     "aliases": [],
-    "answer": "Inverted index — структура данных для быстрого поиска по содержимому. Мапит terms → documents. Каждый term указывает на список документов, где он встречается. Основа全文ового поиска (Elasticsearch, Lucene).",
+    "answer": "Inverted index — структура данных для быстрого поиска по содержимому. Мапит terms → documents. Каждый term указывает на список документов, где он встречается. Основаового поиска (Elasticsearch, Lucene).",
     "exampleAnswer": "Inverted index: \"distributed\" → [doc1 (pos 5), doc3 (pos 12)]. \"systems\" → [doc1 (pos 6), doc2 (pos 1)]. Query \"distributed systems\" → intersection [doc1]. Elasticsearch: Lucene inverted index. Posting lists compressed, intersections через AND/OR. Real-time: segment-based, refresh каждые 1 секунду. Для 10M документов: ~100MB index, query latency ~10ms.",
     "context": "Фундаментальный concept для поисковых систем. Проверяют понимание как работает поиск.",
     "keyPoints": [
@@ -7731,7 +7731,7 @@
     "title": "Как работает leader election в распределённых системах?",
     "aliases": [],
     "answer": "Leader election: процесс выбора одного узла для coordination. Алгоритмы: Bully, Ring, Raft. Инструменты: ZooKeeper, etcd, Consul. Проблемы: split-brain, fencing, liveness.",
-    "exampleAnswer": "Raft election: candidate requests votes. Majority votes → leader. Term: logical clock, ensures progress. ZooKeeper: ephemeral znode,如果session expired — node removed. Leader: ephemeral znode holder. Split-brain prevention: fencing tokens, lease-based. Failure: new election.",
+    "exampleAnswer": "Raft election: candidate requests votes. Majority votes → leader. Term: logical clock, ensures progress. ZooKeeper: ephemeral znode,session expired — node removed. Leader: ephemeral znode holder. Split-brain prevention: fencing tokens, lease-based. Failure: new election.",
     "context": "Ключевой component для distributed coordination. Проверяют понимание algorithms и failure modes.",
     "keyPoints": [
       {
@@ -7868,7 +7868,7 @@
       }
     ],
     "pitfalls": [
-      "Использовать queue без考虑 delivery semantics",
+      "Использовать queue без delivery semantics",
       "Не планировать consumer failures",
       "Игнорировать ordering requirements",
       "Не мониторить queue depth"
@@ -7910,7 +7910,7 @@
     "id": "klp-microservices-boundaries",
     "title": "Как определить границы между microservices?",
     "aliases": [],
-    "answer": "Границы microservices определяются business capabilities, data ownership, team structure. Domain-Driven Design: bounded contexts. Правила: single responsibility, loose coupling, high cohesion. Anti-patterns: 分布式 monolith.",
+    "answer": "Границы microservices определяются business capabilities, data ownership, team structure. Domain-Driven Design: bounded contexts. Правила: single responsibility, loose coupling, high cohesion. Anti-patterns:  monolith.",
     "exampleAnswer": "E-commerce: bounded contexts — Catalog, Orders, Payments, Shipping. Each service: own database, own business logic. Catalog: products, categories. Orders: order management. Payments: payment processing. Communication: async events (order-created → payment-service). Boundaries: не делить database между services, не делать synchronous calls между services.",
     "context": "Ключевой architectural decision. Проверяют понимание DDD и microservices boundaries.",
     "keyPoints": [
@@ -7920,7 +7920,7 @@
       },
       {
         "title": "Критерии",
-        "text": "Business capability: services aligned with business functions. Data ownership: each service owns自己的 data. Team structure: Conway's law."
+        "text": "Business capability: services aligned with business functions. Data ownership: each service owns  data. Team structure: Conway's law."
       },
       {
         "title": "Антипаттерны",
@@ -8031,12 +8031,12 @@
     "title": "Multi-leader replication: зачем и как работает?",
     "aliases": [],
     "answer": "Multi-leader replication — несколько узлов принимают записи одновременно. Используется в multi-datacenter setups, offline-first apps, collaborative editing. Главная проблема: conflict resolution (last-write-wins, CRDT, application-level).",
-    "exampleAnswer": "Multi-datacenter PostgreSQL: каждый DC имеет自己的 leader с async replication. При split-brain: conflict detection через timestamps или vector clocks. Resolution: LWW (просто, но может терять данные) или CRDT (guarantee convergence, но сложнее). Offline-first: iOS app хранит changes locally, sync при network. CouchDB/PouchDB: automatic conflict resolution через revisions.",
+    "exampleAnswer": "Multi-datacenter PostgreSQL: каждый DC имеет  leader с async replication. При split-brain: conflict detection через timestamps или vector clocks. Resolution: LWW (просто, но может терять данные) или CRDT (guarantee convergence, но сложнее). Offline-first: iOS app хранит changes locally, sync при network. CouchDB/PouchDB: automatic conflict resolution через revisions.",
     "context": "Продвинутый topic репликации. Проверяют понимание trade-offs и conflict resolution strategies.",
     "keyPoints": [
       {
         "title": "Зачем",
-        "text": "Multi-datacenter: каждый DC имеет自己的 leader, lower latency. Offline-first: мобильные клиенты работают без сети."
+        "text": "Multi-datacenter: каждый DC имеет  leader, lower latency. Offline-first: мобильные клиенты работают без сети."
       },
       {
         "title": "Проблемы",
@@ -8632,7 +8632,7 @@
     "title": "Как работает stream processing в распределённых системах?",
     "aliases": [],
     "answer": "Stream processing — обработка данных в реальном времени по мере поступления. Ключевые concept: backpressure, windowing, exactly-once semantics. Инструменты: Kafka Streams, Flink, Spark Streaming.",
-    "exampleAnswer": "Kafka Streams: обработка событий из Kafka topics. Windowing: сумма заказов за последние 5 минут (tumbling window). Exactly-once: транзакции между read и write. Backpressure:如果consumer lag растёт — broker apply背压. Flink: stateful processing, checkpointing для fault tolerance. Сравнение: Spark Streaming — micro-batch (latency ~100ms), Flink — true streaming (latency ~1ms).",
+    "exampleAnswer": "Kafka Streams: обработка событий из Kafka topics. Windowing: сумма заказов за последние 5 минут (tumbling window). Exactly-once: транзакции между read и write. Backpressure:consumer lag растёт — broker apply. Flink: stateful processing, checkpointing для fault tolerance. Сравнение: Spark Streaming — micro-batch (latency ~100ms), Flink — true streaming (latency ~1ms).",
     "context": "Важный topic для проектирования real-time систем. Проверяют понимание differences между batch и stream processing.",
     "keyPoints": [
       {
@@ -8701,7 +8701,7 @@
       },
       {
         "title": "Оптимизации",
-        "text": "Column storage: сжатие по时间. Time-based partitioning: partitions по дням/месяцам. Downsampling: reduce granularity для старых данных."
+        "text": "Column storage: сжатие по. Time-based partitioning: partitions по дням/месяцам. Downsampling: reduce granularity для старых данных."
       },
       {
         "title": "Примеры",
@@ -8811,13 +8811,13 @@
     "id": "klp-vector-clocks",
     "title": "Что такое vector clocks и зачем они нужны?",
     "aliases": [],
-    "answer": "Vector clocks — mechanism для определения causality в distributed systems. Каждый узел хранит vector timestamps. При event: increment自己的 counter. Comparison: определяет happened-before relationship.",
+    "answer": "Vector clocks — mechanism для определения causality в distributed systems. Каждый узел хранит vector timestamps. При event: increment  counter. Comparison: определяет happened-before relationship.",
     "exampleAnswer": "Vector clocks: узел A: [A:1], B: [B:1]. A → B: B receives [A:1, B:1], increment: [A:1, B:2]. C → A: A receives [C:1], merge: [A:1, C:1]. Comparison: [A:1, B:2] vs [A:1, C:1] → concurrent (conflict). Amazon Dynamo: vector clocks для conflict detection. При conflict: application-level resolution.",
     "context": "Продвинутый topic для conflict detection. Проверяют понимание causality tracking.",
     "keyPoints": [
       {
         "title": "Принцип",
-        "text": "Каждый узел хранит vector: [A:1, B:2, C:0]. При local event: increment自己的 counter. При message: merge vectors."
+        "text": "Каждый узел хранит vector: [A:1, B:2, C:0]. При local event: increment  counter. При message: merge vectors."
       },
       {
         "title": "Сравнение",
@@ -8877,7 +8877,7 @@
     "keyPoints": [
       {
         "title": "Компоненты",
-        "text": "LLM: brain. Tools: functions, APIs. Memory:短期/长期. Planning: goal分解."
+        "text": "LLM: brain. Tools: functions, APIs. Memory:/. Planning: goal."
       },
       {
         "title": "Архитектуры",
@@ -9000,7 +9000,7 @@
       },
       {
         "title": "Human evaluation",
-        "text": "Expert review, user feedback, A/B testing. Дорого, но最accurate."
+        "text": "Expert review, user feedback, A/B testing. Дорого, нонаиболее accurate."
       },
       {
         "title": "LLM-as-judge",
@@ -9051,7 +9051,7 @@
     "title": "Когда использовать fine-tuning vs prompt engineering?",
     "aliases": [],
     "answer": "Prompt engineering: быстрый старт, без training data. Fine-tuning: custom behavior, domain-specific knowledge. Когда fine-tune: consistent format, proprietary data, performance requirements. Cost/benefit analysis.",
-    "exampleAnswer": "Prompt engineering: для chatbot, Q&A, summarization. Fine-tuning: для medical diagnosis (domain knowledge), code generation (specific style),情感分析 (custom labels). Cost: prompt engineering $0, fine-tuning $100-1000+.",
+    "exampleAnswer": "Prompt engineering: для chatbot, Q&A, summarization. Fine-tuning: для medical diagnosis (domain knowledge), code generation (specific style), (custom labels). Cost: prompt engineering $0, fine-tuning $100-1000+.",
     "context": "Стратегический decision для LLM apps. Проверяют понимание trade-offs.",
     "keyPoints": [
       {
@@ -9894,7 +9894,7 @@
       },
       {
         "title": "Regularization",
-        "text": "L1: sparse models (Lasso). L2: small weights (Ridge). Dropout:防止 overfitting."
+        "text": "L1: sparse models (Lasso). L2: small weights (Ridge). Dropout: overfitting."
       },
       {
         "title": "Метрики",
@@ -9944,7 +9944,7 @@
     "id": "math-probability",
     "title": "Какая теория вероятностей нужна для Data Science?",
     "aliases": [],
-    "answer": "Вероятность, условная вероятность, Bayes theorem, распределения (normal, binomial, Poisson),期望值, variance. Применение: classification, A/B testing, Bayesian inference.",
+    "answer": "Вероятность, условная вероятность, Bayes theorem, распределения (normal, binomial, Poisson),, variance. Применение: classification, A/B testing, Bayesian inference.",
     "exampleAnswer": "Bayes: P(spam|word=\"free\") = P(\"free\"|spam) × P(spam) / P(\"free\"). Normal distribution: height, weight, test scores. Poisson: number of events per time unit.",
     "context": "Фундаментальная math для data science. Проверяют понимание probability theory.",
     "keyPoints": [
@@ -12178,7 +12178,7 @@
     "followUps": [
       "Как модифицировать функцию для поддержки отмены задач?",
       "Как добавить retry с экспоненциальной задержкой?",
-      "В чём разница между this concurrencyLimit и使用 BoundedPromisePool?",
+      "В чём разница между this concurrencyLimit и BoundedPromisePool?",
       "Как обрабатывать таймауты для каждой задачи отдельно?"
     ],
     "codeSnippet": "async function concurrencyLimit<T>(\n  tasks: (() => Promise<T>)[],\n  limit: number\n): Promise<T[]> {\n  const results: T[] = [];\n  const active = new Set<Promise<void>>();\n\n  for (let i = 0; i < tasks.length; i++) {\n    const task = tasks[i];\n    const p = task()\n      .then((result) => {\n        results[i] = result;\n      })\n      .catch((err) => {\n        results[i] = err as T;\n      })\n      .finally(() => {\n        active.delete(p);\n      });\n\n    active.add(p);\n\n    if (active.size >= limit) {\n      await Promise.race(active);\n    }\n  }\n\n  await Promise.allSettled(active);\n  return results;\n}",
@@ -12233,7 +12233,7 @@
       },
       {
         "title": "Reliability",
-        "text": "Idempotency:防止 double processing. Retry: exponential backoff. Circuit breaker:防止 cascade failures."
+        "text": "Idempotency: double processing. Retry: exponential backoff. Circuit breaker: cascade failures."
       }
     ],
     "pitfalls": [
@@ -12403,7 +12403,7 @@
     "keyPoints": [
       {
         "title": "Payment processing",
-        "text": "Multiple methods: cards, wallets, SBP. Idempotency:防止 double charges. 3D Secure: authentication."
+        "text": "Multiple methods: cards, wallets, SBP. Idempotency: double charges. 3D Secure: authentication."
       },
       {
         "title": "Escrow",
@@ -12667,7 +12667,7 @@
     "keyPoints": [
       {
         "title": "Этапы",
-        "text": "1. Гипотеза: вариант B лучше A. 2. Sample size: calculator. 3. Randomization: равные группы. 4. Collection:足够 data. 5. Analysis: p-value, confidence interval."
+        "text": "1. Гипотеза: вариант B лучше A. 2. Sample size: calculator. 3. Randomization: равные группы. 4. Collection: data. 5. Analysis: p-value, confidence interval."
       },
       {
         "title": "Статистика",
@@ -12779,7 +12779,7 @@
     "id": "product-cohort-analysis",
     "title": "Как проводить cohort analysis для понимания retention?",
     "aliases": [],
-    "answer": "Cohort analysis: группировка users по共同特征 (дата signup, источник). Отслеживание behavior over time. Ключевое: retention curves, comparison between cohorts.",
+    "answer": "Cohort analysis: группировка users по (дата signup, источник). Отслеживание behavior over time. Ключевое: retention curves, comparison between cohorts.",
     "exampleAnswer": "Cohort: January 2024 signup. Week 1: 100% → Week 4: 60% → Week 12: 40%. Comparison: January vs February cohorts. January: +10% retention (onboarding improved).",
     "context": "Важный инструмент для retention analysis. Проверяют понимание cohort methodology.",
     "keyPoints": [
@@ -12839,7 +12839,7 @@
     "title": "Как проводить competitor analysis?",
     "aliases": [],
     "answer": "Competitor analysis: изучение strengths/weaknesses competitors. Инструменты: SWOT, feature comparison, pricing analysis, user reviews. Ключевое: find gaps, differentiate.",
-    "exampleAnswer": "Competitor analysis: 3 competitors. SWOT: Competitor A — сильный brand, слабый UX. B — дешевле, fewer features. C —最好的 UX, дороже. Gap: средний ценовой segment с好的 UX.",
+    "exampleAnswer": "Competitor analysis: 3 competitors. SWOT: Competitor A — сильный brand, слабый UX. B — дешевле, fewer features. C —наиболее    UX, дороже. Gap: средний ценовой segment с   UX.",
     "context": "Важный strategic tool. Проверяют понимание competitive landscape.",
     "keyPoints": [
       {
@@ -13256,13 +13256,13 @@
     "id": "rutube-url-to-render",
     "title": "Что происходит после того, как пользователь ввёл URL в адресную строку?",
     "aliases": [],
-    "answer": "После ввода URL браузер проверяет кэш DNS, делает DNS-запрос для получения IP, устанавливает TCP-соединение (三次握手), при необходимости TLS-хендшейк, отправляет HTTP-запрос, получает ответ (HTML), парсит DOM и CSSOM, строит Render Tree, выполняет Layout, Paint и Composite, отображая страницу на экране.",
-    "exampleAnswer": "Когда пользователь вводит URL, происходит цепочка из ~15 этапов. Сначала браузер проверяет HSTS-список и кэш DNS. Если IP не найден — идёт DNS-запрос через рекурсивный резолвер: browser cache → OS cache → роутер → DNS провайдера.\n\nПолучив IP, браузер устанавливает TCP-соединение (三次握手), затем TLS-хендшейк для шифрования. Далее отправляется HTTP-запрос с заголовками (cookies, cache directives, Accept-Encoding).\n\nСервер отвечает HTML. Браузер запускает preload scanner — он обнаруживает критические ресурсы (CSS, JS) до завершения парсинга HTML, что ускоряет загрузку. Параллельно с парсингом HTML строится CSSOM из CSS-файлов.\n\nDOM и CSSOM объединяются в Render Tree. Затем Layout вычисляет позиции и размеры каждого элемента. Paint рисует пиксели в виртуальные слои. Composite объединяет слои через GPU и выводит на экран.\n\nКлючевые оптимизации: DNS prefetch, TCP preconnect, HTTP/2 мультиплексирование, Brotli-сжатие, lazy loading для изображений, code splitting для JS.",
+    "answer": "После ввода URL браузер проверяет кэш DNS, делает DNS-запрос для получения IP, устанавливает TCP-соединение (), при необходимости TLS-хендшейк, отправляет HTTP-запрос, получает ответ (HTML), парсит DOM и CSSOM, строит Render Tree, выполняет Layout, Paint и Composite, отображая страницу на экране.",
+    "exampleAnswer": "Когда пользователь вводит URL, происходит цепочка из ~15 этапов. Сначала браузер проверяет HSTS-список и кэш DNS. Если IP не найден — идёт DNS-запрос через рекурсивный резолвер: browser cache → OS cache → роутер → DNS провайдера.\n\nПолучив IP, браузер устанавливает TCP-соединение (), затем TLS-хендшейк для шифрования. Далее отправляется HTTP-запрос с заголовками (cookies, cache directives, Accept-Encoding).\n\nСервер отвечает HTML. Браузер запускает preload scanner — он обнаруживает критические ресурсы (CSS, JS) до завершения парсинга HTML, что ускоряет загрузку. Параллельно с парсингом HTML строится CSSOM из CSS-файлов.\n\nDOM и CSSOM объединяются в Render Tree. Затем Layout вычисляет позиции и размеры каждого элемента. Paint рисует пиксели в виртуальные слои. Composite объединяет слои через GPU и выводит на экран.\n\nКлючевые оптимизации: DNS prefetch, TCP preconnect, HTTP/2 мультиплексирование, Brotli-сжатие, lazy loading для изображений, code splitting для JS.",
     "context": "Интервьюер проверяет фундаментальное понимание работы веб-платформы: от сетевого стека до рендеринга. Ожидается последовательное объяснение всех этапов с указанием оптимизаций на каждом шаге.",
     "keyPoints": [
       {
         "title": "DNS и сетевое подключение",
-        "text": "DNS-резолвинг: browser cache → OS cache → router → ISP DNS → recursive resolver. После получения IP — TCP三次握手 (SYN, SYN-ACK, ACK), затем TLS handshake для HTTPS. Механизм TCP Fast Open для повторных соединений."
+        "text": "DNS-резолвинг: browser cache → OS cache → router → ISP DNS → recursive resolver. После получения IP — TCP (SYN, SYN-ACK, ACK), затем TLS handshake для HTTPS. Механизм TCP Fast Open для повторных соединений."
       },
       {
         "title": "Загрузка ресурсов",
@@ -13290,7 +13290,7 @@
       "Как Service Worker влияет на этот процесс?",
       "Чем отличается CSR от SSR в контексте первого рендера?"
     ],
-    "codeSnippet": "## Полная последовательность этапов\n\n1. **URL Parse** — парсинг протокола, домена, пути, параметров\n2. **HSTS Check** — проверка списка HSTS (принудительный HTTPS)\n3. **DNS Lookup** — резолвинг домена в IP-адрес\n4. **TCP Connection** —三次握手 (SYN → SYN-ACK → ACK)\n5. **TLS Handshake** — обмен ключами, сертификат, шифрование\n6. **HTTP Request** — отправка GET/POST с заголовками\n7. **HTTP Response** — получение HTML (200, 301, 304...)\n8. **HTML Parsing** — построение DOM-дерева\n9. **CSSOM** — парсинг CSS в дерево стилей\n10. **Render Tree** — объединение DOM + CSSOM\n11. **Layout** — вычисление геометрии (reflow)\n12. **Paint** — рисование пикселей (repaint)\n13. **Composite** — наложение слоёв через GPU",
+    "codeSnippet": "## Полная последовательность этапов\n\n1. **URL Parse** — парсинг протокола, домена, пути, параметров\n2. **HSTS Check** — проверка списка HSTS (принудительный HTTPS)\n3. **DNS Lookup** — резолвинг домена в IP-адрес\n4. **TCP Connection** — (SYN → SYN-ACK → ACK)\n5. **TLS Handshake** — обмен ключами, сертификат, шифрование\n6. **HTTP Request** — отправка GET/POST с заголовками\n7. **HTTP Response** — получение HTML (200, 301, 304...)\n8. **HTML Parsing** — построение DOM-дерева\n9. **CSSOM** — парсинг CSS в дерево стилей\n10. **Render Tree** — объединение DOM + CSSOM\n11. **Layout** — вычисление геометрии (reflow)\n12. **Paint** — рисование пикселей (repaint)\n13. **Composite** — наложение слоёв через GPU",
     "codeLanguage": "markdown",
     "category": "Web Platform",
     "scope": "universal",
@@ -13326,13 +13326,13 @@
     "id": "sber-chatbot",
     "title": "Как Сбер строит AI-чатботы для банковских сервисов?",
     "aliases": [],
-    "answer": "AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,安全保障. Ключевые: точность распознавания, безопасность, compliance.",
+    "answer": "AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,. Ключевые: точность распознавания, безопасность, compliance.",
     "exampleAnswer": "User: \"Переведи 1000₽ на карту 1234\" → intent: transfer, amount: 1000, card: 1234. Bot: \"Подтвердите перевод 1000₽ на карту ****1234?\" → user: \"Да\" → execute transfer.",
     "context": "Ключевой AI use case для банка. Проверяют понимание conversational AI.",
     "keyPoints": [
       {
         "title": "NLU",
-        "text": "Intent recognition: transfer money, check balance. Entity extraction: amount, recipient.槽 filling: gathering required info."
+        "text": "Intent recognition: transfer money, check balance. Entity extraction: amount, recipient. filling: gathering required info."
       },
       {
         "title": "Dialogue management",
@@ -13874,7 +13874,7 @@
     "title": "Что такое аутентификация и авторизация? Как их реализовать?",
     "aliases": [],
     "answer": "Аутентификация: кто вы (login + password, token). Авторизация: что вам можно (roles, permissions). JWT: stateless token с payload. OAuth2: delegated authorization. Session: server-side storage.",
-    "exampleAnswer": "JWT flow: login → server creates JWT (userId, role, exp) → client stores в localStorage/cookie →每个 request в Authorization header → server verifies signature. RBAC: admin can edit, user can read. OAuth2: \"Login with Google\" → Google authenticates, gives token.",
+    "exampleAnswer": "JWT flow: login → server creates JWT (userId, role, exp) → client stores в localStorage/cookie → request в Authorization header → server verifies signature. RBAC: admin can edit, user can read. OAuth2: \"Login with Google\" → Google authenticates, gives token.",
     "context": "Фундаментальный security concept. Проверяют понимание auth flows.",
     "keyPoints": [
       {
@@ -13934,7 +13934,7 @@
     "title": "Что такое CORS и как его настроить?",
     "aliases": [],
     "answer": "CORS (Cross-Origin Resource Sharing): механизм безопасности браузера, контролирующий доступ к ресурсам с другого origin. Заголовки: Access-Control-Allow-Origin, Access-Control-Allow-Methods. Preflight: OPTIONS запрос для complex requests.",
-    "exampleAnswer": "Frontend (localhost:3000) → API (api.example.com). Без CORS: blocked. С CORS: `Access-Control-Allow-Origin: http://localhost:3000`. Preflight: OPTIONS → сервер отвечает哪些 methods allowed → actual request.",
+    "exampleAnswer": "Frontend (localhost:3000) → API (api.example.com). Без CORS: blocked. С CORS: `Access-Control-Allow-Origin: http://localhost:3000`. Preflight: OPTIONS → сервер отвечает methods allowed → actual request.",
     "context": "Фундаментальный web security concept. Проверяют понимание browser security model.",
     "keyPoints": [
       {
@@ -14003,7 +14003,7 @@
       },
       {
         "title": "Защита",
-        "text": "CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка来源."
+        "text": "CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка."
       }
     ],
     "pitfalls": [
@@ -14111,7 +14111,7 @@
     "title": "Как хешировать пароли и зачем это нужно?",
     "aliases": [],
     "answer": "Хеширование паролей: односторонняя функция (password → hash, обратно нельзя). Используйте bcrypt, argon2, scrypt. Никогда: MD5, SHA-256, plain text. Salt: уникальный для каждого пароля.",
-    "exampleAnswer": "Registration: password → bcrypt(password, salt) → hash в БД. Login: password → bcrypt(password, stored_hash) → comparison. Bcrypt: 12 rounds, ~100ms. Argon2: memory-hard,抵抗 GPU attacks.",
+    "exampleAnswer": "Registration: password → bcrypt(password, salt) → hash в БД. Login: password → bcrypt(password, stored_hash) → comparison. Bcrypt: 12 rounds, ~100ms. Argon2: memory-hard, GPU attacks.",
     "context": "Ключевой security practice. Проверяют понимание password storage.",
     "keyPoints": [
       {
@@ -14235,7 +14235,7 @@
     "keyPoints": [
       {
         "title": "Клиентская валидация",
-        "text": "UX: мгновенный feedback,减少 server load. Не security: можно bypass."
+        "text": "UX: мгновенный feedback, server load. Не security: можно bypass."
       },
       {
         "title": "Серверная валидация",
@@ -14355,7 +14355,7 @@
     "keyPoints": [
       {
         "title": "Правила",
-        "text": "Never в коде. Never в git. Never в логах. Rotate regularly. Use最小权限 principle."
+        "text": "Never в коде. Never в git. Never в логах. Rotate regularly. Useнаиболее  principle."
       },
       {
         "title": "Инструменты",
@@ -15071,7 +15071,7 @@
       },
       {
         "title": "Показать OnPush",
-        "text": "OnPush — оптимизация: проверка только при изменении @Input ссылок (referential equality), @Output событиях, async pipe или手动.markForCheck()."
+        "text": "OnPush — оптимизация: проверка только при изменении @Input ссылок (referential equality), @Output событиях, async pipe или.markForCheck()."
       },
       {
         "title": "Показать React модель",
@@ -15593,8 +15593,8 @@
     "id": "tbank-java-concurrency-deadlock",
     "title": "Найдите deadlock в коде и предложите исправление",
     "aliases": [],
-    "answer": "Deadlock возникает когда два потока захватывают мониторы в разном порядке (A→B и B→A). Решения:一致 lock ordering (всегда захватывать в одном порядке), `tryLock` с таймаутом, `CompletableFuture` для асинхронных транзакций, `ConcurrentHashMap` вместо synchronized maps. Проверяйте `jstack` или ThreadMXBean для диагностики.",
-    "exampleAnswer": "Deadlock — ситуация когда два или более потока бесконечно ждут друг друга. В банковском контексте: transfer от A к B и от B к A одновременно.\n\nДиагностика: `jstack <pid>`, `ThreadMXBean.findDeadlockedThreads()`, или Arthas. В логах видно: \"BLOCKED\"��态 у потоков.\n\nРешения по приоритету:\n\n1. **Lock ordering** — проще всего, захватывать всегда в порядке ID/hashCode. Минус: нужно поддерживать порядок во всём коде.\n\n2. **tryLock** — гибче, можно откатить и попробовать снова. Минус: spin-waiting, сложнее код.\n\n3. **Асинхронность** — CompletableFuture или reactive подход. Нет мониторов — нет deadlock. Минус: сложнее reasoning.\n\n4. **ConcurrentHashMap** — вместо `Collections.synchronizedMap`. ConcurrentHashMap использует striping (сегменты), минимизирует contention.\n\nНа практике: Lock Ordering для простых случаев, асинхронность для сложных транзакций.",
+    "answer": "Deadlock возникает когда два потока захватывают мониторы в разном порядке (A→B и B→A). Решения: lock ordering (всегда захватывать в одном порядке), `tryLock` с таймаутом, `CompletableFuture` для асинхронных транзакций, `ConcurrentHashMap` вместо synchronized maps. Проверяйте `jstack` или ThreadMXBean для диагностики.",
+    "exampleAnswer": "Deadlock — ситуация когда два или более потока бесконечно ждут друг друга. В банковском контексте: transfer от A к B и от B к A одновременно.\n\nДиагностика: `jstack <pid>`, `ThreadMXBean.findDeadlockedThreads()`, или Arthas. В логах видно: \"BLOCKED\"�� у потоков.\n\nРешения по приоритету:\n\n1. **Lock ordering** — проще всего, захватывать всегда в порядке ID/hashCode. Минус: нужно поддерживать порядок во всём коде.\n\n2. **tryLock** — гибче, можно откатить и попробовать снова. Минус: spin-waiting, сложнее код.\n\n3. **Асинхронность** — CompletableFuture или reactive подход. Нет мониторов — нет deadlock. Минус: сложнее reasoning.\n\n4. **ConcurrentHashMap** — вместо `Collections.synchronizedMap`. ConcurrentHashMap использует striping (сегменты), минимизирует contention.\n\nНа практике: Lock Ordering для простых случаев, асинхронность для сложных транзакций.",
     "context": "Проверяется понимание многопоточности в Java: мониторы, условия deadlock, инструменты диагностики и паттерны предотвращения. Классический банковский кейс — transfer между счетами.",
     "keyPoints": [
       {
@@ -15858,7 +15858,7 @@
     "title": "Как работают корутины в Kotlin? Чем отличаются от потоков?",
     "aliases": [],
     "answer": "Корутины — lightweight concurrency: не блокируют поток, работают через state machine. Диспетчеры (Dispatchers) определяют, на каком потоке выполняется: Default (CPU), IO (disk/network), Main (UI). Suspension — сохранение контекста без блокировки потока. Structured concurrency — запуск корутин в scope, автоматическая отмена.",
-    "exampleAnswer": "Корутины — cooperative concurrency: при遇到suspend-функции корутина приостанавливается, освобождая поток. Диспетчеры определяют контекст: IO для сети, Default для CPU. Structured concurrency через coroutineScope guarantee отмену при ошибке. Главное отличие от потоков: 10K+ корутин на одном потоке vs ~1000 потоков.",
+    "exampleAnswer": "Корутины — cooperative concurrency: приsuspend-функции корутина приостанавливается, освобождая поток. Диспетчеры определяют контекст: IO для сети, Default для CPU. Structured concurrency через coroutineScope guarantee отмену при ошибке. Главное отличие от потоков: 10K+ корутин на одном потоке vs ~1000 потоков.",
     "context": "Языковой вопрос: понимает ли кандидат model concurrency в Kotlin.",
     "keyPoints": [
       {
@@ -16047,8 +16047,8 @@
     "title": "Как вы организуете code review в команде?",
     "aliases": [],
     "answer": "Минимум 2 ревьюера, автоматический CI + linting до ревью, чеклист для ревьюеров (безопасность, производительность, читаемость). Обратная связь — конструктивная, с примерами. Не блокер: если 2 одобрения — мержим.",
-    "exampleAnswer": "У нас PR проходит: 1) CI (lint, test, build), 2) минимум 2 одобрения, 3) changelog в PR. Ревьюеры используют чеклист: безопасность, производительность, читаемость, тесты. Мы ограничиваем PR 400 строками — больше很难.review. Обратная связь: «в строке 42 предлагаю X, потому что Y». Результат: снижение багов в production на 60%.",
-    "context": "Проверяют понимание процессов质量和 командной культуры.",
+    "exampleAnswer": "У нас PR проходит: 1) CI (lint, test, build), 2) минимум 2 одобрения, 3) changelog в PR. Ревьюеры используют чеклист: безопасность, производительность, читаемость, тесты. Мы ограничиваем PR 400 строками — больше.review. Обратная связь: «в строке 42 предлагаю X, потому что Y». Результат: снижение багов в production на 60%.",
+    "context": "Проверяют понимание процессов командной культуры.",
     "keyPoints": [
       {
         "title": "Процесс",
@@ -16167,7 +16167,7 @@
     "title": "Как вы менторитеjunior и middle разработчиков?",
     "aliases": [],
     "answer": "Индивидуальный план развития: цели на квартал, регулярные 1:1, code review как learning opportunity. Не делать за них — направлять. Менторство через вопросы: «почему ты так сделал?».pair programming для сложных задач.",
-    "exampleAnswer": "Для junior завёл learning path: первые 3 месяца — наставник, pair programming, code review с объяснениями. Месяц 4-6 —独立 ownership, ментор как reviewer. Месяц 7+ —独立 feature delivery. Цели на квартал: «научиться писать тесты», «понять domain». Результат: 80% junior вырастают до middle за 12 месяцев.",
+    "exampleAnswer": "Для junior завёл learning path: первые 3 месяца — наставник, pair programming, code review с объяснениями. Месяц 4-6 — ownership, ментор как reviewer. Месяц 7+ — feature delivery. Цели на квартал: «научиться писать тесты», «понять domain». Результат: 80% junior вырастают до middle за 12 месяцев.",
     "context": "Проверяют способность расти через других, а не только через свой код.",
     "keyPoints": [
       {
@@ -16226,7 +16226,7 @@
     "title": "Как вы планируете спринт и оцениваете задачи?",
     "aliases": [],
     "answer": "Grooming (вторник) → Planning (понедельник) → Daily standup → Retro (пятница). Оценка: Planning Poker или story points. Velocity tracking. Buffer 20% на непредвиденное. Не берём больше, чем velocity команды.",
-    "exampleAnswer": "Grooming по вторникам: декомпозируем, оцениваем (planning poker),接受 acceptance criteria. Planning по понедельникам: берём задачи на спринт, учитывая velocity (средняя за 3 спринта) + 20% buffer. Daily standup — 15 минут, блокеры. Retro по пятницам — что улучшить. Velocity: 45 story points за спринт. Результат: предсказуемость доставки выросла на 40%.",
+    "exampleAnswer": "Grooming по вторникам: декомпозируем, оцениваем (planning poker), acceptance criteria. Planning по понедельникам: берём задачи на спринт, учитывая velocity (средняя за 3 спринта) + 20% buffer. Daily standup — 15 минут, блокеры. Retro по пятницам — что улучшить. Velocity: 45 story points за спринт. Результат: предсказуемость доставки выросла на 40%.",
     "context": "Проверяют понимание agile-процессов и способность балансировать между velocity и quality.",
     "keyPoints": [
       {
@@ -16355,7 +16355,7 @@
       },
       {
         "title": "Шаг 2: Корень",
-        "text": "Часто конфликт — не про技術, а про ownership/expectations."
+        "text": "Часто конфликт — не про, а про ownership/expectations."
       },
       {
         "title": "Шаг 3: Решение",
@@ -16466,7 +16466,7 @@
     "title": "Как клонировать объект в JavaScript?",
     "aliases": [],
     "answer": "Сначала уточните, что означает «клон». Spread и `Object.assign` создают поверхностную копию: вложенные объекты остаются общими. Для большинства data-only структур подходит `structuredClone`: он поддерживает циклы, `Map`, `Set`, `Date`, типизированные массивы и transferable-объекты, но не функции и DOM-узлы. JSON-сериализация теряет `undefined`, `BigInt`, прототипы и специальные значения, поэтому это не универсальный deep clone. Для доменных классов лучше явный mapper или фабрика — так контракт копирования виден в коде.",
-    "exampleAnswer": "Способы клонирования: 1) {...obj} — shallow copy; 2) Object.assign({}, obj) — аналог spread; 3) structuredClone(obj) — deep copy, поддерживает Date, RegExp, Map, Set; 4) JSON.parse(JSON.stringify(obj)) — deep, но теряет функции, undefined. Пример:\n\n```javascript\nconst original = { a: 1, b: { c: 2 } };\n\nconst shallow = { ...original };\nshallow.b.c = 999;\nconsole.log(original.b.c); // 999 —浅 copy!\n\nconst deep = structuredClone(original);\ndeep.b.c = 888;\nconsole.log(original.b.c); // 999 — original не изменился\n```\n\nНа практике: structuredClone — современный стандарт для deep copy. Для production: lodash.cloneDeep. Для Immutable.js/Immer — immutable updates без полного клонирования.",
+    "exampleAnswer": "Способы клонирования: 1) {...obj} — shallow copy; 2) Object.assign({}, obj) — аналог spread; 3) structuredClone(obj) — deep copy, поддерживает Date, RegExp, Map, Set; 4) JSON.parse(JSON.stringify(obj)) — deep, но теряет функции, undefined. Пример:\n\n```javascript\nconst original = { a: 1, b: { c: 2 } };\n\nconst shallow = { ...original };\nshallow.b.c = 999;\nconsole.log(original.b.c); // 999 —поверхностное  copy!\n\nconst deep = structuredClone(original);\ndeep.b.c = 888;\nconsole.log(original.b.c); // 999 — original не изменился\n```\n\nНа практике: structuredClone — современный стандарт для deep copy. Для production: lodash.cloneDeep. Для Immutable.js/Immer — immutable updates без полного клонирования.",
     "context": "Проверяются ссылочная модель JavaScript и осознанный выбор глубины копирования.",
     "keyPoints": [
       {
@@ -16877,7 +16877,7 @@
       "Один уровень кеша",
       "Без инвалидации (stale data)",
       "Cache stampede без защиты",
-      "Не учитывать一致性 vs availability"
+      "Не учитывать vs availability"
     ],
     "followUps": [
       "Как тестируете кеш?",
@@ -16921,7 +16921,7 @@
     "title": "Спроектируйте систему уведомлений для банка на миллионы пользователей",
     "aliases": [],
     "answer": "Event-driven архитектура: Kafka как шина событий → Router (определяет каналы по user prefs) → Channel Workers (push, SMS, email, in-app). Приоритезация: critical (мошенничество) > transactional (платеж) > informational > marketing. Outbox pattern + retry с exponential backoff + dead letter queue. Хранение: Cassandra (audit trail), Redis (rate limiting, dedup), PostgreSQL (user prefs).",
-    "exampleAnswer": "Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.",
+    "exampleAnswer": "Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox patternExactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.",
     "context": "Системный дизайн для финтех-продукта: надёжность, масштабируемость, приоритизация. Платёжная платформа — критичная система.",
     "keyPoints": [
       {
@@ -17216,7 +17216,7 @@
       },
       {
         "title": "Показать пользовательский type guard",
-        "text": "Функция с `param is Type` — TypeScript доверяет этому утверждению, нужно确保 корректности в runtime."
+        "text": "Функция с `param is Type` — TypeScript доверяет этому утверждению, нужно корректности в runtime."
       },
       {
         "title": "Разделить type guard и assertion",
@@ -17272,19 +17272,19 @@
     "title": "Как исправить утечку памяти в useEffect?",
     "aliases": [],
     "answer": "Cleanup функция в useEffect вызывается при размонтировании компонента и перед каждым повторным вызовом эффекта — она должна отменять подписки, таймеры и запросы. Для fetch используйте AbortController, для event listeners — removeEventListener, для интервалов — clearInterval. React DevTools Profiler показывает утечки через увеличение количества нод при навигации.",
-    "exampleAnswer": "useEffect с пустым dependency array [] вызывается один раз при mount. Cleanup функция, которую он возвращает, вызывается при unmount. Если cleanup не определён,副作用 продолжают выполняться: таймеры тикают, event listeners остаются, fetch запросы завершаются и пытаются вызвать setState на unmount-ном компоненте.\n\n```javascript\nuseEffect(() => {\n  const timer = setInterval(() => {\n    console.log(\"tick\");\n  }, 1000);\n  return () => clearInterval(timer); // Cleanup\n}, []);\n```\n\nПаттерн для fetch: AbortController. Паттерн для event listeners: функция-обработчик сохраняется в переменную и передаётся в addEventListener/removeEventListener.",
+    "exampleAnswer": "useEffect с пустым dependency array [] вызывается один раз при mount. Cleanup функция, которую он возвращает, вызывается при unmount. Если cleanup не определён, продолжают выполняться: таймеры тикают, event listeners остаются, fetch запросы завершаются и пытаются вызвать setState на unmount-ном компоненте.\n\n```javascript\nuseEffect(() => {\n  const timer = setInterval(() => {\n    console.log(\"tick\");\n  }, 1000);\n  return () => clearInterval(timer); // Cleanup\n}, []);\n```\n\nПаттерн для fetch: AbortController. Паттерн для event listeners: функция-обработчик сохраняется в переменную и передаётся в addEventListener/removeEventListener.",
     "context": "Проверяется понимание жизненного цикла React компонентов и правильное управление ресурсами в асинхронных эффектах.",
     "keyPoints": [
       {
         "title": "Назвать причину утечки",
-        "text": "Утечка памяти возникает, когда副作用 не отменяются при размонтировании: open connections, running timers, event listeners на глобальных объектах."
+        "text": "Утечка памяти возникает, когда не отменяются при размонтировании: open connections, running timers, event listeners на глобальных объектах."
       },
       {
         "title": "Показать Cleanup паттерн",
         "text": "```javascript\nuseEffect(() => {\n  const abortController = new AbortController();\n  fetchData({ signal: abortController.signal });\n  return () => abortController.abort();\n}, []);\n```"
       },
       {
-        "title": "Разделить типы副作用",
+        "title": "Разделить типы",
         "text": "Fetch — AbortController, event listeners — removeEventListener, timers — clearInterval/clearTimeout, subscriptions — unsubscribe."
       },
       {
@@ -17293,7 +17293,7 @@
       }
     ],
     "pitfalls": [
-      "Не возвращать cleanup функцию из useEffect при наличии副作用.",
+      "Не возвращать cleanup функцию из useEffect при наличии.",
       "Использовать AbortController без проверки error.name === \"AbortError\" — abort выбрасывает ошибку, которую нужно отличать от реальных ошибок.",
       "Забывать добавить переменные из замыкания в dependency array — приводит к stale closure.",
       "Вызывать setState после размонтирования — отловить можно через флаг или AbortController."
@@ -17836,7 +17836,7 @@
     "title": "Как работает сборка мусора (GC) в Unreal Engine?",
     "aliases": [],
     "answer": "UE использует mark-and-sweep GC для UObject. Объекты создаются через NewObject/UObject::Create, автоматически регистрируются в GC. Сборка запускается по таймеру (по умолчанию ~60 сек или при нехватке памяти). Reachable-объекты (из корневых указателей GUObjectArray) остаются, остальные удаляются. Указатели хранятся как UObject* (сильные) и TWeakObjectPtr (слабые).",
-    "exampleAnswer": "GC в UE работает через mark-and-sweep: есть корневые объекты (мир,引擎, активоры), из них рекурсивно помечаются все достижимые UObject. Непомеченные удаляются. Сборка запускается примерно раз в 60 секунд или по требованию. Важно понимать разницу между UObject* (сильная), TWeakObjectPtr (слабая, обнуляется) и TSoftObjectPtr (ленивая загрузка). Для кастомных указателей нужно переопределять AddReferencedObjects.",
+    "exampleAnswer": "GC в UE работает через mark-and-sweep: есть корневые объекты (мир,, активоры), из них рекурсивно помечаются все достижимые UObject. Непомеченные удаляются. Сборка запускается примерно раз в 60 секунд или по требованию. Важно понимать разницу между UObject* (сильная), TWeakObjectPtr (слабая, обнуляется) и TSoftObjectPtr (ленивая загрузка). Для кастомных указателей нужно переопределять AddReferencedObjects.",
     "context": "GC — ключевая тема для UE-разработчиков: неправильное управление памятью вызывает утечки и краши.",
     "keyPoints": [
       {
@@ -18101,7 +18101,7 @@
     "title": "Почему вы решили сменить сферу деятельности?",
     "aliases": [],
     "answer": "Объясните переход как последовательное решение: что в прежней сфере вы научились делать, почему новая область лучше соответствует сильным сторонам, какие шаги уже подтвердили выбор и какие переносимые навыки сокращают риск найма. Не обесценивайте прошлую профессию и не представляйте переход эмоциональным побегом.",
-    "exampleAnswer": "Я перешёл из backend (Python/Django) во frontend, потому что увидел больше возможностей для влияния на продукт. На backend я писал API, результат был скрыт. Во frontend я вижу, как пользователи взаимодействуют с моим кодом. Переносимые навыки: проектирование API, database design, testing. Я投资ировал в переход: 3 месяца изучения React, TypeScript, Webpack, построил portfolio из 3 проектов. На прошлом месте уже работал full-stack, но frontend оказался интереснее. Важно: я не «убегаю» от backend, а «бегу к» frontend — позитивная мотивация.",
+    "exampleAnswer": "Я перешёл из backend (Python/Django) во frontend, потому что увидел больше возможностей для влияния на продукт. На backend я писал API, результат был скрыт. Во frontend я вижу, как пользователи взаимодействуют с моим кодом. Переносимые навыки: проектирование API, database design, testing. Яировал в переход: 3 месяца изучения React, TypeScript, Webpack, построил portfolio из 3 проектов. На прошлом месте уже работал full-stack, но frontend оказался интереснее. Важно: я не «убегаю» от backend, а «бегу к» frontend — позитивная мотивация.",
     "context": "Интервьюер оценивает устойчивость мотивации, реалистичность ожиданий и применимость накопленного опыта.",
     "keyPoints": [
       {
@@ -19037,7 +19037,7 @@
     "title": "Какие у вас финансовые ожидания?",
     "aliases": [],
     "answer": "Назовите обоснованный диапазон total compensation и уточните его состав: фикс, бонус, акции, период пересмотра и формат оформления. Нижняя граница должна быть суммой, на которую вы действительно согласны, а не приглашением торговаться ниже. Если scope роли ещё неясен, скажите, что диапазон зависит от ответственности, и сначала уточните уровень и пакет.",
-    "exampleAnswer": "Мои ожидания по зарплате — от 300 до 400 тысяч рублей в месяц (gross). Эта оценка基于: 1) Market rate — Senior Frontend в Москве: 250-450K; 2) Мой опыт — 8 лет, из них 6 в frontend, последние 2 года как tech lead; 3) Skills — React, TypeScript, Next.js, SSR, Web Performance, team leadership. Важно: я开放 к обсуждению, если package включает benefits (stock options, learning budget). Не сравниваю с предыдущей зарплатой, а смотрю на value, которую приношу.",
+    "exampleAnswer": "Мои ожидания по зарплате — от 300 до 400 тысяч рублей в месяц (gross). Эта оценка: 1) Market rate — Senior Frontend в Москве: 250-450K; 2) Мой опыт — 8 лет, из них 6 в frontend, последние 2 года как tech lead; 3) Skills — React, TypeScript, Next.js, SSR, Web Performance, team leadership. Важно: я к обсуждению, если package включает benefits (stock options, learning budget). Не сравниваю с предыдущей зарплатой, а смотрю на value, которую приношу.",
     "context": "Проверяется совпадение бюджета и ожиданий. Senior-кандидат обсуждает не одну цифру, а полный пакет, риск и масштаб роли.",
     "keyPoints": [
       {
@@ -19676,7 +19676,7 @@
     "keyPoints": [
       {
         "title": "Targeting",
-        "text": "User segments: demographics, interests, behavior. Custom audiences:上传 user lists."
+        "text": "User segments: demographics, interests, behavior. Custom audiences: user lists."
       },
       {
         "title": "Bidding",
@@ -20047,7 +20047,7 @@
     "title": "Как браузер превращает HTML и CSS в изображение на экране?",
     "aliases": [],
     "answer": "HTML парсится потоково в DOM, CSS — в CSSOM; CSS блокирует render, а обычный parser-blocking script может остановить HTML parser. DOM и CSSOM формируют render tree без невидимых узлов, затем браузер вычисляет styles, layout, paint records и compositing слоёв. GPU композитит tiles в кадр. Оптимизация измеряется через LCP, INP и CLS, а не количеством абстрактных «перерисовок».",
-    "exampleAnswer": "Critical Rendering Path — это путь, который проходит HTML и CSS, чтобы стать пикселями на экране: 1) Browser получает HTML → строит DOM树; 2) Получает CSS → строит CSSOM; 3) DOM + CSSOM = Render Tree; 4) Layout (計算 positions) → Paint (рисует pixels) → Composite (слои). Оптимизация: 1) Critical CSS — inline CSS для above-the-fold контента; 2) Async loading для non-critical CSS; 3) Minimize render-blocking resources; 4) Использовать content-visibility: auto. На практике: я разделяю CSS на critical (inline) и non-critical (preload), что сокращает FCP на 40%.",
+    "exampleAnswer": "Critical Rendering Path — это путь, который проходит HTML и CSS, чтобы стать пикселями на экране: 1) Browser получает HTML → строит DOM; 2) Получает CSS → строит CSSOM; 3) DOM + CSSOM = Render Tree; 4) Layout ( positions) → Paint (рисует pixels) → Composite (слои). Оптимизация: 1) Critical CSS — inline CSS для above-the-fold контента; 2) Async loading для non-critical CSS; 3) Minimize render-blocking resources; 4) Использовать content-visibility: auto. На практике: я разделяю CSS на critical (inline) и non-critical (preload), что сокращает FCP на 40%.",
     "context": "Интервьюер ожидает полный critical rendering path и понимание блокирующих ресурсов.",
     "keyPoints": [
       {
@@ -20110,7 +20110,7 @@
     "title": "Как выбрать frontend-фреймворк для нового долгоживущего проекта?",
     "aliases": [],
     "answer": "Фреймворк выбирают по ограничениям продукта и организации: SSR/SEO, interactivity, bundle и runtime budget, размер и опыт команды, hiring, accessibility, design system, release horizon, ecosystem maturity и ownership. Проведите time-boxed spike на критическом сценарии и ADR с матрицей критериев. Производительность сравнивайте на собственном workload, а архитектурную свободу оценивайте вместе со стоимостью стандартов и governance.",
-    "exampleAnswer": "Для нового долгоживущего проекта я бы выбирал между React, Vue и Svelte. Критерии: 1) Ecoystem — React самый большой (npm packages, решения); 2) Learning curve — Vue проще для junior'ов; 3) Performance — Svelte самый быстрый (no VDOM overhead); 4) SSR — Next.js (React) лучше всех; 5) Community — React最大的. Мой выбор: React + TypeScript + Next.js. Почему: 1) Largest talent pool — проще нанимать; 2) Best SSR/SSG; 3) Rich ecosystem (state management, forms, testing); 4) Long-term support от Meta. Для внутренних инструментов — Svelte (проще, быстрее开发). Angular — только если enterprise + long-term support от Google.",
+    "exampleAnswer": "Для нового долгоживущего проекта я бы выбирал между React, Vue и Svelte. Критерии: 1) Ecoystem — React самый большой (npm packages, решения); 2) Learning curve — Vue проще для junior'ов; 3) Performance — Svelte самый быстрый (no VDOM overhead); 4) SSR — Next.js (React) лучше всех; 5) Community — Reactнаиболее  . Мой выбор: React + TypeScript + Next.js. Почему: 1) Largest talent pool — проще нанимать; 2) Best SSR/SSG; 3) Rich ecosystem (state management, forms, testing); 4) Long-term support от Meta. Для внутренних инструментов — Svelte (проще, быстрее). Angular — только если enterprise + long-term support от Google.",
     "context": "Интервьюер проверяет способность принять долгосрочное техническое решение без холивара.",
     "keyPoints": [
       {
@@ -20181,7 +20181,7 @@
     "title": "Что важно знать frontend-разработчику про HTTP?",
     "aliases": [],
     "answer": "HTTP — stateless request/response protocol с семантикой методов, status codes, headers, caching и content negotiation. Safe методы не меняют состояние, idempotent можно повторять без дополнительного эффекта. GET body формально не имеет общепринятой семантики и плохо поддерживается intermediaries; параметры передают в URI. Кеширование задают `Cache-Control`, validators `ETag`/`Last-Modified` и `Vary`; POST тоже может кешироваться при явных заголовках, хотя редко используется так.",
-    "exampleAnswer": "Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) —未来的趋势, Service Workers для offline-first.",
+    "exampleAnswer": "Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) — , Service Workers для offline-first.",
     "context": "Нужно показать не список методов, а влияние семантики на retries, proxies, CDN и браузерный cache.",
     "keyPoints": [
       {
@@ -20685,7 +20685,7 @@
     "title": "Найдите маршрут между городами через асинхронный API",
     "aliases": [],
     "answer": "Рассматривайте города как вершины, а доступные перелёты — как рёбра, получаемые через `await getFlights(city)`. Выполните BFS с массивом-очередью и индексом головы, храните `visited` и только одного предка для каждой вершины. После нахождения цели восстановите путь от конца к началу и разверните его. Получаем O(V + E) по времени и O(V) по памяти без копирования полного маршрута для каждой вершины.",
-    "exampleAnswer": "Для поиска маршрута между городами через асинхронный API использую BFS с Promise.all:\n\n```javascript\nasync function findRoute(start, end, api) {\n  const queue = [[start]];\n  const visited = new Set([start]);\n\n  while (queue.length > 0) {\n    const level = queue.length;\n    const promises = [];\n\n    for (let i = 0; i < level; i++) {\n      const path = queue.shift();\n      const current = path[path.length - 1];\n\n      promises.push(\n        api.getFlights(current).then(destinations =>\n          destinations.filter(d => !visited.has(d)).map(dest => {\n            visited.add(dest);\n            const newPath = [...path, dest];\n            if (dest === end) return newPath;\n            queue.push(newPath);\n            return null;\n          })\n        )\n      );\n    }\n\n    const results = await Promise.all(promises);\n    const found = results.flat().find(r => r !== null);\n    if (found) return found;\n  }\n\n  return null;\n}\n```\n\nКлючевые моменты: BFS для кратчайшего маршрута, Promise.all для параллельных запросов, Set для避免 посещённых вершин. Важно: обрабатывать ошибки API через .catch(), добавлять timeout через Promise.race.",
+    "exampleAnswer": "Для поиска маршрута между городами через асинхронный API использую BFS с Promise.all:\n\n```javascript\nasync function findRoute(start, end, api) {\n  const queue = [[start]];\n  const visited = new Set([start]);\n\n  while (queue.length > 0) {\n    const level = queue.length;\n    const promises = [];\n\n    for (let i = 0; i < level; i++) {\n      const path = queue.shift();\n      const current = path[path.length - 1];\n\n      promises.push(\n        api.getFlights(current).then(destinations =>\n          destinations.filter(d => !visited.has(d)).map(dest => {\n            visited.add(dest);\n            const newPath = [...path, dest];\n            if (dest === end) return newPath;\n            queue.push(newPath);\n            return null;\n          })\n        )\n      );\n    }\n\n    const results = await Promise.all(promises);\n    const found = results.flat().find(r => r !== null);\n    if (found) return found;\n  }\n\n  return null;\n}\n```\n\nКлючевые моменты: BFS для кратчайшего маршрута, Promise.all для параллельных запросов, Set для посещённых вершин. Важно: обрабатывать ошибки API через .catch(), добавлять timeout через Promise.race.",
     "context": "Дана асинхронная функция, возвращающая города, доступные из указанного города. Нужно вернуть Promise с маршрутом от `from` до `to` либо отклонить его, если пути нет. В исходном условии маршрут единственный и циклов нет, но Senior-кандидат не должен строить хрупкое решение вокруг этих упрощений.",
     "keyPoints": [
       {
@@ -20821,7 +20821,7 @@
     "title": "Как вы настраивали CI/CD в своих проектах?",
     "aliases": [],
     "answer": "Пайплайн: lint → test → build → deploy. Инструменты: GitHub Actions, GitLab CI, Jenkins, TeamCity. Ключевые практики: кэширование зависимостей, артефакты сборки, секреты в CI, environments (dev/staging/prod), auto-deploy vs manual trigger, rollback в CI/CD.",
-    "exampleAnswer": "В моём проекте CI/CD настроен так:\n\n**Пайплайн:** При мерже PR запускаются: lint (ESLint + Prettier), unit-тесты (Jest), build (webpack/vite). Если всё зелёное — артефакт готов. При мерже в main — автоматический деплой на staging, затем manual approval для prod.\n\n**Кэширование:** `node_modules` кэшируется через `actions/cache` — экономит 2-3 минуты на каждом шаге. Docker-образы кэшируют слои: сначала копируем `package.json`, потом `npm ci`, потом остальное — пересобираются только изменившиеся слои.\n\n**Секреты:** GitHub Secrets для ключей API и токенов. OIDC для AWS/GCP — временные credentials без хранения. В логах секреты маскируются автоматически.\n\n**Деплой:** Auto-deploy на dev при мерже в develop. Staging — автоматически при мерже в main. Production — manual approval в GitHub Environment. Rollback: откат на предыдущий Docker-образ через `kubectl rollout undo` или重新-deploy предыдущего артефакта.\n\n**Мониторинг:** После деплоя — smoke tests. Sentry ловит ошибки. Grafana показывает метрики. Алерт при error rate > 0.5% → автоматический rollback через CI/CD.",
+    "exampleAnswer": "В моём проекте CI/CD настроен так:\n\n**Пайплайн:** При мерже PR запускаются: lint (ESLint + Prettier), unit-тесты (Jest), build (webpack/vite). Если всё зелёное — артефакт готов. При мерже в main — автоматический деплой на staging, затем manual approval для prod.\n\n**Кэширование:** `node_modules` кэшируется через `actions/cache` — экономит 2-3 минуты на каждом шаге. Docker-образы кэшируют слои: сначала копируем `package.json`, потом `npm ci`, потом остальное — пересобираются только изменившиеся слои.\n\n**Секреты:** GitHub Secrets для ключей API и токенов. OIDC для AWS/GCP — временные credentials без хранения. В логах секреты маскируются автоматически.\n\n**Деплой:** Auto-deploy на dev при мерже в develop. Staging — автоматически при мерже в main. Production — manual approval в GitHub Environment. Rollback: откат на предыдущий Docker-образ через `kubectl rollout undo` или  -deploy предыдущего артефакта.\n\n**Мониторинг:** После деплоя — smoke tests. Sentry ловит ошибки. Grafana показывает метрики. Алерт при error rate > 0.5% → автоматический rollback через CI/CD.",
     "context": "Интервьюер хочет понять ваш практический опыт настройки CI/CD, а не теорию. Ожидается конкретика: какой инструмент, как организован пайплайн, как хранятся секреты, как работает деплой.",
     "keyPoints": [
       {
@@ -20894,7 +20894,7 @@
     "title": "Реализуйте debounce и throttle с нуля",
     "aliases": [],
     "answer": "Debounce откладывает вызов функции до тех пор, пока не пройдёт заданная пауза после последнего вызова. Throttle ограничивает частоту вызова функции — она выполняется не чаще одного раза в указанный интервал. Обе функции используют closure для хранения timer ID и замыкают переданную функцию.",
-    "exampleAnswer": "Давайте начнём с debounce. При каждом вызове мы очищаем предыдущий таймер и ставим новый. Функция выполнится только когда вызовы прекратятся на delay миллисекунд. Closure хранит timer ID и последние аргументы.\n\nДля throttle используем подход с флагом и таймером. Если прошёл интервал с последнего вызова — вызываем сразу (leading). Если нет — ставим таймер на оставшееся время (trailing). Это гарантирует вызов и в начале, и в конце интервала.\n\nВажно: оба метода сохраняют контекст вызова через .apply(this, args) и поддерживают отмену через .cancel(). В реальных проектах lodashrottle/lodash.debounce покрывают更多 edge cases, но понимание реализации с нуля — это must have.",
+    "exampleAnswer": "Давайте начнём с debounce. При каждом вызове мы очищаем предыдущий таймер и ставим новый. Функция выполнится только когда вызовы прекратятся на delay миллисекунд. Closure хранит timer ID и последние аргументы.\n\nДля throttle используем подход с флагом и таймером. Если прошёл интервал с последнего вызова — вызываем сразу (leading). Если нет — ставим таймер на оставшееся время (trailing). Это гарантирует вызов и в начале, и в конце интервала.\n\nВажно: оба метода сохраняют контекст вызова через .apply(this, args) и поддерживают отмену через .cancel(). В реальных проектах lodashrottle/lodash.debounce покрывают edge cases, но понимание реализации с нуля — это must have.",
     "context": "Интервьюер проверяет понимание работы с таймерами, closure в JavaScript и умение писать переиспользуемые утилиты. Ожидается чёткое различие между debounce и throttle, а также обработка edge cases (cancel, leading/trailing, this и arguments).",
     "keyPoints": [
       {
@@ -21059,7 +21059,7 @@
     ],
     "pitfalls": [
       "Оптимизировать без измерения — тратить время на то, что не является bottle neck.",
-      "Считать, что smaller bundle = быстрее страница —忽略了 рендеринг и кэширование.",
+      "Считать, что smaller bundle = быстрее страница — рендеринг и кэширование.",
       "Использовать React.memo повсеместно вместо профилирования ре-рендеров.",
       "Забывать про Web Vitals на проде — Lighthouse в dev-режиме не отражает реальность."
     ],
@@ -21311,7 +21311,7 @@
     "title": "Как вы масштабируете команду разработки?",
     "aliases": [],
     "answer": "Не берите больше, чем можете effectively manage. Ключевые принципы: clear ownership, autonomous teams (two-pizza rule), strong onboarding, regular tech leads sync. Не масштабируйте команду, пока не стабилизируйте процессы.",
-    "exampleAnswer": "Масштабировали команду с 5 до 15 за квартал. Принципы: 1) autonomous squads (3-5 человек), 2) clear ownership per domain, 3) на每个新人的 onboarding (2 недели), 4) weekly tech leads sync. Результат: velocity вырос на 80%, retention — 95%. Ошибка: сначала взяли 8 человек сразу — провалили onboarding, потеряли 3 месяца.",
+    "exampleAnswer": "Масштабировали команду с 5 до 15 за квартал. Принципы: 1) autonomous squads (3-5 человек), 2) clear ownership per domain, 3) на   onboarding (2 недели), 4) weekly tech leads sync. Результат: velocity вырос на 80%, retention — 95%. Ошибка: сначала взяли 8 человек сразу — провалили onboarding, потеряли 3 месяца.",
     "context": "Проверяют зрелость: понимает ли кандидат, что масштабирование — это не просто «найти больше людей».",
     "keyPoints": [
       {
@@ -21370,7 +21370,7 @@
     "title": "Как Яндекс строит навигатор и карты?",
     "aliases": [],
     "answer": "Яндекс Карты: GPS tracking, route calculation (Dijkstra/A*), traffic prediction (ML), POI search. Ключевые: real-time traffic, route optimization, offline maps.",
-    "exampleAnswer": "Route: from A to B → graph search →考虑 traffic → optimal route. Traffic: GPS data от millions users → ML prediction → \"пробки через 20 минут\". Offline: vector tiles → compressed maps.",
+    "exampleAnswer": "Route: from A to B → graph search → traffic → optimal route. Traffic: GPS data от millions users → ML prediction → \"пробки через 20 минут\". Offline: vector tiles → compressed maps.",
     "context": "Ключевой product для навигации. Проверяют понимание maps architecture.",
     "keyPoints": [
       {
@@ -21388,7 +21388,7 @@
     ],
     "pitfalls": [
       "Не учитывать real-time traffic",
-      "Игнорировать隐私 user location",
+      "Игнорировать user location",
       "Не оптимизировать route calculation",
       "Не делать offline support"
     ],
@@ -21429,7 +21429,7 @@
     "title": "Проверьте палиндром, игнорируя регистр и небуквенные символы",
     "aliases": [],
     "answer": "Используйте два указателя: левый движется от начала, правый — от конца. Каждый указатель пропускает небуквенные символы, затем буквы сравниваются в едином регистре. Каждый символ просматривается не более одного раза: время O(n), дополнительная память O(1). До кода зафиксируйте модель символов: для ASCII или кириллицы в BMP достаточно индексации строки, а полноценный Unicode требует отдельного решения для code points и case folding.",
-    "exampleAnswer": "Проверка палиндрома с two pointers:\n\n```javascript\nfunction isPalindrome(str) {\n  let left = 0;\n  let right = str.length - 1;\n\n  while (left < right) {\n    while (left < right && !/[a-zA-Z0-9]/.test(str[left])) left++;\n    while (left < right && !/[a-zA-Z0-9]/.test(str[right])) right--;\n\n    if (str[left].toLowerCase() !== str[right].toLowerCase()) {\n      return false;\n    }\n\n    left++;\n    right--;\n  }\n\n  return true;\n}\n```\n\nАлгоритм: два указателя — с начала и конца. Пропускаем небуквенные символы через regex. Сравниваем без учёта регистра. Сложность: O(n) время, O(1) память. На практике: two pointers —通用ный подход для палиндромов, сравнения строк, поиска пар.",
+    "exampleAnswer": "Проверка палиндрома с two pointers:\n\n```javascript\nfunction isPalindrome(str) {\n  let left = 0;\n  let right = str.length - 1;\n\n  while (left < right) {\n    while (left < right && !/[a-zA-Z0-9]/.test(str[left])) left++;\n    while (left < right && !/[a-zA-Z0-9]/.test(str[right])) right--;\n\n    if (str[left].toLowerCase() !== str[right].toLowerCase()) {\n      return false;\n    }\n\n    left++;\n    right--;\n  }\n\n  return true;\n}\n```\n\nАлгоритм: два указателя — с начала и конца. Пропускаем небуквенные символы через regex. Сравниваем без учёта регистра. Сложность: O(n) время, O(1) память. На практике: two pointers —ный подход для палиндромов, сравнения строк, поиска пар.",
     "context": "Нужно реализовать функцию для строк со смешанным регистром, пробелами и знаками препинания. Интервьюер ожидает решение без очищенной копии строки и без разворота, а также осознанное обсуждение границ Unicode.",
     "keyPoints": [
       {
@@ -21784,7 +21784,7 @@
     "aliases": [],
     "answer": "Задача — найти максимум в каждом окне размера k по массиву. Brute force O(n*k) проверяет каждое окно отдельно. Оптимальное решение O(n) использует monotonic deque — дек, элементы в котором убывают от головы к хвосту. При движении окна удаляем элементы, вышедшие за границу, и поддерживаем убывающий порядок.",
     "exampleAnswer": "Начнём с brute force: для каждого окна находим максимум за O(k). Итого O(n*k) — не проходит для больших входов.\n\nОптимизация через monotonic deque: дек хранит индексы в убывающем порядке значений. Голова — всегда максимум. При каждом шаге: удаляем устаревшие индексы (вышли за границу k), удаляем с хвоста всё, что меньше текущего элемента (эти элементы не будут максимумом), добавляем текущий.\n\nПочему O(n): каждый элемент добавляется в deque один раз и удаляется один раз. deque не может содержать больше k элементов. Запись результата — O(1), берём значение по голове deque.",
-    "context": "Это классическая алгоритмическая задача на собеседованиях в Яндексе. Интервьюер ожидает не только решение, но и анализ сложности, понимание為什麼 deque работает, и умение объяснить monotonic property.",
+    "context": "Это классическая алгоритмическая задача на собеседованиях в Яндексе. Интервьюер ожидает не только решение, но и анализ сложности, понимание deque работает, и умение объяснить monotonic property.",
     "keyPoints": [
       {
         "title": "Brute force решение",
@@ -21929,7 +21929,7 @@
     "title": "Как защитить веб-приложение от XSS и CSRF атак?",
     "aliases": [],
     "answer": "XSS защищается санитизацией пользовательского ввода и вывода, установкой CSP policy и использованием Trusted Types API. CSRF защищается CSRF-токенами в формах, проверкой заголовка SameSite у cookies и заголовка Origin/Referer. HTTPOnly cookies не доступны из JavaScript, что предотвращает кражу токенов через XSS.",
-    "exampleAnswer": "XSS бывает трёх типов: stored (скрипт на сервере), reflected (в URL) и DOM-based (в клиентском коде). Защита — многоуровневая: санитизация ввода (DOMPurify), CSP policy с nonce для скриптов, Trusted Types API для контроля DOM-вставок.\n\nCSRF利用, что браузер подставляет cookies автоматически. Защита: CSRF-токен в каждой форме (проверяется сервером), SameSite=Lax у cookies (не отправляются в cross-site POST), HTTPOnly флаг (JS не видит токены). На практике используют комбинацию: SameSite + CSRF tokens + проверка Origin.\n\nВажно: XSS можно полностью предотвратить, но CSRF требует серверной поддержки. CSP — самый мощный инструмент, но его сложно настроить без поломок. Начинайте с strict policy и ослабляйте по мере необходимости.",
+    "exampleAnswer": "XSS бывает трёх типов: stored (скрипт на сервере), reflected (в URL) и DOM-based (в клиентском коде). Защита — многоуровневая: санитизация ввода (DOMPurify), CSP policy с nonce для скриптов, Trusted Types API для контроля DOM-вставок.\n\nCSRF, что браузер подставляет cookies автоматически. Защита: CSRF-токен в каждой форме (проверяется сервером), SameSite=Lax у cookies (не отправляются в cross-site POST), HTTPOnly флаг (JS не видит токены). На практике используют комбинацию: SameSite + CSRF tokens + проверка Origin.\n\nВажно: XSS можно полностью предотвратить, но CSRF требует серверной поддержки. CSP — самый мощный инструмент, но его сложно настроить без поломок. Начинайте с strict policy и ослабляйте по мере необходимости.",
     "context": "Интервьюер проверяет понимание моделей угроз в вебе. Ожидается знание типов XSS (stored, reflected, DOM-based), конкретных техник защиты и понимание, почему одного способа недостаточно — защита должна быть многоуровневой.",
     "keyPoints": [
       {
@@ -21942,7 +21942,7 @@
       },
       {
         "title": "Модель CSRF",
-        "text": "CSRF利用, что браузер автоматически подставляет cookies при запросах. Атакующий может отправить форму от имени пользователя, даже если он не на сайте. Уязвимы state-changing запросы (POST, PUT, DELETE)."
+        "text": "CSRF, что браузер автоматически подставляет cookies при запросах. Атакующий может отправить форму от имени пользователя, даже если он не на сайте. Уязвимы state-changing запросы (POST, PUT, DELETE)."
       },
       {
         "title": "Защита от CSRF",

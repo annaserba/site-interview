@@ -28,7 +28,7 @@ Cleanup функция в useEffect вызывается при размонти
 
 ### Назвать причину утечки
 
-Утечка памяти возникает, когда副作用 не отменяются при размонтировании: open connections, running timers, event listeners на глобальных объектах.
+Утечка памяти возникает, когда не отменяются при размонтировании: open connections, running timers, event listeners на глобальных объектах.
 
 ### Показать Cleanup паттерн
 
@@ -40,7 +40,7 @@ useEffect(() => {
 }, []);
 ```
 
-### Разделить типы副作用
+### Разделить типы
 
 Fetch — AbortController, event listeners — removeEventListener, timers — clearInterval/clearTimeout, subscriptions — unsubscribe.
 
@@ -90,7 +90,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 ## Пример ответа
 
-useEffect с пустым dependency array [] вызывается один раз при mount. Cleanup функция, которую он возвращает, вызывается при unmount. Если cleanup не определён,副作用 продолжают выполняться: таймеры тикают, event listeners остаются, fetch запросы завершаются и пытаются вызвать setState на unmount-ном компоненте.
+useEffect с пустым dependency array [] вызывается один раз при mount. Cleanup функция, которую он возвращает, вызывается при unmount. Если cleanup не определён, продолжают выполняться: таймеры тикают, event listeners остаются, fetch запросы завершаются и пытаются вызвать setState на unmount-ном компоненте.
 
 ```javascript
 useEffect(() => {
@@ -105,7 +105,7 @@ useEffect(() => {
 
 ## Частые ошибки
 
-- Не возвращать cleanup функцию из useEffect при наличии副作用.
+- Не возвращать cleanup функцию из useEffect при наличии.
 - Использовать AbortController без проверки error.name === "AbortError" — abort выбрасывает ошибку, которую нужно отличать от реальных ошибок.
 - Забывать добавить переменные из замыкания в dependency array — приводит к stale closure.
 - Вызывать setState после размонтирования — отловить можно через флаг или AbortController.

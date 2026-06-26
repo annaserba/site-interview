@@ -39,7 +39,7 @@ Team velocity, retention, onboarding time.
 
 ## Пример ответа
 
-Масштабировали команду с 5 до 15 за квартал. Принципы: 1) autonomous squads (3-5 человек), 2) clear ownership per domain, 3) на每个新人的 onboarding (2 недели), 4) weekly tech leads sync. Результат: velocity вырос на 80%, retention — 95%. Ошибка: сначала взяли 8 человек сразу — провалили onboarding, потеряли 3 месяца.
+Масштабировали команду с 5 до 15 за квартал. Принципы: 1) autonomous squads (3-5 человек), 2) clear ownership per domain, 3) на   onboarding (2 недели), 4) weekly tech leads sync. Результат: velocity вырос на 80%, retention — 95%. Ошибка: сначала взяли 8 человек сразу — провалили onboarding, потеряли 3 месяца.
 
 ## Частые ошибки
 

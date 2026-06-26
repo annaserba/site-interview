@@ -38,7 +38,7 @@ CP: ZooKeeper, etcd, HBase. AP: Cassandra, DynamoDB, CouchDB. CA: single-node da
 
 ## Пример ответа
 
-CAP: при network partition (узлы не видят друг друга) система должна choose: CP — fail writes, guarantee consistency (ZooKeeper: если majority недоступна — service unavailable). AP — continue writes, guarantee availability (Cassandra: пишем на любой available node, eventual consistency). CA: PostgreSQL в single node (нет partitions, но не distributed). PACELC: при partition — A or C;否则 latency vs consistency.
+CAP: при network partition (узлы не видят друг друга) система должна choose: CP — fail writes, guarantee consistency (ZooKeeper: если majority недоступна — service unavailable). AP — continue writes, guarantee availability (Cassandra: пишем на любой available node, eventual consistency). CA: PostgreSQL в single node (нет partitions, но не distributed). PACELC: при partition — A or C; latency vs consistency.
 
 ## Частые ошибки
 

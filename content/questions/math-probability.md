@@ -17,7 +17,7 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-Вероятность, условная вероятность, Bayes theorem, распределения (normal, binomial, Poisson),期望值, variance. Применение: classification, A/B testing, Bayesian inference.
+Вероятность, условная вероятность, Bayes theorem, распределения (normal, binomial, Poisson),, variance. Применение: classification, A/B testing, Bayesian inference.
 
 ## Контекст
 

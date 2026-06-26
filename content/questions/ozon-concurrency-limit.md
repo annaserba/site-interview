@@ -99,5 +99,5 @@ async function concurrencyLimit<T>(
 
 - Как модифицировать функцию для поддержки отмены задач?
 - Как добавить retry с экспоненциальной задержкой?
-- В чём разница между this concurrencyLimit и使用 BoundedPromisePool?
+- В чём разница между this concurrencyLimit и BoundedPromisePool?
 - Как обрабатывать таймауты для каждой задачи отдельно?

@@ -26,7 +26,7 @@ Multi-leader replication — несколько узлов принимают з
 
 ### Зачем
 
-Multi-datacenter: каждый DC имеет自己的 leader, lower latency. Offline-first: мобильные клиенты работают без сети.
+Multi-datacenter: каждый DC имеет  leader, lower latency. Offline-first: мобильные клиенты работают без сети.
 
 ### Проблемы
 
@@ -38,7 +38,7 @@ LWW (last-write-wins), CRDT (mathematical convergence), custom application logic
 
 ## Пример ответа
 
-Multi-datacenter PostgreSQL: каждый DC имеет自己的 leader с async replication. При split-brain: conflict detection через timestamps или vector clocks. Resolution: LWW (просто, но может терять данные) или CRDT (guarantee convergence, но сложнее). Offline-first: iOS app хранит changes locally, sync при network. CouchDB/PouchDB: automatic conflict resolution через revisions.
+Multi-datacenter PostgreSQL: каждый DC имеет  leader с async replication. При split-brain: conflict detection через timestamps или vector clocks. Resolution: LWW (просто, но может терять данные) или CRDT (guarantee convergence, но сложнее). Offline-first: iOS app хранит changes locally, sync при network. CouchDB/PouchDB: automatic conflict resolution через revisions.
 
 ## Частые ошибки
 

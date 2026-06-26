@@ -31,11 +31,11 @@ Blue/Green: два окружения, swap. Canary: постепенный roll
 
 ### Canary
 
-一小部分 traffic → monitoring → full rollout. Медленно, но безопасно.
+Часть  traffic → monitoring → full rollout. Медленно, но безопасно.
 
 ### Rolling
 
-Обновление по одному instance. Zero downtime, но缓慢 rollback.
+Обновление по одному instance. Zero downtime, номедленный  rollback.
 
 ## Пример ответа
 

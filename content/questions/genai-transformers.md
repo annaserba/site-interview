@@ -39,7 +39,7 @@ Positional encoding: добавляет информацию о позиции. 
 
 ## Пример ответа
 
-GPT: decoder-only transformer. Token prediction: P(w_t | w_1, ..., w_{t-1}). Self-attention: "The cat sat on" → attention weights определяют relationships. Multi-head: один head может фокуситься на语法, другой на semantics.
+GPT: decoder-only transformer. Token prediction: P(w_t | w_1, ..., w_{t-1}). Self-attention: "The cat sat on" → attention weights определяют relationships. Multi-head: один head может фокуситься на, другой на semantics.
 
 ## Частые ошибки
 

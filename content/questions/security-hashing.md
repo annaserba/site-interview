@@ -39,7 +39,7 @@ Never: plain text, MD5, SHA-256. Always: bcrypt/argon2, salt, pepper (optional).
 
 ## Пример ответа
 
-Registration: password → bcrypt(password, salt) → hash в БД. Login: password → bcrypt(password, stored_hash) → comparison. Bcrypt: 12 rounds, ~100ms. Argon2: memory-hard,抵抗 GPU attacks.
+Registration: password → bcrypt(password, salt) → hash в БД. Login: password → bcrypt(password, stored_hash) → comparison. Bcrypt: 12 rounds, ~100ms. Argon2: memory-hard, GPU attacks.
 
 ## Частые ошибки
 

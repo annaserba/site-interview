@@ -42,7 +42,7 @@ Kafka: append-only log, topics = streams of events. Consumer groups: partitioned
 
 ## Частые ошибки
 
-- Использовать queue без考虑 delivery semantics
+- Использовать queue без delivery semantics
 - Не планировать consumer failures
 - Игнорировать ordering requirements
 - Не мониторить queue depth

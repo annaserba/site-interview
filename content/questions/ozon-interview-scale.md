@@ -35,7 +35,7 @@ Horizontal: stateless services. Database: sharding. Queue: partitioning.
 
 ### Reliability
 
-Idempotency:防止 double processing. Retry: exponential backoff. Circuit breaker:防止 cascade failures.
+Idempotency: double processing. Retry: exponential backoff. Circuit breaker: cascade failures.
 
 ## Пример ответа
 

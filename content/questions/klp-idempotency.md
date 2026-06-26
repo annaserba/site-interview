@@ -34,7 +34,7 @@ Idempotency keys: клиент генерирует уникальный key, с
 
 ## Пример ответа
 
-Payment API: клиент генерирует idempotency_key, отправляет с запросом. Сервер: если key уже существует — возвращает cached result. Если нет — обрабатывает и сохраняет result с key. Database:唯一 constraint на idempotency_key. Или: version vector + compare-and-swap. Stripe API: idempotency keys для payment retries.
+Payment API: клиент генерирует idempotency_key, отправляет с запросом. Сервер: если key уже существует — возвращает cached result. Если нет — обрабатывает и сохраняет result с key. Database: constraint на idempotency_key. Или: version vector + compare-and-swap. Stripe API: idempotency keys для payment retries.
 
 ## Частые ошибки
 

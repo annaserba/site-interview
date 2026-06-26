@@ -16,7 +16,7 @@ secondaryCategory: Algorithms
 
 ## Короткий ответ
 
-Vector clocks — mechanism для определения causality в distributed systems. Каждый узел хранит vector timestamps. При event: increment自己的 counter. Comparison: определяет happened-before relationship.
+Vector clocks — mechanism для определения causality в distributed systems. Каждый узел хранит vector timestamps. При event: increment  counter. Comparison: определяет happened-before relationship.
 
 ## Контекст
 
@@ -26,7 +26,7 @@ Vector clocks — mechanism для определения causality в distribut
 
 ### Принцип
 
-Каждый узел хранит vector: [A:1, B:2, C:0]. При local event: increment自己的 counter. При message: merge vectors.
+Каждый узел хранит vector: [A:1, B:2, C:0]. При local event: increment  counter. При message: merge vectors.
 
 ### Сравнение
 

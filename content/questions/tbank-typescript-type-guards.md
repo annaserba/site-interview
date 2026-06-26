@@ -36,7 +36,7 @@ typeof для примитивов, instanceof для классов, in для 
 
 ### Показать пользовательский type guard
 
-Функция с `param is Type` — TypeScript доверяет этому утверждению, нужно确保 корректности в runtime.
+Функция с `param is Type` — TypeScript доверяет этому утверждению, нужно корректности в runtime.
 
 ### Разделить type guard и assertion
 

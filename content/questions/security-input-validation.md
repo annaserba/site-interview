@@ -27,7 +27,7 @@ sourceUrl: ""
 
 ### Клиентская валидация
 
-UX: мгновенный feedback,减少 server load. Не security: можно bypass.
+UX: мгновенный feedback, server load. Не security: можно bypass.
 
 ### Серверная валидация
 

@@ -27,7 +27,7 @@ sourceUrl: ""
 
 ### Правила
 
-Never в коде. Never в git. Never в логах. Rotate regularly. Use最小权限 principle.
+Never в коде. Never в git. Never в логах. Rotate regularly. Useнаиболее  principle.
 
 ### Инструменты
 

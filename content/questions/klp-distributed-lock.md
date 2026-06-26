@@ -34,7 +34,7 @@ Ephemeral znodes: lock holder. Преимущество: strong guarantees. Не
 
 ### Проблемы
 
-Clock skew: locks expire prematurely. Fencing: guarantee mutual exclusion即使 failure.
+Clock skew: locks expire prematurely. Fencing: guarantee mutual exclusion failure.
 
 ## Пример ответа
 

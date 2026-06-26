@@ -18,7 +18,7 @@ sourceVideos: []
 
 ## Короткий ответ
 
-Redux组织大型React应用状态的核心在于feature-based architecture: каждый feature (например, `features/auth`, `features/dashboard`) имеет собственные slices, reducers и selectors. Нормализация данных через `createEntityAdapter` упрощает CRUD-операции. Middleware (thunk или saga) обрабатывают side effects, а TypeScript типизация action creators и reducers обеспечивает безопасность на этапе компиляции. Context подходит для глобальных настроек (тема, язык), но не для高频变化 состояния.
+ReduxReact feature-based architecture: каждый feature (например, `features/auth`, `features/dashboard`) имеет собственные slices, reducers и selectors. Нормализация данных через `createEntityAdapter` упрощает CRUD-операции. Middleware (thunk или saga) обрабатывают side effects, а TypeScript типизация action creators и reducers обеспечивает безопасность на этапе компиляции. Context подходит для глобальных настроек (тема, язык), но не для состояния.
 
 ## Контекст
 
@@ -104,7 +104,7 @@ Side effects обрабатываю через thunks для простых за
 
 TypeScript типизирую через `createSlice` с дженериком и typed hooks (`useAppSelector`, `useAppDispatch`) — это исключает ошибки при обращении к store.
 
-Для Context vs Redux: использую Context для глобальных настроек (тема, язык, текущий пользователь), но не для高频 updates (списки, формы), так как Context вызывает re-render всех consumers.
+Для Context vs Redux: использую Context для глобальных настроек (тема, язык, текущий пользователь), но не для updates (списки, формы), так как Context вызывает re-render всех consumers.
 
 ## Частые ошибки
 

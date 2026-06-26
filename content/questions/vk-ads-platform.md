@@ -27,7 +27,7 @@ Ads platform: targeting (user segments), bidding (auction), ad serving, conversi
 
 ### Targeting
 
-User segments: demographics, interests, behavior. Custom audiences:上传 user lists.
+User segments: demographics, interests, behavior. Custom audiences: user lists.
 
 ### Bidding
 

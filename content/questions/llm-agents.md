@@ -27,7 +27,7 @@ AI agents: LLM + tools + memory + planning. Архитектура: ReAct (reaso
 
 ### Компоненты
 
-LLM: brain. Tools: functions, APIs. Memory:短期/长期. Planning: goal分解.
+LLM: brain. Tools: functions, APIs. Memory:/. Planning: goal.
 
 ### Архитектуры
 

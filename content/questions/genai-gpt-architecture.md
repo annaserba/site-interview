@@ -39,7 +39,7 @@ GPT: generates text. BERT: understands text. GPT: one-directional. BERT: bidirec
 
 ## Пример ответа
 
-GPT: "The cat" →预测 "sat". BERT: "The [MASK] sat on" → predicts "cat". GPT: chatbot, code generation. BERT: sentiment analysis, named entity recognition.
+GPT: "The cat" → "sat". BERT: "The [MASK] sat on" → predicts "cat". GPT: chatbot, code generation. BERT: sentiment analysis, named entity recognition.
 
 ## Частые ошибки
 

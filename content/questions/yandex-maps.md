@@ -39,12 +39,12 @@ User location streaming. Privacy: anonymization. Aggregation: traffic patterns.
 
 ## Пример ответа
 
-Route: from A to B → graph search →考虑 traffic → optimal route. Traffic: GPS data от millions users → ML prediction → "пробки через 20 минут". Offline: vector tiles → compressed maps.
+Route: from A to B → graph search → traffic → optimal route. Traffic: GPS data от millions users → ML prediction → "пробки через 20 минут". Offline: vector tiles → compressed maps.
 
 ## Частые ошибки
 
 - Не учитывать real-time traffic
-- Игнорировать隐私 user location
+- Игнорировать user location
 - Не оптимизировать route calculation
 - Не делать offline support
 

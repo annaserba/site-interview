@@ -31,7 +31,7 @@ Batch GD: весь dataset. SGD: one sample. Mini-batch: subset. Adam: adaptive 
 
 ### Regularization
 
-L1: sparse models (Lasso). L2: small weights (Ridge). Dropout:防止 overfitting.
+L1: sparse models (Lasso). L2: small weights (Ridge). Dropout: overfitting.
 
 ### Метрики
 

@@ -95,7 +95,7 @@ class PushWorker:
 
 ## Пример ответа
 
-Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox pattern保证Exactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.
+Event-driven: событие (платеж, OTP) попадает в Kafka. Router определяет каналы по user preferences. Channel Workers отправляют через внешние провайдеры. Critical уведомления — отдельная очередь с гарантированной доставкой. Outbox patternExactly-Once. Retry с backoff до 5 попыток, затем dead letter queue. Идемпотентность через message ID. Масштабирование: Kafka partitions по userId, автоскейлинг воркеров по queue depth. Мониторинг: delivery rate, P99 latency, error breakdown.
 
 ## Частые ошибки
 

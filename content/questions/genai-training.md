@@ -27,7 +27,7 @@ sourceUrl: ""
 
 ### Pre-training
 
-Massive unlabeled data. Objective: predict next token (GPT) or masked token (BERT). Compute:数千 GPU, weeks.
+Massive unlabeled data. Objective: predict next token (GPT) or masked token (BERT). Compute: GPU, weeks.
 
 ### Fine-tuning
 
@@ -39,7 +39,7 @@ Reinforcement Learning from Human Feedback. Human preferences → reward model �
 
 ## Пример ответа
 
-GPT-3 pre-training: 570GB text, 300B tokens,数千 GPUs, weeks. Fine-tuning: instruction following, dialogue. RLHF: human annotators rate responses → reward model → policy optimization.
+GPT-3 pre-training: 570GB text, 300B tokens, GPUs, weeks. Fine-tuning: instruction following, dialogue. RLHF: human annotators rate responses → reward model → policy optimization.
 
 ## Частые ошибки
 

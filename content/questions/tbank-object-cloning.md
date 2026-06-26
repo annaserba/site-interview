@@ -78,7 +78,7 @@ const original = { a: 1, b: { c: 2 } };
 
 const shallow = { ...original };
 shallow.b.c = 999;
-console.log(original.b.c); // 999 —浅 copy!
+console.log(original.b.c); // 999 —поверхностное  copy!
 
 const deep = structuredClone(original);
 deep.b.c = 888;

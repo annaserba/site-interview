@@ -16,7 +16,7 @@ secondaryCategory: DevOps
 
 ## Короткий ответ
 
-Границы microservices определяются business capabilities, data ownership, team structure. Domain-Driven Design: bounded contexts. Правила: single responsibility, loose coupling, high cohesion. Anti-patterns: 分布式 monolith.
+Границы microservices определяются business capabilities, data ownership, team structure. Domain-Driven Design: bounded contexts. Правила: single responsibility, loose coupling, high cohesion. Anti-patterns:  monolith.
 
 ## Контекст
 
@@ -30,7 +30,7 @@ Bounded contexts: границы бизнес-доменов. Each service = one
 
 ### Критерии
 
-Business capability: services aligned with business functions. Data ownership: each service owns自己的 data. Team structure: Conway's law.
+Business capability: services aligned with business functions. Data ownership: each service owns  data. Team structure: Conway's law.
 
 ### Антипаттерны
 

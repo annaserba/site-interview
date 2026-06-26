@@ -38,7 +38,7 @@ Split-brain: два leaders. Fencing: guarantee only one leader. Liveness: endle
 
 ## Пример ответа
 
-Raft election: candidate requests votes. Majority votes → leader. Term: logical clock, ensures progress. ZooKeeper: ephemeral znode,如果session expired — node removed. Leader: ephemeral znode holder. Split-brain prevention: fencing tokens, lease-based. Failure: new election.
+Raft election: candidate requests votes. Majority votes → leader. Term: logical clock, ensures progress. ZooKeeper: ephemeral znode,session expired — node removed. Leader: ephemeral znode holder. Split-brain prevention: fencing tokens, lease-based. Failure: new election.
 
 ## Частые ошибки
 

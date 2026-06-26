@@ -39,7 +39,7 @@ Custom model behavior, domain knowledge. Требует: training data, compute,
 
 ## Пример ответа
 
-Prompt engineering: для chatbot, Q&A, summarization. Fine-tuning: для medical diagnosis (domain knowledge), code generation (specific style),情感分析 (custom labels). Cost: prompt engineering $0, fine-tuning $100-1000+.
+Prompt engineering: для chatbot, Q&A, summarization. Fine-tuning: для medical diagnosis (domain knowledge), code generation (specific style), (custom labels). Cost: prompt engineering $0, fine-tuning $100-1000+.
 
 ## Частые ошибки
 

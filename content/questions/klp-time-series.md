@@ -30,7 +30,7 @@ Append-only, time-ordered, rarely updated. Данные стареют и мог
 
 ### Оптимизации
 
-Column storage: сжатие по时间. Time-based partitioning: partitions по дням/месяцам. Downsampling: reduce granularity для старых данных.
+Column storage: сжатие по. Time-based partitioning: partitions по дням/месяцам. Downsampling: reduce granularity для старых данных.
 
 ### Примеры
 

@@ -18,7 +18,7 @@ sourceVideos: []
 
 ## Короткий ответ
 
-После ввода URL браузер проверяет кэш DNS, делает DNS-запрос для получения IP, устанавливает TCP-соединение (三次握手), при необходимости TLS-хендшейк, отправляет HTTP-запрос, получает ответ (HTML), парсит DOM и CSSOM, строит Render Tree, выполняет Layout, Paint и Composite, отображая страницу на экране.
+После ввода URL браузер проверяет кэш DNS, делает DNS-запрос для получения IP, устанавливает TCP-соединение (), при необходимости TLS-хендшейк, отправляет HTTP-запрос, получает ответ (HTML), парсит DOM и CSSOM, строит Render Tree, выполняет Layout, Paint и Composite, отображая страницу на экране.
 
 ## Контекст
 
@@ -28,7 +28,7 @@ sourceVideos: []
 
 ### DNS и сетевое подключение
 
-DNS-резолвинг: browser cache → OS cache → router → ISP DNS → recursive resolver. После получения IP — TCP三次握手 (SYN, SYN-ACK, ACK), затем TLS handshake для HTTPS. Механизм TCP Fast Open для повторных соединений.
+DNS-резолвинг: browser cache → OS cache → router → ISP DNS → recursive resolver. После получения IP — TCP (SYN, SYN-ACK, ACK), затем TLS handshake для HTTPS. Механизм TCP Fast Open для повторных соединений.
 
 ### Загрузка ресурсов
 
@@ -50,7 +50,7 @@ Render Tree → Layout (вычисление позиций и размеров)
 1. **URL Parse** — парсинг протокола, домена, пути, параметров
 2. **HSTS Check** — проверка списка HSTS (принудительный HTTPS)
 3. **DNS Lookup** — резолвинг домена в IP-адрес
-4. **TCP Connection** —三次握手 (SYN → SYN-ACK → ACK)
+4. **TCP Connection** — (SYN → SYN-ACK → ACK)
 5. **TLS Handshake** — обмен ключами, сертификат, шифрование
 6. **HTTP Request** — отправка GET/POST с заголовками
 7. **HTTP Response** — получение HTML (200, 301, 304...)
@@ -66,7 +66,7 @@ Render Tree → Layout (вычисление позиций и размеров)
 
 Когда пользователь вводит URL, происходит цепочка из ~15 этапов. Сначала браузер проверяет HSTS-список и кэш DNS. Если IP не найден — идёт DNS-запрос через рекурсивный резолвер: browser cache → OS cache → роутер → DNS провайдера.
 
-Получив IP, браузер устанавливает TCP-соединение (三次握手), затем TLS-хендшейк для шифрования. Далее отправляется HTTP-запрос с заголовками (cookies, cache directives, Accept-Encoding).
+Получив IP, браузер устанавливает TCP-соединение (), затем TLS-хендшейк для шифрования. Далее отправляется HTTP-запрос с заголовками (cookies, cache directives, Accept-Encoding).
 
 Сервер отвечает HTML. Браузер запускает preload scanner — он обнаруживает критические ресурсы (CSS, JS) до завершения парсинга HTML, что ускоряет загрузку. Параллельно с парсингом HTML строится CSSOM из CSS-файлов.
 

@@ -46,7 +46,7 @@ Basic Auth: `Authorization: Basic YW5uYToxMjM0NTY=` (anna:123456). Bearer: `Auth
 - Использовать Basic Auth без HTTPS
 - Хранить API keys в коде
 - Не делать token expiry
-- Использовать query params для敏感 data
+- Использовать query params для data
 
 ## Дополнительные вопросы
 

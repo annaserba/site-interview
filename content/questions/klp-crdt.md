@@ -38,7 +38,7 @@ Redis CRDT, Riak, Apple CloudKit, collaborative editing (Yjs, Automerge).
 
 ## Пример ответа
 
-G-Counter: каждый узел хранит自己的 counter. Merge: max по каждому узлу. Пример: узел A = [1, 0], узел B = [0, 1]. Merge: [1, 1] = 2. PN-Counter: два G-Counter (increment + decrement). OR-Set: каждый add создаёт уникальный tag, remove удаляет конкретные tags. Преимущество: eventual consistency без central coordination. Недостаток: метаданные растут.
+G-Counter: каждый узел хранит  counter. Merge: max по каждому узлу. Пример: узел A = [1, 0], узел B = [0, 1]. Merge: [1, 1] = 2. PN-Counter: два G-Counter (increment + decrement). OR-Set: каждый add создаёт уникальный tag, remove удаляет конкретные tags. Преимущество: eventual consistency без central coordination. Недостаток: метаданные растут.
 
 ## Частые ошибки
 

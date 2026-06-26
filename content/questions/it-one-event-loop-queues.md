@@ -30,7 +30,7 @@ sourceVideos: []
 
 Назовите: microtasks (Promise, queueMicrotask), macrotasks (setTimeout, setInterval, I/O), rendering (requestAnimationFrame), idle (requestIdleCallback), MessageChannel, scheduler.yield().
 
-### Объяснить приоритет执行
+### Объяснить приоритет
 
 microtasks выполняются ПЕРЕД каждой макрозадачей и ПЕРЕД рендерингом. Рендеринг происходит ПОСЛЕ очереди микро- и макрозадач, но ДО следующей макрозадачи. scheduler.yield() даёт браузеру возможность отрисовать кадр.
 

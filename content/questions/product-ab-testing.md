@@ -27,7 +27,7 @@ A/B тест: сравнение двух вариантов на random samples
 
 ### Этапы
 
-1. Гипотеза: вариант B лучше A. 2. Sample size: calculator. 3. Randomization: равные группы. 4. Collection:足够 data. 5. Analysis: p-value, confidence interval.
+1. Гипотеза: вариант B лучше A. 2. Sample size: calculator. 3. Randomization: равные группы. 4. Collection: data. 5. Analysis: p-value, confidence interval.
 
 ### Статистика
 

@@ -39,7 +39,7 @@ App Store/Play Store reviews, G2/Capterra, social media, website.
 
 ## Пример ответа
 
-Competitor analysis: 3 competitors. SWOT: Competitor A — сильный brand, слабый UX. B — дешевле, fewer features. C —最好的 UX, дороже. Gap: средний ценовой segment с好的 UX.
+Competitor analysis: 3 competitors. SWOT: Competitor A — сильный brand, слабый UX. B — дешевле, fewer features. C —наиболее    UX, дороже. Gap: средний ценовой segment с   UX.
 
 ## Частые ошибки
 

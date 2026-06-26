@@ -32,7 +32,7 @@ Zone.js — monkey-patching всех async API. После каждого macro/
 
 ### Показать OnPush
 
-OnPush — оптимизация: проверка только при изменении @Input ссылок (referential equality), @Output событиях, async pipe или手动.markForCheck().
+OnPush — оптимизация: проверка только при изменении @Input ссылок (referential equality), @Output событиях, async pipe или.markForCheck().
 
 ### Показать React модель
 

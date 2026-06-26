@@ -38,11 +38,11 @@ Preserves causality: if A caused B, then A appears before B. Weaker than sequent
 
 ### Eventual
 
-最终 consistent: all replicas converge. Weakest guarantee.
+наиболее   consistent: all replicas converge. Weakest guarantee.
 
 ## Пример ответа
 
-Linearizable: ZooKeeper, etcd. Reads see最新写入. Sequential: many databases с snapshot isolation. Causal: causally consistent distributed systems. Eventual: Cassandra, DynamoDB. Выбор: financial transactions → linearizable. Social feed → eventual. Collaborative editing → causal.
+Linearizable: ZooKeeper, etcd. Reads seeнаиболее  . Sequential: many databases с snapshot isolation. Causal: causally consistent distributed systems. Eventual: Cassandra, DynamoDB. Выбор: financial transactions → linearizable. Social feed → eventual. Collaborative editing → causal.
 
 ## Частые ошибки
 

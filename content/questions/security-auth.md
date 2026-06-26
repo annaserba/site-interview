@@ -39,7 +39,7 @@ Never store passwords в plain text. Use bcrypt/argon2. Implement rate limiting.
 
 ## Пример ответа
 
-JWT flow: login → server creates JWT (userId, role, exp) → client stores в localStorage/cookie →每个 request в Authorization header → server verifies signature. RBAC: admin can edit, user can read. OAuth2: "Login with Google" → Google authenticates, gives token.
+JWT flow: login → server creates JWT (userId, role, exp) → client stores в localStorage/cookie → request в Authorization header → server verifies signature. RBAC: admin can edit, user can read. OAuth2: "Login with Google" → Google authenticates, gives token.
 
 ## Частые ошибки
 

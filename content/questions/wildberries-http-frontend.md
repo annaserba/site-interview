@@ -65,7 +65,7 @@ eventSource.onmessage = (e) => console.log(JSON.parse(e.data));
 
 ## Пример ответа
 
-Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) —未来的趋势, Service Workers для offline-first.
+Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) — , Service Workers для offline-first.
 
 ## Частые ошибки
 

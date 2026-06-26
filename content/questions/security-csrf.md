@@ -31,7 +31,7 @@ User logged in → visits malicious site → malicious site sends request к ban
 
 ### Защита
 
-CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка来源.
+CSRF token: hidden form field, server validates. SameSite cookies: `SameSite=Strict`. Origin header: проверка.
 
 ## Пример ответа
 

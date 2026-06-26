@@ -58,7 +58,7 @@ suspend fun loadUser() = coroutineScope {
 
 ## Пример ответа
 
-Корутины — cooperative concurrency: при遇到suspend-функции корутина приостанавливается, освобождая поток. Диспетчеры определяют контекст: IO для сети, Default для CPU. Structured concurrency через coroutineScope guarantee отмену при ошибке. Главное отличие от потоков: 10K+ корутин на одном потоке vs ~1000 потоков.
+Корутины — cooperative concurrency: приsuspend-функции корутина приостанавливается, освобождая поток. Диспетчеры определяют контекст: IO для сети, Default для CPU. Structured concurrency через coroutineScope guarantee отмену при ошибке. Главное отличие от потоков: 10K+ корутин на одном потоке vs ~1000 потоков.
 
 ## Частые ошибки
 

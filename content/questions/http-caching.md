@@ -17,7 +17,7 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-HTTP caching: браузер/proxy хранят responses. Headers: Cache-Control (policy), ETag (validation), Last-Modified, Expires. Типы: strong cache (no request),协商 cache (revalidate).
+HTTP caching: браузер/proxy хранят responses. Headers: Cache-Control (policy), ETag (validation), Last-Modified, Expires. Типы: strong cache (no request), cache (revalidate).
 
 ## Контекст
 
@@ -29,7 +29,7 @@ HTTP caching: браузер/proxy хранят responses. Headers: Cache-Contro
 
 Cache-Control: max-age=3600 (1 hour). Expires: absolute date. Браузер не отправляет request.
 
-### 协商 Cache
+###  Cache
 
 ETag: version identifier. Last-Modified: timestamp. Браузер отправляет request с `If-None-Match`/`If-Modified-Since`. 304 Not Modified: use cache.
 

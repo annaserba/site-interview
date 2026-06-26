@@ -60,7 +60,7 @@ sourceUrl: ""
 
 ## Пример ответа
 
-Мои ожидания по зарплате — от 300 до 400 тысяч рублей в месяц (gross). Эта оценка基于: 1) Market rate — Senior Frontend в Москве: 250-450K; 2) Мой опыт — 8 лет, из них 6 в frontend, последние 2 года как tech lead; 3) Skills — React, TypeScript, Next.js, SSR, Web Performance, team leadership. Важно: я开放 к обсуждению, если package включает benefits (stock options, learning budget). Не сравниваю с предыдущей зарплатой, а смотрю на value, которую приношу.
+Мои ожидания по зарплате — от 300 до 400 тысяч рублей в месяц (gross). Эта оценка: 1) Market rate — Senior Frontend в Москве: 250-450K; 2) Мой опыт — 8 лет, из них 6 в frontend, последние 2 года как tech lead; 3) Skills — React, TypeScript, Next.js, SSR, Web Performance, team leadership. Важно: я к обсуждению, если package включает benefits (stock options, learning budget). Не сравниваю с предыдущей зарплатой, а смотрю на value, которую приношу.
 
 ## Частые ошибки
 

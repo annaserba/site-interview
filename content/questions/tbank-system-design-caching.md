@@ -67,7 +67,7 @@ public Data getCachedData(String key) {
 - Один уровень кеша
 - Без инвалидации (stale data)
 - Cache stampede без защиты
-- Не учитывать一致性 vs availability
+- Не учитывать vs availability
 
 ## Дополнительные вопросы
 

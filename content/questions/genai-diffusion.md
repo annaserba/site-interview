@@ -31,7 +31,7 @@ Diffusion models: добавляют noise к изображению (forward pr
 
 ### Reverse process
 
-Noise → model предсказывает noise →逐步 denoise → изображение.
+Noise → model предсказывает noise → denoise → изображение.
 
 ### Latent diffusion
 

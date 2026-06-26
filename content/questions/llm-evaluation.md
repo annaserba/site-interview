@@ -31,7 +31,7 @@ BLEU: translation quality. ROUGE: summarization. Faithfulness: factual accuracy.
 
 ### Human evaluation
 
-Expert review, user feedback, A/B testing. Дорого, но最accurate.
+Expert review, user feedback, A/B testing. Дорого, нонаиболее accurate.
 
 ### LLM-as-judge
 

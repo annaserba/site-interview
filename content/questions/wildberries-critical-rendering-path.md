@@ -56,7 +56,7 @@ Style calculation → layout → paint → raster → composite; не каждо
 
 ## Пример ответа
 
-Critical Rendering Path — это путь, который проходит HTML и CSS, чтобы стать пикселями на экране: 1) Browser получает HTML → строит DOM树; 2) Получает CSS → строит CSSOM; 3) DOM + CSSOM = Render Tree; 4) Layout (計算 positions) → Paint (рисует pixels) → Composite (слои). Оптимизация: 1) Critical CSS — inline CSS для above-the-fold контента; 2) Async loading для non-critical CSS; 3) Minimize render-blocking resources; 4) Использовать content-visibility: auto. На практике: я разделяю CSS на critical (inline) и non-critical (preload), что сокращает FCP на 40%.
+Critical Rendering Path — это путь, который проходит HTML и CSS, чтобы стать пикселями на экране: 1) Browser получает HTML → строит DOM; 2) Получает CSS → строит CSSOM; 3) DOM + CSSOM = Render Tree; 4) Layout ( positions) → Paint (рисует pixels) → Composite (слои). Оптимизация: 1) Critical CSS — inline CSS для above-the-fold контента; 2) Async loading для non-critical CSS; 3) Minimize render-blocking resources; 4) Использовать content-visibility: auto. На практике: я разделяю CSS на critical (inline) и non-critical (preload), что сокращает FCP на 40%.
 
 ## Частые ошибки
 

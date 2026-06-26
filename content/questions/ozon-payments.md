@@ -27,7 +27,7 @@ Payments: payment processing, escrow, seller payouts, refunds, fraud prevention.
 
 ### Payment processing
 
-Multiple methods: cards, wallets, SBP. Idempotency:防止 double charges. 3D Secure: authentication.
+Multiple methods: cards, wallets, SBP. Idempotency: double charges. 3D Secure: authentication.
 
 ### Escrow
 

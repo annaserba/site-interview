@@ -26,7 +26,7 @@ Circuit breaker — паттерн для предотвращения cascade f
 
 ### Состояния
 
-Closed:正常工作, считает failures. Open: превышен threshold, блокирует requests. Half-open: пропускает probe request для проверки.
+Closed:, считает failures. Open: превышен threshold, блокирует requests. Half-open: пропускает probe request для проверки.
 
 ### Реализация
 

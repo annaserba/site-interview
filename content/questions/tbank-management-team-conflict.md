@@ -31,7 +31,7 @@ sourceUrl: ""
 
 ### Шаг 2: Корень
 
-Часто конфликт — не про技術, а про ownership/expectations.
+Часто конфликт — не про, а про ownership/expectations.
 
 ### Шаг 3: Решение
 

@@ -34,7 +34,7 @@ Cache: если service недоступен — serve cached data. Default: е�
 
 ## Пример ответа
 
-E-commerce: payment service down → alternative payment method. Recommendations service down → show popular items instead of personalized. Cache: Redis с TTL. Если backend down → serve from cache. Feature flags:如果search service slow → disable advanced filters. Monitoring: track degradation events, alert на critical failures.
+E-commerce: payment service down → alternative payment method. Recommendations service down → show popular items instead of personalized. Cache: Redis с TTL. Если backend down → serve from cache. Feature flags:search service slow → disable advanced filters. Monitoring: track degradation events, alert на critical failures.
 
 ## Частые ошибки
 

@@ -39,7 +39,7 @@ Code review, pair programming, learning goals.
 
 ## Пример ответа
 
-Для junior завёл learning path: первые 3 месяца — наставник, pair programming, code review с объяснениями. Месяц 4-6 —独立 ownership, ментор как reviewer. Месяц 7+ —独立 feature delivery. Цели на квартал: «научиться писать тесты», «понять domain». Результат: 80% junior вырастают до middle за 12 месяцев.
+Для junior завёл learning path: первые 3 месяца — наставник, pair programming, code review с объяснениями. Месяц 4-6 — ownership, ментор как reviewer. Месяц 7+ — feature delivery. Цели на квартал: «научиться писать тесты», «понять domain». Результат: 80% junior вырастают до middle за 12 месяцев.
 
 ## Частые ошибки
 

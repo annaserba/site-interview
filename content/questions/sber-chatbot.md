@@ -17,7 +17,7 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,安全保障. Ключевые: точность распознавания, безопасность, compliance.
+AI chatbot: NLU (intent recognition), dialogue management, integration с banking systems,. Ключевые: точность распознавания, безопасность, compliance.
 
 ## Контекст
 
@@ -27,7 +27,7 @@ AI chatbot: NLU (intent recognition), dialogue management, integration с bankin
 
 ### NLU
 
-Intent recognition: transfer money, check balance. Entity extraction: amount, recipient.槽 filling: gathering required info.
+Intent recognition: transfer money, check balance. Entity extraction: amount, recipient. filling: gathering required info.
 
 ### Dialogue management
 

@@ -16,7 +16,7 @@ sourceType: aggregated
 
 ## Короткий ответ
 
-Deadlock возникает когда два потока захватывают мониторы в разном порядке (A→B и B→A). Решения:一致 lock ordering (всегда захватывать в одном порядке), `tryLock` с таймаутом, `CompletableFuture` для асинхронных транзакций, `ConcurrentHashMap` вместо synchronized maps. Проверяйте `jstack` или ThreadMXBean для диагностики.
+Deadlock возникает когда два потока захватывают мониторы в разном порядке (A→B и B→A). Решения: lock ordering (всегда захватывать в одном порядке), `tryLock` с таймаутом, `CompletableFuture` для асинхронных транзакций, `ConcurrentHashMap` вместо synchronized maps. Проверяйте `jstack` или ThreadMXBean для диагностики.
 
 ## Контекст
 
@@ -145,7 +145,7 @@ public class Bank {
 
 Deadlock — ситуация когда два или более потока бесконечно ждут друг друга. В банковском контексте: transfer от A к B и от B к A одновременно.
 
-Диагностика: `jstack <pid>`, `ThreadMXBean.findDeadlockedThreads()`, или Arthas. В логах видно: "BLOCKED"��态 у потоков.
+Диагностика: `jstack <pid>`, `ThreadMXBean.findDeadlockedThreads()`, или Arthas. В логах видно: "BLOCKED"�� у потоков.
 
 Решения по приоритету:
 

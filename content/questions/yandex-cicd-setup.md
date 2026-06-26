@@ -123,7 +123,7 @@ jobs:
 
 **Секреты:** GitHub Secrets для ключей API и токенов. OIDC для AWS/GCP — временные credentials без хранения. В логах секреты маскируются автоматически.
 
-**Деплой:** Auto-deploy на dev при мерже в develop. Staging — автоматически при мерже в main. Production — manual approval в GitHub Environment. Rollback: откат на предыдущий Docker-образ через `kubectl rollout undo` или重新-deploy предыдущего артефакта.
+**Деплой:** Auto-deploy на dev при мерже в develop. Staging — автоматически при мерже в main. Production — manual approval в GitHub Environment. Rollback: откат на предыдущий Docker-образ через `kubectl rollout undo` или  -deploy предыдущего артефакта.
 
 **Мониторинг:** После деплоя — smoke tests. Sentry ловит ошибки. Grafana показывает метрики. Алерт при error rate > 0.5% → автоматический rollback через CI/CD.
 

@@ -39,7 +39,7 @@ Buffer, capacity, не перегружать команду.
 
 ## Пример ответа
 
-Grooming по вторникам: декомпозируем, оцениваем (planning poker),接受 acceptance criteria. Planning по понедельникам: берём задачи на спринт, учитывая velocity (средняя за 3 спринта) + 20% buffer. Daily standup — 15 минут, блокеры. Retro по пятницам — что улучшить. Velocity: 45 story points за спринт. Результат: предсказуемость доставки выросла на 40%.
+Grooming по вторникам: декомпозируем, оцениваем (planning poker), acceptance criteria. Planning по понедельникам: берём задачи на спринт, учитывая velocity (средняя за 3 спринта) + 20% buffer. Daily standup — 15 минут, блокеры. Retro по пятницам — что улучшить. Velocity: 45 story points за спринт. Результат: предсказуемость доставки выросла на 40%.
 
 ## Частые ошибки
 

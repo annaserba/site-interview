@@ -17,7 +17,7 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-Cohort analysis: группировка users по共同特征 (дата signup, источник). Отслеживание behavior over time. Ключевое: retention curves, comparison between cohorts.
+Cohort analysis: группировка users по (дата signup, источник). Отслеживание behavior over time. Ключевое: retention curves, comparison between cohorts.
 
 ## Контекст
 

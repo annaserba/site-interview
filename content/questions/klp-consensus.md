@@ -38,7 +38,7 @@ Leader election, prepare/promise, accept/accepted. Сложный, но fundamen
 
 ## Пример ответа
 
-Raft: узлы elect leader (term-based). Leader replicate log entries на followers. Majority must agree для commit. При failure:新的leader elected, incomplete entries откатываются. Paxos: prepare → promise → accept → accepted. Сложнее в implementation, но более flexible. Consensus используется в: ZooKeeper (ZAB), etcd (Raft), CockroachDB (Raft).
+Raft: узлы elect leader (term-based). Leader replicate log entries на followers. Majority must agree для commit. При failure:  leader elected, incomplete entries откатываются. Paxos: prepare → promise → accept → accepted. Сложнее в implementation, но более flexible. Consensus используется в: ZooKeeper (ZAB), etcd (Raft), CockroachDB (Raft).
 
 ## Частые ошибки
 

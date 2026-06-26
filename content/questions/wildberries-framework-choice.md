@@ -67,7 +67,7 @@ volumes:
 
 ## Пример ответа
 
-Для нового долгоживущего проекта я бы выбирал между React, Vue и Svelte. Критерии: 1) Ecoystem — React самый большой (npm packages, решения); 2) Learning curve — Vue проще для junior'ов; 3) Performance — Svelte самый быстрый (no VDOM overhead); 4) SSR — Next.js (React) лучше всех; 5) Community — React最大的. Мой выбор: React + TypeScript + Next.js. Почему: 1) Largest talent pool — проще нанимать; 2) Best SSR/SSG; 3) Rich ecosystem (state management, forms, testing); 4) Long-term support от Meta. Для внутренних инструментов — Svelte (проще, быстрее开发). Angular — только если enterprise + long-term support от Google.
+Для нового долгоживущего проекта я бы выбирал между React, Vue и Svelte. Критерии: 1) Ecoystem — React самый большой (npm packages, решения); 2) Learning curve — Vue проще для junior'ов; 3) Performance — Svelte самый быстрый (no VDOM overhead); 4) SSR — Next.js (React) лучше всех; 5) Community — Reactнаиболее  . Мой выбор: React + TypeScript + Next.js. Почему: 1) Largest talent pool — проще нанимать; 2) Best SSR/SSG; 3) Rich ecosystem (state management, forms, testing); 4) Long-term support от Meta. Для внутренних инструментов — Svelte (проще, быстрее). Angular — только если enterprise + long-term support от Google.
 
 ## Частые ошибки
 
