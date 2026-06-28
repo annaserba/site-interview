@@ -2,7 +2,11 @@
 set -e
 
 echo "→ Waiting for PostgreSQL..."
-until pg_isready -h db -U app -d site_interview -q 2>/dev/null; do
+until node -e "
+  const pg = require('pg');
+  const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
+  c.connect().then(() => { c.end(); process.exit(0); }).catch(() => process.exit(1));
+" 2>/dev/null; do
   sleep 1
 done
 echo "✓ PostgreSQL is ready"
