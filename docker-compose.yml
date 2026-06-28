@@ -9,8 +9,6 @@ services:
       POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "127.0.0.1:5432:5432"
     restart: unless-stopped
     deploy:
       resources:
@@ -44,8 +42,6 @@ services:
       YANDEX_CLIENT_SECRET: ${YANDEX_CLIENT_SECRET:-}
       PHONE_SALT: ${PHONE_SALT:-site-interview-salt-2024}
       SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
-    ports:
-      - "0.0.0.0:3001:3001"
     depends_on:
       db:
         condition: service_healthy

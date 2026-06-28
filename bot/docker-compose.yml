@@ -4,8 +4,10 @@ services:
     container_name: telegram-bot
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
-      - API_URL=${API_URL:-http://192.144.59.118:3001}
-      - RAG_API_KEY=${RAG_API_KEY:-}
+      - API_URL=${API_URL:-http://10.0.0.1:3001}
+    network_mode: host
+    depends_on:
+      - wg
     restart: unless-stopped
     deploy:
       resources:
@@ -16,3 +18,34 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  wg:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - SERVERURL=144.124.255.55
+      - SERVERPORT=51820
+      - PEERS=1
+      - PEERDNS=1.1.1.1
+    volumes:
+      - wgdata:/config
+    ports:
+      - "51820:51820/udp"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  wgdata:
