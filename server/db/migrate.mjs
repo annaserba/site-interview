@@ -1,4 +1,11 @@
 import pg from 'pg'
+import crypto from 'crypto'
+
+const PHONE_SALT = process.env.PHONE_SALT || 'site-interview-salt-2024'
+
+function hashPhone(phone) {
+  return crypto.createHash('sha256').update(phone + PHONE_SALT).digest('hex')
+}
 
 const migrateSQL = `
 CREATE TABLE IF NOT EXISTS questions (
@@ -26,17 +33,35 @@ CREATE TABLE IF NOT EXISTS questions (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  yandex_id TEXT UNIQUE NOT NULL,
+  phone_hash TEXT UNIQUE NOT NULL,
+  display_name TEXT,
+  avatar_url TEXT,
+  default_email TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  last_login_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+  token TEXT PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS favorites (
   id SERIAL PRIMARY KEY,
-  session_id TEXT NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   question_id TEXT REFERENCES questions(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(session_id, question_id)
+  UNIQUE(user_id, question_id)
 );
 
 CREATE TABLE IF NOT EXISTS view_history (
   id SERIAL PRIMARY KEY,
-  session_id TEXT NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   question_id TEXT REFERENCES questions(id) ON DELETE CASCADE,
   viewed_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -46,8 +71,11 @@ CREATE INDEX IF NOT EXISTS idx_questions_stage ON questions(stage);
 CREATE INDEX IF NOT EXISTS idx_questions_companies ON questions USING GIN(companies);
 CREATE INDEX IF NOT EXISTS idx_questions_roles ON questions USING GIN(roles);
 CREATE INDEX IF NOT EXISTS idx_questions_tags ON questions USING GIN(tags);
-CREATE INDEX IF NOT EXISTS idx_favorites_session ON favorites(session_id);
-CREATE INDEX IF NOT EXISTS idx_view_history_session ON view_history(session_id);
+CREATE INDEX IF NOT EXISTS idx_users_yandex_id ON users(yandex_id);
+CREATE INDEX IF NOT EXISTS idx_users_phone_hash ON users(phone_hash);
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id);
+CREATE INDEX IF NOT EXISTS idx_view_history_user ON view_history(user_id);
 `
 
 export async function migrate(pool) {
@@ -59,6 +87,8 @@ export async function migrate(pool) {
     client.release()
   }
 }
+
+export { hashPhone }
 
 if (process.argv[1]?.endsWith('migrate.mjs')) {
   const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL })

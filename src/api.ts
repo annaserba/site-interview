@@ -116,6 +116,38 @@ export async function trackView(questionId: string): Promise<void> {
   await fetch(`${API_BASE}/history`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ session_id: getSessionId(), question_id: questionId }),
+    body: JSON.stringify({ question_id: questionId }),
   })
+}
+
+// Auth
+export interface User {
+  id: number
+  displayName: string
+  avatarUrl: string | null
+  email: string
+  phoneHash: string
+}
+
+export async function fetchCurrentUser(): Promise<User | null> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.user
+  } catch {
+    return null
+  }
+}
+
+export function loginWithYandex() {
+  window.location.href = `${API_BASE}/auth/yandex`
+}
+
+export async function logout(): Promise<void> {
+  await fetch(`${API_BASE}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+  window.location.reload()
 }

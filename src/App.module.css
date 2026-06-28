@@ -32,6 +32,28 @@
 
 .header-actions { display: flex; gap: 9px; align-items: center; }
 
+.auth-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.auth-btn:hover { border-color: var(--ink); box-shadow: var(--shadow-sm); }
+
+.user-menu {
+  display: flex; align-items: center; gap: 8px;
+}
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+}
+.user-avatar-placeholder {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--ink); color: var(--acid);
+  display: grid; place-items: center;
+  font: 600 11px 'JetBrains Mono';
+}
+.user-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+
 .header-stats { display: none; gap: 14px; align-items: baseline; margin-left: auto; margin-right: 28px; }
 .header-stats span { display: flex; align-items: baseline; gap: 4px; color: var(--muted); }
 .header-stats strong { font: 500 13px 'JetBrains Mono'; letter-spacing: -.04em; color: var(--ink); }

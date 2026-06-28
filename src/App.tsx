@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Menu, Search, Users, X } from 'lucide-react'
+import { ArrowRight, LogIn, LogOut, Menu, Search, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
 import { MockInterview } from './MockInterview'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
-import { fetchQuestions } from './api'
+import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
 import s from './App.module.css'
 import questionsData from './data/questions.json'
 
@@ -55,6 +55,7 @@ const topicDefinitions = [
 
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
+  const [user, setUser] = useState<User | null>(null)
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
@@ -65,6 +66,10 @@ function App() {
   const feedSentinelRef = useRef<HTMLDivElement>(null)
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
+
+  useEffect(() => {
+    fetchCurrentUser().then(setUser)
+  }, [])
 
   useEffect(() => {
     fetchQuestions({ limit: 500 })
@@ -217,6 +222,23 @@ function App() {
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
         </nav>
         <div className={s['header-actions']}>
+          {user ? (
+            <div className={s['user-menu']}>
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
+              ) : (
+                <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
+              )}
+              <span className={s['user-name']}>{user.displayName}</span>
+              <button className={s['auth-btn']} onClick={logout} title="Выйти">
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <button className={s['auth-btn']} onClick={loginWithYandex}>
+              <LogIn size={16} /> Войти
+            </button>
+          )}
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
             {menuOpen ? <X /> : <Menu />}
           </button>
