@@ -3,10 +3,21 @@ import crypto from 'crypto'
 import http from 'http'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { hashPhone } from './db/migrate.mjs'
 import { answerQuestion, retrieve } from './rag-core.mjs'
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 10 })
+const PHONE_SALT = process.env.PHONE_SALT || 'site-interview-salt-2024'
+function hashPhone(phone) {
+  return crypto.createHash('sha256').update(phone + PHONE_SALT).digest('hex')
+}
+
+let pool = null
+if (process.env.DATABASE_URL) {
+  try {
+    pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 5 })
+  } catch (e) {
+    console.warn('DB connection failed:', e.message)
+  }
+}
 
 const YANDEX_CLIENT_ID = process.env.YANDEX_CLIENT_ID
 const YANDEX_CLIENT_SECRET = process.env.YANDEX_CLIENT_SECRET
@@ -16,7 +27,7 @@ const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000 // 30 days
 const questionsPath = resolve(process.cwd(), 'public/data/questions.json')
 const srcQuestionsPath = resolve(process.cwd(), 'src/data/questions.json')
 let localQuestionsCache = null
-let dbAvailable = Boolean(process.env.DATABASE_URL)
+let dbAvailable = Boolean(pool)
 
 function json(res, data, status = 200) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' })
@@ -67,7 +78,7 @@ function parseQuery(url) {
 }
 
 async function getUserFromRequest(req) {
-  if (!dbAvailable) return null
+  if (!pool) return null
   const cookies = parseCookies(req)
   const token = cookies['session_token']
   if (!token) return null

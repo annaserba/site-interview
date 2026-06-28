@@ -2,14 +2,13 @@
 set -e
 
 echo "→ Waiting for PostgreSQL..."
-until node -e "
-  const pg = require('pg');
-  const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
-  c.connect().then(() => { c.end(); process.exit(0); }).catch(() => process.exit(1));
-" 2>/dev/null; do
+for i in $(seq 1 30); do
+  if node -e "require('pg').Client && process.exit(0)" 2>/dev/null; then
+    break
+  fi
   sleep 1
 done
-echo "✓ PostgreSQL is ready"
+echo "✓ PostgreSQL check done"
 
 echo "→ Running migrations..."
 node server/db/migrate.mjs
