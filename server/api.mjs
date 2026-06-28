@@ -29,6 +29,58 @@ const srcQuestionsPath = resolve(process.cwd(), 'src/data/questions.json')
 let localQuestionsCache = null
 let dbAvailable = Boolean(pool)
 
+async function ensureDbAvailable() {
+  if (!pool) return false
+  if (dbAvailable) return true
+  try {
+    await pool.query('SELECT 1')
+    dbAvailable = true
+    return true
+  } catch {
+    return false
+  }
+}
+
+const base64url = (value) => Buffer.from(JSON.stringify(value)).toString('base64url')
+const sign = (value) => crypto.createHmac('sha256', PHONE_SALT).update(value).digest('base64url')
+
+function yandexInfoToUser(yandexInfo) {
+  const yandexId = String(yandexInfo.id)
+  const phone = yandexInfo.default_phone?.number || yandexInfo.phone || ''
+  return {
+    id: `yandex:${yandexId}`,
+    yandex_id: yandexId,
+    phone_hash: phone ? hashPhone(phone) : `no_phone_${yandexId}`,
+    display_name: yandexInfo.display_name || yandexInfo.real_name || 'User',
+    avatar_url: yandexInfo.default_avatar_id
+      ? `https://avatars.yandex.net/get-yapic/${yandexInfo.default_avatar_id}/islands-200`
+      : null,
+    default_email: yandexInfo.default_email || '',
+  }
+}
+
+function createStatelessSession(yandexInfo) {
+  const user = yandexInfoToUser(yandexInfo)
+  const payload = base64url({ ...user, exp: Date.now() + SESSION_DURATION })
+  return { token: `${payload}.${sign(payload)}`, user }
+}
+
+function readStatelessSession(token) {
+  const [payload, signature] = token.split('.')
+  if (!payload || !signature || sign(payload) !== signature) return null
+  try {
+    const session = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'))
+    if (!session.exp || session.exp < Date.now()) return null
+    return session
+  } catch {
+    return null
+  }
+}
+
+function hasDatabaseUser(user) {
+  return Number.isInteger(user?.id)
+}
+
 function json(res, data, status = 200) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' })
   res.end(JSON.stringify(data))
@@ -78,17 +130,25 @@ function parseQuery(url) {
 }
 
 async function getUserFromRequest(req) {
-  if (!pool) return null
   const cookies = parseCookies(req)
   const token = cookies['session_token']
   if (!token) return null
 
-  const result = await pool.query(
-    `SELECT u.* FROM users u JOIN sessions s ON s.user_id = u.id
-     WHERE s.token = $1 AND s.expires_at > NOW()`,
-    [token]
-  )
-  return result.rows[0] || null
+  if (await ensureDbAvailable()) {
+    try {
+      const result = await pool.query(
+        `SELECT u.* FROM users u JOIN sessions s ON s.user_id = u.id
+         WHERE s.token = $1 AND s.expires_at > NOW()`,
+        [token]
+      )
+      if (result.rows[0]) return result.rows[0]
+    } catch (error) {
+      dbAvailable = false
+      console.warn('DB session lookup failed, falling back to stateless auth:', error.message)
+    }
+  }
+
+  return readStatelessSession(token)
 }
 
 async function loadLocalQuestions() {
@@ -172,14 +232,8 @@ async function fetchYandexUserInfo(accessToken) {
 }
 
 async function findOrCreateUser(yandexInfo) {
-  const yandexId = String(yandexInfo.id)
-  const phone = yandexInfo.default_phone?.number || yandexInfo.phone || ''
-  const phoneHash = phone ? hashPhone(phone) : `no_phone_${yandexId}`
-  const displayName = yandexInfo.display_name || yandexInfo.real_name || 'User'
-  const avatarUrl = yandexInfo.default_avatar_id
-    ? `https://avatars.yandex.net/get-yapic/${yandexInfo.default_avatar_id}/islands-200`
-    : null
-  const email = yandexInfo.default_email || ''
+  const userInfo = yandexInfoToUser(yandexInfo)
+  const { yandex_id: yandexId, phone_hash: phoneHash, display_name: displayName, avatar_url: avatarUrl, default_email: email } = userInfo
 
   const existing = await pool.query('SELECT * FROM users WHERE yandex_id = $1', [yandexId])
   if (existing.rows.length > 0) {
@@ -219,7 +273,7 @@ const server = http.createServer(async (req, res) => {
 
     // Redirect to Yandex OAuth
     if (url === '/api/auth/yandex' && req.method === 'GET') {
-      if (!dbAvailable || !YANDEX_CLIENT_ID || !YANDEX_CLIENT_SECRET) {
+      if (!YANDEX_CLIENT_ID || !YANDEX_CLIENT_SECRET) {
         return redirect(res, `${FRONTEND_URL}#auth-config-required`)
       }
       const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${encodeURIComponent(YANDEX_CLIENT_ID)}&redirect_uri=${encodeURIComponent(YANDEX_REDIRECT_URI)}`
@@ -235,8 +289,19 @@ const server = http.createServer(async (req, res) => {
 
       const tokenData = await exchangeCodeForToken(code)
       const yandexInfo = await fetchYandexUserInfo(tokenData.access_token)
-      const user = await findOrCreateUser(yandexInfo)
-      const session = await createSession(user.id)
+      let session
+      if (await ensureDbAvailable()) {
+        try {
+          const user = await findOrCreateUser(yandexInfo)
+          session = await createSession(user.id)
+        } catch (error) {
+          dbAvailable = false
+          console.warn('DB auth failed, using stateless session:', error.message)
+          session = createStatelessSession(yandexInfo)
+        }
+      } else {
+        session = createStatelessSession(yandexInfo)
+      }
 
       res.writeHead(302, {
         Location: FRONTEND_URL,
@@ -264,7 +329,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/auth/logout' && req.method === 'POST') {
       const cookies = parseCookies(req)
       const token = cookies['session_token']
-      if (token && dbAvailable) {
+      if (token && await ensureDbAvailable()) {
         await pool.query('DELETE FROM sessions WHERE token = $1', [token])
       }
       res.writeHead(200, {
@@ -277,10 +342,12 @@ const server = http.createServer(async (req, res) => {
     // ─── EXISTING ROUTES ───
 
     if (url === '/api/auth/status' && req.method === 'GET') {
+      const databaseAvailable = await ensureDbAvailable()
       return json(res, {
         yandexConfigured: Boolean(YANDEX_CLIENT_ID && YANDEX_CLIENT_SECRET),
         databaseConfigured: Boolean(process.env.DATABASE_URL),
-        databaseAvailable: dbAvailable,
+        databaseAvailable,
+        authStorage: databaseAvailable ? 'postgresql' : 'signed-cookie',
         redirectUri: YANDEX_REDIRECT_URI,
         frontendUrl: FRONTEND_URL,
       })
@@ -306,7 +373,7 @@ const server = http.createServer(async (req, res) => {
 
     // Health check
     if (url === '/api/health') {
-      if (!dbAvailable) return json(res, {
+      if (!await ensureDbAvailable()) return json(res, {
         ok: true,
         storage: 'json-cache',
         database: process.env.DATABASE_URL ? 'unavailable' : 'not-configured',
@@ -323,7 +390,7 @@ const server = http.createServer(async (req, res) => {
     // List questions with filters
     if (url === '/api/questions' && req.method === 'GET') {
       const params = parseQuery(req.url)
-      if (!dbAvailable) {
+      if (!await ensureDbAvailable()) {
         const all = await loadLocalQuestions()
         const filtered = filterLocalQuestions(all, params)
         const offset = Number(params.offset || 0)
@@ -371,7 +438,7 @@ const server = http.createServer(async (req, res) => {
     // Get question by ID
     if (url.startsWith('/api/questions/') && req.method === 'GET') {
       const id = url.split('/api/questions/')[1]
-      if (!dbAvailable) {
+      if (!await ensureDbAvailable()) {
         const question = (await loadLocalQuestions()).find((item) => item.id === id)
         if (!question) return json(res, { error: 'Not found' }, 404)
         return json(res, { ...toApiQuestion(question), storage: 'json-cache' })
@@ -390,7 +457,7 @@ const server = http.createServer(async (req, res) => {
 
     // Get filter options
     if (url === '/api/filters') {
-      if (!dbAvailable) {
+      if (!await ensureDbAvailable()) {
         const questions = await loadLocalQuestions()
         return json(res, {
           companies: [...new Set(questions.flatMap((question) => question.companies || []))].sort((a, b) => a.localeCompare(b, 'ru')),
@@ -424,6 +491,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/favorites' && req.method === 'GET') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { favorites: [] })
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { favorites: [], storage: 'signed-cookie' })
       const result = await pool.query(
         'SELECT q.* FROM favorites f JOIN questions q ON q.id = f.question_id WHERE f.user_id = $1 ORDER BY f.created_at DESC',
         [user.id]
@@ -434,6 +502,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/favorites' && req.method === 'POST') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { error: 'Database storage is not enabled' }, 503)
       const body = await parseBody(req)
       if (!body.question_id) return json(res, { error: 'question_id required' }, 400)
       await pool.query(
@@ -446,6 +515,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/favorites' && req.method === 'DELETE') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { ok: true, storage: 'signed-cookie' })
       const body = await parseBody(req)
       if (!body.question_id) return json(res, { error: 'question_id required' }, 400)
       await pool.query(
@@ -459,6 +529,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/history' && req.method === 'POST') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { ok: true })
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { ok: true, storage: 'signed-cookie' })
       const body = await parseBody(req)
       if (!body.question_id) return json(res, { error: 'question_id required' }, 400)
       await pool.query(
@@ -472,6 +543,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/user-answers' && req.method === 'GET') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { answers: [] })
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { answers: [], storage: 'signed-cookie' })
       const params = parseQuery(req.url)
       if (params.question_id) {
         const result = await pool.query(
@@ -490,6 +562,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/user-answers' && req.method === 'POST') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { error: 'Database storage is not enabled' }, 503)
       const body = await parseBody(req)
       if (!body.question_id) return json(res, { error: 'question_id required' }, 400)
       if (typeof body.answer !== 'string' || body.answer.trim().length === 0) {
@@ -508,6 +581,7 @@ const server = http.createServer(async (req, res) => {
     if (url.startsWith('/api/user-answers/') && req.method === 'DELETE') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { ok: true, storage: 'signed-cookie' })
       const id = url.split('/api/user-answers/')[1]
       await pool.query(
         'DELETE FROM user_answers WHERE id = $1 AND user_id = $2',
@@ -520,6 +594,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/user-answers/all' && req.method === 'GET') {
       const user = await getUserFromRequest(req)
       if (!user) return json(res, { items: [] })
+      if (!pool || !dbAvailable || !hasDatabaseUser(user)) return json(res, { items: [], storage: 'signed-cookie' })
       const result = await pool.query(
         `SELECT ua.*, q.title, q.category, q.companies, q.tags
          FROM user_answers ua
@@ -533,7 +608,7 @@ const server = http.createServer(async (req, res) => {
 
     // Stats
     if (url === '/api/stats') {
-      if (!dbAvailable) {
+      if (!await ensureDbAvailable()) {
         const questions = await loadLocalQuestions()
         const countBy = (values) => Object.entries(values.reduce((acc, value) => {
           acc[value] = (acc[value] || 0) + 1

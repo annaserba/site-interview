@@ -29,7 +29,7 @@
 └──────────┬───────────────────────┬───────────────────┘
            │                       │
     ┌──────┴──────┐         ┌──────┴──────┐
-    │ Optional DB │         │  RAG Engine │
+    │ PostgreSQL  │         │  RAG Engine │
     │ users,      │         │ rag-core.mjs│
     │ sessions,   │         │ JSON/S3     │
     │ favorites   │         │ questions   │
@@ -61,7 +61,7 @@
 │   └── db/
 │       ├── migrate.mjs         # Миграции PostgreSQL
 │       └── seed.mjs            # Заполнение БД вопросами
-├── docker-compose.yml          # api + web, db опционально через profile
+├── docker-compose.yml          # PostgreSQL + API + web
 ├── Dockerfile                  # Frontend (nginx)
 ├── Dockerfile.api              # API сервер (Node.js)
 └── nginx.conf                  # Проксирование /api → api:3001
@@ -75,7 +75,7 @@
 | Стили | CSS Modules, Mobile-first |
 | API | Node.js, vanilla HTTP |
 | Данные вопросов | JSON/S3 |
-| БД | PostgreSQL 16, опционально для auth/user state |
+| БД | PostgreSQL 16 для auth/user state |
 | Авторизация | Yandex OAuth 2.0 |
 | RAG | Local (SHA-256 векторы, cosine similarity) |
 | Деплой | Docker Compose, nginx |
@@ -123,9 +123,8 @@ docker compose up -d
 # JSON/S3 база знаний
 DATA_URL=https://s3.twcstorage.ru/<bucket>/data
 
-# Опциональная БД для Яндекс OAuth, сессий, избранного и пользовательских ответов.
-# Если DATABASE_URL пустой, API всё равно стартует и использует JSON RAG.
-DATABASE_URL=
+# БД основного сайта для Яндекс OAuth, сессий, избранного и пользовательских ответов.
+# В docker-compose DATABASE_URL можно не задавать: он соберётся из DB_PASSWORD.
 DB_PASSWORD=your_password
 
 # Яндекс OAuth
@@ -147,8 +146,8 @@ RAG_API_KEY=optional_api_key
 | `npm run dev:web` | Dev-сервер (только фронтенд) |
 | `npm run dev` | Dev-сервер + API |
 | `npm run build` | Сборка для продакшена |
-| `npm run db:migrate` | Миграции PostgreSQL, если включена опциональная БД |
-| `npm run db:seed` | Заполнение PostgreSQL, если он нужен для пользовательских функций |
+| `npm run db:migrate` | Миграции PostgreSQL |
+| `npm run db:seed` | Синхронизация JSON-вопросов в PostgreSQL-кэш |
 
 ## Деплой
 
@@ -157,7 +156,7 @@ RAG_API_KEY=optional_api_key
 На основном сервере не нужно поднимать Telegram-бота. Он запускается отдельно на втором VPS.
 
 1. Запушьте код на GitHub.
-2. На VPS создайте `.env` с `FRONTEND_URL`, `YANDEX_*` при необходимости и `DATA_URL` при использовании S3.
+2. На VPS создайте `.env` с `DB_PASSWORD`, `FRONTEND_URL`, `YANDEX_*` и `DATA_URL` при использовании S3.
 3. Запустите мягкий деплой без остановки всего стека:
 
 ```bash
@@ -169,20 +168,25 @@ git pull origin main
 
 ```bash
 git pull
+docker compose up -d db
 docker compose build api web
+docker compose run --rm api node server/db/migrate.mjs
+docker compose run --rm api node server/db/seed.mjs
 docker compose up -d api web
 ```
 
 Сайт доступен на `http://<VPS_IP>`.
 
-### Опциональная БД
+### Как проверить БД и Яндекс OAuth
 
-RAG и вопросы не зависят от PostgreSQL. Если нужны Яндекс OAuth, сессии, избранное и пользовательские ответы:
+RAG и вопросы не зависят от PostgreSQL: если база временно недоступна, сайт всё равно отдаёт вопросы из JSON/S3. Но на основном VPS PostgreSQL должен быть включён для Яндекс OAuth, сессий, избранного и пользовательских ответов.
 
 ```bash
-docker compose --profile db up -d db
-./deploy.sh db
+docker compose exec -T db pg_isready -U app -d site_interview
+curl http://127.0.0.1/api/auth/status
 ```
+
+В норме `/api/auth/status` показывает `yandexConfigured: true`, `databaseAvailable: true`, `authStorage: "postgresql"`.
 
 ### Второй VPS: Telegram-бот + свой JSON RAG API
 

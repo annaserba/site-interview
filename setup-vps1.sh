@@ -22,6 +22,7 @@ if [ ! -f ".env" ]; then
   echo "→ Создание .env файла..."
   cat > .env << 'EOF'
 DATA_URL=https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data
+DB_PASSWORD=change_me_strong_password
 FRONTEND_URL=http://192.144.59.118
 YANDEX_CLIENT_ID=
 YANDEX_CLIENT_SECRET=
@@ -31,7 +32,7 @@ EOF
 fi
 
 # 4. Запуск
-echo "→ Запуск сайта и JSON RAG API..."
+echo "→ Запуск сайта, PostgreSQL и JSON RAG API..."
 ./scripts/deploy.sh
 
 echo ""

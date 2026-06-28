@@ -37,24 +37,34 @@ wait_for_api() {
   return 1
 }
 
+run_db_tasks() {
+  echo "→ Applying database migrations and seed..."
+  docker compose run --rm api node server/db/migrate.mjs
+  docker compose run --rm api node server/db/seed.mjs
+}
+
 if [ "$SERVICE" = "all" ]; then
   echo "→ Deploying full stack without docker compose down..."
+  docker compose up -d db
+  wait_for_db
   docker compose build api web
+  run_db_tasks
   docker compose up -d --no-deps api
   wait_for_api
   docker compose up -d --no-deps web
 elif [ "$SERVICE" = "api" ]; then
-  echo "→ Deploying JSON RAG api..."
+  echo "→ Deploying api..."
+  docker compose up -d db
+  wait_for_db
   docker compose build api
+  run_db_tasks
   docker compose up -d --no-deps api
   wait_for_api
 elif [ "$SERVICE" = "db" ]; then
-  echo "→ Starting optional database..."
-  docker compose --profile db up -d db
+  echo "→ Starting database..."
+  docker compose up -d db
   wait_for_db
-  echo "→ Applying optional database migrations and seed..."
-  docker compose run --rm -e DATABASE_URL="postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview" api node server/db/migrate.mjs
-  docker compose run --rm -e DATABASE_URL="postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview" api node server/db/seed.mjs
+  run_db_tasks
 else
   echo "→ Deploying $SERVICE..."
   docker compose up -d --build --no-deps "$SERVICE"
