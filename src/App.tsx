@@ -6,6 +6,7 @@ import { FilterDropdown } from './FilterDropdown'
 import { MockInterview } from './MockInterview'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
+import { fetchQuestions } from './api'
 import s from './App.module.css'
 import questionsData from './data/questions.json'
 
@@ -66,7 +67,38 @@ function App() {
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
 
   useEffect(() => {
-    setQuestions(questionsData as Question[])
+    fetchQuestions({ limit: 500 })
+      .then((data) => {
+        const mapped = data.questions.map((q) => ({
+          id: q.id,
+          title: q.title,
+          category: q.category || 'Technical',
+          stage: q.stage || 'Technical',
+          difficulty: q.difficulty,
+          answer: q.answer || '',
+          context: q.context || '',
+          companies: q.companies || [],
+          roles: q.roles || [],
+          tags: q.tags || [],
+          languages: q.languages || [],
+          level: q.level || 'Middle',
+          duration: q.duration || '10 мин',
+          keyPoints: q.key_points || [],
+          pitfalls: q.pitfalls || [],
+          followUps: q.follow_ups || [],
+          exampleAnswer: q.example_answer || '',
+          codeSnippet: q.code_snippet || null,
+          codeLanguage: q.code_language || null,
+          sources: q.sources || [],
+          sourceType: q.source_type || 'aggregated',
+          scope: 'universal',
+          videoFrequency: 0,
+        })) as Question[]
+        setQuestions(mapped)
+      })
+      .catch(() => {
+        setQuestions(questionsData as Question[])
+      })
   }, [])
 
   const applyHashFilters = (hash: string) => {

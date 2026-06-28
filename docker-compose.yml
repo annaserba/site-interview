@@ -1,12 +1,59 @@
 services:
-  web:
-    build: .
-    container_name: interview-web
+  db:
+    image: postgres:16-alpine
+    container_name: interview-db
+    environment:
+      POSTGRES_DB: site_interview
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-interview_secret_2024}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "80:80"
+      - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d site_interview"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: interview-api
+    environment:
+      DATABASE_URL: postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview
+      PORT: 3001
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+
+  web:
+    build: .
+    container_name: interview-web
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:
