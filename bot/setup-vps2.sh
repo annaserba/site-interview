@@ -23,24 +23,20 @@ if [ ! -f ".env" ]; then
   read -p "Введите BOT_TOKEN: " BOT_TOKEN
   cat > .env << EOF
 BOT_TOKEN=$BOT_TOKEN
-API_URL=http://10.0.0.1:3001
+API_URL=http://10.0.0.1
+RAG_API_KEY=
 EOF
 fi
 
 # 4. Запуск
-echo "→ Запуск WireGuard + Bot..."
+echo "→ Запуск Bot..."
 docker compose up -d --build
 
 echo ""
 echo "✓ VPS 2 готов!"
-echo "  WireGuard: 144.124.255.55:51820/udp"
+echo "  Bot API URL: $(grep '^API_URL=' .env | cut -d= -f2-)"
 echo ""
 echo "=== Следующие шаги ==="
-echo "1. Подключись к WireGuard на VPS 1:"
-echo "   docker exec wireguard cat /config/peer1/peer1.conf"
-echo "   (или отсканируй QR-код)"
-echo ""
-echo "2. Проверь隧道:"
-echo "   docker exec wireguard ping 10.0.0.1"
-echo ""
-echo "3. Проверь бота в Telegram"
+echo "1. Проверь, что с VPS 2 открывается JSON RAG API:"
+echo "   curl http://10.0.0.1/api/rag/health"
+echo "2. Проверь бота в Telegram"

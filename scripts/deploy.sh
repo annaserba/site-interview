@@ -6,32 +6,10 @@ cd /root/site-interview
 echo "🔄 Pulling latest changes..."
 git pull origin main
 
-echo "🗄️  Ensuring database is running..."
-docker compose up -d db
-
-echo "⏳ Waiting for database..."
-for i in {1..30}; do
-  if docker compose exec -T db pg_isready -U app -d site_interview >/dev/null 2>&1; then
-    break
-  fi
-  if [ "$i" -eq 30 ]; then
-    echo "❌ Database did not become ready"
-    docker compose logs --tail=80 db
-    exit 1
-  fi
-  sleep 2
-done
-
 echo "🔨 Building images..."
 docker compose build api web
 
-echo "🧱 Applying database migrations..."
-docker compose run --rm api node server/db/migrate.mjs
-
-echo "🌱 Syncing questions to database..."
-docker compose run --rm api node server/db/seed.mjs
-
-echo "🚀 Starting API..."
+echo "🚀 Starting JSON RAG API..."
 docker compose up -d --no-deps api
 
 echo "⏳ Waiting for API health..."

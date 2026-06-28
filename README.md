@@ -25,17 +25,20 @@
                        │ fetch /api/*
 ┌──────────────────────┴───────────────────────────────┐
 │                   API Server (Node.js)                │
-│  server/api.mjs — REST API, OAuth, RAG               │
+│  server/api.mjs — REST API + JSON RAG                │
 └──────────┬───────────────────────┬───────────────────┘
            │                       │
     ┌──────┴──────┐         ┌──────┴──────┐
-    │ PostgreSQL  │         │  RAG Engine │
-    │ questions,  │         │ rag-core.mjs│
-    │ users,      │         │ local JSON  │
-    │ sessions,   │         └─────────────┘
-    │ favorites,  │
-    │ user_answers│
-    └─────────────┘
+    │ Optional DB │         │  RAG Engine │
+    │ users,      │         │ rag-core.mjs│
+    │ sessions,   │         │ JSON/S3     │
+    │ favorites   │         │ questions   │
+    └─────────────┘         └──────┬──────┘
+                                   │
+                         ┌─────────┴─────────┐
+                         │ Telegram bot VPS  │
+                         │ calls /api/rag/ask│
+                         └───────────────────┘
 ```
 
 ## Структура проекта
@@ -58,7 +61,7 @@
 │   └── db/
 │       ├── migrate.mjs         # Миграции PostgreSQL
 │       └── seed.mjs            # Заполнение БД вопросами
-├── docker-compose.yml          # db + api + web
+├── docker-compose.yml          # api + web, db опционально через profile
 ├── Dockerfile                  # Frontend (nginx)
 ├── Dockerfile.api              # API сервер (Node.js)
 └── nginx.conf                  # Проксирование /api → api:3001
@@ -71,7 +74,8 @@
 | Frontend | React 19, TypeScript, Vite |
 | Стили | CSS Modules, Mobile-first |
 | API | Node.js, vanilla HTTP |
-| БД | PostgreSQL 16 |
+| Данные вопросов | JSON/S3 |
+| БД | PostgreSQL 16, опционально для auth/user state |
 | Авторизация | Yandex OAuth 2.0 |
 | RAG | Local (SHA-256 векторы, cosine similarity) |
 | Деплой | Docker Compose, nginx |
@@ -116,7 +120,12 @@ docker compose up -d
 ## Переменные окружения
 
 ```env
-# База данных
+# JSON/S3 база знаний
+DATA_URL=https://s3.twcstorage.ru/<bucket>/data
+
+# Опциональная БД для Яндекс OAuth, сессий, избранного и пользовательских ответов.
+# Если DATABASE_URL пустой, API всё равно стартует и использует JSON RAG.
+DATABASE_URL=
 DB_PASSWORD=your_password
 
 # Яндекс OAuth
@@ -126,6 +135,9 @@ YANDEX_REDIRECT_URI=http://your-domain/api/auth/yandex/callback
 
 # Фронтенд
 FRONTEND_URL=http://your-domain
+
+# Опционально: ключ для бота/закрытого RAG endpoint
+RAG_API_KEY=optional_api_key
 ```
 
 ## Команды
@@ -135,20 +147,55 @@ FRONTEND_URL=http://your-domain
 | `npm run dev:web` | Dev-сервер (только фронтенд) |
 | `npm run dev` | Dev-сервер + API |
 | `npm run build` | Сборка для продакшена |
-| `npm run db:migrate` | Миграции PostgreSQL |
-| `npm run db:seed` | Заполнение БД вопросами |
+| `npm run db:migrate` | Миграции PostgreSQL, если включена опциональная БД |
+| `npm run db:seed` | Заполнение PostgreSQL, если он нужен для пользовательских функций |
 
 ## Деплой
 
-1. Запушьте код на GitHub
-2. На VPS создайте `.env` с переменными окружения
-3. Запустите:
+### Основной VPS: сайт + JSON RAG API
+
+На основном сервере не нужно поднимать Telegram-бота. Он запускается отдельно на втором VPS.
+
+1. Запушьте код на GitHub.
+2. На VPS создайте `.env` с `FRONTEND_URL`, `YANDEX_*` при необходимости и `DATA_URL` при использовании S3.
+3. Запустите мягкий деплой без остановки всего стека:
+
+```bash
+git pull origin main
+./scripts/deploy.sh
+```
+
+Или вручную:
+
 ```bash
 git pull
-docker compose build --no-cache
-docker compose up -d
+docker compose build api web
+docker compose up -d api web
 ```
-4. Сайт доступен на `http://<VPS_IP>`
+
+Сайт доступен на `http://<VPS_IP>`.
+
+### Опциональная БД
+
+RAG и вопросы не зависят от PostgreSQL. Если нужны Яндекс OAuth, сессии, избранное и пользовательские ответы:
+
+```bash
+docker compose --profile db up -d db
+./deploy.sh db
+```
+
+### Второй VPS: Telegram-бот
+
+Бот не запускается на основном сервере. Он ходит в JSON RAG API сайта:
+
+```bash
+cd bot
+cp .env.example .env
+# заполните BOT_TOKEN, API_URL и при необходимости RAG_API_KEY
+# API_URL должен указывать на web/API основного сервера без /api в конце:
+# API_URL=http://10.0.0.1 или API_URL=http://192.144.59.118
+docker compose up -d --build
+```
 
 ## Лицензия
 

@@ -4,7 +4,8 @@ services:
     container_name: telegram-bot
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
-      - API_URL=${API_URL:-http://10.0.0.1:3001}
+      - API_URL=${API_URL:-http://10.0.0.1}
+      - RAG_API_KEY=${RAG_API_KEY:-}
     network_mode: host
     restart: unless-stopped
     deploy:

@@ -2,6 +2,8 @@ services:
   db:
     image: postgres:16-alpine
     container_name: interview-db
+    profiles:
+      - db
     environment:
       POSTGRES_DB: site_interview
       POSTGRES_USER: app
@@ -30,7 +32,9 @@ services:
       dockerfile: Dockerfile.api
     container_name: interview-api
     environment:
-      DATABASE_URL: postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview
+      # RAG и вопросы работают из JSON/S3. DATABASE_URL нужен только для опциональных
+      # пользовательских функций: Яндекс OAuth, сессии, избранное, ответы.
+      DATABASE_URL: ${DATABASE_URL:-}
       PORT: 3001
       NODE_ENV: production
       FRONTEND_URL: ${FRONTEND_URL:-http://192.144.59.118}
@@ -39,9 +43,6 @@ services:
       YANDEX_CLIENT_SECRET: ${YANDEX_CLIENT_SECRET:-}
       PHONE_SALT: ${PHONE_SALT:-site-interview-salt-2024}
       SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
-    depends_on:
-      db:
-        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
       interval: 15s

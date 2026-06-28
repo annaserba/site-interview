@@ -21,15 +21,18 @@ cd site-interview
 if [ ! -f ".env" ]; then
   echo "→ Создание .env файла..."
   cat > .env << 'EOF'
-DB_PASSWORD=interview_secret_2024
+DATA_URL=https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data
+FRONTEND_URL=http://192.144.59.118
 YANDEX_CLIENT_ID=
 YANDEX_CLIENT_SECRET=
+YANDEX_REDIRECT_URI=http://192.144.59.118/api/auth/yandex/callback
+RAG_API_KEY=
 EOF
 fi
 
 # 4. Запуск
-echo "→ Запуск сервисов..."
-docker compose up -d --build
+echo "→ Запуск сайта и JSON RAG API..."
+./scripts/deploy.sh
 
 echo ""
 echo "✓ VPS 1 готов!"
