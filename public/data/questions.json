@@ -63,15 +63,20 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "avito-feed-cache",
     "title": "Спроектируйте клиентский кеш для ленты из миллионов объявлений",
-    "aliases": [],
+    "aliases": [
+      "Как кешировать большую ленту в React?"
+    ],
     "answer": "Разделите entity cache и результаты запросов: объявления храните по id и версии, страницы — как cursor, список id и параметры выдачи. Ключ запроса должен включать пользователя, фильтры, сортировку и версию алгоритма. Отдавайте сохранённые данные немедленно, затем делайте conditional revalidation; применяйте TTL как страховку, а не как единственный механизм корректности. Ограничивайте память LRU-бюджетом, храните tombstone для удалений и не смешивайте кеш персонализированной выдачи разных пользователей.",
     "exampleAnswer": "Для кеша ленты из миллионов объявлений я использую многоуровневую архитектуру. На клиенте — IndexedDB для хранения закэшированных объявлений с TTL, а localStorage — для метаданных пагинации. При загрузке ленты сначала проверяем кеш: если данные актуальны, отдаём из IndexedDB, иначе делаем запрос к API и обновляем кеш. Для оптимизации памяти используем виртуализацию списка через react-window — рендерим только видимые элементы. Ключевой подход — нормализация данных: храним объявления в Map по ID, а ленту — как массив ID. Это позволяет переиспользовать данные между страницами. Для синхронизации между вкладками используем Broadcast Channel API.",
     "context": "Пользователь листает cursor-based персонализированную ленту и возвращается назад без скачка позиции. Объявления обновляются и удаляются, порядок выдачи меняется, а вкладка может жить часами при ограниченной памяти мобильного устройства.",
@@ -137,10 +142,13 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "avito-frontend-testing",
@@ -203,10 +211,13 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "avito-interview-search",
@@ -262,10 +273,13 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "avito-microfrontend-module-federation",
@@ -332,10 +346,13 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ci-cd-monorepo",
@@ -392,10 +409,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ci-cd-pipeline",
@@ -452,10 +472,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-ab-tests-experience",
@@ -516,10 +539,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-airflow-use-cases",
@@ -580,10 +606,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-app-uninstall-analysis",
@@ -644,10 +673,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-cleaning-importance",
@@ -709,10 +741,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-confidence-interval",
@@ -773,10 +808,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-cpp-delete-array",
@@ -836,10 +874,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-dashboard-tab",
@@ -899,10 +940,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-desired-analytics-tasks",
@@ -963,10 +1007,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-funnel",
@@ -1026,10 +1073,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-kpi-ownership",
@@ -1086,10 +1136,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-least-squares-mean",
@@ -1146,10 +1199,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-metric-pyramid",
@@ -1206,10 +1262,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-one-two-sided-hypothesis",
@@ -1270,10 +1329,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-p-value",
@@ -1334,10 +1396,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-pandas-loc-iloc",
@@ -1396,10 +1461,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-project-sources",
@@ -1460,10 +1528,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-python-use-cases",
@@ -1523,10 +1594,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-sql-vs-python",
@@ -1586,10 +1660,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-standard-error-mean",
@@ -1650,10 +1727,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-supervised-unsupervised",
@@ -1713,10 +1793,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "data-worked-datasets",
@@ -1778,10 +1861,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "deployment-strategies",
@@ -1838,10 +1924,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-binary-classification-metrics",
@@ -1901,10 +1990,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-boosting-concept",
@@ -1964,10 +2056,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-boosting-libraries",
@@ -2026,10 +2121,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-dictionary-lookup-complexity",
@@ -2090,10 +2188,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-f1-score",
@@ -2150,10 +2251,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-gradient-boosting",
@@ -2213,10 +2317,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-mape",
@@ -2273,10 +2380,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-mse-vs-mae",
@@ -2337,10 +2447,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-overfitting",
@@ -2400,10 +2513,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-positive-target-negative-prediction",
@@ -2463,10 +2579,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-precision",
@@ -2523,10 +2642,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-python-decorator",
@@ -2586,10 +2708,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-random-forest-deep-trees",
@@ -2646,10 +2771,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-random-forest",
@@ -2709,10 +2837,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-recall",
@@ -2774,10 +2905,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-regression-metrics",
@@ -2837,10 +2971,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-regularization-concept",
@@ -2900,10 +3037,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-regularization-methods",
@@ -2963,10 +3103,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-roc-auc",
@@ -3026,10 +3169,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ds-tpr-fpr",
@@ -3086,10 +3232,82 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "ds-when-mae",
+    "title": "В каких случаях предпочтительнее использовать MAE?",
+    "aliases": [
+      "Когда использовать MAE вместо MSE?",
+      "В каких случаях предпочтительнее использовать MAE?"
+    ],
+    "answer": "MAE выбирают, когда ошибка в единицах таргета должна интерпретироваться напрямую и когда выбросы не должны доминировать над метрикой. В отличие от MSE/RMSE, MAE линейно штрафует отклонения, поэтому устойчивее к редким экстремальным значениям. Это полезно в задачах прогнозирования спроса, сроков доставки, цен или времени обработки, если бизнес одинаково чувствителен к каждому дополнительному рублю, дню или минуте ошибки. Если крупные ошибки критичны непропорционально сильнее, лучше RMSE/MSE или кастомная cost-функция.",
+    "exampleAnswer": "",
+    "context": "Вопрос проверяет умение связать метрику с бизнес-стоимостью ошибки, а не просто назвать формулу.",
+    "keyPoints": [
+      {
+        "title": "Начать с стоимости ошибки",
+        "text": "Спросите, линейная ли цена ошибки. Если да — MAE часто ближе к бизнес-логике."
+      },
+      {
+        "title": "Указать устойчивость к выбросам",
+        "text": "MAE меньше реагирует на outliers, поэтому даёт стабильнее картину качества при шумном таргете."
+      },
+      {
+        "title": "Назвать ограничения",
+        "text": "MAE хуже подсвечивает редкие большие промахи; оптимизация через gradient methods может быть менее гладкой около нуля."
+      }
+    ],
+    "pitfalls": [
+      "Выбирать MAE только потому, что она «проще».",
+      "Не обсуждать outliers и бизнес-стоимость ошибки.",
+      "Сравнивать MAE между разными таргетами без нормализации."
+    ],
+    "followUps": [
+      "Когда лучше использовать RMSE?",
+      "Чем MAE отличается от MedAE?",
+      "Как сравнивать модели, если таргет имеет сезонность?"
+    ],
+    "category": "Machine Learning",
+    "scope": "multi-language",
+    "languages": [
+      "Python",
+      "SQL"
+    ],
+    "roles": [
+      "Data Scientist",
+      "Data Analyst"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "Regression",
+      "Metrics",
+      "MAE",
+      "Robustness"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-browser-storage",
@@ -3149,10 +3367,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-closure",
@@ -3213,10 +3440,19 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=231s",
+        "publishedAt": "",
         "type": "youtube"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "aggregated",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-cookie",
@@ -3277,10 +3513,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-css-sass-file-size",
@@ -3343,15 +3582,20 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-event-loop-concept",
     "title": "Что такое Event Loop? Порядок выполнения кода",
-    "aliases": [],
+    "aliases": [
+      "Что такое Event Loop?"
+    ],
     "answer": "Event Loop — механизм среды выполнения, координирующий job queue с асинхронными подсистемами. Один вызов JavaScript выполняется до конца; между задачами runtime очищает microtask queue, затем может выполнить rendering. Порядок: sync code → все microtasks → одна macrotask → все microtasks → следующая macrotask. Promise.then выполняется раньше setTimeout(0). В Node.js порядок зависит от фаз timers/poll/check.",
     "exampleAnswer": "Event Loop — это механизм, позволяющий JavaScript выполнять асинхронные операции в однопоточном окружении. Он состоит из: Call Stack, Web APIs, Callback Queue (макротаски) и Microtask Queue (промисы). Алгоритм: 1) Выполняем синхронный код; 2) Проверяем Microtask Queue — выполняем все микротаски; 3) Проверяем Callback Queue — берём одну макротаску; 4) Повторяем. Приоритет: микротаски ВСЕГДА выполняются перед макротасками.\n\nsetTimeout(..., 0) не означает «немедленно» — это «после текущего стека и микротасок». Все промисы выполняются до любого setTimeout. В React: useEffect выполняется после paint (макротаска), useLayoutEffect — до paint (микротаска). В Node.js: process.nextTick имеет отдельную приоритетную очередь, setImmediate — после poll phase.",
     "context": "Нужно объяснить модель конкурентности JavaScript без мифа «Event Loop делает код асинхронным». Интервьюер ожидает точный вывод порядка логов.",
@@ -3411,10 +3655,82 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=128s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
+  },
+  {
+    "id": "frontend-event-loop-order",
+    "title": "В каком порядке выполнятся Promise и setTimeout?",
+    "aliases": [
+      "Порядок выполнения Promise и setTimeout",
+      "Что выполнится раньше Promise или setTimeout?"
+    ],
+    "answer": "Сначала выполняется весь синхронный код текущего call stack. После него runtime очищает очередь microtasks: `Promise.then`, `queueMicrotask`, mutation observer callbacks. Только потом берётся следующая macrotask/task: `setTimeout`, события, сетевые callbacks. Поэтому при `Promise.resolve().then(...)` и `setTimeout(..., 0)` сначала будет callback промиса, затем таймер. Важно: новый microtask, добавленный внутри microtask, тоже выполнится до перехода к таймеру.",
+    "exampleAnswer": "",
+    "context": "Проверяют не запоминание конкретного вывода, а модель: stack → microtasks до исчерпания → task queue → rendering между задачами, если браузеру нужно перерисовать страницу.",
+    "keyPoints": [
+      {
+        "title": "Разделить sync и async",
+        "text": "Отметьте все `console.log`, которые выполняются сразу, до любых очередей."
+      },
+      {
+        "title": "Выписать microtasks",
+        "text": "Все `then/catch/finally` и `queueMicrotask` идут раньше таймеров. Если microtask создаёт новый microtask, он добавляется в конец той же microtask queue."
+      },
+      {
+        "title": "Выписать tasks",
+        "text": "`setTimeout` попадает в task queue. Даже `0 ms` означает «не раньше следующего task turn», а не немедленно."
+      }
+    ],
+    "pitfalls": [
+      "Считать, что `setTimeout(..., 0)` выполняется сразу после текущей строки.",
+      "Забывать, что microtask queue очищается полностью.",
+      "Смешивать браузерный event loop и фазы Node.js без оговорки."
+    ],
+    "followUps": [
+      "Что поменяется, если `then` создаёт ещё один `then`?",
+      "Чем `queueMicrotask` отличается от `setTimeout`?",
+      "Где в этой модели происходит rendering?"
+    ],
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Senior",
+    "stage": "Live coding",
+    "tags": [
+      "Event Loop",
+      "Promise",
+      "Microtasks",
+      "Timers"
+    ],
+    "duration": "15 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-js-garbage-collector",
@@ -3474,10 +3790,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2515s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-js-memory-leaks",
@@ -3537,10 +3856,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2571s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-js-stack-heap",
@@ -3600,10 +3922,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2623s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-js-types",
@@ -3664,10 +3989,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-map-set",
@@ -3728,10 +4062,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-microfrontend-shared-state",
@@ -3791,10 +4134,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=104s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-promise",
@@ -3855,10 +4201,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-react-hooks-rules",
@@ -3917,10 +4266,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2651s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-react-memoization",
@@ -3979,10 +4331,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2738s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-react",
@@ -4042,10 +4397,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-typescript-generics",
@@ -4105,10 +4469,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "frontend-var-let-const",
@@ -4170,15 +4537,25 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2040s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "aggregated",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-virtual-dom",
@@ -4238,10 +4615,19 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=887s",
+        "publishedAt": "",
         "type": "youtube"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "aggregated",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "frontend-when-nextjs",
@@ -4301,10 +4687,13 @@
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=183s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "genai-diffusion",
@@ -4361,10 +4750,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-embeddings-advanced",
@@ -4421,10 +4813,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-evaluation",
@@ -4481,10 +4876,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-fine-tuning",
@@ -4541,10 +4939,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-gpt-architecture",
@@ -4602,10 +5003,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-inference",
@@ -4662,10 +5066,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-prompt-injection",
@@ -4721,10 +5128,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-training",
@@ -4781,10 +5191,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "genai-transformers",
@@ -4841,10 +5254,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "goznak-css-specificity",
@@ -4903,10 +5319,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2674s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-dom-events",
@@ -4965,10 +5384,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=3191s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-frontend-security",
@@ -5031,10 +5453,13 @@
       {
         "company": "Гознак",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "goznak-intersection-observer",
@@ -5093,10 +5518,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=3360s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-promise-from-scratch",
@@ -5156,10 +5584,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2422s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-proxy-performance",
@@ -5219,10 +5650,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2532s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-stacking-context",
@@ -5282,10 +5716,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2985s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "goznak-web-components-framework",
@@ -5345,10 +5782,13 @@
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=467s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "hr-ai-tools",
@@ -5409,10 +5849,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "hr-education",
@@ -5471,10 +5914,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "hr-inspiration",
@@ -5533,10 +5979,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-auth-methods",
@@ -5592,10 +6041,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-basics",
@@ -5652,10 +6104,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-caching",
@@ -5712,10 +6167,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-cookies",
@@ -5772,10 +6230,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-headers",
@@ -5832,10 +6293,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-methods",
@@ -5892,10 +6356,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-rest",
@@ -5951,10 +6418,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-status-codes",
@@ -6011,10 +6481,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http-websocket",
@@ -6071,10 +6544,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "http2-http3",
@@ -6132,10 +6608,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "it-one-banking-domain-architecture",
@@ -6207,10 +6686,13 @@
       {
         "company": "IT One",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "it-one-event-loop-queues",
@@ -6278,10 +6760,13 @@
       {
         "company": "IT One",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "it-one-react-redux-patterns",
@@ -6353,10 +6838,13 @@
       {
         "company": "IT One",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-back-pressure",
@@ -6413,10 +6901,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-batch-processing",
@@ -6473,10 +6964,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-bloom-filter",
@@ -6533,10 +7027,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-caching",
@@ -6593,10 +7090,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-cap-theorem",
@@ -6653,10 +7153,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-circuit-breaker",
@@ -6709,10 +7212,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-consensus",
@@ -6770,10 +7276,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-consistency-models",
@@ -6834,10 +7343,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-consistent-hashing",
@@ -6894,10 +7406,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-crdt",
@@ -6954,10 +7469,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-data-modeling",
@@ -7014,10 +7532,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-distributed-consistency",
@@ -7074,10 +7595,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "book"
+        "type": "book",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "book",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-distributed-id",
@@ -7134,10 +7658,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-distributed-lock",
@@ -7194,10 +7721,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-event-sourcing",
@@ -7254,10 +7784,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-gossip-protocol",
@@ -7314,10 +7847,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-graceful-degradation",
@@ -7370,10 +7906,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-idempotency",
@@ -7426,10 +7965,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-inverted-index",
@@ -7486,10 +8028,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-kafka-deep-dive",
@@ -7546,10 +8091,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-leader-election",
@@ -7606,10 +8154,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-load-balancing",
@@ -7666,10 +8217,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-message-queues",
@@ -7726,10 +8280,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-microservices-boundaries",
@@ -7786,10 +8343,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-monitoring",
@@ -7846,10 +8406,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-multi-leader",
@@ -7906,10 +8469,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-multi-model-db",
@@ -7966,10 +8532,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-observability",
@@ -8026,10 +8595,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-partitioning",
@@ -8086,10 +8658,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-replication",
@@ -8146,10 +8721,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "book"
+        "type": "book",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "book",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-resilience",
@@ -8206,10 +8784,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-saga-pattern",
@@ -8266,10 +8847,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-service-mesh",
@@ -8326,10 +8910,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-sharding-strategies",
@@ -8386,10 +8973,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-storage-engines",
@@ -8447,10 +9037,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-stream-processing",
@@ -8507,10 +9100,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-time-series",
@@ -8567,10 +9163,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-transactions",
@@ -8627,10 +9226,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "klp-vector-clocks",
@@ -8687,10 +9289,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-agents",
@@ -8746,10 +9351,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-embeddings",
@@ -8806,10 +9414,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-evaluation",
@@ -8866,10 +9477,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-fine-tuning",
@@ -8926,10 +9540,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-function-calling",
@@ -8981,10 +9598,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-guardrails",
@@ -9040,10 +9660,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-hallucinations",
@@ -9100,10 +9723,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-prompt-engineering",
@@ -9160,10 +9786,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "llm-rag",
@@ -9220,10 +9849,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "marketing-custdev",
@@ -9280,10 +9912,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "marketing-design-thinking",
@@ -9340,10 +9975,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "marketing-unit-economics",
@@ -9400,10 +10038,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-calculus",
@@ -9460,10 +10101,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-dimensionality-reduction",
@@ -9520,10 +10164,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-distance-metrics",
@@ -9580,10 +10227,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-information-theory",
@@ -9640,10 +10290,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-linear-algebra",
@@ -9700,10 +10353,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-optimization",
@@ -9760,10 +10416,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-probability",
@@ -9820,10 +10479,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-regression",
@@ -9880,10 +10542,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "math-statistics",
@@ -9940,10 +10605,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "monitoring-observability",
@@ -10000,10 +10668,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ms-api-gateway",
@@ -10060,10 +10731,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ms-architecture-overview",
@@ -10120,10 +10794,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ms-service-communication",
@@ -10180,10 +10857,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "okko-closure-console-output",
@@ -10243,10 +10923,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=231s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-company-choice",
@@ -10308,10 +10991,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1816s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-cross-team-blocker",
@@ -10374,10 +11060,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2613s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-failure-story",
@@ -10439,10 +11128,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=933s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-feature-leadership",
@@ -10505,15 +11197,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1459s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-frontend-motivation",
@@ -10570,10 +11266,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=251s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-frontend-video-player",
@@ -10636,10 +11335,82 @@
       {
         "company": "Okko",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "okko-handle-disagreement",
+    "title": "Что делать, если коллеги оспаривают ваше решение?",
+    "aliases": [
+      "Сталкивались ли вы с непониманием и конфликтами?",
+      "Как решать конфликт с коллегой?",
+      "Что делать при несогласии в команде?"
+    ],
+    "answer": "Я сначала отделяю позицию человека от критериев решения: цель, ограничения, риски, стоимость поддержки, сроки. Если спор технический — фиксирую варианты в коротком RFC/ADR и сравниваю по фактам: latency, сложность миграции, безопасность, ownership. Если конфликт эмоциональный — перевожу разговор в формат «что именно нас блокирует и какой следующий проверяемый шаг». Для senior важно не продавить своё решение, а довести команду до понятного, обратимого и измеримого выбора.",
+    "exampleAnswer": "",
+    "context": "Проверяют зрелость коммуникации: умеете ли вы спорить без эскалации, сохранять отношения и принимать неидеальные, но рабочие решения.",
+    "keyPoints": [
+      {
+        "title": "Уточнить предмет спора",
+        "text": "Разделите факты, предположения и личные предпочтения. Часто конфликт исчезает, когда критерии становятся явными."
+      },
+      {
+        "title": "Предложить сравнение вариантов",
+        "text": "Соберите 2–3 альтернативы, риски, стоимость и rollback-план. Это снимает спор «мне кажется»."
+      },
+      {
+        "title": "Зафиксировать решение",
+        "text": "После обсуждения запишите договорённость, владельца и дату проверки результата."
+      }
+    ],
+    "pitfalls": [
+      "Давить авторитетом senior-разработчика.",
+      "Уходить в личную оценку коллеги.",
+      "Не фиксировать итог и потом возвращаться к тому же спору."
+    ],
+    "followUps": [
+      "Когда нужно подключать тимлида?",
+      "Что делать, если команда всё равно выбрала не ваш вариант?",
+      "Как отличить продуктивный спор от токсичного поведения?"
+    ],
+    "category": "Behavioral",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend",
+      "Backend",
+      "Data Analyst",
+      "Data Scientist",
+      "Team Lead"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Поведенческое",
+    "tags": [
+      "Conflict",
+      "Communication",
+      "Teamwork"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "candidate-report",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "okko-hard-deadline",
@@ -10700,10 +11471,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1139s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-ideal-ticket",
@@ -10766,10 +11540,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2317s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-interview-recommendations",
@@ -10826,10 +11603,13 @@
       {
         "company": "Okko",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "okko-js-execution-context",
@@ -10890,15 +11670,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=587s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-lead-expectations",
@@ -10960,10 +11744,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=419s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-legacy-attitude",
@@ -11024,10 +11811,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1334s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-mentoring",
@@ -11090,10 +11880,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2478s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-process-improvement",
@@ -11155,10 +11948,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2160s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-promisify-retry",
@@ -11218,10 +12014,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=1180s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-proud-achievement",
@@ -11283,10 +12082,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=489s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-release-critical-bug",
@@ -11347,10 +12149,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1576s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-sprint-responsibility",
@@ -11411,10 +12216,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2575s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "okko-task-values",
@@ -11475,15 +12283,89 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=262s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=113s",
+        "publishedAt": "",
         "type": "youtube"
       }
     ],
-    "videoFrequency": 2
+    "sourceType": "youtube",
+    "videoFrequency": 2,
+    "publishedAt": ""
+  },
+  {
+    "id": "okko-throttle-debounce",
+    "title": "Реализуйте debounce и throttle",
+    "aliases": [
+      "Реализуйте debounce и throttle",
+      "Чем debounce отличается от throttle?"
+    ],
+    "answer": "`debounce` откладывает вызов до паузы в событиях: подходит для поиска при вводе, resize после окончания жеста, autosave после остановки печати. `throttle` ограничивает частоту вызова: подходит для scroll/drag/mousemove, где нужны регулярные обновления не чаще заданного интервала. В реализации нужно сохранить `this`, аргументы, timer id, а для production-варианта явно определить leading/trailing поведение и метод cancel.",
+    "exampleAnswer": "",
+    "context": "На live coding проверяют аккуратность с closures, timers, контекстом вызова и edge cases.",
+    "keyPoints": [
+      {
+        "title": "Сначала объяснить различие",
+        "text": "Debounce ждёт тишины, throttle пропускает вызовы между разрешёнными окнами."
+      },
+      {
+        "title": "Реализовать минимальную версию",
+        "text": "Покажите сохранение последних аргументов и вызов через `fn.apply(this, args)`."
+      },
+      {
+        "title": "Обсудить production-детали",
+        "text": "Leading/trailing, cancel/flush, очистка таймера при unmount и тесты fake timers."
+      }
+    ],
+    "pitfalls": [
+      "Терять `this` и последние аргументы.",
+      "Не определять leading/trailing поведение.",
+      "Не очищать таймер при размонтировании компонента."
+    ],
+    "followUps": [
+      "Как добавить `cancel` и `flush`?",
+      "Где использовать debounce, а где throttle?",
+      "Как тестировать такую функцию?"
+    ],
+    "codeSnippet": "export function debounce<T extends (...args: any[]) => void>(fn: T, delay: number) {\n  let timer: ReturnType<typeof setTimeout> | null = null;\n\n  return function debounced(this: ThisParameterType<T>, ...args: Parameters<T>) {\n    if (timer) clearTimeout(timer);\n    timer = setTimeout(() => {\n      timer = null;\n      fn.apply(this, args);\n    }, delay);\n  };\n}\n\nexport function throttle<T extends (...args: any[]) => void>(fn: T, interval: number) {\n  let lastCall = 0;\n  let timer: ReturnType<typeof setTimeout> | null = null;\n  let lastArgs: Parameters<T> | null = null;\n  let lastThis: ThisParameterType<T>;\n\n  return function throttled(this: ThisParameterType<T>, ...args: Parameters<T>) {\n    const now = Date.now();\n    const remaining = interval - (now - lastCall);\n    lastArgs = args;\n    lastThis = this;\n\n    if (remaining <= 0) {\n      if (timer) clearTimeout(timer);\n      timer = null;\n      lastCall = now;\n      fn.apply(lastThis, lastArgs);\n      lastArgs = null;\n      return;\n    }\n\n    if (!timer) {\n      timer = setTimeout(() => {\n        timer = null;\n        lastCall = Date.now();\n        if (lastArgs) fn.apply(lastThis, lastArgs);\n        lastArgs = null;\n      }, remaining);\n    }\n  };\n}",
+    "codeLanguage": "ts",
+    "category": "JavaScript",
+    "scope": "language-specific",
+    "languages": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Okko"
+    ],
+    "level": "Senior",
+    "stage": "Live coding",
+    "tags": [
+      "Debounce",
+      "Throttle",
+      "Timers",
+      "Performance"
+    ],
+    "duration": "25 мин",
+    "difficulty": 4,
+    "sources": [
+      {
+        "company": "Okko",
+        "url": "",
+        "type": "candidate-report",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "okko-unclear-requirements",
@@ -11550,10 +12432,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1996s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "outsourcing-adaptation-new-project",
@@ -11623,10 +12508,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "outsourcing-client-communication",
@@ -11697,10 +12585,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-api-rate-limiter",
@@ -11774,10 +12665,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-concurrency-limit",
@@ -11845,10 +12739,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-frontend-microfrontend",
@@ -11907,10 +12804,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-interview-scale",
@@ -11966,10 +12866,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-react-server-components",
@@ -12041,10 +12944,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ozon-weakmap-memory-leaks",
@@ -12111,10 +13017,13 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-ab-testing",
@@ -12170,10 +13079,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-analytics-metrics",
@@ -12229,10 +13141,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-cohort-analysis",
@@ -12288,10 +13203,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-competitor-analysis",
@@ -12348,10 +13266,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-customer-segmentation",
@@ -12408,10 +13329,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-funnel-analysis",
@@ -12467,10 +13391,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-growth-hacking",
@@ -12527,10 +13454,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-nps-survey",
@@ -12586,10 +13516,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-pricing-strategy",
@@ -12646,10 +13579,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "product-roadmap",
@@ -12706,10 +13642,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "rutube-url-to-render",
@@ -12776,10 +13715,13 @@
       {
         "company": "Rutube",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sber-frontend-accessibility",
@@ -12842,10 +13784,13 @@
       {
         "company": "Сбер",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sber-fsd-tradeoffs",
@@ -12905,10 +13850,13 @@
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=4000s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "sber-interview-security",
@@ -12964,10 +13912,13 @@
       {
         "company": "Сбер",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sber-js-library-from-go",
@@ -13027,10 +13978,13 @@
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=3000s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "sber-kubernetes-frontend-scale",
@@ -13091,10 +14045,13 @@
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=4663s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "sber-main-thread-blocking",
@@ -13153,10 +14110,13 @@
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=1828s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "security-auth",
@@ -13213,10 +14173,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-cors",
@@ -13273,10 +14236,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-dependencies",
@@ -13334,10 +14300,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-hashing",
@@ -13393,10 +14362,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-https",
@@ -13453,10 +14425,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-input-validation",
@@ -13513,10 +14488,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-rate-limiting",
@@ -13573,10 +14551,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-secrets",
@@ -13633,10 +14614,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-session",
@@ -13692,10 +14676,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "security-sql-injection",
@@ -13747,10 +14734,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-capacity-planning",
@@ -13807,10 +14797,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-chaos-engineering",
@@ -13866,10 +14859,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-cost-optimization",
@@ -13925,10 +14921,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-disaster-recovery",
@@ -13984,10 +14983,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-incident-management",
@@ -14048,10 +15050,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-monitoring",
@@ -14108,10 +15113,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-release-engineering",
@@ -14168,10 +15176,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "sre-slo-sla",
@@ -14229,10 +15240,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-angular-change-detection",
@@ -14298,10 +15312,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-effector-vs-redux",
@@ -14370,10 +15387,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-embed-web-app",
@@ -14433,10 +15453,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-etl-degradation",
@@ -14511,10 +15534,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-fetch-return-value",
@@ -14574,10 +15600,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-frontend-design-system",
@@ -14640,10 +15669,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-frontend-typescript-advanced",
@@ -14705,10 +15737,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-hr-salary-negotiation",
@@ -14768,10 +15803,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-hr-strengths-weaknesses",
@@ -14830,10 +15868,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-hr-why-left",
@@ -14892,10 +15933,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-java-concurrency-deadlock",
@@ -14964,10 +16008,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-js-equality",
@@ -15027,10 +16074,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-js-return-values",
@@ -15090,10 +16140,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-language-design-patterns",
@@ -15156,10 +16209,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-language-kotlin-coroutines",
@@ -15221,10 +16277,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-language-sql-optimization",
@@ -15286,10 +16345,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-management-1on1",
@@ -15345,10 +16407,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-management-hiring",
@@ -15404,10 +16469,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-management-mentoring",
@@ -15463,10 +16531,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-management-team-conflict",
@@ -15522,10 +16593,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-management-tech-debt",
@@ -15583,10 +16657,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-object-cloning",
@@ -15646,10 +16723,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-office-format",
@@ -15711,10 +16791,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-professional-activity",
@@ -15776,10 +16859,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-react-rerenders",
@@ -15838,10 +16924,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-react-virtualization-table",
@@ -15911,10 +17000,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-sparse-array-instanceof",
@@ -15974,10 +17066,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-system-design-caching",
@@ -16038,10 +17133,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-system-design-notification",
@@ -16113,10 +17211,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-system-design-rate-limiter",
@@ -16178,10 +17279,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-task-scheduler",
@@ -16249,10 +17353,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-typescript-generics-api",
@@ -16320,10 +17427,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-typescript-type-guards",
@@ -16389,10 +17499,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-useeffect-cleanup-memory-leak",
@@ -16459,10 +17572,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "tbank-web-vitals-optimization",
@@ -16530,10 +17646,13 @@
       {
         "company": "Т-Банк",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-code-review-process",
@@ -16589,10 +17708,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-conflict-resolution",
@@ -16648,10 +17770,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-cross-functional-collaboration",
@@ -16707,10 +17832,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-delivery-practices",
@@ -16766,10 +17894,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-developer-growth",
@@ -16825,10 +17956,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-full-cycle-management",
@@ -16896,10 +18030,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-hiring-interview",
@@ -16955,10 +18092,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-incident-management",
@@ -17014,10 +18154,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-microservices-architecture",
@@ -17073,10 +18216,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-motivation-development",
@@ -17132,10 +18278,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-risk-management",
@@ -17191,10 +18340,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-sprint-retrospective",
@@ -17250,10 +18402,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-stakeholder-communication",
@@ -17309,10 +18464,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-task-delegation",
@@ -17368,10 +18526,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-team-formation",
@@ -17427,10 +18588,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-tech-stack-knowledge",
@@ -17486,10 +18650,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-technical-debt",
@@ -17545,10 +18712,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "teamlead-technical-roadmap",
@@ -17604,10 +18774,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-code-coverage",
@@ -17664,10 +18837,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-e2e",
@@ -17724,10 +18900,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-integration",
@@ -17784,10 +18963,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-mocking",
@@ -17840,10 +19022,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-pyramid",
@@ -17901,10 +19086,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "testing-tdd",
@@ -17961,10 +19149,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ue-blueprints-vs-cpp",
@@ -18027,10 +19218,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ue-gc-uobject",
@@ -18092,10 +19286,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-ai-tools",
@@ -18161,10 +19358,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-biggest-mistake",
@@ -18225,10 +19425,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-candidate-questions",
@@ -18292,10 +19495,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-career-change",
@@ -18358,10 +19564,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-current-role",
@@ -18425,10 +19634,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-deadline-pressure",
@@ -18488,10 +19700,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-disagreement-with-team",
@@ -18549,10 +19764,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-enjoyable-work",
@@ -18616,10 +19834,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-freelance-projects",
@@ -18683,10 +19904,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-graduation-year",
@@ -18750,10 +19974,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-growth-direction",
@@ -18817,10 +20044,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-hardest-project",
@@ -18893,15 +20129,19 @@
       {
         "company": "Яндекс",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
       },
       {
         "company": "Лига Ставок",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-leadership-example",
@@ -18959,10 +20199,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-new-technology",
@@ -19024,10 +20267,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-other-offers",
@@ -19088,10 +20334,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-previous-job-concerns",
@@ -19156,15 +20405,19 @@
       {
         "company": "Т-Банк",
         "url": "",
+        "publishedAt": "",
         "type": "candidate-report"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=340s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "universal-project-tasks",
@@ -19228,10 +20481,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-salary-expectations",
@@ -19294,10 +20550,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-start-date",
@@ -19358,10 +20617,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-team-composition",
@@ -19424,10 +20686,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-team-profanity",
@@ -19494,10 +20759,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "universal-tell-about-yourself",
@@ -19577,25 +20845,31 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=75s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=63s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=39s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=1366s",
+        "publishedAt": "",
         "type": "youtube"
       }
     ],
-    "videoFrequency": 4
+    "sourceType": "youtube",
+    "videoFrequency": 4,
+    "publishedAt": ""
   },
   {
     "id": "universal-workplace-red-lines",
@@ -19659,10 +20933,13 @@
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1391s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "usetech-angular-microfrontend",
@@ -19733,10 +21010,13 @@
       {
         "company": "Usetech",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "usetech-industrial-platform-performance",
@@ -19807,10 +21087,13 @@
       {
         "company": "Usetech",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "ux-design-principles",
@@ -19862,10 +21145,13 @@
       {
         "company": "Несколько компаний",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "vk-event-loop-race-condition",
@@ -19931,10 +21217,13 @@
       {
         "company": "VK",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "vk-frontend-realtime",
@@ -19993,10 +21282,13 @@
       {
         "company": "VK",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "vk-interview-scale",
@@ -20052,10 +21344,13 @@
       {
         "company": "VK",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "vk-management-onboarding",
@@ -20111,10 +21406,13 @@
       {
         "company": "VK",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "vk-react-concurrent-mode",
@@ -20181,10 +21479,13 @@
       {
         "company": "VK",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-critical-rendering-path",
@@ -20244,10 +21545,13 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=487s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-framework-choice",
@@ -20310,15 +21614,19 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1705s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=158s",
+        "publishedAt": "",
         "type": "youtube"
       }
     ],
-    "videoFrequency": 2
+    "sourceType": "youtube",
+    "videoFrequency": 2,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-frontend-bundle-optimization",
@@ -20381,15 +21689,20 @@
       {
         "company": "Wildberries",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-http-frontend",
     "title": "Что важно знать frontend-разработчику про HTTP?",
-    "aliases": [],
+    "aliases": [
+      "Как работает HTTP кеширование через ETag?"
+    ],
     "answer": "HTTP — stateless request/response protocol с семантикой методов, status codes, headers, caching и content negotiation. Safe методы не меняют состояние, idempotent можно повторять без дополнительного эффекта. GET body формально не имеет общепринятой семантики и плохо поддерживается intermediaries; параметры передают в URI. Кеширование задают `Cache-Control`, validators `ETag`/`Last-Modified` и `Vary`; POST тоже может кешироваться при явных заголовках, хотя редко используется так.",
     "exampleAnswer": "Frontend-разработчику важно знать: 1) HTTP methods — GET, POST, PUT, PATCH, DELETE и их семантику; 2) Status codes — 2xx (ok), 3xx (redirect), 4xx (client error), 5xx (server error); 3) Headers — Cache-Control, ETag, Content-Type, Authorization; 4) CORS — как работает preflight, credentials; 5) HTTP/2 — multiplexing, server push, header compression. На практике: я настраиваю кэширование (Cache-Control: max-age=31536000 для static assets), использую ETag для инкрементальных обновлений, оптимизирую через HTTP/2 multiplexing. Также важно понимать: HTTP/3 (QUIC) — , Service Workers для offline-first.",
     "context": "Нужно показать не список методов, а влияние семантики на retries, proxies, CDN и браузерный cache.",
@@ -20447,10 +21760,13 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=877s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-interview-inventory",
@@ -20506,10 +21822,13 @@
       {
         "company": "Wildberries",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-jquery-clone",
@@ -20570,10 +21889,13 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=2921s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-rendering-performance",
@@ -20634,15 +21956,19 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=621s",
+        "publishedAt": "",
         "type": "youtube"
       },
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2850s",
+        "publishedAt": "",
         "type": "youtube"
       }
     ],
-    "videoFrequency": 2
+    "sourceType": "youtube",
+    "videoFrequency": 2,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-script-loading",
@@ -20703,10 +22029,13 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=735s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-seller-tools",
@@ -20762,10 +22091,13 @@
       {
         "company": "Wildberries",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "wildberries-websocket-sse",
@@ -20826,10 +22158,13 @@
       {
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1276s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "yandex-async-flight-route",
@@ -20903,10 +22238,13 @@
       {
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2745s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "yandex-autocomplete",
@@ -20962,10 +22300,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-cicd-setup",
@@ -21035,10 +22376,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-debounce-throttle",
@@ -21109,10 +22453,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-flaky-tests",
@@ -21178,10 +22525,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-frontend-optimization",
@@ -21248,10 +22598,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-frontend-performance",
@@ -21314,10 +22667,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-frontend-ssr",
@@ -21380,10 +22736,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-frontend-state-management",
@@ -21446,10 +22805,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-intersection-observer-lazy-load",
@@ -21519,10 +22881,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-interview-architecture",
@@ -21578,10 +22943,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-js-hidden-quadratic-complexity",
@@ -21650,10 +23018,13 @@
       {
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2397s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "yandex-management-team-scaling",
@@ -21709,10 +23080,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-maps",
@@ -21768,10 +23142,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-palindrome-two-pointers",
@@ -21837,10 +23214,13 @@
       {
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=465s",
-        "type": "youtube"
+        "type": "youtube",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 1
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   },
   {
     "id": "yandex-perf-optimization",
@@ -21896,10 +23276,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-priority-queue",
@@ -21979,10 +23362,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "candidate-report"
+        "type": "candidate-report",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-promise-all-polyfill",
@@ -22053,10 +23439,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-release-process",
@@ -22122,10 +23511,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-sliding-window-max",
@@ -22197,10 +23589,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-ssr-concept",
@@ -22268,10 +23663,13 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   },
   {
     "id": "yandex-xss-csrf-protection",
@@ -22340,9 +23738,12 @@
       {
         "company": "Яндекс",
         "url": "",
-        "type": "aggregated"
+        "type": "aggregated",
+        "publishedAt": ""
       }
     ],
-    "videoFrequency": 0
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
   }
 ]

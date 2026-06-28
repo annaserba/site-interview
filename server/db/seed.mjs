@@ -18,8 +18,9 @@ export async function seed(pool) {
         INSERT INTO questions (id, title, category, stage, difficulty, answer, context,
           companies, roles, tags, languages, level, duration,
           key_points, pitfalls, follow_ups, example_answer,
-          code_snippet, code_language, sources, source_type)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+          code_snippet, code_language, sources, source_type,
+          aliases, scope, video_frequency, published_at)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)
         ON CONFLICT (id) DO UPDATE SET
           title=EXCLUDED.title, category=EXCLUDED.category, stage=EXCLUDED.stage,
           difficulty=EXCLUDED.difficulty, answer=EXCLUDED.answer, context=EXCLUDED.context,
@@ -28,7 +29,9 @@ export async function seed(pool) {
           key_points=EXCLUDED.key_points, pitfalls=EXCLUDED.pitfalls,
           follow_ups=EXCLUDED.follow_ups, example_answer=EXCLUDED.example_answer,
           code_snippet=EXCLUDED.code_snippet, code_language=EXCLUDED.code_language,
-          sources=EXCLUDED.sources, source_type=EXCLUDED.source_type
+          sources=EXCLUDED.sources, source_type=EXCLUDED.source_type,
+          aliases=EXCLUDED.aliases, scope=EXCLUDED.scope,
+          video_frequency=EXCLUDED.video_frequency, published_at=EXCLUDED.published_at
       `, [
         q.id,
         q.title,
@@ -51,6 +54,10 @@ export async function seed(pool) {
         q.codeLanguage || null,
         JSON.stringify(q.sources || []),
         q.sourceType || 'aggregated',
+        q.aliases || [],
+        q.scope || 'universal',
+        q.videoFrequency || 0,
+        q.publishedAt || null,
       ])
     }
 

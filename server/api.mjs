@@ -1,6 +1,8 @@
 import pg from 'pg'
 import crypto from 'crypto'
 import http from 'http'
+import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { hashPhone } from './db/migrate.mjs'
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 10 })
@@ -10,6 +12,9 @@ const YANDEX_CLIENT_SECRET = process.env.YANDEX_CLIENT_SECRET
 const YANDEX_REDIRECT_URI = process.env.YANDEX_REDIRECT_URI || 'http://192.144.59.118/api/auth/yandex/callback'
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://192.144.59.118'
 const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000 // 30 days
+const questionsPath = resolve(process.cwd(), 'public/data/questions.json')
+let localQuestionsCache = null
+let dbAvailable = Boolean(process.env.DATABASE_URL)
 
 function json(res, data, status = 200) {
   res.writeHead(status, { 'Content-Type': 'application/json' })
@@ -49,6 +54,7 @@ function parseQuery(url) {
 }
 
 async function getUserFromRequest(req) {
+  if (!dbAvailable) return null
   const cookies = parseCookies(req)
   const token = cookies['session_token']
   if (!token) return null
@@ -59,6 +65,59 @@ async function getUserFromRequest(req) {
     [token]
   )
   return result.rows[0] || null
+}
+
+async function loadLocalQuestions() {
+  if (!localQuestionsCache) {
+    localQuestionsCache = JSON.parse(await readFile(questionsPath, 'utf8'))
+  }
+  return localQuestionsCache
+}
+
+function toApiQuestion(question) {
+  return {
+    id: question.id,
+    title: question.title,
+    aliases: question.aliases || [],
+    category: question.category || null,
+    stage: question.stage || null,
+    difficulty: question.difficulty || 3,
+    answer: question.answer || null,
+    context: question.context || null,
+    companies: question.companies || [],
+    roles: question.roles || [],
+    tags: question.tags || [],
+    languages: question.languages || [],
+    level: question.level || 'Middle',
+    duration: question.duration || '10 мин',
+    key_points: question.keyPoints || question.key_points || [],
+    pitfalls: question.pitfalls || [],
+    follow_ups: question.followUps || question.follow_ups || [],
+    example_answer: question.exampleAnswer || question.example_answer || null,
+    code_snippet: question.codeSnippet || question.code_snippet || null,
+    code_language: question.codeLanguage || question.code_language || null,
+    sources: question.sources || [],
+    source_type: question.sourceType || question.source_type || 'aggregated',
+    scope: question.scope || 'universal',
+    video_frequency: question.videoFrequency || question.video_frequency || 0,
+    published_at: question.publishedAt || question.published_at || null,
+  }
+}
+
+function filterLocalQuestions(questions, params) {
+  const search = params.search?.toLocaleLowerCase('ru-RU')
+  return questions.filter((question) => {
+    if (params.company && params.company !== 'all' && !question.companies?.includes(params.company)) return false
+    if (params.type && params.type !== 'all' && question.category !== params.type) return false
+    if (params.role && params.role !== 'all' && !question.roles?.includes(params.role)) return false
+    if (!search) return true
+    return [
+      question.title,
+      ...(question.aliases || []),
+      question.answer,
+      ...(question.tags || []),
+    ].join(' ').toLocaleLowerCase('ru-RU').includes(search)
+  })
 }
 
 async function exchangeCodeForToken(code) {
@@ -130,6 +189,9 @@ const server = http.createServer(async (req, res) => {
 
     // Redirect to Yandex OAuth
     if (url === '/api/auth/yandex' && req.method === 'GET') {
+      if (!dbAvailable || !YANDEX_CLIENT_ID || !YANDEX_CLIENT_SECRET) {
+        return redirect(res, `${FRONTEND_URL}#auth-config-required`)
+      }
       const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${YANDEX_CLIENT_ID}&redirect_uri=${encodeURIComponent(YANDEX_REDIRECT_URI)}`
       return redirect(res, authUrl)
     }
@@ -172,7 +234,7 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/auth/logout' && req.method === 'POST') {
       const cookies = parseCookies(req)
       const token = cookies['session_token']
-      if (token) {
+      if (token && dbAvailable) {
         await pool.query('DELETE FROM sessions WHERE token = $1', [token])
       }
       res.writeHead(200, {
@@ -186,12 +248,26 @@ const server = http.createServer(async (req, res) => {
 
     // Health check
     if (url === '/api/health') {
-      return json(res, { ok: true, storage: 'postgresql' })
+      if (!dbAvailable) return json(res, { ok: true, storage: 'json-cache', database: 'not-configured' })
+      try {
+        await pool.query('SELECT 1')
+        return json(res, { ok: true, storage: 'postgresql' })
+      } catch (error) {
+        dbAvailable = false
+        return json(res, { ok: true, storage: 'json-cache', database: 'unavailable', error: error.message })
+      }
     }
 
     // List questions with filters
     if (url === '/api/questions' && req.method === 'GET') {
       const params = parseQuery(req.url)
+      if (!dbAvailable) {
+        const all = await loadLocalQuestions()
+        const filtered = filterLocalQuestions(all, params)
+        const offset = Number(params.offset || 0)
+        const limit = Number(params.limit || filtered.length)
+        return json(res, { questions: filtered.slice(offset, offset + limit).map(toApiQuestion), total: filtered.length, storage: 'json-cache' })
+      }
       let sql = 'SELECT * FROM questions WHERE 1=1'
       const args = []
       let i = 1
@@ -213,32 +289,73 @@ const server = http.createServer(async (req, res) => {
         args.push(`%${params.search}%`); i++
       }
 
-      sql += ' ORDER BY id'
+      sql += ' ORDER BY video_frequency DESC, published_at DESC NULLS LAST, id'
       if (params.limit) { sql += ` LIMIT $${i}`; args.push(parseInt(params.limit)); i++ }
       if (params.offset) { sql += ` OFFSET $${i}`; args.push(parseInt(params.offset)); i++ }
 
-      const result = await pool.query(sql, args)
-      return json(res, { questions: result.rows, total: result.rowCount })
+      try {
+        const result = await pool.query(sql, args)
+        return json(res, { questions: result.rows, total: result.rowCount })
+      } catch (error) {
+        dbAvailable = false
+        const all = await loadLocalQuestions()
+        const filtered = filterLocalQuestions(all, params)
+        const offset = Number(params.offset || 0)
+        const limit = Number(params.limit || filtered.length)
+        return json(res, { questions: filtered.slice(offset, offset + limit).map(toApiQuestion), total: filtered.length, storage: 'json-cache' })
+      }
     }
 
     // Get question by ID
     if (url.startsWith('/api/questions/') && req.method === 'GET') {
       const id = url.split('/api/questions/')[1]
-      const result = await pool.query('SELECT * FROM questions WHERE id = $1', [id])
-      if (result.rows.length === 0) return json(res, { error: 'Not found' }, 404)
-      return json(res, result.rows[0])
+      if (!dbAvailable) {
+        const question = (await loadLocalQuestions()).find((item) => item.id === id)
+        if (!question) return json(res, { error: 'Not found' }, 404)
+        return json(res, { ...toApiQuestion(question), storage: 'json-cache' })
+      }
+      try {
+        const result = await pool.query('SELECT * FROM questions WHERE id = $1', [id])
+        if (result.rows.length === 0) return json(res, { error: 'Not found' }, 404)
+        return json(res, result.rows[0])
+      } catch {
+        dbAvailable = false
+        const question = (await loadLocalQuestions()).find((item) => item.id === id)
+        if (!question) return json(res, { error: 'Not found' }, 404)
+        return json(res, toApiQuestion(question))
+      }
     }
 
     // Get filter options
     if (url === '/api/filters') {
-      const companies = await pool.query('SELECT DISTINCT unnest(companies) as val FROM questions ORDER BY val')
-      const types = await pool.query('SELECT DISTINCT category as val FROM questions WHERE category IS NOT NULL ORDER BY val')
-      const roles = await pool.query('SELECT DISTINCT unnest(roles) as val FROM questions ORDER BY val')
-      return json(res, {
-        companies: companies.rows.map(r => r.val),
-        types: types.rows.map(r => r.val),
-        roles: roles.rows.map(r => r.val),
-      })
+      if (!dbAvailable) {
+        const questions = await loadLocalQuestions()
+        return json(res, {
+          companies: [...new Set(questions.flatMap((question) => question.companies || []))].sort((a, b) => a.localeCompare(b, 'ru')),
+          types: [...new Set(questions.map((question) => question.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru')),
+          roles: [...new Set(questions.flatMap((question) => question.roles || []))].sort((a, b) => a.localeCompare(b, 'ru')),
+          storage: 'json-cache',
+        })
+      }
+      try {
+        const companies = await pool.query('SELECT DISTINCT unnest(companies) as val FROM questions ORDER BY val')
+        const types = await pool.query('SELECT DISTINCT category as val FROM questions WHERE category IS NOT NULL ORDER BY val')
+        const roles = await pool.query('SELECT DISTINCT unnest(roles) as val FROM questions ORDER BY val')
+        return json(res, {
+          companies: companies.rows.map(r => r.val),
+          types: types.rows.map(r => r.val),
+          roles: roles.rows.map(r => r.val),
+        })
+      } catch {
+        dbAvailable = false
+        const questions = await loadLocalQuestions()
+        return json(res, {
+          companies: [...new Set(questions.flatMap((question) => question.companies || []))].sort((a, b) => a.localeCompare(b, 'ru')),
+          types: [...new Set(questions.map((question) => question.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru')),
+          roles: [...new Set(questions.flatMap((question) => question.roles || []))].sort((a, b) => a.localeCompare(b, 'ru')),
+          storage: 'json-cache',
+        })
+      }
     }
 
     // Favorites (requires auth)
@@ -291,14 +408,41 @@ const server = http.createServer(async (req, res) => {
 
     // Stats
     if (url === '/api/stats') {
-      const total = await pool.query('SELECT COUNT(*) FROM questions')
-      const byCategory = await pool.query('SELECT category, COUNT(*) as count FROM questions GROUP BY category ORDER BY count DESC')
-      const byCompany = await pool.query('SELECT unnest(companies) as company, COUNT(*) as count FROM questions GROUP BY company ORDER BY count DESC')
-      return json(res, {
-        total: parseInt(total.rows[0].count),
-        byCategory: byCategory.rows,
-        byCompany: byCompany.rows,
-      })
+      if (!dbAvailable) {
+        const questions = await loadLocalQuestions()
+        const countBy = (values) => Object.entries(values.reduce((acc, value) => {
+          acc[value] = (acc[value] || 0) + 1
+          return acc
+        }, {})).map(([key, count]) => ({ [key.includes('company:') ? 'company' : 'category']: key.replace(/^company:/, ''), count: String(count) }))
+        return json(res, {
+          total: questions.length,
+          byCategory: countBy(questions.map((question) => question.category || '')),
+          byCompany: countBy(questions.flatMap((question) => (question.companies || []).map((company) => `company:${company}`))),
+        })
+      }
+      try {
+        const total = await pool.query('SELECT COUNT(*) FROM questions')
+        const byCategory = await pool.query('SELECT category, COUNT(*) as count FROM questions GROUP BY category ORDER BY count DESC')
+        const byCompany = await pool.query('SELECT unnest(companies) as company, COUNT(*) as count FROM questions GROUP BY company ORDER BY count DESC')
+        return json(res, {
+          total: parseInt(total.rows[0].count),
+          byCategory: byCategory.rows,
+          byCompany: byCompany.rows,
+        })
+      } catch {
+        dbAvailable = false
+        const questions = await loadLocalQuestions()
+        const countBy = (values) => Object.entries(values.reduce((acc, value) => {
+          acc[value] = (acc[value] || 0) + 1
+          return acc
+        }, {})).map(([key, count]) => ({ [key.includes('company:') ? 'company' : 'category']: key.replace(/^company:/, ''), count: String(count) }))
+        return json(res, {
+          total: questions.length,
+          byCategory: countBy(questions.map((question) => question.category || '')),
+          byCompany: countBy(questions.flatMap((question) => (question.companies || []).map((company) => `company:${company}`))),
+          storage: 'json-cache',
+        })
+      }
     }
 
     json(res, { error: 'Not found' }, 404)

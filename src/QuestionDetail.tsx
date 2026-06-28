@@ -8,6 +8,11 @@ import type { Question } from './types'
 import s from './QuestionDetail.module.css'
 
 type QuestionDetailProps = { question: Question; onBack: () => void }
+const formatDate = (date?: string) => {
+  if (!date) return ''
+  const value = new Date(date)
+  return Number.isNaN(value.getTime()) ? '' : value.toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+}
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
   'Яндекс': { mark: 'Я', color: '#ffcc00' },
@@ -64,6 +69,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
         <div><small>Время на решение</small><strong><Clock3 size={15} /> {question.duration}</strong></div>
         <div><small>Языки</small><strong>{question.languages.slice(0, 4).join(' · ') || 'Любой'}</strong></div>
         <div><small>Сложность</small><strong>{question.difficulty <= 2 ? 'Easy' : question.difficulty <= 3 ? 'Medium' : 'Hard'}</strong></div>
+        {question.publishedAt && <div><small>Дата источника</small><strong>{formatDate(question.publishedAt)}</strong></div>}
       </div>
 
       <div className={s['detail-layout']}>
@@ -166,7 +172,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
             {(question.sources.length ? question.sources : [{ company, url: '', type: 'aggregated' }]).map((source) => (
               <div className={s['source-item']} key={`${source.company}-${source.url}`}>
                 <p>{source.company}</p>
-                <small>{source.type === 'youtube' ? 'Запись технического интервью' : source.type === 'candidate-report' ? 'Восстановлено по отчёту кандидата' : 'Агрегированный материал'}</small>
+                <small>{source.type === 'youtube' ? 'Запись технического интервью' : source.type === 'candidate-report' ? 'Восстановлено по отчёту кандидата' : 'Агрегированный материал'}{source.publishedAt ? ` · ${formatDate(source.publishedAt)}` : ''}</small>
                 {source.url && (
                   <a className={s['source-link']} href={source.url} target="_blank" rel="noreferrer">
                     {source.type === 'youtube' ? 'Смотреть видео' : 'Открыть источник'} <ExternalLink size={13} />

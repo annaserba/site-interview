@@ -20,8 +20,12 @@ export interface ApiQuestion {
   example_answer: string | null
   code_snippet: string | null
   code_language: string | null
-  sources: Array<{ company: string; url: string; type: string }>
+  sources: Array<{ company: string; url: string; type: string; publishedAt?: string }>
   source_type: string
+  aliases?: string[]
+  scope?: 'universal' | 'multi-language' | 'language-specific'
+  video_frequency?: number
+  published_at?: string | null
 }
 
 export interface FiltersResponse {

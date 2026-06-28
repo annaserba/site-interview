@@ -1,6 +1,7 @@
 ---
 id: frontend-event-loop-concept
 title: Что такое Event Loop? Порядок выполнения кода
+aliases: ["Что такое Event Loop?"]
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]

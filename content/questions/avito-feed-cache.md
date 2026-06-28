@@ -1,6 +1,7 @@
 ---
 id: avito-feed-cache
 title: Спроектируйте клиентский кеш для ленты из миллионов объявлений
+aliases: ["Как кешировать большую ленту в React?"]
 category: Frontend Architecture
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]

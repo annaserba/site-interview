@@ -1,6 +1,7 @@
 ---
 id: wildberries-http-frontend
 title: Что важно знать frontend-разработчику про HTTP?
+aliases: ["Как работает HTTP кеширование через ETag?"]
 category: Web Platform
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]

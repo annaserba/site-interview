@@ -30,8 +30,17 @@ CREATE TABLE IF NOT EXISTS questions (
   code_language TEXT,
   sources JSONB DEFAULT '[]',
   source_type TEXT DEFAULT 'aggregated',
+  aliases TEXT[] DEFAULT '{}',
+  scope TEXT DEFAULT 'universal',
+  video_frequency INTEGER DEFAULT 0,
+  published_at DATE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS aliases TEXT[] DEFAULT '{}';
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS scope TEXT DEFAULT 'universal';
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS video_frequency INTEGER DEFAULT 0;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS published_at DATE;
 
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -71,6 +80,9 @@ CREATE INDEX IF NOT EXISTS idx_questions_stage ON questions(stage);
 CREATE INDEX IF NOT EXISTS idx_questions_companies ON questions USING GIN(companies);
 CREATE INDEX IF NOT EXISTS idx_questions_roles ON questions USING GIN(roles);
 CREATE INDEX IF NOT EXISTS idx_questions_tags ON questions USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_questions_aliases ON questions USING GIN(aliases);
+CREATE INDEX IF NOT EXISTS idx_questions_video_frequency ON questions(video_frequency DESC);
+CREATE INDEX IF NOT EXISTS idx_questions_published_at ON questions(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_users_yandex_id ON users(yandex_id);
 CREATE INDEX IF NOT EXISTS idx_users_phone_hash ON users(phone_hash);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);

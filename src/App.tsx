@@ -8,7 +8,6 @@ import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
 import s from './App.module.css'
-import questionsData from './data/questions.json'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
   'Яндекс': { mark: 'Я', color: '#FFCC00' },
@@ -29,6 +28,11 @@ const companyStyles: Record<string, { mark: string; color: string }> = {
 const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
+const formatDate = (date?: string) => {
+  if (!date) return ''
+  const value = new Date(date)
+  return Number.isNaN(value.getTime()) ? '' : value.toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: 'numeric' })
+}
 const videoFrequency = (question: Question) => question.videoFrequency ?? new Set(question.sources
   .filter((source) => source.type === 'youtube')
   .map((source) => {
@@ -63,6 +67,8 @@ function App() {
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [menuOpen, setMenuOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(4)
+  const [dataError, setDataError] = useState('')
+  const [authNotice, setAuthNotice] = useState('')
   const feedSentinelRef = useRef<HTMLDivElement>(null)
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
@@ -77,6 +83,7 @@ function App() {
         const mapped = data.questions.map((q) => ({
           id: q.id,
           title: q.title,
+          aliases: q.aliases || [],
           category: q.category || 'Technical',
           stage: q.stage || 'Technical',
           difficulty: q.difficulty,
@@ -96,18 +103,30 @@ function App() {
           codeLanguage: q.code_language || null,
           sources: q.sources || [],
           sourceType: q.source_type || 'aggregated',
-          scope: 'universal',
-          videoFrequency: 0,
+          scope: q.scope || 'universal',
+          videoFrequency: q.video_frequency ?? 0,
+          publishedAt: q.published_at || undefined,
         })) as Question[]
         setQuestions(mapped)
       })
-      .catch(() => {
-        setQuestions(questionsData as Question[])
-      })
+      .catch(() => setDataError('База вопросов сейчас недоступна. Проверьте API и Postgres.'))
   }, [])
 
   const applyHashFilters = (hash: string) => {
     const path = hash.replace(/^#/, '')
+    setAuthNotice('')
+    if (path === 'auth-config-required') {
+      setAuthNotice('Вход через Яндекс почти готов: нужно добавить YANDEX_CLIENT_ID, YANDEX_CLIENT_SECRET и redirect URI на сервере.')
+      setSelectedQuestionId('')
+      setShowMockInterview(false)
+      return
+    }
+    if (path === 'auth-error') {
+      setAuthNotice('Яндекс не вернул доступ. Попробуйте войти ещё раз.')
+      setSelectedQuestionId('')
+      setShowMockInterview(false)
+      return
+    }
     if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); return }
     setShowMockInterview(false)
     if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
@@ -161,7 +180,9 @@ function App() {
       if (sortMode === 'company') return left.companies[0].localeCompare(right.companies[0], 'ru')
       if (sortMode === 'title') return left.title.localeCompare(right.title, 'ru')
       const frequency = (question: Question) => videoFrequency(question) + question.companies.filter((company) => company !== 'Несколько компаний').length
-      return frequency(right) - frequency(left)
+      const byFrequency = frequency(right) - frequency(left)
+      if (byFrequency) return byFrequency
+      return (Date.parse(right.publishedAt || '') || 0) - (Date.parse(left.publishedAt || '') || 0)
     })
   }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes, questions])
 
@@ -235,9 +256,9 @@ function App() {
               </button>
             </div>
           ) : (
-            <button className={s['auth-btn']} onClick={loginWithYandex}>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M1.594 10.932c-.065.478-.098.963-.098 1.455 0 .492.033.977.098 1.455H6.27v-2.91H3.133c-.065.478-.098.963-.098 1.455v.545zm0-3.646h3.137V6.467H3.137c-.065.478-.098.963-.098 1.455v.364zm0 6.182h3.137v-2.91H3.137c-.065.478-.098.963-.098 1.455v.091zm3.137 0h3.137v-2.91H6.27v2.91zm0-4.364h3.137V9.545H6.27v.564zm0-3.273h3.137V6.273H6.27v.618zm0 0h3.137V6.273H6.27v.618zm3.137-2.363h3.137V6.27H9.407v.091zm0 4.364h3.137V9.545H9.407v.564zm0-3.273h3.137V6.273H9.407v.618zm0 6.182h3.137v-2.91H9.407v2.91zm3.137-4.727h3.137V9.545h-3.137v.564zm0-3.273h3.137V6.273h-3.137v.618zm0 6.182h3.137v-2.91h-3.137v2.91zm3.137-4.727h4.646v-1.09h-4.646v1.09zm0 3.273h4.646v-1.09h-4.646v1.09zm0 3.273h4.646v-1.09h-4.646v1.09z"/></svg>
-              Войти через Яндекс
+            <button className={s['auth-btn']} onClick={loginWithYandex} aria-label="Войти через Яндекс">
+              <span className={s['yandex-mark']} aria-hidden="true">Я</span>
+              <span>Войти через Яндекс</span>
             </button>
           )}
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
@@ -258,6 +279,7 @@ function App() {
         </section>
 
         <section className={s['question-section']} id="questions">
+          {authNotice && <div className={s['status-note']}>{authNotice}</div>}
           <div className={s['section-heading']}>
             <div>
               <span className="section-index">01 / БАЗА ЗНАНИЙ</span>
@@ -267,10 +289,6 @@ function App() {
           </div>
 
           <div className={s['company-row']}>
-            <button className={`${s['company-pill']} ${activeCompany === 'Все компании' ? s.selected : ''}`}
-              onClick={() => navigateCompany('Все компании')}>
-              <span><b>Все</b></span>
-            </button>
             {companies.map((company) => (
               <button
                 className={`${s['company-pill']} ${activeCompany === company.name ? s.selected : ''}`}
@@ -318,6 +336,7 @@ function App() {
             </div>
 
           <div className={s['question-grid']}>
+            {dataError && <div className={s['empty-state']}><Search /><h3>База не отвечает</h3><p>{dataError}</p></div>}
             {visibleQuestions.map((question) => (
               <article className={s['question-card']} key={question.id} onClick={() => openQuestion(question.id)} style={{ cursor: 'pointer' }}>
                 <div className={s['card-top']}>
@@ -352,13 +371,13 @@ function App() {
                 </div>
                 <div className={s['card-footer']}>
                   <span><Users size={15} /> {videoFrequency(question)} видео</span>
-                  <span>{question.languages.length ? `${question.languages.length} языков` : 'Любой язык'}</span>
+                  <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} языков` : 'Любой язык')}</span>
                   <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); openQuestion(question.id); }}><ArrowRight size={18} /></button>
                 </div>
               </article>
             ))}
           </div>
-          {filtered.length === 0 && (
+          {!dataError && filtered.length === 0 && (
             <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev'])); setSortMode('default'); window.location.hash = 'questions' }}>Сбросить фильтры</button></div>
           )}
           {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}

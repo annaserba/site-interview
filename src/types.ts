@@ -21,7 +21,8 @@ export type Question = {
   duration: string
   difficulty: number
   fresh?: string
-  sources: Array<{ company: string; url: string; type: string }>
+  publishedAt?: string
+  sources: Array<{ company: string; url: string; type: string; publishedAt?: string }>
   videoFrequency?: number
   score?: number
   retrieval?: string

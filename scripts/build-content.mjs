@@ -84,6 +84,14 @@ function youtubeVideoId(url = '') {
   return ''
 }
 
+function latestDate(sources = []) {
+  return sources
+    .map((source) => source.publishedAt || source.published_at || '')
+    .filter((value) => /^\d{4}-\d{2}-\d{2}$/.test(value))
+    .sort()
+    .at(-1) || ''
+}
+
 function questionFromMarkdown(source, filename) {
   const { metadata, body } = parseFrontmatter(source, filename)
   const sections = parseSections(body)
@@ -98,18 +106,19 @@ function questionFromMarkdown(source, filename) {
     company: metadata.sourceCompany || metadata.companies[0],
     url: metadata.sourceUrl || '',
     type: metadata.sourceType || 'candidate-report',
+    publishedAt: metadata.sourcePublishedAt || '',
   }
   const videoSources = Array.isArray(metadata.sourceVideos)
-    ? metadata.sourceVideos.map((source) => ({ ...source, type: 'youtube' }))
+    ? metadata.sourceVideos.map((source) => ({ ...source, publishedAt: source.publishedAt || '', type: 'youtube' }))
     : []
   const reportSources = Array.isArray(metadata.sourceReports)
-    ? metadata.sourceReports.map((source) => ({ ...source, url: source.url || '', type: 'candidate-report' }))
+    ? metadata.sourceReports.map((source) => ({ ...source, url: source.url || '', publishedAt: source.publishedAt || '', type: 'candidate-report' }))
     : []
   const collectedSources = [...videoSources, ...reportSources, legacySource].filter((source, index, list) => (
     list.findIndex((candidate) => `${candidate.type}:${candidate.url || candidate.company}` === `${source.type}:${source.url || source.company}`) === index
   ))
   const sources = collectedSources.some((source) => source.company && source.company !== 'Несколько компаний')
-    ? collectedSources.filter((source) => source.company !== 'Несколько компаний')
+    ? collectedSources.filter((source) => source.company !== 'Несколько компаний' || source.type === 'aggregated')
     : collectedSources
   const collectedCompanies = [...new Set([
     ...metadata.companies,
@@ -143,7 +152,9 @@ function questionFromMarkdown(source, filename) {
     duration: metadata.duration,
     difficulty: metadata.difficulty,
     sources,
+    sourceType: metadata.sourceType || 'candidate-report',
     videoFrequency,
+    publishedAt: metadata.publishedAt || latestDate(sources),
   }
 }
 
