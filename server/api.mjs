@@ -4,6 +4,7 @@ import http from 'http'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { hashPhone } from './db/migrate.mjs'
+import { answerQuestion, retrieve } from './rag-core.mjs'
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 10 })
 
@@ -13,11 +14,12 @@ const YANDEX_REDIRECT_URI = process.env.YANDEX_REDIRECT_URI || 'http://192.144.5
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://192.144.59.118'
 const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000 // 30 days
 const questionsPath = resolve(process.cwd(), 'public/data/questions.json')
+const srcQuestionsPath = resolve(process.cwd(), 'src/data/questions.json')
 let localQuestionsCache = null
 let dbAvailable = Boolean(process.env.DATABASE_URL)
 
 function json(res, data, status = 200) {
-  res.writeHead(status, { 'Content-Type': 'application/json' })
+  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' })
   res.end(JSON.stringify(data))
 }
 
@@ -42,6 +44,17 @@ function parseBody(req) {
     req.on('data', (chunk) => body += chunk)
     req.on('end', () => { try { resolve(JSON.parse(body)) } catch { resolve({}) } })
   })
+}
+
+function cookieOptions(maxAge) {
+  const parts = [
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Lax',
+    `Max-Age=${Math.floor(maxAge)}`,
+  ]
+  if (process.env.SESSION_COOKIE_SECURE === 'true') parts.push('Secure')
+  return parts.join('; ')
 }
 
 function parseQuery(url) {
@@ -69,7 +82,11 @@ async function getUserFromRequest(req) {
 
 async function loadLocalQuestions() {
   if (!localQuestionsCache) {
-    localQuestionsCache = JSON.parse(await readFile(questionsPath, 'utf8'))
+    try {
+      localQuestionsCache = JSON.parse(await readFile(questionsPath, 'utf8'))
+    } catch {
+      localQuestionsCache = JSON.parse(await readFile(srcQuestionsPath, 'utf8'))
+    }
   }
   return localQuestionsCache
 }
@@ -185,6 +202,8 @@ const server = http.createServer(async (req, res) => {
   const url = req.url.split('?')[0]
 
   try {
+    if (req.method === 'OPTIONS') return json(res, {}, 204)
+
     // ─── AUTH ROUTES ───
 
     // Redirect to Yandex OAuth
@@ -192,7 +211,7 @@ const server = http.createServer(async (req, res) => {
       if (!dbAvailable || !YANDEX_CLIENT_ID || !YANDEX_CLIENT_SECRET) {
         return redirect(res, `${FRONTEND_URL}#auth-config-required`)
       }
-      const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${YANDEX_CLIENT_ID}&redirect_uri=${encodeURIComponent(YANDEX_REDIRECT_URI)}`
+      const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${encodeURIComponent(YANDEX_CLIENT_ID)}&redirect_uri=${encodeURIComponent(YANDEX_REDIRECT_URI)}`
       return redirect(res, authUrl)
     }
 
@@ -210,7 +229,7 @@ const server = http.createServer(async (req, res) => {
 
       res.writeHead(302, {
         Location: FRONTEND_URL,
-        'Set-Cookie': `session_token=${session.token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_DURATION / 1000}`,
+        'Set-Cookie': `session_token=${session.token}; ${cookieOptions(SESSION_DURATION / 1000)}`,
       })
       return res.end()
     }
@@ -239,16 +258,44 @@ const server = http.createServer(async (req, res) => {
       }
       res.writeHead(200, {
         'Content-Type': 'application/json',
-        'Set-Cookie': 'session_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0',
+        'Set-Cookie': `session_token=; ${cookieOptions(0)}`,
       })
       return res.end(JSON.stringify({ ok: true }))
     }
 
     // ─── EXISTING ROUTES ───
 
+    if (url === '/api/auth/status' && req.method === 'GET') {
+      return json(res, {
+        yandexConfigured: Boolean(YANDEX_CLIENT_ID && YANDEX_CLIENT_SECRET),
+        databaseConfigured: Boolean(process.env.DATABASE_URL),
+        databaseAvailable: dbAvailable,
+        redirectUri: YANDEX_REDIRECT_URI,
+        frontendUrl: FRONTEND_URL,
+      })
+    }
+
+    if (url === '/api/rag/health' && req.method === 'GET') {
+      return json(res, { ok: true, storage: 'json-cache' })
+    }
+
+    if (req.method === 'POST' && ['/api/rag/search', '/api/rag/ask'].includes(url)) {
+      const { query, filters = {} } = await parseBody(req)
+      if (typeof query !== 'string' || query.trim().length < 2) return json(res, { error: 'Введите вопрос длиннее одного символа.' }, 400)
+      if (query.length > 1_000) return json(res, { error: 'Запрос слишком длинный.' }, 400)
+      const result = url.endsWith('/ask')
+        ? await answerQuestion(query.trim(), filters)
+        : { sources: await retrieve(query.trim(), filters) }
+      return json(res, result)
+    }
+
     // Health check
     if (url === '/api/health') {
-      if (!dbAvailable) return json(res, { ok: true, storage: 'json-cache', database: 'not-configured' })
+      if (!dbAvailable) return json(res, {
+        ok: true,
+        storage: 'json-cache',
+        database: process.env.DATABASE_URL ? 'unavailable' : 'not-configured',
+      })
       try {
         await pool.query('SELECT 1')
         return json(res, { ok: true, storage: 'postgresql' })
