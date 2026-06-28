@@ -122,11 +122,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
       <div className={s.stats}>
         <div className={s['stat-card']}>
           <strong>{totalQuestions}</strong>
-          <span>вопросов</span>
-        </div>
-        <div className={s['stat-card']}>
-          <strong>{totalAnswers}</strong>
-          <span>ответов</span>
+          <span>{totalQuestions % 10 === 1 && totalQuestions % 100 !== 11 ? 'вопрос' : totalQuestions % 10 >= 2 && totalQuestions % 10 <= 4 && (totalQuestions % 100 < 10 || totalQuestions % 100 >= 20) ? 'вопроса' : 'вопросов'}</span>
         </div>
       </div>
 
