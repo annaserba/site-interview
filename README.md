@@ -1,90 +1,80 @@
 # in.depth — Подготовка к IT-интервью
 
-Мобильный сайт с **172 реальными вопросами** от ведущих российских IT-компаний: Яндекс, Т-Банк, Ozon, VK, Avito, Okko, Wildberries, Сбер, Гознак, IT One, Usetech, Rutube и др.
+Сайт с **1000+ реальными вопросами** от ведущих российских IT-компаний: Яндекс, Т-Банк, Ozon, VK, Avito, Okko, Wildberries, Сбер, Гознак, IT One, Usetech, Rutube и др.
 
 ## Возможности
 
-- **172 вопроса** с примерами ответов и кодом из интервью
-- **Фильтрация** по компаниям, ролям, стадиям, уровням сложности
+- **1000+ вопросов** с примерами ответов, кодом и чек-листами
+- **Фильтрация** по компаниям, ролям, темам, типам вопросов
+- **Мок-интервью** — тренировка на случайных вопросах с таймером
+- **Личный кабинет** — сохраняйте свои ответы на вопросы
+- **Экспорт** — скачивание ответов в PDF и Markdown
 - **AI-помощник** (RAG) — задайте вопрос и получите ответ из базы знаний
-- **Страница деталей** — краткий ответ, развёрнутый пример, код, ошибки, follow-up вопросы
-- **Мобильный дизайн** — оптимизирован для смартфонов
+- **Авторизация** через Яндекс OAuth
+- **Адаптивный дизайн** — работает на мобильных и десктопе
 - **Деплой через Docker** на любой VPS
 
 ## Архитектура
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    КЛИЕНТ                            │
-│  ┌─────────┐  ┌──────────┐  ┌────────────────────┐  │
-│  │  Vite    │  │  React   │  │  PrismJS           │  │
-│  │  Dev /   │→ │  SPA     │→ │  (подсветка кода)  │  │
-│  │  Build   │  │          │  │                    │  │
-│  └─────────┘  └────┬─────┘  └────────────────────┘  │
-│                     │                                │
-│              ┌──────┴──────┐                         │
-│              │  RAG (в     │                         │
-│              │  браузере)  │                         │
-│              └──────┬──────┘                         │
-└─────────────────────┼───────────────────────────────┘
-                      │ fetch
-              ┌───────┴────────┐
-              │   S3 Storage   │
-              │  questions.json│
-              │  index.json    │
-              └───────┬────────┘
-                      │ HTTP
-┌─────────────────────┼───────────────────────────────┐
-│                 Docker (VPS)                         │
-│  ┌──────────┐  ┌────┴─────┐  ┌──────────────────┐  │
-│  │  nginx   │  │  serve   │  │  Telegram Bot    │  │
-│  │  :8080   │→ │  static  │  │  (long polling)  │  │
-│  │  static  │  │  files   │  │  → S3 / local    │  │
-│  └──────────┘  └──────────┘  └──────────────────┘  │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│                   Frontend (React)                    │
+│  App.tsx → QuestionsPage / QuestionDetail / Profile  │
+│  MockInterview / ChatBot                             │
+└──────────────────────┬───────────────────────────────┘
+                       │ fetch /api/*
+┌──────────────────────┴───────────────────────────────┐
+│                   API Server (Node.js)                │
+│  server/api.mjs — REST API, OAuth, RAG               │
+└──────────┬───────────────────────┬───────────────────┘
+           │                       │
+    ┌──────┴──────┐         ┌──────┴──────┐
+    │ PostgreSQL  │         │  RAG Engine │
+    │ questions,  │         │ rag-core.mjs│
+    │ users,      │         │ local JSON  │
+    │ sessions,   │         └─────────────┘
+    │ favorites,  │
+    │ user_answers│
+    └─────────────┘
 ```
 
 ## Структура проекта
 
 ```
-├── content/questions/          # Markdown-файлы вопросов (172 шт.)
-│   ├── yandex-*.md
-│   ├── tbank-*.md
-│   ├── ozon-*.md
-│   └── ...
-├── scripts/
-│   ├── build-content.mjs       # Markdown → questions.json
-│   ├── build-index.mjs         # Embedding index (SHA-256)
-│   └── upload-s3.sh            # Загрузка на S3
-├── server/
-│   ├── telegram-bot.mjs        # Telegram бот (long polling)
-│   └── rag-core.mjs            # RAG: retrieval + answer
 ├── src/
-│   ├── App.tsx                 # Главная: список вопросов, фильтры
-│   ├── QuestionDetail.tsx      # Страница деталей вопроса
-│   ├── ChatBot.tsx             # AI-помощник (inline RAG)
+│   ├── App.tsx                 # Главная, роутинг, навигация
+│   ├── QuestionsPage.tsx       # Страница всех вопросов с фильтрами
+│   ├── QuestionDetail.tsx      # Детализация вопроса + свой ответ
+│   ├── MockInterview.tsx       # Мок-интервью (тренировка)
+│   ├── ProfilePage.tsx         # Личный кабинет + экспорт
+│   ├── ChatBot.tsx             # AI-помощник (RAG)
 │   ├── FilterDropdown.tsx      # Выпадающий фильтр
-│   ├── dataClient.ts           # Загрузка данных из S3/localStorage
+│   ├── api.ts                  # Клиентские API-вызовы
+│   ├── filters.ts              # Определения фильтров
 │   └── types.ts                # TypeScript типы
-├── public/data/                # Собранные JSON (questions.json)
-├── Dockerfile                  # Multi-stage: node build → nginx serve
-├── docker-compose.yml          # Docker сервис
-└── nginx.conf                  # Конфигурация nginx
+├── server/
+│   ├── api.mjs                 # REST API сервер
+│   ├── rag-core.mjs            # RAG: retrieval + answer
+│   └── db/
+│       ├── migrate.mjs         # Миграции PostgreSQL
+│       └── seed.mjs            # Заполнение БД вопросами
+├── docker-compose.yml          # db + api + web
+├── Dockerfile                  # Frontend (nginx)
+├── Dockerfile.api              # API сервер (Node.js)
+└── nginx.conf                  # Проксирование /api → api:3001
 ```
 
 ## Стек технологий
 
 | Компонент | Технология |
 |-----------|-----------|
-| Frontend | React 19, TypeScript, Vite 6 |
-| Подсветка кода | PrismJS |
+| Frontend | React 19, TypeScript, Vite |
 | Стили | CSS Modules, Mobile-first |
-| Данные | Markdown → JSON (scripts) |
-| Хранение | S3 (TwcStorage) + localStorage cache |
-| RAG | Browser-embedded (SHA-256 векторы) |
-| Бот | Node.js, Telegram Bot API |
-| Деплой | Docker, nginx |
-| VPS | Selectel (~150-600₽/мес) |
+| API | Node.js, vanilla HTTP |
+| БД | PostgreSQL 16 |
+| Авторизация | Yandex OAuth 2.0 |
+| RAG | Local (SHA-256 векторы, cosine similarity) |
+| Деплой | Docker Compose, nginx |
 
 ## Страница вопроса
 
@@ -94,16 +84,15 @@
 ├─────────────────────────────┤
 │  01  Что от вас хотят       │
 │  02  Краткий ответ          │
-│  03  Как строить решение    │
-│      (3-5 шагов)            │
+│  03  Мои ответы (свой ввод) │
+│  04  Как строить решение    │
 │  ─── Код из интервью ─────  │
-│  04  Пример ответа          │
-│  05  Частые ошибки          │
-│  06  Что могут спросить     │
+│  05  Пример ответа          │
+│  06  Частые ошибки          │
+│  07  Что могут спросить     │
 ├──────────┬──────────────────┤
 │ Sidebar  │ Чек-лист ответа  │
 │          │ Источники        │
-│          │ Подсказка        │
 └──────────┴──────────────────┘
 ```
 
@@ -113,51 +102,53 @@
 # Установка
 npm install
 
-# Разработка
-npm run dev
+# Разработка (только фронтенд)
+npm run dev:web
 
-# Сборка вопросов
-npm run build
+# Dev (фронтенд + API)
+npm run dev
 
 # Деплой через Docker
 docker compose build
 docker compose up -d
 ```
 
+## Переменные окружения
+
+```env
+# База данных
+DB_PASSWORD=your_password
+
+# Яндекс OAuth
+YANDEX_CLIENT_ID=your_client_id
+YANDEX_CLIENT_SECRET=your_client_secret
+YANDEX_REDIRECT_URI=http://your-domain/api/auth/yandex/callback
+
+# Фронтенд
+FRONTEND_URL=http://your-domain
+```
+
 ## Команды
 
 | Команда | Описание |
 |---------|----------|
-| `npm run dev` | Dev-сервер на localhost:5173 |
-| `npm run build` | Сборка вопросов + Vite build |
-| `node scripts/build-content.mjs` | Markdown → questions.json |
-| `node scripts/build-index.mjs` | Построение embedding index |
-| `bash scripts/upload-s3.sh` | Загрузка на S3 |
-
-## Компании в базе
-
-| Компания | Вопросов |
-|----------|----------|
-| Т-Банк | 28 |
-| Okko | 25 |
-| Яндекс | 13 |
-| Гознак | 11 |
-| Wildberries | 10 |
-| Ozon | 5 |
-| Avito | 5 |
-| Сбер | 5 |
-| VK | 3 |
-| IT One | 3 |
-| Usetech | 2 |
-| Rutube | 1 |
-| Лига Ставок | 1 |
-| Несколько компаний | 66 |
+| `npm run dev:web` | Dev-сервер (только фронтенд) |
+| `npm run dev` | Dev-сервер + API |
+| `npm run build` | Сборка для продакшена |
+| `npm run db:migrate` | Миграции PostgreSQL |
+| `npm run db:seed` | Заполнение БД вопросами |
 
 ## Деплой
 
 1. Запушьте код на GitHub
-2. На VPS: `git pull && docker compose build --no-cache && docker compose up -d`
-3. Сайт доступен на `http://<VPS_IP>:8080`
+2. На VPS создайте `.env` с переменными окружения
+3. Запустите:
+```bash
+git pull
+docker compose build --no-cache
+docker compose up -d
+```
+4. Сайт доступен на `http://<VPS_IP>`
 
 ## Лицензия
 
