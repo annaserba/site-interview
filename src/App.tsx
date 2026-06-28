@@ -224,6 +224,7 @@ function App() {
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
+          {user && <a href="#profile" onClick={() => setMenuOpen(false)}>Мой кабинет</a>}
         </nav>
         <div className={s['header-actions']}>
           <button
