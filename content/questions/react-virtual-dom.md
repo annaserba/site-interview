@@ -5,7 +5,7 @@ category: React
 scope: universal
 languages: ["React"]
 roles: ["Frontend"]
-companies: []
+companies: ["Несколько компаний"]
 level: Middle
 stage: Техническое
 tags: ["React", "Virtual DOM", "Diffing", "Reconciliation"]

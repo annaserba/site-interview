@@ -5,7 +5,7 @@ category: React
 scope: universal
 languages: ["React"]
 roles: ["Frontend"]
-companies: []
+companies: ["Яндекс"]
 level: Senior
 stage: Техническое
 tags: ["React", "Performance", "Memoization", "Optimization"]

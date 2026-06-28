@@ -3931,79 +3931,6 @@
     "publishedAt": ""
   },
   {
-    "id": "frontend-js-types",
-    "title": "Какие типы данных есть в JavaScript?",
-    "aliases": [],
-    "answer": "Примитивы: `undefined`, `null`, boolean, number, bigint, string и symbol. Всё остальное — object, включая функции и массивы. Примитивы неизменяемы, а объектные значения сравниваются по identity. `typeof null === \"object\"` — историческая особенность; массив проверяют `Array.isArray`, а значение из другого realm нельзя надёжно классифицировать только через `instanceof`.",
-    "exampleAnswer": "JavaScript имеет 8 типов данных: 7 примитивов — undefined, null, boolean, number, bigint, string, symbol — и object (включает массивы, функции). Примитивы сравниваются по значению, объекты — по ссылке. Важные нюансы: typeof null === 'object' (историческая ошибка). Примеры:\n\n```javascript\ntypeof 42          // 'number'\ntypeof 'hello'     // 'string'\ntypeof true        // 'boolean'\ntypeof undefined   // 'undefined'\ntypeof null        // 'object' (!)\ntypeof {}          // 'object'\ntypeof []          // 'object'\n```\n\n== делает type coercion (1 == '1' → true), === — строгое сравнение. На практике я всегда использую ===. TypeScript добавляет статическую типизацию поверх динамических типов.",
-    "context": "Проверяется понимание runtime-модели, сравнений, coercion и границ между JavaScript и TypeScript.",
-    "keyPoints": [
-      {
-        "title": "Перечислить группы",
-        "text": "Отделите семь примитивов от object и поясните boxing при обращении к методам примитива."
-      },
-      {
-        "title": "Объяснить числа",
-        "text": "Number использует IEEE 754; `NaN` проверяют через `Number.isNaN`, `-0` и `NaN` точно различает `Object.is`, BigInt нельзя неявно смешивать с Number."
-      },
-      {
-        "title": "Связать с TypeScript",
-        "text": "Типы TypeScript стираются до runtime и не валидируют внешние данные; на границе API нужна runtime-проверка."
-      }
-    ],
-    "pitfalls": [
-      "Называть массив отдельным runtime-типом.",
-      "Использовать глобальный `isNaN` без понимания coercion.",
-      "Считать TypeScript runtime-валидатором."
-    ],
-    "followUps": [
-      "Чем `Object.is` отличается от `===`?",
-      "Почему `0.1 + 0.2 !== 0.3`?",
-      "Как валидировать `unknown` из API?"
-    ],
-    "codeSnippet": "// 8 types in JavaScript: 7 primitives + object\ntypeof undefined;   // 'undefined'\ntypeof null;        // 'object' (historical bug)\ntypeof true;        // 'boolean'\ntypeof 42;          // 'number'\ntypeof 42n;         // 'bigint'\ntypeof 'hello';     // 'string'\ntypeof Symbol('s'); // 'symbol'\n\ntypeof {};          // 'object'\ntypeof [];          // 'object' (arrays are objects)\ntypeof function(){} // 'function' (special object)\n\n// Primitive comparison (by value)\n1 === 1;              // true\n'str' === 'str';      // true\n\n// Object comparison (by reference)\nconst obj1 = { a: 1 };\nconst obj2 = { a: 1 };\nobj1 === obj2;         // false — different references\nobj1 === obj1;         // true  — same reference\n\n// Type coercion examples\nconsole.log(1 == '1');   // true  (string → number)\nconsole.log(1 === '1');  // false (no coercion)\nconsole.log(null == undefined);  // true\nconsole.log(null === undefined); // false\n\n// Number edge cases\nconsole.log(0.1 + 0.2 === 0.3);  // false (IEEE 754)\nconsole.log(Object.is(NaN, NaN)); // true\nconsole.log(Object.is(0, -0));    // false",
-    "codeLanguage": "typescript",
-    "category": "JavaScript",
-    "scope": "language-specific",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [
-      "Т-Банк"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "Types",
-      "Coercion",
-      "Runtime"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Т-Банк",
-        "url": "",
-        "publishedAt": "",
-        "type": "candidate-report"
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated",
-        "publishedAt": ""
-      }
-    ],
-    "sourceType": "aggregated",
-    "videoFrequency": 0,
-    "publishedAt": ""
-  },
-  {
     "id": "frontend-map-set",
     "title": "В чём разница между Map и Set?",
     "aliases": [],
@@ -4545,78 +4472,6 @@
         "url": "",
         "publishedAt": "",
         "type": "candidate-report"
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated",
-        "publishedAt": ""
-      }
-    ],
-    "sourceType": "aggregated",
-    "videoFrequency": 1,
-    "publishedAt": ""
-  },
-  {
-    "id": "frontend-virtual-dom",
-    "title": "Что такое Virtual DOM?",
-    "aliases": [],
-    "answer": "Virtual DOM — разговорное название дерева React elements и текущего Fiber tree, используемых для вычисления следующего UI. При render React строит описание, reconciliation сопоставляет элементы по type и key, а commit применяет минимально необходимые изменения к DOM и запускает effects. Это модель декларативного обновления и scheduling, а не гарантия, что React всегда быстрее ручного DOM.",
-    "exampleAnswer": "Virtual DOM (VDOM) — это lightweight-представление реального DOM в виде JavaScript-объектов. React создаёт VDOM-дерево, сравнивает (reconciliation) с предыдущим через алгоритм diffing, и применяет минимальные изменения к реальному DOM (commit phase). Преимущество: вместо перерисовки всего DOM, React обновляет только изменившиеся узлы. key в списках помогает алгоритму diffing идентифицировать элементы. Альтернативы: Svelte компилирует шаблоны в прямые DOM-обновления (без VDOM overhead), Vue использует реактивную систему с VDOM. В React 18 Concurrent Mode позволяет прерывать рендер для обработки более приоритетных обновлений.",
-    "context": "Senior-ответ должен разделять render, reconciliation и commit и объяснять сохранение состояния.",
-    "keyPoints": [
-      {
-        "title": "Описать фазы",
-        "text": "Render вычисляет следующее дерево и может быть прерван; commit синхронно меняет host tree и выполняет layout effects."
-      },
-      {
-        "title": "Объяснить identity",
-        "text": "State сохраняется, когда element type и позиция или key совпадают. Нестабильный key приводит к remount и потере состояния."
-      },
-      {
-        "title": "Обсудить производительность",
-        "text": "Стоимость создают лишние renders, тяжёлые вычисления и большие commits; профилируйте до применения memoization."
-      }
-    ],
-    "pitfalls": [
-      "Называть Virtual DOM полной копией DOM.",
-      "Считать каждый render изменением DOM.",
-      "Использовать индекс массива как key для изменяемого списка."
-    ],
-    "followUps": [
-      "Когда React сохраняет state компонента?",
-      "Чем render отличается от commit?",
-      "Когда `memo` не помогает?"
-    ],
-    "codeSnippet": "// React Virtual DOM: render → reconciliation → commit\nimport { useState } from 'react';\n\n// Render phase: builds virtual tree (can be interrupted in Concurrent Mode)\nfunction List({ items }: { items: string[] }) {\n  return (\n    <ul>\n      {items.map((item, i) => (\n        <li key={item}>{item}</li>  {/* key helps diffing algorithm */}\n      ))}\n    </ul>\n  );\n}\n\n// State preserved when type and key match across renders\nfunction App() {\n  const [show, setShow] = useState(true);\n\n  return (\n    <>\n      {show && <Counter />}       {/* remounts when toggled */}\n      <button onClick={() => setShow(s => !s)}>Toggle</button>\n    </>\n  );\n}\n\n// Concurrency: React can interrupt this render for urgent updates\nfunction HeavyList({ data }: { data: number[] }) {\n  return data.map(n => <div key={n}>{n}</div>);\n}",
-    "codeLanguage": "typescript",
-    "category": "React",
-    "scope": "language-specific",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [
-      "Гознак"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Reconciliation",
-      "Rendering"
-    ],
-    "duration": "12 мин",
-    "difficulty": 4,
-    "sources": [
-      {
-        "company": "Гознак",
-        "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=887s",
-        "publishedAt": "",
-        "type": "youtube"
       },
       {
         "company": "Несколько компаний",
@@ -16578,14 +16433,16 @@
       "Leadership"
     ],
     "companies": [
-      "Т-Банк"
+      "Т-Банк",
+      "Несколько компаний"
     ],
     "level": "Senior",
     "stage": "Управление",
     "tags": [
       "Management",
       "Conflict",
-      "Team"
+      "Team",
+      "Resolution"
     ],
     "duration": "10 мин",
     "difficulty": 3,
@@ -17701,68 +17558,6 @@
       "Management",
       "Code Review",
       "Quality"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3,
-    "sources": [
-      {
-        "company": "Несколько компаний",
-        "url": "",
-        "type": "aggregated",
-        "publishedAt": ""
-      }
-    ],
-    "sourceType": "aggregated",
-    "videoFrequency": 0,
-    "publishedAt": ""
-  },
-  {
-    "id": "teamlead-conflict-resolution",
-    "title": "Как вы разрешаете конфликты в команде?",
-    "aliases": [],
-    "answer": "Listening → understanding → mediation → resolution. Важно: не taking sides, focusing on issues, not people.",
-    "exampleAnswer": "Подход: listening (неinterrupt), empathy (understand both sides). Процесс: mediation (find common ground), resolution (agreement). Профилактика: culture (open communication), regular 1:1. Результат: снижениеconflicts на 60%, improved team morale.",
-    "context": "Проверяют понимание conflict resolution иsoft skills.",
-    "keyPoints": [
-      {
-        "title": "Подход",
-        "text": "Как approach-аетеconflict: listening, empathy."
-      },
-      {
-        "title": "Процесс",
-        "text": "Как resolve-аете: mediation, finding common ground."
-      },
-      {
-        "title": "Профилактика",
-        "text": "Как предотвращаете: culture, communication."
-      }
-    ],
-    "pitfalls": [
-      "Taking sides",
-      "Ignoringconflict",
-      "Focusing on people, not issues",
-      "Not following up"
-    ],
-    "followUps": [
-      "Как обрабатываетеconflicts между senior иjunior?",
-      "Как создаётеsafe environment для discussions?",
-      "Как мотивируетеteam на resolving conflicts?"
-    ],
-    "category": "Behavioral",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Leadership"
-    ],
-    "companies": [
-      "Несколько компаний"
-    ],
-    "level": "Senior",
-    "stage": "Управление",
-    "tags": [
-      "Management",
-      "Conflict",
-      "Resolution"
     ],
     "duration": "10 мин",
     "difficulty": 3,
@@ -22607,75 +22402,6 @@
     "publishedAt": ""
   },
   {
-    "id": "yandex-frontend-performance",
-    "title": "Как оптимизировать производительность React-приложения?",
-    "aliases": [],
-    "answer": "Memo, useMemo, useCallback, virtualization, code splitting, lazy loading. Важно: profiling, measurement, not premature optimization.",
-    "exampleAnswer": "Memo: обернуть expensive components. useMemo для expensive calculations. useCallback для event handlers. Virtualization для списков >1000 элементов. Code splitting для routes. Результат: FCP улучшился с 3.2с до 1.1с, LCP с 4.5с до 2.1с.",
-    "context": "Интервьюер хочет понять ваш опыт оптимизации React-приложений.",
-    "keyPoints": [
-      {
-        "title": "Memoization",
-        "text": "Когда использовать: React.memo, useMemo, useCallback."
-      },
-      {
-        "title": "Virtualization",
-        "text": "Для длинных списков: react-window, react-virtualized."
-      },
-      {
-        "title": "Code Splitting",
-        "text": "Lazy loading: React.lazy, Suspense, dynamic imports."
-      },
-      {
-        "title": "Profiling",
-        "text": "Инструменты: React DevTools, Chrome DevTools, Lighthouse."
-      }
-    ],
-    "pitfalls": [
-      "Premature optimization",
-      "Не использовать memo",
-      "Не virtualize-ить длинные списки",
-      "Не профилировать перед оптимизацией"
-    ],
-    "followUps": [
-      "Как profiling-аете React-приложения?",
-      "Как оптимизируете re-renders?",
-      "Как уменьшаете bundle size?"
-    ],
-    "category": "Frontend",
-    "scope": "language-specific",
-    "languages": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [
-      "Яндекс"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Performance",
-      "Optimization"
-    ],
-    "duration": "15 мин",
-    "difficulty": 4,
-    "sources": [
-      {
-        "company": "Яндекс",
-        "url": "",
-        "type": "aggregated",
-        "publishedAt": ""
-      }
-    ],
-    "sourceType": "aggregated",
-    "videoFrequency": 0,
-    "publishedAt": ""
-  },
-  {
     "id": "yandex-frontend-ssr",
     "title": "Как реализуете SSR в React-приложении?",
     "aliases": [],
@@ -24046,14 +23772,18 @@
       "Frontend",
       "Backend"
     ],
-    "companies": [],
+    "companies": [
+      "Т-Банк"
+    ],
     "level": "Junior",
     "stage": "Техническое",
     "tags": [
       "JavaScript",
       "Types",
       "Pure Functions",
-      "Immutability"
+      "Immutability",
+      "Coercion",
+      "Runtime"
     ],
     "duration": "5 мин",
     "difficulty": 1
@@ -24489,14 +24219,17 @@
     "roles": [
       "Frontend"
     ],
-    "companies": [],
+    "companies": [
+      "Гознак"
+    ],
     "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "React",
       "Virtual DOM",
       "Diffing",
-      "Reconciliation"
+      "Reconciliation",
+      "Rendering"
     ],
     "duration": "10 мин",
     "difficulty": 2
@@ -24615,7 +24348,9 @@
     "roles": [
       "Frontend"
     ],
-    "companies": [],
+    "companies": [
+      "Яндекс"
+    ],
     "level": "Senior",
     "stage": "Техническое",
     "tags": [

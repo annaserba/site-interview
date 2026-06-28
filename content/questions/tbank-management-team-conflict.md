@@ -5,7 +5,7 @@ category: Behavioral
 scope: universal
 languages: []
 roles: ["Leadership"]
-companies: ["Т-Банк"]
+companies: ["Т-Банк", "Несколько компаний"]
 level: Senior
 stage: Управление
 tags: ["Management", "Conflict", "Team"]

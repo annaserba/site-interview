@@ -5,7 +5,7 @@ category: JavaScript
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend", "Backend"]
-companies: []
+companies: ["Несколько компаний"]
 level: Junior
 stage: Техническое
 tags: ["JavaScript", "Types", "Pure Functions", "Immutability"]
