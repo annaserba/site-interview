@@ -5,6 +5,7 @@ services:
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - API_URL=${API_URL:-http://192.144.59.118:3001}
+      - RAG_API_KEY=${RAG_API_KEY:-}
     restart: unless-stopped
     deploy:
       resources:

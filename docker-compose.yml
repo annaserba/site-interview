@@ -45,7 +45,7 @@ services:
       PHONE_SALT: ${PHONE_SALT:-site-interview-salt-2024}
       SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
     ports:
-      - "127.0.0.1:3001:3001"
+      - "0.0.0.0:3001:3001"
     depends_on:
       db:
         condition: service_healthy

@@ -280,6 +280,10 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && ['/api/rag/search', '/api/rag/ask'].includes(url)) {
+      const apiKey = req.headers['x-api-key']
+      if (apiKey && apiKey !== process.env.RAG_API_KEY) {
+        return json(res, { error: 'Invalid API key' }, 403)
+      }
       const { query, filters = {} } = await parseBody(req)
       if (typeof query !== 'string' || query.trim().length < 2) return json(res, { error: 'Введите вопрос длиннее одного символа.' }, 400)
       if (query.length > 1_000) return json(res, { error: 'Запрос слишком длинный.' }, 400)

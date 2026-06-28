@@ -1,4 +1,5 @@
 const API_URL = process.env.API_URL || 'http://127.0.0.1:3001'
+const API_KEY = process.env.RAG_API_KEY || ''
 const TOKEN = process.env.BOT_TOKEN
 
 if (!TOKEN) {
@@ -19,9 +20,11 @@ async function tg(method, body = {}) {
 }
 
 async function askRAG(query) {
+  const headers = { 'Content-Type': 'application/json' }
+  if (API_KEY) headers['X-API-Key'] = API_KEY
   const res = await fetch(`${API_URL}/api/rag/ask`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ query }),
   })
   return res.json()
