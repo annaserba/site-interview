@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, LogIn, LogOut, Menu, Search, Users, X } from 'lucide-react'
+import { ArrowRight, LogOut, Menu, Search, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
@@ -230,13 +230,14 @@ function App() {
                 <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
               )}
               <span className={s['user-name']}>{user.displayName}</span>
-              <button className={s['auth-btn']} onClick={logout} title="Выйти">
+              <button className={s['auth-btn-logout']} onClick={logout} title="Выйти">
                 <LogOut size={16} />
               </button>
             </div>
           ) : (
             <button className={s['auth-btn']} onClick={loginWithYandex}>
-              <LogIn size={16} /> Войти
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M1.594 10.932c-.065.478-.098.963-.098 1.455 0 .492.033.977.098 1.455H6.27v-2.91H3.133c-.065.478-.098.963-.098 1.455v.545zm0-3.646h3.137V6.467H3.137c-.065.478-.098.963-.098 1.455v.364zm0 6.182h3.137v-2.91H3.137c-.065.478-.098.963-.098 1.455v.091zm3.137 0h3.137v-2.91H6.27v2.91zm0-4.364h3.137V9.545H6.27v.564zm0-3.273h3.137V6.273H6.27v.618zm0 0h3.137V6.273H6.27v.618zm3.137-2.363h3.137V6.27H9.407v.091zm0 4.364h3.137V9.545H9.407v.564zm0-3.273h3.137V6.273H9.407v.618zm0 6.182h3.137v-2.91H9.407v2.91zm3.137-4.727h3.137V9.545h-3.137v.564zm0-3.273h3.137V6.273h-3.137v.618zm0 6.182h3.137v-2.91h-3.137v2.91zm3.137-4.727h4.646v-1.09h-4.646v1.09zm0 3.273h4.646v-1.09h-4.646v1.09zm0 3.273h4.646v-1.09h-4.646v1.09z"/></svg>
+              Войти через Яндекс
             </button>
           )}
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">

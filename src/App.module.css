@@ -61,6 +61,13 @@
 }
 .user-menu .auth-btn:hover { background: rgba(0,0,0,0.04); box-shadow: none; }
 
+.auth-btn-logout {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: none; color: var(--muted); cursor: pointer; transition: all .2s;
+}
+.auth-btn-logout:hover { border-color: #ff0000; color: #ff0000; }
+
 .header-stats { display: none; gap: 14px; align-items: baseline; margin-left: auto; margin-right: 28px; }
 .header-stats span { display: flex; align-items: baseline; gap: 4px; color: var(--muted); }
 .header-stats strong { font: 500 13px 'JetBrains Mono'; letter-spacing: -.04em; color: var(--ink); }

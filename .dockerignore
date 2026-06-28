@@ -7,4 +7,3 @@ node_modules
 docker-compose.override.yml
 scripts/upload-s3.sh
 scripts/xray-config.json
-server/
