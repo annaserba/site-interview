@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, LogOut, Menu, Search, Users, X } from 'lucide-react'
+import { ArrowRight, LogOut, Menu, Moon, Search, Sun, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { FilterDropdown } from './FilterDropdown'
@@ -28,6 +28,12 @@ const companyStyles: Record<string, { mark: string; color: string }> = {
 const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
+type ThemeMode = 'dark' | 'light'
+const readInitialTheme = (): ThemeMode => {
+  if (typeof window === 'undefined') return 'dark'
+  const stored = window.localStorage.getItem('in-depth:theme')
+  return stored === 'light' || stored === 'dark' ? stored : 'dark'
+}
 const formatDate = (date?: string) => {
   if (!date) return ''
   const value = new Date(date)
@@ -66,6 +72,7 @@ function App() {
   const [sortMode, setSortMode] = useState('default')
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [menuOpen, setMenuOpen] = useState(false)
+  const [theme, setTheme] = useState<ThemeMode>(readInitialTheme)
   const [visibleCount, setVisibleCount] = useState(4)
   const [dataError, setDataError] = useState('')
   const [authNotice, setAuthNotice] = useState('')
@@ -76,6 +83,11 @@ function App() {
   useEffect(() => {
     fetchCurrentUser().then(setUser)
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    window.localStorage.setItem('in-depth:theme', theme)
+  }, [theme])
 
   useEffect(() => {
     fetchQuestions({ limit: 500 })
@@ -278,6 +290,15 @@ function App() {
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
         </nav>
         <div className={s['header-actions']}>
+          <button
+            className={s['theme-toggle']}
+            type="button"
+            onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+            aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
+            title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
           {user ? (
             <div className={s['user-menu']}>
               {user.avatarUrl ? (
