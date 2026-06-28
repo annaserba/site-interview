@@ -1,4 +1,7 @@
-const API_URL = process.env.API_URL || 'http://127.0.0.1:3001'
+const API_URLS = [...new Set((process.env.API_URLS || process.env.API_URL || 'http://192.144.59.118')
+  .split(',')
+  .map((url) => url.trim().replace(/\/$/, ''))
+  .filter(Boolean))]
 const API_KEY = process.env.RAG_API_KEY || ''
 const TOKEN = process.env.BOT_TOKEN
 
@@ -22,12 +25,25 @@ async function tg(method, body = {}) {
 async function askRAG(query) {
   const headers = { 'Content-Type': 'application/json' }
   if (API_KEY) headers['X-API-Key'] = API_KEY
-  const res = await fetch(`${API_URL}/api/rag/ask`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ query }),
-  })
-  return res.json()
+  let lastError = null
+
+  for (const apiUrl of API_URLS) {
+    try {
+      const res = await fetch(`${apiUrl}/api/rag/ask`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ query }),
+        signal: AbortSignal.timeout(10_000),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return res.json()
+    } catch (error) {
+      lastError = error
+      console.warn(`RAG API failed: ${apiUrl} — ${error.message}`)
+    }
+  }
+
+  throw lastError || new Error('RAG API unavailable')
 }
 
 function esc(text) {
@@ -177,7 +193,7 @@ async function poll() {
   }
 }
 
-console.log(`Bot starting... API: ${API_URL}`)
+console.log(`Bot starting... APIs: ${API_URLS.join(', ')}`)
 
 while (true) {
   await poll()

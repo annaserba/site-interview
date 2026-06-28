@@ -23,20 +23,21 @@ if [ ! -f ".env" ]; then
   read -p "Введите BOT_TOKEN: " BOT_TOKEN
   cat > .env << EOF
 BOT_TOKEN=$BOT_TOKEN
-API_URL=http://10.0.0.1
+DATA_URL=https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data
+API_URLS=http://api:3001
 RAG_API_KEY=
 EOF
 fi
 
 # 4. Запуск
-echo "→ Запуск Bot..."
+echo "→ Запуск локального JSON RAG API + Bot..."
 docker compose up -d --build
 
 echo ""
 echo "✓ VPS 2 готов!"
-echo "  Bot API URL: $(grep '^API_URL=' .env | cut -d= -f2-)"
+echo "  Bot API URL: $(grep '^API_URLS=' .env | cut -d= -f2-)"
 echo ""
 echo "=== Следующие шаги ==="
-echo "1. Проверь, что с VPS 2 открывается JSON RAG API:"
-echo "   curl http://10.0.0.1/api/rag/health"
+echo "1. Проверь локальный JSON RAG API:"
+echo "   docker compose exec -T api node -e \"fetch('http://127.0.0.1:3001/api/rag/health').then(r=>r.text()).then(console.log)\""
 echo "2. Проверь бота в Telegram"

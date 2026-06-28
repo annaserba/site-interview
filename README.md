@@ -37,7 +37,7 @@
                                    │
                          ┌─────────┴─────────┐
                          │ Telegram bot VPS  │
-                         │ calls /api/rag/ask│
+                         │ local JSON RAG API│
                          └───────────────────┘
 ```
 
@@ -184,17 +184,21 @@ docker compose --profile db up -d db
 ./deploy.sh db
 ```
 
-### Второй VPS: Telegram-бот
+### Второй VPS: Telegram-бот + свой JSON RAG API
 
-Бот не запускается на основном сервере. Он ходит в JSON RAG API сайта:
+Бот не запускается на основном сервере. На втором VPS он поднимает свой лёгкий API с тем же JSON/S3 RAG и ходит в него по внутренней docker-сети. WireGuard для этого не нужен.
 
 ```bash
 cd bot
 cp .env.example .env
-# заполните BOT_TOKEN, API_URL и при необходимости RAG_API_KEY
-# API_URL должен указывать на web/API основного сервера без /api в конце:
-# API_URL=http://10.0.0.1 или API_URL=http://192.144.59.118
+# заполните BOT_TOKEN, DATA_URL и при необходимости RAG_API_KEY
 docker compose up -d --build
+```
+
+Проверка локального RAG API на VPS бота:
+
+```bash
+docker compose exec -T api node -e "fetch('http://127.0.0.1:3001/api/rag/health').then(r=>r.text()).then(console.log)"
 ```
 
 ## Лицензия
