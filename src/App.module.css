@@ -18,7 +18,7 @@
 }
 .nav-links.open { display: flex; }
 .nav-links a {
-  color: var(--muted); font-size: 15px; font-weight: 600; padding: 6px 0;
+  color: var(--muted); font-size: 15px; font-weight: 600; padding: 10px 0;
   position: relative; transition: color .2s var(--ease-out);
 }
 .nav-links a::before {
@@ -127,6 +127,9 @@
 .hero-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 12px 24px; background: var(--button-bg); color: var(--button-text); border-radius: 100px; font-size: 14px; font-weight: 600; transition: all .2s var(--ease-out); }
 .hero-cta:hover { filter: brightness(.96); transform: translateY(-1px); box-shadow: var(--shadow-md); }
 .hero-cta:active { transform: scale(0.97); }
+.hero-cta-lg { display: inline-flex; align-items: center; gap: 8px; margin-top: 0; padding: 14px 28px; background: var(--acid); color: #111210; border-radius: 100px; font-size: 15px; font-weight: 700; transition: all .2s var(--ease-out); box-shadow: 0 4px 20px rgba(184,255,0,.25); letter-spacing: -.01em; }
+.hero-cta-lg:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184,255,0,.35); filter: brightness(1.05); }
+.hero-cta-lg:active { transform: scale(0.97); }
 .hero-stats { grid-column: 1 / -1; border-top: 1px solid var(--line-soft); display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 -20px; max-width: none; position: relative; z-index: 2; }
 .hero-stats > div { padding: 18px 10px; text-align: center; display: flex; flex-direction: column; border-right: 1px solid var(--line-soft); }
 .hero-stats > div:last-child { border-right: none; }
