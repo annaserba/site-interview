@@ -202,6 +202,41 @@ function App() {
     const coverage = questions.length ? Math.round((questionsWithVideo / questions.length) * 100) : 0
     return { uniqueVideos, questionsWithVideo, coverage }
   }, [questions])
+  const youtubeVideos = useMemo(() => {
+    const videos = new Map<string, {
+      id: string
+      url: string
+      company: string
+      publishedAt?: string
+      questionIds: Set<string>
+      titles: string[]
+    }>()
+
+    for (const question of questions) {
+      for (const source of question.sources) {
+        if (source.type !== 'youtube') continue
+        const id = youtubeVideoId(source.url)
+        if (!id) continue
+        if (!videos.has(id)) {
+          videos.set(id, {
+            id,
+            url: source.url,
+            company: source.company || question.companies.find((company) => company !== 'Несколько компаний') || 'YouTube',
+            publishedAt: source.publishedAt || question.publishedAt,
+            questionIds: new Set(),
+            titles: [],
+          })
+        }
+        const video = videos.get(id)
+        if (!video) continue
+        video.questionIds.add(question.id)
+        if (!video.titles.includes(question.title)) video.titles.push(question.title)
+        if (!video.publishedAt && (source.publishedAt || question.publishedAt)) video.publishedAt = source.publishedAt || question.publishedAt
+      }
+    }
+
+    return [...videos.values()].sort((left, right) => right.questionIds.size - left.questionIds.size)
+  }, [questions])
   const roles = useMemo(() => [...new Set(questions.flatMap((question) => question.roles))].sort((left, right) => left.localeCompare(right, 'ru')), [questions])
   const universalCount = questions.filter((question) => question.scope === 'universal').length
   const visibleQuestions = filtered.slice(0, visibleCount)
@@ -277,6 +312,51 @@ function App() {
             <a href="#mock-interview" className={s['hero-cta']}>Практиковаться <ArrowRight /></a>
           </div>
         </section>
+
+        {youtubeVideos.length > 0 && (
+          <section className={s['youtube-section']} id="videos">
+            <div className={s['section-heading']}>
+              <div>
+                <span className="section-index">01 / ВИДЕО-ИСТОЧНИКИ</span>
+                <h2>Разборы с YouTube</h2>
+                <p>Ролики, из которых уже извлечены вопросы для подготовки</p>
+              </div>
+              <div className={s['youtube-total']}>
+                <strong>{youtubeVideos.length}</strong>
+                <span>{youtubeVideos.length === 1 ? 'видео' : 'видео'}</span>
+              </div>
+            </div>
+
+            <div className={s['youtube-grid']}>
+              {youtubeVideos.map((video) => (
+                <article className={s['youtube-card']} key={video.id}>
+                  <div className={s['youtube-preview']}>
+                    <span className={s['youtube-play']}>▶</span>
+                    <img
+                      src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className={s['youtube-card-body']}>
+                    <div className={s['youtube-meta']}>
+                      <span>{video.company}</span>
+                      {video.publishedAt && <small>{formatDate(video.publishedAt)}</small>}
+                    </div>
+                    <h3>{video.company === 'Frontend-интервью' ? 'Frontend-интервью' : `Собеседование ${video.company}`}</h3>
+                    <p>{video.questionIds.size} {questionWord(video.questionIds.size)} в базе</p>
+                    <div className={s['youtube-topics']}>
+                      {video.titles.slice(0, 3).map((title) => <span key={title}>{title}</span>)}
+                    </div>
+                    <a href={video.url} target="_blank" rel="noreferrer">
+                      Смотреть на YouTube <ArrowRight size={15} />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className={s['question-section']} id="questions">
           {authNotice && <div className={s['status-note']}>{authNotice}</div>}
