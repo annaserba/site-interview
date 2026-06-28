@@ -70,6 +70,8 @@
 .user-menu {
   display: flex; align-items: center; gap: 8px;
 }
+.user-avatar-link { display: flex; border-radius: 50%; transition: transform .2s; }
+.user-avatar-link:hover { transform: scale(1.08); }
 .user-avatar {
   width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
 }

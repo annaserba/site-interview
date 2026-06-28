@@ -501,6 +501,21 @@ const server = http.createServer(async (req, res) => {
       return json(res, { ok: true })
     }
 
+    // All user answers with question data (requires auth)
+    if (url === '/api/user-answers/all' && req.method === 'GET') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { items: [] })
+      const result = await pool.query(
+        `SELECT ua.*, q.title, q.category, q.companies, q.tags
+         FROM user_answers ua
+         JOIN questions q ON q.id = ua.question_id
+         WHERE ua.user_id = $1
+         ORDER BY ua.updated_at DESC`,
+        [user.id]
+      )
+      return json(res, { items: result.rows })
+    }
+
     // Stats
     if (url === '/api/stats') {
       if (!dbAvailable) {

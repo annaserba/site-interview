@@ -194,3 +194,19 @@ export async function deleteUserAnswer(answerId: number): Promise<void> {
     credentials: 'include',
   })
 }
+
+export interface UserAnswerWithQuestion extends UserAnswer {
+  title: string
+  category: string
+  companies: string[]
+  tags: string[]
+}
+
+export async function fetchAllUserAnswers(): Promise<UserAnswerWithQuestion[]> {
+  const res = await fetch(`${API_BASE}/user-answers/all`, {
+    credentials: 'include',
+  })
+  if (!res.ok) return []
+  const data = await res.json()
+  return data.items || []
+}

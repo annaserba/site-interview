@@ -4,6 +4,7 @@ import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
 import { MockInterview } from './MockInterview'
+import { ProfilePage } from './ProfilePage'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
@@ -74,6 +75,7 @@ function App() {
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')
+  const [showProfile, setShowProfile] = useState(() => window.location.hash === '#profile')
 
   useEffect(() => {
     fetchCurrentUser().then(setUser)
@@ -127,6 +129,7 @@ function App() {
       setSelectedQuestionId('')
       setShowMockInterview(false)
       setShowAllQuestions(false)
+      setShowProfile(false)
       return
     }
     if (path === 'auth-error') {
@@ -134,10 +137,13 @@ function App() {
       setSelectedQuestionId('')
       setShowMockInterview(false)
       setShowAllQuestions(false)
+      setShowProfile(false)
       return
     }
-    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); return }
+    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); return }
     setShowMockInterview(false)
+    if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); return }
+    setShowProfile(false)
     if (path === 'all-questions') { setShowAllQuestions(true); setSelectedQuestionId(''); return }
     setShowAllQuestions(false)
     if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
@@ -231,11 +237,13 @@ function App() {
           </button>
           {user ? (
             <div className={s['user-menu']}>
-              {user.avatarUrl ? (
-                <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
-              ) : (
-                <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
-              )}
+              <a href="#profile" className={s['user-avatar-link']}>
+                {user.avatarUrl ? (
+                  <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
+                ) : (
+                  <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
+                )}
+              </a>
               <span className={s['user-name']}>{user.displayName}</span>
               <button className={s['auth-btn-logout']} onClick={logout} title="Выйти">
                 <LogOut size={16} />
@@ -256,6 +264,7 @@ function App() {
       <main id="top">
         {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
          showAllQuestions ? <QuestionsPage onOpenQuestion={openQuestion} /> :
+         showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
          selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
         <section className={s.hero}>
           <div className={s['hero-copy']}>
