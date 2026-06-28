@@ -453,6 +453,54 @@ const server = http.createServer(async (req, res) => {
       return json(res, { ok: true })
     }
 
+    // User answers (requires auth)
+    if (url === '/api/user-answers' && req.method === 'GET') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { answers: [] })
+      const params = parseQuery(req.url)
+      if (params.question_id) {
+        const result = await pool.query(
+          'SELECT * FROM user_answers WHERE user_id = $1 AND question_id = $2 ORDER BY created_at DESC',
+          [user.id, params.question_id]
+        )
+        return json(res, { answers: result.rows })
+      }
+      const result = await pool.query(
+        'SELECT * FROM user_answers WHERE user_id = $1 ORDER BY updated_at DESC',
+        [user.id]
+      )
+      return json(res, { answers: result.rows })
+    }
+
+    if (url === '/api/user-answers' && req.method === 'POST') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      const body = await parseBody(req)
+      if (!body.question_id) return json(res, { error: 'question_id required' }, 400)
+      if (typeof body.answer !== 'string' || body.answer.trim().length === 0) {
+        return json(res, { error: 'answer required' }, 400)
+      }
+      const answer = body.answer.trim()
+      const context = body.context?.trim() || null
+      const result = await pool.query(
+        `INSERT INTO user_answers (user_id, question_id, answer, context)
+         VALUES ($1, $2, $3, $4) RETURNING id`,
+        [user.id, body.question_id, answer, context]
+      )
+      return json(res, { ok: true, id: result.rows[0].id })
+    }
+
+    if (url.startsWith('/api/user-answers/') && req.method === 'DELETE') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      const id = url.split('/api/user-answers/')[1]
+      await pool.query(
+        'DELETE FROM user_answers WHERE id = $1 AND user_id = $2',
+        [id, user.id]
+      )
+      return json(res, { ok: true })
+    }
+
     // Stats
     if (url === '/api/stats') {
       if (!dbAvailable) {

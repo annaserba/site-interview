@@ -1,10 +1,11 @@
-import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Code2, ExternalLink, Layers3, ShieldAlert, Users } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Code2, ExternalLink, Layers3, Save, ShieldAlert, Trash2, Users } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/github-dark.css'
 import type { Question } from './types'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
 import s from './QuestionDetail.module.css'
 
 type QuestionDetailProps = { question: Question; onBack: () => void }
@@ -47,9 +48,40 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   const videoCount = question.videoFrequency ?? new Set(question.sources.filter((source) => source.type === 'youtube').map((source) => source.url)).size
   const checklist = answerChecklist(question)
   const introRef = useRef<HTMLElement>(null)
+  const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([])
+  const [answerText, setAnswerText] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
+  const [showSaved, setShowSaved] = useState(false)
+
   useEffect(() => {
     introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [question.id])
+
+  useEffect(() => {
+    fetchUserAnswers(question.id).then(setUserAnswers)
+    setAnswerText('')
+  }, [question.id])
+
+  const handleSaveAnswer = async () => {
+    if (!answerText.trim()) return
+    setIsSaving(true)
+    try {
+      const id = await saveUserAnswer(question.id, answerText)
+      if (id) {
+        setUserAnswers((prev) => [{ id, user_id: 0, question_id: question.id, answer: answerText, context: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }, ...prev])
+        setAnswerText('')
+        setShowSaved(true)
+        setTimeout(() => setShowSaved(false), 2000)
+      }
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId: number) => {
+    await deleteUserAnswer(answerId)
+    setUserAnswers((prev) => prev.filter((a) => a.id !== answerId))
+  }
 
   return (
     <article className={s['detail-page']}>
@@ -89,6 +121,44 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
 
           <section className={s['detail-section']}>
             <span className={s['detail-index']}>03</span>
+            <div className={s['user-answer-box']}>
+              <div className={s['user-answer-head']}>
+                <span>Мои ответы ({userAnswers.length})</span>
+              </div>
+              {userAnswers.length > 0 && (
+                <div className={s['user-answers-list']}>
+                  {userAnswers.map((item) => (
+                    <div key={item.id} className={s['user-answer-item']}>
+                      <p>{item.answer}</p>
+                      <button className={s['user-answer-delete']} onClick={() => handleDeleteAnswer(item.id)} title="Удалить ответ">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <textarea
+                className={s['user-answer-input']}
+                value={answerText}
+                onChange={(e) => setAnswerText(e.target.value)}
+                placeholder="Напишите свой вариант ответа..."
+                rows={4}
+              />
+              <div className={s['user-answer-actions']}>
+                <button
+                  className={s['user-answer-save']}
+                  onClick={handleSaveAnswer}
+                  disabled={isSaving || !answerText.trim()}
+                >
+                  <Save size={14} />
+                  {isSaving ? 'Сохранение...' : showSaved ? 'Сохранено!' : 'Добавить ответ'}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section className={s['detail-section']}>
+            <span className={s['detail-index']}>04</span>
             <div>
               <h2>Как строить решение</h2>
               <div className={s['solution-steps']}>
@@ -130,7 +200,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
 
           {question.exampleAnswer && (
             <section className={s['detail-section']}>
-              <span className={s['detail-index']}>04</span>
+              <span className={s['detail-index']}>05</span>
               <div className={s['example-answer']}>
                 <div className={s['example-answer-head']}><BookOpen size={17} /><span>Пример ответа</span></div>
                 <div className={s['example-answer-body']}>
@@ -141,7 +211,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           )}
 
           <section className={s['detail-section']}>
-            <span className={s['detail-index']}>05</span>
+            <span className={s['detail-index']}>06</span>
             <div>
               <h2>Частые ошибки</h2>
               <ul className={s['pitfall-list']}>
@@ -151,7 +221,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           </section>
 
           <section className={s['detail-section']}>
-            <span className={s['detail-index']}>06</span>
+            <span className={s['detail-index']}>07</span>
             <div>
               <h2>Что могут спросить дальше</h2>
               <ol className={s['followup-list']}>

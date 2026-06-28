@@ -487,6 +487,21 @@
   justify-content: center;
 }
 
+.user-answer-box { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); margin-bottom: 20px; }
+.user-answer-head { min-height: 36px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line); color: var(--ink); font: 10px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; background: var(--paper-dim); }
+.user-answers-list { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+.user-answer-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper-dim); }
+.user-answer-item p { flex: 1; margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-soft); white-space: pre-wrap; }
+.user-answer-delete { flex: 0 0 auto; display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s; }
+.user-answer-delete:hover { border-color: #e05545; color: #e05545; background: rgba(224,85,69,0.06); }
+.user-answer-input { width: 100%; min-height: 60px; padding: 10px 14px; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 13px; line-height: 1.5; resize: vertical; font-family: inherit; }
+.user-answer-input::placeholder { color: var(--muted); }
+.user-answer-input:focus { outline: none; background: rgba(201,255,50,0.03); }
+.user-answer-actions { padding: 8px 14px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; }
+.user-answer-save { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border: 0; border-radius: var(--radius-sm); background: var(--ink); color: white; font-size: 11px; font-weight: 600; cursor: pointer; transition: all .2s; }
+.user-answer-save:hover:not(:disabled) { background: #2a2b26; }
+.user-answer-save:disabled { opacity: .5; cursor: not-allowed; }
+
 /* Tablet */
 @media (min-width: 761px) {
   .page {

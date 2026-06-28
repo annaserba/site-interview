@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, RotateCcw, Save, Shuffle, Trash2 } from 'lucide-react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
@@ -7,7 +7,7 @@ import 'highlight.js/styles/github-dark.css'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
-import { fetchQuestions } from './api'
+import { fetchQuestions, fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
 import questions from './data/questions.json'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -68,6 +68,9 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   const [completed, setCompleted] = useState<Set<string>>(new Set())
   const [selectedQuestions, setSelectedQuestions] = useState<InterviewQuestion[]>([])
   const [filtersApplied, setFiltersApplied] = useState(false)
+  const [userAnswers, setUserAnswers] = useState<Record<string, UserAnswer[]>>({})
+  const [answerText, setAnswerText] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     fetchQuestions({ limit: 500 })
@@ -152,6 +155,37 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   }
 
   const allDone = selectedQuestions.length > 0 && completed.size >= selectedQuestions.length
+
+  useEffect(() => {
+    if (current && !userAnswers[current.id]) {
+      fetchUserAnswers(current.id).then((answers) => {
+        setUserAnswers((prev) => ({ ...prev, [current.id]: answers }))
+      })
+    }
+  }, [current?.id])
+
+  const handleSaveAnswer = async () => {
+    if (!current || !answerText.trim()) return
+    setIsSaving(true)
+    try {
+      const id = await saveUserAnswer(current.id, answerText)
+      if (id) {
+        const newAnswer: UserAnswer = {
+          id, user_id: 0, question_id: current.id, answer: answerText,
+          context: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString()
+        }
+        setUserAnswers((prev) => ({ ...prev, [current.id]: [newAnswer, ...(prev[current.id] || [])] }))
+        setAnswerText('')
+      }
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId: number, questionId: string) => {
+    await deleteUserAnswer(answerId)
+    setUserAnswers((prev) => ({ ...prev, [questionId]: (prev[questionId] || []).filter((a) => a.id !== answerId) }))
+  }
 
   return (
     <div className={s.page}>
@@ -243,6 +277,41 @@ export function MockInterview({ onBack }: MockInterviewProps) {
               >
                 Открыть детализацию вопроса →
               </a>
+
+              <div className={s['user-answer-box']}>
+                <div className={s['user-answer-head']}>
+                  <span>Мои ответы ({(userAnswers[current.id] || []).length})</span>
+                </div>
+                {(userAnswers[current.id] || []).length > 0 && (
+                  <div className={s['user-answers-list']}>
+                    {(userAnswers[current.id] || []).map((item) => (
+                      <div key={item.id} className={s['user-answer-item']}>
+                        <p>{item.answer}</p>
+                        <button className={s['user-answer-delete']} onClick={() => handleDeleteAnswer(item.id, current.id)} title="Удалить ответ">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <textarea
+                  className={s['user-answer-input']}
+                  value={answerText}
+                  onChange={(e) => setAnswerText(e.target.value)}
+                  placeholder="Напишите свой вариант ответа..."
+                  rows={3}
+                />
+                <div className={s['user-answer-actions']}>
+                  <button
+                    className={s['user-answer-save']}
+                    onClick={handleSaveAnswer}
+                    disabled={isSaving || !answerText.trim()}
+                  >
+                    <Save size={14} />
+                    {isSaving ? '...' : 'Добавить'}
+                  </button>
+                </div>
+              </div>
 
               {!showAnswer ? (
                 <button className={s['show-btn']} onClick={() => setShowAnswer(true)}>

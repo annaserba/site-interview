@@ -155,3 +155,42 @@ export async function logout(): Promise<void> {
   })
   window.location.reload()
 }
+
+// User Answers
+export interface UserAnswer {
+  id: number
+  user_id: number
+  question_id: string
+  answer: string
+  context: string | null
+  created_at: string
+  updated_at: string
+}
+
+export async function fetchUserAnswers(questionId: string): Promise<UserAnswer[]> {
+  const res = await fetch(`${API_BASE}/user-answers?question_id=${encodeURIComponent(questionId)}`, {
+    credentials: 'include',
+  })
+  if (!res.ok) return []
+  const data = await res.json()
+  return data.answers || []
+}
+
+export async function saveUserAnswer(questionId: string, answer: string, context?: string): Promise<number | null> {
+  const res = await fetch(`${API_BASE}/user-answers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ question_id: questionId, answer, context }),
+  })
+  if (!res.ok) return null
+  const data = await res.json()
+  return data.id || null
+}
+
+export async function deleteUserAnswer(answerId: number): Promise<void> {
+  await fetch(`${API_BASE}/user-answers/${answerId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  })
+}

@@ -59,6 +59,21 @@
 .example-answer-body pre code { background: transparent; padding: 0; color: inherit; font-size: 11px; line-height: 1.6; font-family: 'JetBrains Mono', monospace; }
 .example-answer-body pre code.hljs { background: transparent; padding: 0; }
 
+.user-answer-box { border: 1px solid var(--line-soft); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+.user-answer-head { min-height: 40px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line-soft); color: var(--ink); font: 8px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; background: rgba(201,255,50,0.08); }
+.user-answers-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.user-answer-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--line-soft); border-radius: var(--radius); background: var(--paper-dim); }
+.user-answer-item p { flex: 1; margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-soft); white-space: pre-wrap; }
+.user-answer-delete { flex: 0 0 auto; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s; }
+.user-answer-delete:hover { border-color: #e05545; color: #e05545; background: rgba(224,85,69,0.06); }
+.user-answer-input { width: 100%; min-height: 80px; padding: 14px 16px; border: 0; border-top: 1px solid var(--line-soft); background: transparent; color: var(--ink); font-size: 13px; line-height: 1.6; resize: vertical; font-family: inherit; }
+.user-answer-input::placeholder { color: var(--muted); }
+.user-answer-input:focus { outline: none; background: rgba(201,255,50,0.03); }
+.user-answer-actions { padding: 10px 16px; border-top: 1px solid var(--line-soft); display: flex; justify-content: flex-end; }
+.user-answer-save { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 0; border-radius: var(--radius-sm); background: var(--button-bg); color: var(--button-text); font-size: 11px; font-weight: 600; cursor: pointer; transition: all .2s; }
+.user-answer-save:hover { filter: brightness(.96); transform: translateY(-1px); }
+.user-answer-save:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
 .interview-code { margin: 0 0 40px; background: #0d1117; color: #e6edf3; border: 1px solid var(--dark-line); border-radius: var(--radius-lg); box-shadow: 8px 9px 0 rgba(201,255,50,.2); overflow: hidden; }
 .interview-code-head { min-height: 40px; padding: 0 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--dark-line); color: var(--acid); font: 8px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; }
 .interview-code-head small { margin-left: auto; color: #777970; }

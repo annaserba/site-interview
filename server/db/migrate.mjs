@@ -75,6 +75,16 @@ CREATE TABLE IF NOT EXISTS view_history (
   viewed_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS user_answers (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  question_id TEXT REFERENCES questions(id) ON DELETE CASCADE,
+  answer TEXT NOT NULL,
+  context TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_questions_category ON questions(category);
 CREATE INDEX IF NOT EXISTS idx_questions_stage ON questions(stage);
 CREATE INDEX IF NOT EXISTS idx_questions_companies ON questions USING GIN(companies);
@@ -88,6 +98,8 @@ CREATE INDEX IF NOT EXISTS idx_users_phone_hash ON users(phone_hash);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id);
 CREATE INDEX IF NOT EXISTS idx_view_history_user ON view_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_answers_user ON user_answers(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_answers_question ON user_answers(question_id);
 `
 
 export async function migrate(pool) {
