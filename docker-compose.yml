@@ -6,16 +6,23 @@ services:
       POSTGRES_DB: site_interview
       POSTGRES_USER: app
       POSTGRES_PASSWORD: ${DB_PASSWORD:-interview_secret_2024}
+      POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "127.0.0.1:5432:5432"
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    shm_size: 128m
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U app -d site_interview"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     logging:
       driver: json-file
       options:
@@ -41,6 +48,10 @@ services:
       db:
         condition: service_healthy
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     logging:
       driver: json-file
       options:
@@ -55,6 +66,10 @@ services:
     depends_on:
       - api
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
     logging:
       driver: json-file
       options:

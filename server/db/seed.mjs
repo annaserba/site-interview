@@ -5,15 +5,78 @@ import { dirname, join } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+const BATCH_SIZE = 50
+
+function buildRow(q) {
+  return [
+    q.id,
+    q.title,
+    q.category || null,
+    q.stage || null,
+    q.difficulty || 3,
+    q.answer || null,
+    q.context || null,
+    q.companies || [],
+    q.roles || [],
+    q.tags || [],
+    q.languages || [],
+    q.level || 'Middle',
+    q.duration || '10 мин',
+    JSON.stringify(q.keyPoints || []),
+    q.pitfalls || [],
+    q.followUps || [],
+    q.exampleAnswer || null,
+    q.codeSnippet || null,
+    q.codeLanguage || null,
+    JSON.stringify(q.sources || []),
+    q.sourceType || 'aggregated',
+    q.aliases || [],
+    q.scope || 'universal',
+    q.videoFrequency || 0,
+    q.publishedAt || null,
+  ]
+}
+
 export async function seed(pool) {
   const client = await pool.connect()
   try {
     const jsonPath = join(__dirname, '../../src/data/questions.json')
     const questions = JSON.parse(readFileSync(jsonPath, 'utf8'))
 
-    console.log(`Seeding ${questions.length} questions...`)
+    const existing = await client.query('SELECT id FROM questions')
+    const existingIds = new Set(existing.rows.map(r => r.id))
+    const toInsert = questions.filter(q => !existingIds.has(q.id))
+    const toUpdate = questions.filter(q => existingIds.has(q.id))
 
-    for (const q of questions) {
+    console.log(`Total: ${questions.length}, New: ${toInsert.length}, Update: ${toUpdate.length}`)
+
+    // Batch insert new questions
+    for (let i = 0; i < toInsert.length; i += BATCH_SIZE) {
+      const batch = toInsert.slice(i, i + BATCH_SIZE)
+      const values = []
+      const params = []
+      let paramIdx = 1
+
+      for (const q of batch) {
+        const row = buildRow(q)
+        const placeholders = row.map(() => `$${paramIdx++}`).join(',')
+        values.push(`(${placeholders})`)
+        params.push(...row)
+      }
+
+      await client.query(`
+        INSERT INTO questions (id, title, category, stage, difficulty, answer, context,
+          companies, roles, tags, languages, level, duration,
+          key_points, pitfalls, follow_ups, example_answer,
+          code_snippet, code_language, sources, source_type,
+          aliases, scope, video_frequency, published_at)
+        VALUES ${values.join(',')}
+      `, params)
+    }
+
+    // Update existing questions one by one (needed for ON CONFLICT)
+    for (const q of toUpdate) {
+      const row = buildRow(q)
       await client.query(`
         INSERT INTO questions (id, title, category, stage, difficulty, answer, context,
           companies, roles, tags, languages, level, duration,
@@ -32,37 +95,11 @@ export async function seed(pool) {
           sources=EXCLUDED.sources, source_type=EXCLUDED.source_type,
           aliases=EXCLUDED.aliases, scope=EXCLUDED.scope,
           video_frequency=EXCLUDED.video_frequency, published_at=EXCLUDED.published_at
-      `, [
-        q.id,
-        q.title,
-        q.category || null,
-        q.stage || null,
-        q.difficulty || 3,
-        q.answer || null,
-        q.context || null,
-        q.companies || [],
-        q.roles || [],
-        q.tags || [],
-        q.languages || [],
-        q.level || 'Middle',
-        q.duration || '10 мин',
-        JSON.stringify(q.keyPoints || []),
-        q.pitfalls || [],
-        q.followUps || [],
-        q.exampleAnswer || null,
-        q.codeSnippet || null,
-        q.codeLanguage || null,
-        JSON.stringify(q.sources || []),
-        q.sourceType || 'aggregated',
-        q.aliases || [],
-        q.scope || 'universal',
-        q.videoFrequency || 0,
-        q.publishedAt || null,
-      ])
+      `, row)
     }
 
     const count = await client.query('SELECT COUNT(*) FROM questions')
-    console.log(`✓ Seeded ${count.rows[0].count} questions`)
+    console.log(`✓ Seeded ${count.rows[0].count} questions (inserted: ${toInsert.length}, updated: ${toUpdate.length})`)
   } finally {
     client.release()
   }
