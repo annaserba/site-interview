@@ -318,8 +318,8 @@ function App() {
             <div className={s['section-heading']}>
               <div>
                 <span className="section-index">01 / ВИДЕО-ИСТОЧНИКИ</span>
-                <h2>Разборы с YouTube</h2>
-                <p>Ролики, из которых уже извлечены вопросы для подготовки</p>
+                <h2>Видео-интервью</h2>
+                <p>Реальные записи, из которых собраны вопросы и senior-разборы</p>
               </div>
               <div className={s['youtube-total']}>
                 <strong>{youtubeVideos.length}</strong>
@@ -331,7 +331,7 @@ function App() {
               {youtubeVideos.map((video) => (
                 <article className={s['youtube-card']} key={video.id}>
                   <div className={s['youtube-preview']}>
-                    <span className={s['youtube-play']}>▶</span>
+                    <span className={s['youtube-play']} aria-hidden="true" />
                     <img
                       src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
                       alt=""
@@ -344,7 +344,7 @@ function App() {
                       {video.publishedAt && <small>{formatDate(video.publishedAt)}</small>}
                     </div>
                     <h3>{video.company === 'Frontend-интервью' ? 'Frontend-интервью' : `Собеседование ${video.company}`}</h3>
-                    <p>{video.questionIds.size} {questionWord(video.questionIds.size)} в базе</p>
+                    <p>{video.questionIds.size} {questionWord(video.questionIds.size)} из этого видео</p>
                     <div className={s['youtube-topics']}>
                       {video.titles.slice(0, 3).map((title) => <span key={title}>{title}</span>)}
                     </div>
