@@ -1,0 +1,17 @@
+services:
+  bot:
+    build: .
+    container_name: telegram-bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - API_URL=${API_URL:-http://192.144.59.118:3001}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
