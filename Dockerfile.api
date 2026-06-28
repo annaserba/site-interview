@@ -2,14 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm install --omit=dev
+# Only install production dependency
+RUN echo '{"dependencies":{"pg":"^8.22.0"}}' > package.json && npm install --omit=dev
 
 COPY server/ ./server/
 COPY src/data/questions.json ./src/data/questions.json
 COPY public/data/ ./public/data/
-
-RUN chmod +x server/entrypoint.sh
 
 EXPOSE 3001
 
