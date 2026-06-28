@@ -16,10 +16,10 @@ function exportMarkdown(items: UserAnswerWithQuestion[]) {
   }, {})
 
   let md = '# Мои ответы на вопросы\n\n'
-  for (const [questionId, answers] of Object.entries(grouped)) {
+  for (const [, answers] of Object.entries(grouped)) {
     const first = answers[0]
     md += `## ${first.title}\n`
-    md += `**Компания:** ${first.companies.join(', ')} | **Тип:** ${first.category}\n\n`
+    md += `**Тип:** ${first.category}\n\n`
     for (const answer of answers) {
       md += `### Вариант ответа\n${answer.answer}\n\n`
     }
@@ -42,14 +42,12 @@ function exportPDF(items: UserAnswerWithQuestion[]) {
     return acc
   }, {})
 
-  const printWindow = window.open('', '_blank')
-  if (!printWindow) return
-
   let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Мои ответы</title>
   <style>
+    @media print { body { padding: 0; } }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #222; line-height: 1.6; }
     h1 { font-size: 24px; margin-bottom: 32px; }
-    .question { margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 24px; }
+    .question { margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 24px; page-break-inside: avoid; }
     .question h2 { font-size: 18px; margin: 0 0 8px; }
     .meta { font-size: 12px; color: #666; margin-bottom: 12px; }
     .answer { background: #f8f9fa; border-left: 3px solid #333; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 4px 4px 0; white-space: pre-wrap; font-size: 14px; }
@@ -60,7 +58,7 @@ function exportPDF(items: UserAnswerWithQuestion[]) {
   for (const [, answers] of Object.entries(grouped)) {
     const first = answers[0]
     html += `<div class="question"><h2>${first.title}</h2>`
-    html += `<div class="meta">${first.companies.join(', ')} · ${first.category}</div>`
+    html += `<div class="meta">${first.category}</div>`
     for (const answer of answers) {
       html += `<div class="answer-label">Вариант ответа:</div><div class="answer">${answer.answer}</div>`
     }
@@ -68,9 +66,13 @@ function exportPDF(items: UserAnswerWithQuestion[]) {
   }
 
   html += '</body></html>'
-  printWindow.document.write(html)
-  printWindow.document.close()
-  printWindow.print()
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'my-answers.html'
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 export function ProfilePage({ user, onBack }: ProfilePageProps) {
