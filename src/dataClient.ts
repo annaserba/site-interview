@@ -4,8 +4,8 @@ export type QuestionIndex = {
   documents: Array<{ id: string; embedding: number[] }>
 }
 
-const CACHE_TTL_MS = 5 * 60 * 1000
-const CACHE_PREFIX = 'in-depth:data:v6:'
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
+const CACHE_PREFIX = 'in-depth:data:v7:'
 
 type CacheEntry<T> = {
   expiresAt: number
@@ -36,17 +36,15 @@ async function fetchJsonCached<T>(fileName: string, signal?: AbortSignal): Promi
   const url = `/data/${fileName}`
   const cached = readCache<T>(url)
 
-  if (cached && cached.expiresAt > Date.now()) return cached.value
-
   try {
-    const response = await fetch(url, { cache: 'default', signal })
+    const response = await fetch(url, { cache: 'no-cache', signal })
     if (!response.ok) throw new Error(`Не удалось загрузить ${fileName}: ${response.status}`)
     const value = await response.json() as T
     writeCache(url, value)
     return value
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error
-    if (cached) return cached.value
+    if (cached && cached.expiresAt > Date.now()) return cached.value
     throw error
   }
 }

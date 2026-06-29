@@ -1,5 +1,73 @@
 [
   {
+    "id": "async-await-promises",
+    "title": "Что такое async/await и чем он отличается от промисов?",
+    "aliases": [],
+    "answer": "async/await — синтаксический сахар над промисами. async-функция всегда возвращает промис. await приостанавливает выполнение до завершения промиса. Преимущество: читаемый код, обработка ошибок через try/catch, отладка. Отличие от .then: sequential vs parallel.",
+    "exampleAnswer": "async/await — это синтаксис для работы с промисами. async-функция возвращает промис. Await «приостанавливает» выполнение функции до получения результата промиса. Преимущества перед .then: 1) Код выглядит синхронным. 2) Ошибки ловятся через try/catch. 3) Легче отлаживать. Но: если промисы не зависят друг от друга, лучше использовать Promise.all для параллельного выполнения.",
+    "context": "Интервьюер проверяет знание современного синтаксиса асинхронного кода.",
+    "keyPoints": [
+      {
+        "title": "Сахар синтаксиса",
+        "text": "async/await не заменяет промисы, а упрощает работу с ними. Под капотом — тот же .then."
+      },
+      {
+        "title": "Последовательность",
+        "text": "Await блокирует выполнение до завершения промиса. Если промисы независимые — используйте Promise.all."
+      },
+      {
+        "title": "Обработка ошибок",
+        "text": "try/catch для ошибок. Можно комбинировать с .catch() для гибкости."
+      },
+      {
+        "title": "Циклы и async",
+        "text": "В циклах forEach await не работает. Используйте for...of или Promise.all для параллельности."
+      }
+    ],
+    "pitfalls": [
+      "Использовать await в forEach",
+      "Не обрабатывать ошибки через try/catch",
+      "Писать последовательные await когда можно параллельно",
+      "Забывать, что async-функция возвращает промис"
+    ],
+    "followUps": [
+      "Что такое concurrency vs parallelism?",
+      "Как обработать ошибки в async/await?",
+      "Как реализовать retry логику с async/await?",
+      "Что такое generator и зачем он нужен?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Async Await",
+      "Promises",
+      "Syntax"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "avito-accessibility-grid",
     "title": "Как CSS Grid влияет на доступность и как это исправить?",
     "aliases": [],
@@ -471,6 +539,204 @@
     "sources": [
       {
         "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "class-vs-functional-components",
+    "title": "Чем отличаются классовые и функциональные компоненты в React?",
+    "aliases": [],
+    "answer": "Классовые: наследуют от React.Component, имеют state и lifecycle методы (componentDidMount, render). Функциональные: простые функции, используют хуки (useState, useEffect). Современный подход — функциональные + хуки. Классовые используются в legacy-кодах.",
+    "exampleAnswer": "Классовые компоненты — это ES6 классы с методом render(). Имеют state, жизненный цикл (componentDidMount, shouldComponentUpdate, componentWillUnmount). Функциональные — это функции, которые возвращают JSX. Используют хуки для state (useState) и побочных эффектов (useEffect). Преимущества функциональных: проще тестировать, нет this, легче переиспользовать логику через хуки. Классовые всё ещё встречаются в legacy-проектах.",
+    "context": "Интервьюер проверяет понимание двух парадигм React и почему хуки стали стандартом.",
+    "keyPoints": [
+      {
+        "title": "Классовые компоненты",
+        "text": "Наследование от React.Component. this.state, this.setState. Жизненный цикл через методы."
+      },
+      {
+        "title": "Функциональные компоненты",
+        "text": "Простые функции. Хуки: useState, useEffect, useContext. Нет this."
+      },
+      {
+        "title": "Хуки",
+        "text": "Позволяют использовать state и lifecycle в функциональных компонентах. Переиспользование логики."
+      },
+      {
+        "title": "Современный подход",
+        "text": "Функциональные + хуки. Классовые — только для legacy или специфических случаев."
+      }
+    ],
+    "pitfalls": [
+      "Путать this в классовых компонентах",
+      "Использовать хуки условно (не в корне компонента)",
+      "Не понимать разницу жизненного цикла",
+      "Думать, что классовые быстрее функциональных"
+    ],
+    "followUps": [
+      "Что такое хуки и зачем они нужны?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Class Components",
+      "Functional Components",
+      "Hooks"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "component-lifecycle-useeffect",
+    "title": "Как работает жизненный цикл компонентов и useEffect в React?",
+    "aliases": [],
+    "answer": "Фазы: Mount (появление), Update (обновление props/state), Unmount (удаление). useEffect объединяет все фазы: пустой deps — mount, deps — update, return function — unmount. Аналоги: componentDidMount, componentDidUpdate, componentWillUnmount.",
+    "exampleAnswer": "useEffect — хук для побочных эффектов. Пустой массив зависимостей [] — выполнится один раз при mount (аналог componentDidMount). С зависимостями [dep1, dep2] — выполнится при изменении зависимостей (аналог componentDidUpdate). Return функция — cleanup при unmount (аналог componentWillUnmount). Комбинируя, можно покрыть все фазы жизненного цикла.",
+    "context": "Интервьюер проверяет понимание жизненного цикла React и как использовать useEffect.",
+    "keyPoints": [
+      {
+        "title": "Mount",
+        "text": "Компонент появился в DOM. useEffect с [] выполняется один раз."
+      },
+      {
+        "title": "Update",
+        "text": "Изменились props или state. useEffect с зависимостями выполняется при изменении deps."
+      },
+      {
+        "title": "Unmount",
+        "text": "Компонент удалён из DOM. Return функция в useEffect — cleanup."
+      },
+      {
+        "title": "Cleanup",
+        "text": "Вызывается перед повторным выполнением эффекта и при unmount."
+      }
+    ],
+    "pitfalls": [
+      "Использовать useEffect для инициализации (лучше useState лениво)",
+      "Забывать про cleanup (unsubscribe, abort)",
+      "Ставить объект/массив в deps без useMemo",
+      "Не понимать порядок выполнения эффектов"
+    ],
+    "followUps": [
+      "Что такое cleanup в useEffect?",
+      "Когда использовать useLayoutEffect?",
+      "Как имитировать componentDidMount с useEffect?",
+      "Что такое strict mode и как он влияет на useEffect?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "useEffect",
+      "Lifecycle",
+      "Side Effects"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "custom-hooks-rules",
+    "title": "Какие правила создания кастомных хуков в React?",
+    "aliases": [],
+    "answer": "Правила: 1) Название с префиксом use. 2) Вызываться на верхнем уровне (не в условиях, циклах, вложенных функциях). 3) Только из React-компонентов или других хуков. Кастомные хуки — переиспользование логики с хуками (state, эффекты, контекст).",
+    "exampleAnswer": "Правила хуков: 1) Начинать с use (useAuth, useFetch). 2) Вызывать на верхнем уровне — не в if/for/вложенных функциях. 3) Только из функциональных компонентов или других хуков. Кастомные хуки позволяют вынести общую логику: useFetch для запросов, useLocalStorage для хранения, useDebounce для отсрочки. Внутри могут использовать useState, useEffect и другие хуки.",
+    "context": "Интервьюер проверяет знание правил хуков и умение создавать переиспользуемую логику.",
+    "keyPoints": [
+      {
+        "title": "Префикс use",
+        "text": "Обязательно для проверки правил React (eslint-plugin-react-hooks)."
+      },
+      {
+        "title": "Уровень вызова",
+        "text": "Хуки вызываются на верхнем уровне. Это обеспечивает порядок вызовов между рендерами."
+      },
+      {
+        "title": "Переиспользование логики",
+        "text": "Кастомный хук — функция с хуками внутри. Возвращает данные/функции, которые нужны компоненту."
+      },
+      {
+        "title": "Тестируемость",
+        "text": "Кастомные хуки легко тестировать отдельно от компонентов."
+      }
+    ],
+    "pitfalls": [
+      "Нарушать правило верхнего уровня (вызывать в условии)",
+      "Не использовать префикс use",
+      "Создавать хуки для одного компонента (не переиспользование)",
+      "Забывать возвращать нужные данные из хука"
+    ],
+    "followUps": [
+      "Что такое хук-стек (hook stack)?",
+      "Как тестировать кастомные хуки?",
+      "Что такое Hook Form?",
+      "Как избежать дублирования логики без хуков?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Hooks",
+      "Custom Hooks",
+      "Rules of Hooks"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
@@ -1789,6 +2055,77 @@
     ],
     "duration": "12 мин",
     "difficulty": 3,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "data-types-pure-functions",
+    "title": "Какие типы данных есть в JavaScript и что такое чистые функции?",
+    "aliases": [],
+    "answer": "Примитивы: string, number, bigint, boolean, undefined, null, symbol. Ссылочные: object (включая array, function, Date, RegExp, Map, Set). Чистые функции: всегда возвращают один и тот же результат при одинаковых аргументах, не имеют побочных эффектов.",
+    "exampleAnswer": "Типы данных: Примитивы — string, number, boolean, null, undefined, symbol, bigint. Ссылочные — object (массивы, функции, даты — все объекты). Чистые функции: 1) детерминированы (одинаковый вход = одинаковый выход), 2) не имеют побочных эффектов (не мутируют внешний state, не делают fetch). Пример чистой: const add = (a, b) => a + b. Нечистая: let count = 0; const inc = () => count++.",
+    "context": "Интервьюер проверяет базовые знания JavaScript и понимание концепции чистых функций.",
+    "keyPoints": [
+      {
+        "title": "Примитивы vs Ссылочные",
+        "text": "Примитивы копируются по значению. Объекты — по ссылке. Поэтому мутировать объект опасно."
+      },
+      {
+        "title": "Чистые функции",
+        "text": "Детерминированы + нет побочных эффектов. Легко тестировать, кешировать, использовать в React."
+      },
+      {
+        "title": "Побочные эффекты",
+        "text": "Мутации внешнего state, fetch, console.log, setTimeout — всё это побочные эффекты."
+      },
+      {
+        "title": "Иммутабельность",
+        "text": "Чистые функции работают с иммутабельными данными. Не мутируют входные аргументы."
+      }
+    ],
+    "pitfalls": [
+      "Путать примитивы и ссылочные типы",
+      "Мутировать аргументы в чистых функциях",
+      "Считать функции с console.log чистыми",
+      "Не учитывать, что object включает array и function"
+    ],
+    "followUps": [
+      "Что такое иммутабельность и зачем она нужна?",
+      "Как кешировать результаты чистых функций?",
+      "Что такое memoization?",
+      "Почему в React важны чистые функции?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Types",
+      "Pure Functions",
+      "Immutability"
+    ],
+    "duration": "5 мин",
+    "difficulty": 1,
     "sources": [
       {
         "company": "Несколько компаний",
@@ -3310,6 +3647,74 @@
     "publishedAt": ""
   },
   {
+    "id": "event-loop-basics",
+    "title": "Как работает Event Loop и асинхронность в JavaScript?",
+    "aliases": [],
+    "answer": "JavaScript однопоточный. Event Loop координирует выполнение: Call Stack (синхронный код), Web APIs (браузерные функции), Callback Queue (макротаски), Microtask Queue (промисы). При пустом Call Stack сначала выполняются все микротаски, затем один макротаск.",
+    "exampleAnswer": "Event Loop работает так: 1) Синхронный код выполняется в Call Stack. 2) Асинхронные операции (setTimeout, fetch) передаются в Web APIs. 3) По завершении колбэки попадают в Callback Queue (макротаски) или Microtask Queue (промисы). 4) Event Loop проверяет: если Call Stack пуст, сначала выполняет ВСЕ микротаски, затем ОДИН макротаск. Поэтому промисы (microtask) выполняются быстрее setTimeout (macrotask).",
+    "context": "Интервьюер проверяет понимание асинхронного выполнения кода — ключевой концепции JavaScript.",
+    "keyPoints": [
+      {
+        "title": "Call Stack",
+        "text": "Стек вызовов. Синхронный код выполняется здесь. Если стек не пуст — микротаски и макротаски ждут."
+      },
+      {
+        "title": "Microtask Queue",
+        "text": "Промисы (.then, catch, finally), queueMicrotask, MutationObserver. Выполняются ПЕРЕД макротасками."
+      },
+      {
+        "title": "Macrotask Queue",
+        "text": "setTimeout, setInterval, I/O, UI rendering. Выполняются ПОСЛЕ микротасок."
+      },
+      {
+        "title": "Однопоточность",
+        "text": "JS не блокируется — асинхронные операции выполняются в Web APIs (в других потоках браузера)."
+      }
+    ],
+    "pitfalls": [
+      "Думать, что setTimeout(fn, 0) выполняется немедленно",
+      "Не знать разницу между micro и macrotask",
+      "Путать однопоточность с отсутствием асинхронности",
+      "Блокировать Call Stack тяжёлыми вычислениями"
+    ],
+    "followUps": [
+      "Что блокирует рендеринг — микротаски или макротаски?",
+      "Как yieldить выполнение из синхронного кода?",
+      "Что такое requestAnimationFrame?",
+      "Как работает async/await с точки зрения Event Loop?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Event Loop",
+      "Async",
+      "Concurrency"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "frontend-browser-storage",
     "title": "В чём разница между cookie, localStorage и sessionStorage?",
     "aliases": [],
@@ -4548,6 +4953,74 @@
     ],
     "sourceType": "youtube",
     "videoFrequency": 1,
+    "publishedAt": ""
+  },
+  {
+    "id": "function-declarations",
+    "title": "Какие способы объявления функций существуют в JavaScript?",
+    "aliases": [],
+    "answer": "Function declaration, function expression, arrow function (ES6), метод объекта, IIFE, конструктор Function. Различия: hoisting (declaration поднимается), this (arrow не имеет своего this), arguments (отсутствует в arrow).",
+    "exampleAnswer": "В JavaScript есть несколько способов создать функцию: 1) Function declaration — function foo() {} (с hoisting). 2) Function expression — const foo = function() {} (без hoisting). 3) Arrow function — const foo = () => {} (нет своего this, arguments). 4) IIFE — (function() {})() — вызывается сразу. 5) Метод объекта — obj.method = function() {}. 6) Конструктор Function — new Function().",
+    "context": "Интервьюер проверяет знание различных способов создания функций и их особенностей.",
+    "keyPoints": [
+      {
+        "title": "Function Declaration",
+        "text": "Поднимается (hoisting) в начало области видимости. Можно вызвать до объявления."
+      },
+      {
+        "title": "Function Expression",
+        "text": "Не поднимается. Присваивается переменной. Можно передать как аргумент."
+      },
+      {
+        "title": "Arrow Function",
+        "text": "Нет своего this (берёт из окружающего контекста). Нет arguments. Короче для колбэков."
+      },
+      {
+        "title": "IIFE",
+        "text": "Immediately Invoked Function Expression — выполняется сразу при создании. Создаёт область видимости."
+      }
+    ],
+    "pitfalls": [
+      "Не знать разницу между declaration и expression",
+      "Использовать arrow function как метод объекта (теряется this)",
+      "Путать hoisting у declaration и expression",
+      "Забывать про отсутствие arguments в arrow function"
+    ],
+    "followUps": [
+      "Что такое hoisting и как он работает?",
+      "Почему arrow function не имеет своего this?",
+      "Когда использовать IIFE?",
+      "Что такое callback и как передавать функции?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Junior",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Functions",
+      "Hoisting",
+      "Arrow Function"
+    ],
+    "duration": "5 мин",
+    "difficulty": 1,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -5833,6 +6306,76 @@
     "sources": [
       {
         "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "why-company",
+    "title": "Почему вы хотите работать в нашей компании?",
+    "aliases": [],
+    "answer": "Интервьюер хочет убедиться, что вы исследовали компанию и понимаете её миссию, продукты и ценности. Необходимо показать осознанный выбор: как ваши навыки и ценности совпадают с направлением компании, что конкретно вас привлекает в её продуктах или культуре.",
+    "exampleAnswer": "Я слежу за продуктами [компании] уже давно. Меня впечатляет [конкретный продукт/технология], потому что [конкретная причина]. Я верю, что мой опыт в [область] может помочь в [конкретная задача], и хочу внести вклад в [миссия компании]. Кроме того, ценю [культура/подход компании], что совпадает с моими профессиональными принципами.",
+    "context": "Это behavioral-вопрос, который проверяет мотивацию и подготовленность кандидата. Интервьюер оценивает, насколько кандидат заинтересован именно в этой компании, а не ищет любую работу.",
+    "keyPoints": [
+      {
+        "title": "Исследовать компанию",
+        "text": "Изучите продукты, миссию, последние новости, технологический стек, культуру компании. Покажите, что вы потратили время на изучение."
+      },
+      {
+        "title": "Назвать конкретные причины",
+        "text": "Не общие фразы (\"хорошая репутация\", \"стабильная компания\"), а конкретику: какой продукт впечатляет, какая технология привлекает, какая миссия откликается."
+      },
+      {
+        "title": "Связать со своим опытом",
+        "text": "Объясните, как ваш опыт и навыки совпадают с потребностями компании. Что вы можете дать и чему научиться."
+      },
+      {
+        "title": "Показать долгосрочный интерес",
+        "text": "Дайте понять, что видите себя в компании надолго, а не просто ищете следующий шаг в карьере."
+      }
+    ],
+    "pitfalls": [
+      "Давать общие ответы без конкретики (\"хорошая репутация\", \"стабильная компания\")",
+      "Не знать основных продуктов или миссии компании",
+      "Говорить только о зарплате или льготах",
+      "Копировать ответы из интернета — интервьюер сразу распознаёт шаблон",
+      "Критиковать предыдущего работодателя как причину ухода"
+    ],
+    "followUps": [
+      "Что вы знаете о наших продуктах?",
+      "Как вы видите свой вклад в развитие компании через год?",
+      "Что для вас важно в команде?",
+      "Почему вы уходите с текущего места работы?"
+    ],
+    "category": "HR",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "All"
+    ],
+    "companies": [
+      "Т-Банк",
+      "Яндекс"
+    ],
+    "level": "All",
+    "stage": "HR",
+    "tags": [
+      "HR",
+      "Мотивация",
+      "Поведенческий",
+      "Компания"
+    ],
+    "duration": "5 мин",
+    "difficulty": 1,
+    "sources": [
+      {
+        "company": "Т-Банк",
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
@@ -9149,6 +9692,72 @@
       }
     ],
     "sourceType": "candidate-report",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "lexical-scope-closures",
+    "title": "Что такое лексическое окружение и замыкания в JavaScript?",
+    "aliases": [],
+    "answer": "Лексическое окружение — область видимости, определяемая местом объявления переменной. Замыкание — функция вместе со ссылкой на внешнее лексическое окружение, в котором она была создана. Замыкания позволяют функциям «помнить» переменные из внешних областей видимости.",
+    "exampleAnswer": "Лексическое окружение создаётся при вызове функции и содержит её локальные переменные + ссылку на внешнее окружение. Замыкание возникает, когда внутренняя функция ссылается на переменные внешней функции после того, как внешняя функция завершилась. Пример: function outer() { let x = 10; return function inner() { return x; }; } const close = outer(); close() // 10 — inner «помнит» x.",
+    "context": "Интервьюер проверяет понимание одного из ключевых концепций JavaScript.",
+    "keyPoints": [
+      {
+        "title": "Лексическая область видимости",
+        "text": "Область видимости определяется местом написания кода, а не местом вызова."
+      },
+      {
+        "title": "Замыкание",
+        "text": "Функция + ссылка на внешнее лексическое окружение. Работает даже после завершения внешней функции."
+      },
+      {
+        "title": "Цепочка окружений",
+        "text": "Каждое окружение ссылается на родительское. Поиск переменных идёт по цепочке."
+      },
+      {
+        "title": "Практическое применение",
+        "text": "Инкапсуляция, data privacy, функциональное программирование, partial application."
+      }
+    ],
+    "pitfalls": [
+      "Путать лексическую и динамическую область видимости",
+      "Думать, что замыкание — это только функция внутри функции",
+      "Не понимать, что замыкание хранит ссылку, а не копию",
+      "Забывать про утечки памяти при неправильном использовании"
+    ],
+    "followUps": [
+      "Что такое цепочка областей видимости?",
+      "Как избежать утечек памяти с замыканиями?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Closures",
+      "Scope",
+      "Lexical Environment"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
     "videoFrequency": 0,
     "publishedAt": ""
   },
@@ -12881,6 +13490,71 @@
     "publishedAt": ""
   },
   {
+    "id": "page-loading-rendering",
+    "title": "Как работает процесс загрузки страницы и рендеринга?",
+    "aliases": [],
+    "answer": "Браузер загружает HTML, строит DOM-дерево, параллельно загружает CSS и JS. CSSOM + DOM = Render Tree. Layout → Paint → Composite. Ключевые этапы: парсинг HTML, построение DOM, загрузка ресурсов, вычисление стилей, построение Render Tree, layout, paint, composite.",
+    "exampleAnswer": "При загрузке страницы браузер: 1) Парсит HTML и строит DOM-дерево. 2) Параллельно загружает CSS и JS файлы. 3) Строит CSSOM из CSS. 4) Объединяет DOM и CSSOM в Render Tree. 5) Вычисляет layout (позиции и размеры элементов). 6) Paint — отрисовывает пиксели. 7) Composite — объединяет слои. Важно: CSS блокирует рендеринг, JS может блокировать парсинг HTML.",
+    "context": "Интервьюер проверяет понимание базового процесса рендеринга в браузере и как оптимизировать загрузку.",
+    "keyPoints": [
+      {
+        "title": "DOM и CSSOM",
+        "text": "Браузер парсит HTML в DOM-дерево и CSS в CSSOM. Эти две структуры объединяются в Render Tree."
+      },
+      {
+        "title": "Layout, Paint, Composite",
+        "text": "Render Tree проходит три этапа: layout (вычисление размеров и позиций), paint (отрисовка), composite (объединение слоёв)."
+      },
+      {
+        "title": "Блокировка рендеринга",
+        "text": "CSS блокирует рендеринг до загрузки всех стилей. JS блокирует парсинг HTML если нет async или defer."
+      },
+      {
+        "title": "Критический путь",
+        "text": "Оптимизация критического пути — минимизация времени до первого рендеринга (FCP, LCP)."
+      }
+    ],
+    "pitfalls": [
+      "Не знать разницу между DOM и Render Tree",
+      "Думать, что JS не влияет на рендеринг",
+      "Не учитывать блокировку парсинга HTML скриптами",
+      "Забывать про критический путь рендеринга"
+    ],
+    "followUps": [
+      "Что такое Critical Rendering Path?",
+      "Как влияет defer и async на рендеринг?",
+      "Что такое FCP и LCP?",
+      "Как оптимизировать критический путь?"
+    ],
+    "category": "Browser",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Browser",
+      "Rendering",
+      "DOM",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "product-ab-testing",
     "title": "Как проводить A/B тесты и анализировать результаты?",
     "aliases": [],
@@ -13496,6 +14170,346 @@
     "sources": [
       {
         "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "promises-methods",
+    "title": "Что такое промисы и какие методы они имеют?",
+    "aliases": [],
+    "answer": "Promise — объект для работы с асинхронными операциями. Состояния: pending → fulfilled/rejected. Методы: then, catch, finally. Статические: Promise.all (все), Promise.allSettled (все с результатами), Promise.race (первый), Promise.any (первый успешный).",
+    "exampleAnswer": "Promise представляет асинхронную операцию. У него три состояния: pending (ожидание), fulfilled (успех), rejected (ошибка). Методы экземпляра: then(onFulfilled, onRejected) — обработка результата, catch(onRejected) — обработка ошибки, finally() — выполнится всегда. Статические методы: Promise.all([p1, p2]) — ждёт все промисы, Promise.allSettled — ждёт все, включая отклонённые, Promise.race — первый завершившийся, Promise.any — первый успешный.",
+    "context": "Интервьюер проверяет глубокое понимание промисов и их методов для работы с асинхронным кодом.",
+    "keyPoints": [
+      {
+        "title": "Состояния Promise",
+        "text": "pending → fulfilled или rejected. Однократное изменение состояния, необратимое."
+      },
+      {
+        "title": "then / catch / finally",
+        "text": "then возвращает новый промис. catch — это сахар для then(null, fn). finally не принимает аргументов."
+      },
+      {
+        "title": "Promise.all vs allSettled",
+        "text": "all отклоняется при первом отклонении. allSettled всегда завершается, возвращая статус каждого."
+      },
+      {
+        "title": "Promise.race vs any",
+        "text": "race — первый завершившийся (успех или ошибка). any — первый успешный, ошибки игнорирует."
+      }
+    ],
+    "pitfalls": [
+      "Не обрабатывать ошибки в .catch",
+      "Не возвращать промисы в .then (цепочка ломается)",
+      "Использовать Promise.all когда нужен allSettled",
+      "Забывать про .finally для очистки ресурсов"
+    ],
+    "followUps": [
+      "Что такое Promise chaining?",
+      "Как обработать несколько промисов параллельно?",
+      "Что такое unhandled promise rejection?",
+      "Как реализовать Promise.all с нуля?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "Promises",
+      "Async",
+      "Error Handling"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "react-performance-optimization",
+    "title": "Как оптимизировать производительность в React?",
+    "aliases": [],
+    "answer": "Инструменты: React.memo (мемоизация компонентов), useMemo (мемоизация значений), useCallback (мемоизация функций), lazy + Suspense (ленивая загрузка), виртуализация списков, избежание лишних рендеров, Profiler для анализа.",
+    "exampleAnswer": "Оптимизация React: 1) React.memo — пропускает ре-рендер если пропсы не изменились. 2) useMemo — кеширует вычисления между рендерами. 3) useCallback — кеширует ссылку на функцию (важно для передачи в дочерние компоненты). 4) Lazy loading — React.lazy + Suspense для код-сплиттинга. 5) Virtualization — react-window для длинных списков. 6) Profiler для поиска узких мест.",
+    "context": "Интервьюер проверяет знание техник оптимизации React-приложений.",
+    "keyPoints": [
+      {
+        "title": "React.memo",
+        "text": "HOC, который мемоизирует компонент. Сравнивает пропсы. Используйте когда компонент рендерится часто с одними и теми же пропсами."
+      },
+      {
+        "title": "useMemo / useCallback",
+        "text": "useMemo кеширует значение, useCallback — функцию. Не злоупотребляйте — у них есть стоимость."
+      },
+      {
+        "title": "Lazy Loading",
+        "text": "React.lazy() + Suspense для динамического импорта компонентов. Уменьшает начальный бандл."
+      },
+      {
+        "title": "Virtualization",
+        "text": "Рендерит только видимые элементы списка. Библиотеки: react-window, react-virtualized."
+      }
+    ],
+    "pitfalls": [
+      "Злоупотреблять useMemo/useCallback — они не бесплатны",
+      "Использовать React.memo без useCallback для функций-пропсов",
+      "Не использовать key в списках",
+      "Рендерить большие списки без виртуализации"
+    ],
+    "followUps": [
+      "Когда НЕ нужно использовать useMemo?",
+      "Что такое React DevTools Profiler?",
+      "Как работает shouldComponentUpdate?",
+      "Что такое code splitting?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Яндекс"
+    ],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Performance",
+      "Memoization",
+      "Optimization"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "react-virtual-dom",
+    "title": "Какие преимущества React и как работает Virtual DOM?",
+    "aliases": [],
+    "answer": "Virtual DOM — это JS-представление реального DOM. При изменении state React создаёт новый Virtual DOM, сравнивает с предыдущим (diffing) и обновляет реальный DOM минимальными изменениями (reconciliation). Преимущества: декларативный подход, переносимость, производительность (минимальные обновления DOM).",
+    "exampleAnswer": "Virtual DOM работает так: 1) При изменении state создаётся новое виртуальное дерево. 2) React сравнивает новое с предыдущим (diffing). 3) Вычисляет минимальные изменения (reconciliation). 4) Обновляет реальный DOM только там, где нужно. Преимущества: декларативный код (описывает что, а не как), переносимость (React Native), производительность (пакетное обновление DOM).",
+    "context": "Интервьюер проверяет понимание основ работы React и его ключевой концепции.",
+    "keyPoints": [
+      {
+        "title": "Декларативность",
+        "text": "Вы описываете UI для каждого состояния, React сам обновляет DOM."
+      },
+      {
+        "title": "Diffing Algorithm",
+        "text": "O(n) сравнение двух деревьев. Эвристики: разные типы → полная замена, key для списков."
+      },
+      {
+        "title": "Batching",
+        "text": "React группирует обновления DOM для производительности."
+      },
+      {
+        "title": "Переносимость",
+        "text": "Virtual DOM позволяет рендерить в другие платформы (React Native, React Three Fiber)."
+      }
+    ],
+    "pitfalls": [
+      "Думать, что Virtual DOM быстрее vanilla JS",
+      "Не использовать key в списках",
+      "Мутировать state напрямую",
+      "Забывать про batching обновлений"
+    ],
+    "followUps": [
+      "Что такое reconciliation?",
+      "Как работают ключи (key) в React?",
+      "Чем Virtual DOM отличается от реального DOM?",
+      "Что такое React Fiber?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [
+      "Несколько компаний"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Virtual DOM",
+      "Diffing",
+      "Reconciliation"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Несколько компаний",
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "reconciliation-keys",
+    "title": "Как работает алгоритм reconciliation и зачем нужны ключи (key)?",
+    "aliases": [],
+    "answer": "Reconciliation — процесс сравнения нового и старого Virtual DOM. Два типа узлов: разный тип → полная замена, одинаковый тип → обновление пропсов. Для списков key помогает React идентифицировать элементы и переиспользовать их, а не пересоздавать.",
+    "exampleAnswer": "Алгоритм reconciliation: 1) Если тип элемента изменился — старый удаляется, создаётся новый. 2) Если тип тот же — обновляются пропсы, рекурсивно сравниваются дети. 3) Для списков key позволяет React понять, какие элементы были добавлены, удалены или перемещены. Без key React сравнивает по индексу → ошибки при изменении порядка.",
+    "context": "Интервьюер проверяет понимание внутреннего устройства React и как писать эффективный код.",
+    "keyPoints": [
+      {
+        "title": "Diffing",
+        "text": "Сравнение двух деревьев за O(n). Эвристика: элементы одного типа — обновляются, разных — заменяются."
+      },
+      {
+        "title": "Роль key",
+        "text": "Уникальный идентификатор для элемента в списке. Помогает React определить переиспользование."
+      },
+      {
+        "title": "Index как key",
+        "text": "Использовать index как key опасно при изменении порядке или удалении элементов."
+      },
+      {
+        "title": "Иммутабельность",
+        "text": "Не мутируйте данные — React сравнивает по ссылке. Новые объекты/массивы = новый рендер."
+      }
+    ],
+    "pitfalls": [
+      "Использовать index как key при динамических списках",
+      "Мутировать массивы/объекты в state",
+      "Не понимать, что key нужен для reconciliation",
+      "Создавать ключи на основе Math.random()"
+    ],
+    "followUps": [
+      "Почему index как key — плохая практика?",
+      "Как работает shouldComponentUpdate?",
+      "Что такое React.memo?",
+      "Как избежать лишних рендеров?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Reconciliation",
+      "Keys",
+      "Performance"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "rendering-optimization-scripts",
+    "title": "Как оптимизировать рендеринг и обрабатывать скрипты?",
+    "aliases": [],
+    "answer": "Оптимизация: async/defer для скриптов, предзагрузка критических ресурсов, lazy loading для изображений, code splitting, минификация CSS/JS, критический CSS inline, Service Worker для кеширования, DNS prefetch, preconnect.",
+    "exampleAnswer": "Для оптимизации рендеринга: 1) Используйте defer для некритичных скриптов — они загрузятся параллельно, но выполнятся после парсинга. 2) Async для критичных скриптов — выполняются сразу после загрузки. 3) Lazy loading для изображений и iframe. 4) Code splitting для уменьшения размера бандла. 5) Critical CSS inline для быстрого первого рендера.",
+    "context": "Интервьюер проверяет знание техник оптимизации производительности веб-страниц.",
+    "keyPoints": [
+      {
+        "title": "Async vs Defer",
+        "text": "Async загружает и выполняет скрипт немедленно. Defer загружает параллельно, но выполняет после парсинга HTML."
+      },
+      {
+        "title": "Lazy Loading",
+        "text": "Отложенная загрузка некритичных ресурсов: изображения (loading=\"lazy\"), компоненты (React.lazy), маршруты."
+      },
+      {
+        "title": "Critical CSS",
+        "text": "Inline критических стилей для быстрого первого рендера, остальные стили загружайте асинхронно."
+      },
+      {
+        "title": "Preload и Prefetch",
+        "text": "Preload для критичных ресурсов текущей страницы. Prefetch для ресурсов следующих страниц."
+      }
+    ],
+    "pitfalls": [
+      "Использовать async для всех скриптов без разбора",
+      "Не использовать lazy loading для тяжёлых изображений",
+      "Забывать про code splitting",
+      "Не кешировать статические ресурсы"
+    ],
+    "followUps": [
+      "Что такое Intersection Observer и как он работает с lazy loading?",
+      "Как работает Service Worker для кеширования?",
+      "Что такое code splitting и как его реализовать в React?",
+      "Как измерить производительность загрузки страницы?"
+    ],
+    "category": "Browser",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Performance",
+      "Optimization",
+      "Lazy Loading",
+      "Critical Path"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
@@ -15104,6 +16118,73 @@
     "publishedAt": ""
   },
   {
+    "id": "suspense-lazy-loading",
+    "title": "Что такое Suspense и ленивая загрузка в React?",
+    "aliases": [],
+    "answer": "Suspense — компонент для ожидания асинхронных операций. Lazy Loading — динамический импорт компонентов через React.lazy(). При загрузке отображается fallback. Suspense также поддерживает Data Fetching (React 18+).",
+    "exampleAnswer": "Suspense позволяет показать fallback пока загружается компонент или данные. React.lazy() создаёт динамический импорт. Пример: const LazyComponent = React.lazy(() => import(\"./Heavy\")); В рендере: <Suspense fallback={<Spinner />}> <LazyComponent /> </Suspense>. При навигации React загрузит Heavy.js только когда понадобится. Suspense также работает с Data Fetching через React 18 Suspense для асинхронных данных.",
+    "context": "Интервьюер проверяет знание современных возможностей React для ленивой загрузки.",
+    "keyPoints": [
+      {
+        "title": "React.lazy()",
+        "text": "Создаёт динамический импорт компонента. Возвращает промис с модулем."
+      },
+      {
+        "title": "Suspense",
+        "text": "Оборачивает lazy-компонент и показывает fallback пока загружается."
+      },
+      {
+        "title": "Data Fetching",
+        "text": "React 18+ Suspense поддерживает асинхронные данные (через промисы)."
+      },
+      {
+        "title": "Error Boundary",
+        "text": "Комбинируйте с Error Boundary для обработки ошибок загрузки."
+      }
+    ],
+    "pitfalls": [
+      "Не обрабатывать ошибки загрузки (нет Error Boundary)",
+      "Использовать Suspense без fallback",
+      "Думать, что lazy работает с серверным рендерингом",
+      "Забывать про code splitting при навигации"
+    ],
+    "followUps": [
+      "Что такое Error Boundary?",
+      "Как работает Suspense с Data Fetching?",
+      "Что такое route-based code splitting?",
+      "Как лениво загрузить данные, а не компонент?"
+    ],
+    "category": "React",
+    "scope": "universal",
+    "languages": [
+      "React"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "React",
+      "Suspense",
+      "Lazy Loading",
+      "Code Splitting"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "tbank-angular-change-detection",
     "title": "Как работает Change Detection в Angular и чем отличается от React?",
     "aliases": [],
@@ -16433,16 +17514,14 @@
       "Leadership"
     ],
     "companies": [
-      "Т-Банк",
-      "Несколько компаний"
+      "Т-Банк"
     ],
     "level": "Senior",
     "stage": "Управление",
     "tags": [
       "Management",
       "Conflict",
-      "Team",
-      "Resolution"
+      "Team"
     ],
     "duration": "10 мин",
     "difficulty": 3,
@@ -18953,6 +20032,142 @@
     "publishedAt": ""
   },
   {
+    "id": "this-context",
+    "title": "Как работает контекст вызова (this) в JavaScript?",
+    "aliases": [],
+    "answer": "This определяется тем, КАК вызывается функция, а не ГДЕ она объявлена. 1) Обычный вызов: this = window (strict mode — undefined). 2) Метод объекта: this = объект. 3) new: this = новый объект. 4) call/apply/bind: this = переданный объект. 5) Arrow function: this = из лексического окружения.",
+    "exampleAnswer": "This — это ссылка на объект, в контексте которого вызывается функция. Определяется способом вызова: 1) foo() — window (или undefined в strict). 2) obj.foo() — obj. 3) new Foo() — новый объект. 4) foo.call(ctx) — ctx. 5) Arrow function — наследует this из окружающего контекста. В React this в классовых компонентах — экземпляр класса, в стрелочных — нет своего this.",
+    "context": "Интервьюер проверяет понимание одного из самых запутанных аспектов JavaScript.",
+    "keyPoints": [
+      {
+        "title": "Implicit binding",
+        "text": "obj.method() — this = obj. Но при присваивании this теряется."
+      },
+      {
+        "title": "Explicit binding",
+        "text": "call, apply, bind позволяют задать this вручную."
+      },
+      {
+        "title": "new binding",
+        "text": "При вызове через new this — новый создаваемый объект."
+      },
+      {
+        "title": "Arrow function",
+        "text": "Наследует this из лексического окружения. Не имеет своего this."
+      }
+    ],
+    "pitfalls": [
+      "Потеря this при передаче метода как колбэка",
+      "Забывать про strict mode",
+      "Использовать стрелочные функции как методы объекта",
+      "Не понимать разницу между call и apply"
+    ],
+    "followUps": [
+      "Что такое bind и зачем он нужен?",
+      "Как потерять this в React?",
+      "Что такое implicit binding?",
+      "Как работает this в классах?"
+    ],
+    "category": "JavaScript",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "JavaScript",
+      "This",
+      "Context",
+      "Binding"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
+    "id": "typescript-advantages",
+    "title": "Какие преимущества и особенности TypeScript?",
+    "aliases": [],
+    "answer": "TypeScript — это JavaScript с типами. Преимущества: раннее обнаружение ошибок, лучшая поддержка IDE (автодополнение, рефакторинг), самодокументируемый код, безопасность при рефакторинге, поддержка generics, utility types, decorators. Особенности: компиляция в JS, строгая типизация, интерфейсы, типы.",
+    "exampleAnswer": "TypeScript добавляет статическую типизацию к JavaScript. Преимущества: 1) Ошибки ловятся на этапе компиляции, а не в рантайме. 2) IDE знает типы — автодополнение, навигация, рефакторинг. 3) Код становится документацией. 4) Generics, utility types, conditional types для гибкой типизации. 5) Интерфейсы для описания структуры объектов. Особенности: типы стираются при компиляции, any — escape hatch, type assertions.",
+    "context": "Интервьюер проверяет знание преимуществ TypeScript и его особенностей.",
+    "keyPoints": [
+      {
+        "title": "Статическая типизация",
+        "text": "Типы проверяются на этапе компиляции. Ловит ошибки до запуска кода."
+      },
+      {
+        "title": "Интерфейсы и типы",
+        "text": "Описывают структуру объектов. Интерфейсы расширяемы, типы — гибче."
+      },
+      {
+        "title": "Generics",
+        "text": "Параметризованные типы. Позволяют писать переиспользуемый типизированный код."
+      },
+      {
+        "title": "Типы стираются",
+        "text": "TypeScript — это надмножество JS. В рантайме типов нет, всё компилируется в JS."
+      }
+    ],
+    "pitfalls": [
+      "Злоупотреблять any — теряется benefit типизации",
+      "Не использовать strict mode",
+      "Путать интерфейсы и типы",
+      "Думать, что TypeScript защищает от всех ошибок"
+    ],
+    "followUps": [
+      "Что такое utility types в TypeScript?",
+      "Как работает type inference?",
+      "Что такое discriminated union?",
+      "Когда использовать any, а когда unknown?"
+    ],
+    "category": "TypeScript",
+    "scope": "universal",
+    "languages": [
+      "TypeScript"
+    ],
+    "roles": [
+      "Frontend",
+      "Backend"
+    ],
+    "companies": [],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "TypeScript",
+      "Types",
+      "Generics",
+      "Type Safety"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "ue-blueprints-vs-cpp",
     "title": "Blueprints vs C++ — когда что использовать?",
     "aliases": [],
@@ -21283,6 +22498,73 @@
     "publishedAt": ""
   },
   {
+    "id": "web-workers-service-workers",
+    "title": "Что такое Web Workers и Service Workers?",
+    "aliases": [],
+    "answer": "Web Workers — фоновый поток для тяжёлых вычислений, не блокирует UI. Общаются через postMessage. Service Workers — прокси между браузером и сетью. Позволяют кешировать ресурсы, работать оффлайн, отправлять push-уведомления.",
+    "exampleAnswer": "Web Workers позволяют выполнять код в отдельном потоке, не блокируя основной. Используются для тяжёлых вычислений (криптография, обработка данных). Общаются через postMessage/onmessage. Service Workers — это прокси, который перехватывает сетевые запросы. Позволяют реализовать: кеширование, оффлайн-работу, push-уведомления, background sync.",
+    "context": "Интервьюер проверяет знание возможностей браузера для многопоточности и оффлайн-работы.",
+    "keyPoints": [
+      {
+        "title": "Web Workers",
+        "text": "Отдельный поток для CPU-bound задач. Не имеет доступа к DOM. Общение через postMessage."
+      },
+      {
+        "title": "Service Workers",
+        "text": "Прокси для сети. Живут отдельно от страницы. Могут перехватывать fetch-запросы."
+      },
+      {
+        "title": "postMessage",
+        "text": "Единственный способ общения с воркером. Данные копируются (Structured Clone)."
+      },
+      {
+        "title": "Жизненный цикл SW",
+        "text": "install → activate → fetch. Регистрация через navigator.serviceWorker.register()."
+      }
+    ],
+    "pitfalls": [
+      "Пытаться получить доступ к DOM из Web Worker",
+      "Не понимать, что postMessage копирует данные",
+      "Забывать про жизненный цикл Service Worker",
+      "Думать, что Web Workers блокируют UI"
+    ],
+    "followUps": [
+      "Чем Web Worker отличается от Service Worker?",
+      "Что такое SharedWorker?",
+      "Как кешировать ресурсы через Service Worker?",
+      "Что такое Cache API?"
+    ],
+    "category": "Browser",
+    "scope": "universal",
+    "languages": [
+      "JavaScript"
+    ],
+    "roles": [
+      "Frontend"
+    ],
+    "companies": [],
+    "level": "Senior",
+    "stage": "Техническое",
+    "tags": [
+      "Web Workers",
+      "Service Workers",
+      "Concurrency",
+      "PWA"
+    ],
+    "duration": "10 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "url": "",
+        "type": "aggregated",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "aggregated",
+    "videoFrequency": 0,
+    "publishedAt": ""
+  },
+  {
     "id": "wildberries-critical-rendering-path",
     "title": "Как браузер превращает HTML и CSS в изображение на экране?",
     "aliases": [],
@@ -23471,1208 +24753,5 @@
     "sourceType": "aggregated",
     "videoFrequency": 0,
     "publishedAt": ""
-  },
-  {
-    "id": "why-company",
-    "title": "Почему вы хотите работать в нашей компании?",
-    "aliases": [
-      "Почему хотите к нам?",
-      "Зачем вам наша компания?",
-      "Почему именно мы?"
-    ],
-    "answer": "Интервьюер хочет убедиться, что вы исследовали компанию и понимаете её миссию, продукты и ценности. Необходимо показать осознанный выбор: как ваши навыки и ценности совпадают с направлением компании, что конкретно вас привлекает в её продуктах или культуре.",
-    "exampleAnswer": "Я слежу за продуктами [компании] уже давно. Меня впечатляет [конкретный продукт/технология], потому что [конкретная причина]. Я верю, что мой опыт в [область] может помочь в [конкретная задача], и хочу внести вклад в [миссия компании]. Кроме того, ценю [культура/подход компании], что совпадает с моими профессиональными принципами.",
-    "context": "Это behavioral-вопрос, который проверяет мотивацию и подготовленность кандидата. Интервьюер оценивает, насколько кандидат заинтересован именно в этой компании, а не ищет любую работу.",
-    "keyPoints": [
-      {
-        "title": "Исследовать компанию",
-        "text": "Изучите продукты, миссию, последние новости, технологический стек, культуру компании. Покажите, что вы потратили время на изучение."
-      },
-      {
-        "title": "Назвать конкретные причины",
-        "text": "Не общие фразы (\"хорошая репутация\", \"стабильная компания\"), а конкретику: какой продукт впечатляет, какая технология привлекает, какая миссия откликается."
-      },
-      {
-        "title": "Связать со своим опытом",
-        "text": "Объясните, как ваш опыт и навыки совпадают с потребностями компании. Что вы можете дать и чему научиться."
-      },
-      {
-        "title": "Показать долгосрочный интерес",
-        "text": "Дайте понять, что видите себя в компании надолго, а не просто ищете следующий шаг в карьере."
-      }
-    ],
-    "pitfalls": [
-      "Давать общие ответы без конкретики (\"хорошая репутация\", \"стабильная компания\")",
-      "Не знать основных продуктов или миссии компании",
-      "Говорить только о зарплате или льготах",
-      "Копировать ответы из интернета — интервьюер сразу распознаёт шаблон",
-      "Критиковать предыдущего работодателя как причину ухода"
-    ],
-    "followUps": [
-      "Что вы знаете о наших продуктах?",
-      "Как вы видите свой вклад в развитие компании через год?",
-      "Что для вас важно в команде?",
-      "Почему вы уходите с текущего места работы?"
-    ],
-    "codeSnippet": "",
-    "codeLanguage": "text",
-    "category": "HR / Soft Skills",
-    "scope": "general",
-    "languages": [],
-    "roles": [
-      "All"
-    ],
-    "companies": [
-      "Т-Банк",
-      "Яндекс"
-    ],
-    "level": "All",
-    "stage": "HR",
-    "tags": [
-      "Мотивация",
-      "Компания",
-      "HR",
-      "Поведенческий"
-    ],
-    "duration": "5 мин",
-    "difficulty": 1
-  },
-  {
-    "id": "page-loading-rendering",
-    "title": "Как работает процесс загрузки страницы и рендеринга?",
-    "aliases": [
-      "Что происходит при загрузке страницы?",
-      "Как браузер рендерит страницу?"
-    ],
-    "answer": "Браузер загружает HTML, строит DOM-дерево, параллельно загружает CSS и JS. CSSOM + DOM = Render Tree. Layout (计算布局) → Paint (绘制) → Composite (合成). Ключевые этапы: парсинг HTML, построение DOM, загрузка ресурсов, вычисление стилей, построение Render Tree, layout, paint, composite.",
-    "exampleAnswer": "При загрузке страницы браузер: 1) Парсит HTML и строит DOM-дерево. 2) Параллельно загружает CSS и JS файлы. 3) Строит CSSOM из CSS. 4) Объединяет DOM и CSSOM в Render Tree. 5) Вычисляет layout (позиции и размеры элементов). 6) Paint — отрисовывает пиксели. 7) Composite — объединяет слои. Важно: CSS блокирует рендеринг, JS может блокировать парсинг HTML.",
-    "context": "Интервьюер проверяет понимание базового процесса рендеринга в браузере и как оптимизировать загрузку.",
-    "keyPoints": [
-      {
-        "title": "DOM и CSSOM",
-        "text": "Браузер парсит HTML в DOM-дерево и CSS в CSSOM. Эти две структуры объединяются в Render Tree."
-      },
-      {
-        "title": "Layout, Paint, Composite",
-        "text": "Render Tree проходит три этапа: layout (вычисление размеров и позиций), paint (отрисовка), composite (объединение слоёв)."
-      },
-      {
-        "title": "Блокировка рендеринга",
-        "text": "CSS блокирует рендеринг до загрузки всех стилей. JS блокирует парсинг HTML除非 есть async или defer."
-      },
-      {
-        "title": "Критический путь",
-        "text": "Оптимизация критического пути — минимизация времени до первого рендеринга (FCP, LCP)."
-      }
-    ],
-    "pitfalls": [
-      "Не знать разницу между DOM и Render Tree",
-      "Думать, что JS не влияет на рендеринг",
-      "Не учитывать блокировку парсинга HTML скриптами",
-      "Забывать про критический путь рендеринга"
-    ],
-    "followUps": [
-      "Что такое Critical Rendering Path?",
-      "Как влияет defer и async на рендеринг?",
-      "Что такое FCP и LCP?",
-      "Как оптимизировать критический путь?"
-    ],
-    "codeSnippet": "",
-    "codeLanguage": "text",
-    "category": "Browser",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "Browser",
-      "Rendering",
-      "DOM",
-      "Performance"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "rendering-optimization-scripts",
-    "title": "Как оптимизировать рендеринг и обрабатывать скрипты?",
-    "aliases": [
-      "Оптимизация рендеринга",
-      "Как ускорить загрузку страницы?"
-    ],
-    "answer": "Оптимизация: async/defer для скриптов, предзагрузка критических ресурсов, lazy loading для изображений, code splitting, минификация CSS/JS, критический CSS inline, Service Worker для кеширования, DNS prefetch, preconnect.",
-    "exampleAnswer": "Для оптимизации рендеринга: 1) Используйте defer для некритичных скриптов — они загрузятся параллельно, но выполнятся после парсинга. 2) Async для критичных скриптов — выполняются сразу после загрузки. 3) Lazy loading для изображений и iframe. 4) Code splitting для уменьшения размера бандла. 5) Critical CSS inline для быстрого первого рендера.",
-    "context": "Интервьюер проверяет знание техник оптимизации производительности веб-страниц.",
-    "keyPoints": [
-      {
-        "title": "Async vs Defer",
-        "text": "Async загружает и выполняет скрипт немедленно. Defer загружает параллельно, но выполняет после парсинга HTML."
-      },
-      {
-        "title": "Lazy Loading",
-        "text": "Отложенная загрузка некритичных ресурсов: изображения (loading=\"lazy\"), компоненты (React.lazy), маршруты."
-      },
-      {
-        "title": "Critical CSS",
-        "text": "Inline критических стилей для быстрого первого рендера, остальные стили загружайте асинхронно."
-      },
-      {
-        "title": "Preload и Prefetch",
-        "text": "Preload для критичных ресурсов текущей страницы. Prefetch для ресурсов следующих страниц."
-      }
-    ],
-    "pitfalls": [
-      "Использовать async для всех скриптőв без разбора",
-      "Не использовать lazy loading для тяжёлых изображений",
-      "Забывать про code splitting",
-      "Не кешировать статические ресурсы"
-    ],
-    "followUps": [
-      "Что такое Intersection Observer и как он работает с lazy loading?",
-      "Как работает Service Worker для кеширования?",
-      "Что такое code splitting и как его реализовать в React?",
-      "Как измерить производительность загрузки страницы?"
-    ],
-    "codeSnippet": "",
-    "codeLanguage": "text",
-    "category": "Browser",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "Performance",
-      "Optimization",
-      "Lazy Loading",
-      "Critical Path"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "function-declarations",
-    "title": "Какие способы объявления функций существуют в JavaScript?",
-    "aliases": [
-      "Виды функций в JS",
-      "Function declaration vs expression"
-    ],
-    "answer": "Function declaration, function expression, arrow function (ES6), метод объекта, IIFE, конструктор Function. Различия: hoisting (declaration поднимается), this (arrow не有自己的 this), arguments (отсутствует в arrow).",
-    "exampleAnswer": "В JavaScript есть несколько способов создать функцию: 1) Function declaration — function foo() {} (с hoisting). 2) Function expression — const foo = function() {} (без hoisting). 3) Arrow function — const foo = () => {} (нет自己的 this, arguments). 4) IIFE — (function() {})() — вызывается сразу. 5) Метод объекта — obj.method = function() {}. 6) Конструктор Function — new Function().",
-    "context": "Интервьюер проверяет знание различных способов создания функций и их особенностей.",
-    "keyPoints": [
-      {
-        "title": "Function Declaration",
-        "text": "Поднимается (hoisting) в начало области видимости. Можно вызвать до объявления."
-      },
-      {
-        "title": "Function Expression",
-        "text": "Не поднимается. Присваивается переменной. Можно передать как аргумент."
-      },
-      {
-        "title": "Arrow Function",
-        "text": "Нет自己的 this (берёт из окружающего контекста). Нет arguments. Короче для колбэков."
-      },
-      {
-        "title": "IIFE",
-        "text": "Immediately Invoked Function Expression — выполняется сразу при создании. Создаёт область видимости."
-      }
-    ],
-    "pitfalls": [
-      "Не знать разницу между declaration и expression",
-      "Использовать arrow function как метод объекта (теряется this)",
-      "Путать hoisting у declaration и expression",
-      "Забывать про отсутствие arguments в arrow function"
-    ],
-    "followUps": [
-      "Что такое hoisting и как он работает?",
-      "Почему arrow function не имеет自己的 this?",
-      "Когда использовать IIFE?",
-      "Что такое callback и как передавать функции?"
-    ],
-    "codeSnippet": "// Declaration — hoisting\nconsole.log(foo); // работает!\nfunction foo() {}\n\n// Expression — нет hoisting\nconsole.log(bar); // ReferenceError!\nconst bar = function() {};\n\n// Arrow — нет自己的 this\nconst arrow = () => {};\n\n// IIFE\n(function() { console.log(\"IIFE\"); })();",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Junior",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Functions",
-      "Hoisting",
-      "Arrow Function"
-    ],
-    "duration": "5 мин",
-    "difficulty": 1
-  },
-  {
-    "id": "data-types-pure-functions",
-    "title": "Какие типы данных есть в JavaScript и что такое чистые функции?",
-    "aliases": [
-      "Типы данных JS",
-      "Pure functions",
-      "Чистые функции"
-    ],
-    "answer": "Примитивы: string, number, bigint, boolean, undefined, null, symbol. Ссылочные: object (включая array, function, Date, RegExp, Map, Set). Чистые функции: всегда возвращают один и тот же результат при одинаковых аргументах, не имеют побочных эффектов.",
-    "exampleAnswer": "Типы данных: Примитивы — string, number, boolean, null, undefined, symbol, bigint. Ссылочные — object (массивы, функции, даты — все объекты). Чистые функции: 1) детерминированы (одинаковый вход = одинаковый выход), 2) не имеют побочных эффектов (не мутируют外部 state, не делают fetch). Пример чистой: const add = (a, b) => a + b. Нечистая: let count = 0; const inc = () => count++.",
-    "context": "Интервьюер проверяет базовые знания JavaScript и понимание концепции чистых функций.",
-    "keyPoints": [
-      {
-        "title": "Примитивы vs Ссылочные",
-        "text": "Примитивы копируются по значению. Объекты — по ссылке. Поэтому мутировать объект опасно."
-      },
-      {
-        "title": "Чистые функции",
-        "text": "Детерминированы + нет побочных эффектов. Легко тестировать, кешировать, использовать в React."
-      },
-      {
-        "title": "Побочные эффекты",
-        "text": "Мутации внешнего state, fetch, console.log, setTimeout — всё это побочные эффекты."
-      },
-      {
-        "title": "Иммутабельность",
-        "text": "Чистые функции работают с иммутабельными данными. Не мутируют входные аргументы."
-      }
-    ],
-    "pitfalls": [
-      "Путать примитивы и ссылочные типы",
-      "Мутировать аргументы в чистых функциях",
-      "Считать функции с console.log чистыми",
-      "Не учитывать, что object включает array и function"
-    ],
-    "followUps": [
-      "Что такое иммутабельность и зачем она нужна?",
-      "Как кешировать результаты чистых функций?",
-      "Что такое memoization?",
-      "Почему в React важны чистые функции?"
-    ],
-    "codeSnippet": "// Примитивы\nconst a = 1;\nconst b = a; // копия\n\n// Ссылочные\nconst obj1 = { x: 1 };\nconst obj2 = obj1; // ссылка!\nobj2.x = 2;\nconsole.log(obj1.x); // 2 — мутация!\n\n// Чистая функция\nconst add = (a, b) => a + b;\n\n// Нечистая функция\nlet counter = 0;\nconst increment = () => ++counter;",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [
-      "Т-Банк"
-    ],
-    "level": "Junior",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Types",
-      "Pure Functions",
-      "Immutability",
-      "Coercion",
-      "Runtime"
-    ],
-    "duration": "5 мин",
-    "difficulty": 1
-  },
-  {
-    "id": "lexical-scope-closures",
-    "title": "Что такое лексическое окружение и замыкания в JavaScript?",
-    "aliases": [
-      "Lexical scope",
-      "Closures",
-      "Замыкания JS"
-    ],
-    "answer": "Лексическое окружение — область видимости, определяемая местом объявления переменной. Замыкание — функция вместе со ссылкой на внешнее лексическое окружение, в котором она была создана. Замыкания позволяют функциям «помнить» переменные из внешних областей видимости.",
-    "exampleAnswer": "Лексическое окружение создаётся при вызове функции и содержит её локальные переменные + ссылку на внешнее окружение. Замыкание возникает, когда внутренняя функция ссылается на переменные внешней функции после того, как внешняя функция завершилась. Пример: function outer() { let x = 10; return function inner() { return x; }; } const close = outer(); close() // 10 — inner «помнит» x.",
-    "context": "Интервьюер проверяет понимание одного из ключевых концепций JavaScript.",
-    "keyPoints": [
-      {
-        "title": "Лексическая область видимости",
-        "text": "Область видимости определяется местом написания кода, а не местом вызова."
-      },
-      {
-        "title": "Замыкание",
-        "text": "Функция + ссылка на внешнее лексическое окружение. Работает даже после завершения внешней функции."
-      },
-      {
-        "title": "Цепочка окружений",
-        "text": "Каждое окружение ссылается на родительское. Поиск переменных идёт по цепочке."
-      },
-      {
-        "title": "Практическое применение",
-        "text": "Инкапсуляция, data privacy, функциональное программирование, partial application."
-      }
-    ],
-    "pitfalls": [
-      "Путать лексическую и динамическую область видимости",
-      "Думать, что замыкание — это только функция внутри функции",
-      "Не понимать, что замыкание хранит ссылку, а не копию",
-      "Забывать про утечки памяти при неправильном использовании"
-    ],
-    "followUps": [
-      "Что такое цепочка областей видимости?",
-      "Как избежать утечек памяти с замыканиями?"
-    ],
-    "codeSnippet": "// Лексическое окружение\nfunction outer() {\n  let x = 10;\n  \n  function inner() {\n    console.log(x); // 10 — замыкание!\n  }\n  \n  return inner;\n}\n\nconst fn = outer();\nfn(); // 10 — x «живёт» в замыкании\n\n// Практический пример — инкапсуляция\nfunction createCounter() {\n  let count = 0;\n  return {\n    increment: () => ++count,\n    getCount: () => count\n  };\n}",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Closures",
-      "Scope",
-      "Lexical Environment"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "event-loop-basics",
-    "title": "Как работает Event Loop и асинхронность в JavaScript?",
-    "aliases": [
-      "Event Loop",
-      "Асинхронность JS",
-      "Однопоточность JS"
-    ],
-    "answer": "JavaScript однопоточный. Event Loop координирует выполнение: Call Stack (синхронный код), Web APIs (браузерные функции), Callback Queue (макротаски), Microtask Queue (промисы). При пустом Call Stack сначала выполняются все микротаски, затем один макротаск.",
-    "exampleAnswer": "Event Loop работает так: 1) Синхронный код выполняется в Call Stack. 2) Асинхронные операции (setTimeout, fetch) передаются в Web APIs. 3) По завершении колбэки попадают в Callback Queue (макротаски) или Microtask Queue (промисы). 4) Event Loop проверяет: если Call Stack пуст, сначала выполняет ВСЕ микротаски, затем ОДИН макротаск. Поэтому промисы (microtask) выполняются быстрее setTimeout (macrotask).",
-    "context": "Интервьюер проверяет понимание асинхронного выполнения кода — ключевой концепции JavaScript.",
-    "keyPoints": [
-      {
-        "title": "Call Stack",
-        "text": "Стек вызовов. Синхронный код выполняется здесь. Если стек не пуст — микротаски и макротаски ждут."
-      },
-      {
-        "title": "Microtask Queue",
-        "text": "Промисы (.then, catch, finally), queueMicrotask, MutationObserver. Выполняются ПЕРЕД макротасками."
-      },
-      {
-        "title": "Macrotask Queue",
-        "text": "setTimeout, setInterval, I/O, UI rendering. Выполняются ПОСЛЕ микротасок."
-      },
-      {
-        "title": "Однопоточность",
-        "text": "JS не блокируется — асинхронные операции выполняются в Web APIs (в других потоках браузера)."
-      }
-    ],
-    "pitfalls": [
-      "Думать, что setTimeout(fn, 0) выполняется немедленно",
-      "Не знать разницу между micro и macrotask",
-      "Путать однопоточность с отсутствием асинхронности",
-      "Блокировать Call Stack тяжёлыми вычислениями"
-    ],
-    "followUps": [
-      "Что блокирует рендеринг — микротаски или макротаски?",
-      "Как yieldить выполнение из синхронного кода?",
-      "Что такое requestAnimationFrame?",
-      "Как работает async/await с точки зрения Event Loop?"
-    ],
-    "codeSnippet": "console.log(\"1\"); // sync\n\nsetTimeout(() => {\n  console.log(\"2\"); // macrotask\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log(\"3\"); // microtask\n});\n\nconsole.log(\"4\"); // sync\n\n// Вывод: 1, 4, 3, 2\n// Сначала sync, потом micro, потом macro",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Event Loop",
-      "Async",
-      "Concurrency"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "promises-methods",
-    "title": "Что такое промисы и какие методы они имеют?",
-    "aliases": [
-      "Promises",
-      "Promise methods",
-      "Промисы JS"
-    ],
-    "answer": "Promise — объект для работы с асинхронными операциями. Состояния: pending → fulfilled/rejected. Методы: then, catch, finally. Статические: Promise.all (все), Promise.allSettled (все с результатами), Promise.race (первый), Promise.any (первый успешный).",
-    "exampleAnswer": "Promise представляет асинхронную операцию. У него три состояния: pending (ожидание), fulfilled (успех), rejected (ошибка). Методы экземпляра: then(onFulfilled, onRejected) — обработка результата, catch(onRejected) — обработка ошибки, finally() — выполнится всегда. Статические методы: Promise.all([p1, p2]) — ждёт все промисы, Promise.allSettled — ждёт все, включая отклонённые, Promise.race — первый завершившийся, Promise.any — первый успешный.",
-    "context": "Интервьюер проверяет глубокое понимание промисов и их методов для работы с асинхронным кодом.",
-    "keyPoints": [
-      {
-        "title": "Состояния Promise",
-        "text": "pending → fulfilled или rejected. Однократное изменение состояния, необратимое."
-      },
-      {
-        "title": "then / catch / finally",
-        "text": "then возвращает новый промис. catch — это сахар для then(null, fn). finally не принимает аргументов."
-      },
-      {
-        "title": "Promise.all vs allSettled",
-        "text": "all отклоняется при первом отклонении. allSettled всегда завершается, возвращая статус каждого."
-      },
-      {
-        "title": "Promise.race vs any",
-        "text": "race — первый завершившийся (успех или ошибка). any — первый успешный, ошибки игнорирует."
-      }
-    ],
-    "pitfalls": [
-      "Не обрабатывать ошибки в .catch",
-      "Не возвращать промисы в .then (цепочка ломается)",
-      "Использовать Promise.all когда нужен allSettled",
-      "Забывать про .finally для очистки ресурсов"
-    ],
-    "followUps": [
-      "Что такое Promise chaining?",
-      "Как обработать несколько промисов параллельно?",
-      "Что такое unhandled promise rejection?",
-      "Как реализовать Promise.all с нуля?"
-    ],
-    "codeSnippet": "// Создание промиса\nconst promise = new Promise((resolve, reject) => {\n  setTimeout(() => resolve(\"done\"), 1000);\n});\n\n// Использование\npromise\n  .then(result => console.log(result))\n  .catch(error => console.error(error))\n  .finally(() => console.log(\"cleanup\"));\n\n// Статические методы\nPromise.all([fetch(\"/api/1\"), fetch(\"/api/2\")]);\nPromise.allSettled([p1, p2]);\nPromise.race([p1, p2]);\nPromise.any([p1, p2]);",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Promises",
-      "Async",
-      "Error Handling"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "async-await-promises",
-    "title": "Что такое async/await и чем он отличается от промисов?",
-    "aliases": [
-      "Async Await",
-      "async/await vs promises"
-    ],
-    "answer": "async/await — синтаксический сахар над промисами. async-функция всегда возвращает промис. await приостанавливает выполнение до завершения промиса. Преимущество: читаемый код, обработка ошибок через try/catch, отладка. Отличие от .then: sequential vs parallel.",
-    "exampleAnswer": "async/await — это синтаксис для работы с промисами. async-функция возвращает промис. Await «приостанавливает» выполнение функции до получения результата промиса. Преимущества перед .then: 1) Код выглядит синхронным. 2) Ошибки ловятся через try/catch. 3) Легче отлаживать. Но: если промисы не зависят друг от друга, лучше использовать Promise.all для параллельного выполнения.",
-    "context": "Интервьюер проверяет знание современного синтаксиса асинхронного кода.",
-    "keyPoints": [
-      {
-        "title": "Сахар синтаксиса",
-        "text": "async/await не заменяет промисы, а упрощает работу с ними. Под капотом — тот же .then."
-      },
-      {
-        "title": "Последовательность",
-        "text": "Await блокирует выполнение до завершения промиса. Если промисы независимые — используйте Promise.all."
-      },
-      {
-        "title": "Обработка ошибок",
-        "text": "try/catch для ошибок. Можно комбинировать с .catch() для гибкости."
-      },
-      {
-        "title": "Циклы и async",
-        "text": "В циклах forEach await не работает. Используйте for...of или Promise.all для параллельности."
-      }
-    ],
-    "pitfalls": [
-      "Использовать await в forEach",
-      "Не обрабатывать ошибки через try/catch",
-      "Писать последовательные await когда можно параллельно",
-      "Забывать, что async-функция возвращает промис"
-    ],
-    "followUps": [
-      "Что такое concurrency vs parallelism?",
-      "Как обработать ошибки в async/await?",
-      "Как реализовать retry логику с async/await?",
-      "Что такое generator и зачем он нужен?"
-    ],
-    "codeSnippet": "// async/await\nasync function fetchData() {\n  try {\n    const response = await fetch(\"/api/data\");\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error(\"Error:\", error);\n  }\n}\n\n// Параллельное выполнение\nasync function loadAll() {\n  const [users, posts] = await Promise.all([\n    fetch(\"/api/users\"),\n    fetch(\"/api/posts\")\n  ]);\n  return { users, posts };\n}",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "Async Await",
-      "Promises",
-      "Syntax"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "web-workers-service-workers",
-    "title": "Что такое Web Workers и Service Workers?",
-    "aliases": [
-      "Web Workers",
-      "Service Workers",
-      "Многопоточность в JS"
-    ],
-    "answer": "Web Workers — фоновый поток для тяжёлых вычислений, не блокирует UI. Общаются через postMessage. Service Workers — прокси между браузером и сетью. Позволяют кешировать ресурсы, работать оффлайн, отправлять push-уведомления.",
-    "exampleAnswer": "Web Workers позволяют выполнять код в отдельном потоке, не блокируя основной. Используются для тяжёлых вычислений (криптография, обработка данных). Общаются через postMessage/onmessage. Service Workers — это прокси, который перехватывает сетевые запросы. Позволяют реализовать: кеширование, оффлайн-работу, push-уведомления, background sync.",
-    "context": "Интервьюер проверяет знание возможностей браузера для многопоточности и оффлайн-работы.",
-    "keyPoints": [
-      {
-        "title": "Web Workers",
-        "text": "Отдельный поток для CPU-bound задач. Не имеет доступа к DOM. Общение через postMessage."
-      },
-      {
-        "title": "Service Workers",
-        "text": "Прокси для сети. Живут отдельно от страницы. Могут перехватывать fetch-запросы."
-      },
-      {
-        "title": "postMessage",
-        "text": "Единственный способ общения с воркером. Данные копируются (Structured Clone)."
-      },
-      {
-        "title": "Жизненный цикл SW",
-        "text": "install → activate → fetch. Регистрация через navigator.serviceWorker.register()."
-      }
-    ],
-    "pitfalls": [
-      "Пытаться получить доступ к DOM из Web Worker",
-      "Не понимать, что postMessage копирует данные",
-      "Забывать про жизненный цикл Service Worker",
-      "Думать, что Web Workers блокируют UI"
-    ],
-    "followUps": [
-      "Чем Web Worker отличается от Service Worker?",
-      "Что такое SharedWorker?",
-      "Как кешировать ресурсы через Service Worker?",
-      "Что такое Cache API?"
-    ],
-    "codeSnippet": "// Web Worker\nconst worker = new Worker(\"worker.js\");\nworker.postMessage({ data: largeArray });\nworker.onmessage = (e) => console.log(e.data);\n\n// worker.js\nself.onmessage = (e) => {\n  const result = heavyComputation(e.data);\n  self.postMessage(result);\n};\n\n// Service Worker\nnavigator.serviceWorker.register(\"/sw.js\");\n\n// sw.js\nself.addEventListener(\"fetch\", (e) => {\n  e.respondWith(\n    caches.match(e.request)\n  );\n});",
-    "codeLanguage": "javascript",
-    "category": "Browser",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "Web Workers",
-      "Service Workers",
-      "Concurrency",
-      "PWA"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3
-  },
-  {
-    "id": "this-context",
-    "title": "Как работает контекст вызова (this) в JavaScript?",
-    "aliases": [
-      "This в JavaScript",
-      "Контекст вызова",
-      "Context this"
-    ],
-    "answer": "This определяется тем, КАК вызывается функция, а не ГДЕ она объявлена. 1) Обычный вызов: this = window (strict mode — undefined). 2) Метод объекта: this = объект. 3) new: this = новый объект. 4) call/apply/bind: this = переданный объект. 5) Arrow function: this = из лексического окружения.",
-    "exampleAnswer": "This — это ссылка на объект, в контексте которого вызывается функция. Определяется способом вызова: 1) foo() — window (или undefined в strict). 2) obj.foo() — obj. 3) new Foo() — новый объект. 4) foo.call(ctx) — ctx. 5) Arrow function — наследует this из окружающего контекста. В React this в классовых компонентах — экземпляр класса, в стрелочных — нет自己的 this.",
-    "context": "Интервьюер проверяет понимание одного из самых запутанных аспектов JavaScript.",
-    "keyPoints": [
-      {
-        "title": "Implicit binding",
-        "text": "obj.method() — this = obj. Но при присваивании this теряется."
-      },
-      {
-        "title": "Explicit binding",
-        "text": "call, apply, bind позволяют задать this вручную."
-      },
-      {
-        "title": "new binding",
-        "text": "При вызове через new this — новый создаваемый объект."
-      },
-      {
-        "title": "Arrow function",
-        "text": "Наследует this из лексического окружения. Не имеет自己的 this."
-      }
-    ],
-    "pitfalls": [
-      "Потеря this при передаче метода как колбэка",
-      "Забывать про strict mode",
-      "Использовать стрелочные функции как методы объекта",
-      "Не понимать разницу между call и apply"
-    ],
-    "followUps": [
-      "Что такое bind и зачем он нужен?",
-      "Как потерять this в React?",
-      "Что такое implicit binding?",
-      "Как работает this в классах?"
-    ],
-    "codeSnippet": "// Implicit binding\nconst obj = { name: \"Alex\", greet() { console.log(this.name); } };\nobj.greet(); // \"Alex\"\n\n// Потеря this\nconst fn = obj.greet;\nfn(); // undefined (в strict)\n\n// Восстановление через bind\nconst bound = obj.greet.bind(obj);\nbound(); // \"Alex\"\n\n// Arrow function\nconst arrow = { name: \"Bob\", greet: () => console.log(this.name) };\narrow.greet(); // undefined — this = window",
-    "codeLanguage": "javascript",
-    "category": "JavaScript",
-    "scope": "universal",
-    "languages": [
-      "JavaScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "JavaScript",
-      "This",
-      "Context",
-      "Binding"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "react-virtual-dom",
-    "title": "Какие преимущества React и как работает Virtual DOM?",
-    "aliases": [
-      "Virtual DOM React",
-      "Зачем Virtual DOM",
-      "React преимущества"
-    ],
-    "answer": "Virtual DOM — это JS-представление реального DOM. При изменении state React создаёт новый Virtual DOM, сравнивает с предыдущим (diffing) и обновляет реальный DOM минимальными изменениями (reconciliation). Преимущества: декларативный подход, переносимость, производительность (минимальные обновления DOM).",
-    "exampleAnswer": "Virtual DOM работает так: 1) При изменении state создаётся новое виртуальное дерево. 2) React сравнивает новое с предыдущим (diffing). 3) Вычисляет минимальные изменения (reconciliation). 4) Обновляет реальный DOM только там, где нужно. Преимущества: декларативный код (описывает что, а не как), переносимость (React Native), производительность (пакетное обновление DOM).",
-    "context": "Интервьюер проверяет понимание основ работы React и его ключевой концепции.",
-    "keyPoints": [
-      {
-        "title": "Декларативность",
-        "text": "Вы описываете UI для каждого состояния, React сам обновляет DOM."
-      },
-      {
-        "title": "Diffing Algorithm",
-        "text": "O(n) сравнение двух деревьев. Эвристики: разные типы → полная замена, key для списков."
-      },
-      {
-        "title": "Batching",
-        "text": "React группирует обновления DOM для производительности."
-      },
-      {
-        "title": "Переносимость",
-        "text": "Virtual DOM позволяет рендерить в другие платформы (React Native, React Three Fiber)."
-      }
-    ],
-    "pitfalls": [
-      "Думать, что Virtual DOM быстрее vanilla JS",
-      "Не использовать key в списках",
-      "Мутировать state напрямую",
-      "Забывать про batching обновлений"
-    ],
-    "followUps": [
-      "Что такое reconciliation?",
-      "Как работают ключи (key) в React?",
-      "Чем Virtual DOM отличается от реального DOM?",
-      "Что такое React Fiber?"
-    ],
-    "codeSnippet": "// JSX → Virtual DOM → Real DOM\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>\n        Increment\n      </button>\n    </div>\n  );\n}\n\n// При вызове setCount:\n// 1. Создаётся новый Virtual DOM\n// 2. Сравнивается со старым (diffing)\n// 3. Обновляется только <p> с текстом",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [
-      "Гознак"
-    ],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Virtual DOM",
-      "Diffing",
-      "Reconciliation",
-      "Rendering"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "reconciliation-keys",
-    "title": "Как работает алгоритм reconciliation и зачем нужны ключи (key)?",
-    "aliases": [
-      "Reconciliation",
-      "Ключи в React",
-      "Diffing algorithm"
-    ],
-    "answer": "Reconciliation — процесс сравнения нового и старого Virtual DOM. Два типа узлов: разный тип → полная замена, одинаковый тип → обновление пропсов. Для списков key помогает React идентифицировать элементы и переиспользовать их, а не пересоздавать.",
-    "exampleAnswer": "Алгоритм reconciliation: 1) Если тип элемента изменился — старый удаляется, создаётся новый. 2) Если тип тот же — обновляются пропсы, рекурсивно сравниваются дети. 3) Для списков key позволяет React понять, какие элементы были добавлены, удалены или перемещены. Без key React сравнивает по индексу → ошибки при изменении порядка.",
-    "context": "Интервьюер проверяет понимание внутреннего устройства React и как писать эффективный код.",
-    "keyPoints": [
-      {
-        "title": "Diffing",
-        "text": "Сравнение двух деревьев за O(n). Эвристика: элементы одного типа — обновляются, разных — заменяются."
-      },
-      {
-        "title": "Роль key",
-        "text": "Уникальный идентификатор для элемента в списке. Помогает React определить переиспользование."
-      },
-      {
-        "title": "Index как key",
-        "text": "Использовать index как key опасно при изменении порядка или удалении элементов."
-      },
-      {
-        "title": "Иммутабельность",
-        "text": "Не мутируйте данные — React сравнивает по ссылке. Новые объекты/массивы = новый рендер."
-      }
-    ],
-    "pitfalls": [
-      "Использовать index как key при динамических списках",
-      "Мутировать массивы/объекты в state",
-      "Не понимать, что key нужен для reconciliation",
-      "Создавать ключи на основе Math.random()"
-    ],
-    "followUps": [
-      "Почему index как key — плохая практика?",
-      "Как работает shouldComponentUpdate?",
-      "Что такое React.memo?",
-      "Как избежать лишних рендеров?"
-    ],
-    "codeSnippet": "// Плохо — index как key\n{items.map((item, index) => (\n  <Item key={index} {...item} />\n))}\n\n// Хорошо — уникальный key\n{items.map((item) => (\n  <Item key={item.id} {...item} />\n))}\n\n// Разный тип → полная замена\n// Одинаковый тип → обновление пропсов\n<div /> → <span /> // удаление + создание\n<div /> → <div className=\"new\" /> // обновление",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Reconciliation",
-      "Keys",
-      "Performance"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "react-performance-optimization",
-    "title": "Как оптимизировать производительность в React?",
-    "aliases": [
-      "React performance",
-      "Оптимизация React",
-      "React.memo useMemo useCallback"
-    ],
-    "answer": "Инструменты: React.memo (мемоизация компонентов), useMemo (мемоизация значений), useCallback (мемоизация функций), lazy + Suspense (ленивая загрузка), виртуализация списков, избежание лишних рендеров, Profiler для анализа.",
-    "exampleAnswer": "Оптимизация React: 1) React.memo — пропускает ре-рендер если пропсы не изменились. 2) useMemo — кеширует вычисления между рендерами. 3) useCallback — кеширует ссылку на функцию (важно для передачи в дочерние компоненты). 4) Lazy loading — React.lazy + Suspense для код-сплиттинга. 5) Virtualization — react-window для длинных списков. 6) Profiler для поиска узких мест.",
-    "context": "Интервьюер проверяет знание техник оптимизации React-приложений.",
-    "keyPoints": [
-      {
-        "title": "React.memo",
-        "text": "HOC, который мемоизирует компонент. Сравнивает пропсы. Используйте когда компонент рендерится часто с одними и теми же пропсами."
-      },
-      {
-        "title": "useMemo / useCallback",
-        "text": "useMemo кеширует значение, useCallback — функцию. Не злоупотребляйте — у них есть стоимость."
-      },
-      {
-        "title": "Lazy Loading",
-        "text": "React.lazy() + Suspense для динамического импорта компонентов. Уменьшает начальный бандл."
-      },
-      {
-        "title": "Virtualization",
-        "text": "Рендерит только видимые элементы списка. Библиотеки: react-window, react-virtualized."
-      }
-    ],
-    "pitfalls": [
-      "Злоупотреблять useMemo/useCallback — они не бесплатны",
-      "Использовать React.memo без useCallback для функций-пропсов",
-      "Не использовать key в списках",
-      "Рендерить большие списки без виртуализации"
-    ],
-    "followUps": [
-      "Когда НЕ нужно использовать useMemo?",
-      "Что такое React DevTools Profiler?",
-      "Как работает shouldComponentUpdate?",
-      "Что такое代码分割 (code splitting)?"
-    ],
-    "codeSnippet": "// React.memo\nconst MemoizedChild = React.memo(({ data }) => {\n  console.log(\"render\");\n  return <div>{data.name}</div>;\n});\n\n// useCallback для передачи в memo\nconst handleClick = useCallback(() => {\n  doSomething(id);\n}, [id]);\n\n// useMemo для дорогих вычислений\nconst sorted = useMemo(\n  () => items.sort((a, b) => a.name.localeCompare(b.name)),\n  [items]\n);\n\n// Lazy loading\nconst HeavyComponent = React.lazy(() => import(\"./Heavy\"));\n\n// Виртуализация\nimport { FixedSizeList } from \"react-window\";",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [
-      "Яндекс"
-    ],
-    "level": "Senior",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Performance",
-      "Memoization",
-      "Optimization"
-    ],
-    "duration": "10 мин",
-    "difficulty": 3
-  },
-  {
-    "id": "suspense-lazy-loading",
-    "title": "Что такое Suspense и ленивая загрузка в React?",
-    "aliases": [
-      "React Suspense",
-      "Lazy Loading",
-      "Ленивая загрузка React"
-    ],
-    "answer": "Suspense — компонент для ожидения асинхронных операций. Lazy Loading — динамический импорт компонентов через React.lazy(). При загрузке отображается fallback. Suspense также поддерживает Data Fetching (React 18+).",
-    "exampleAnswer": "Suspense позволяет показать fallback пока загружается компонент или данные. React.lazy() создаёт динамический импорт. Пример: const LazyComponent = React.lazy(() => import(\"./Heavy\")); В рендере: <Suspense fallback={<Spinner />}> <LazyComponent /> </Suspense>. При навигации React загрузит Heavy.js только когда понадобится. Suspense также работает с Data Fetching через React 18 Suspense для асинхронных данных.",
-    "context": "Интервьюер проверяет знание современных возможностей React для ленивой загрузки.",
-    "keyPoints": [
-      {
-        "title": "React.lazy()",
-        "text": "Создаёт динамический импорт компонента. Возвращает промис с модулем."
-      },
-      {
-        "title": "Suspense",
-        "text": "Оборачивает lazy-компонент и показывает fallback пока загружается."
-      },
-      {
-        "title": "Data Fetching",
-        "text": "React 18+ Suspense поддерживает асинхронные данные (через промисы)."
-      },
-      {
-        "title": "Error Boundary",
-        "text": "Комбинируйте с Error Boundary для обработки ошибок загрузки."
-      }
-    ],
-    "pitfalls": [
-      "Не обрабатывать ошибки загрузки (нет Error Boundary)",
-      "Использовать Suspense без fallback",
-      "Думать, что lazy работает с серверным рендерингом",
-      "Забывать про code splitting при навигации"
-    ],
-    "followUps": [
-      "Что такое Error Boundary?",
-      "Как работает Suspense с Data Fetching?",
-      "Что такое route-based code splitting?",
-      "Как лениво загрузить данные, а не компонент?"
-    ],
-    "codeSnippet": "// Lazy loading компонента\nconst Dashboard = React.lazy(() => import(\"./Dashboard\"));\n\nfunction App() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <Dashboard />\n    </Suspense>\n  );\n}\n\n// С Error Boundary\n<ErrorBoundary fallback={<Error />}>\n  <Suspense fallback={<Spinner />}>\n    <Dashboard />\n  </Suspense>\n</ErrorBoundary>\n\n// Route-based splitting\nconst Home = React.lazy(() => import(\"./pages/Home\"));\nconst About = React.lazy(() => import(\"./pages/About\"));",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Suspense",
-      "Lazy Loading",
-      "Code Splitting"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "class-vs-functional-components",
-    "title": "Чем отличаются классовые и функциональные компоненты в React?",
-    "aliases": [
-      "Class vs Functional",
-      "Классовые компоненты",
-      "Функциональные компоненты"
-    ],
-    "answer": "Классовые: наследуют от React.Component, имеют state и lifecycle методы (componentDidMount, render). Функциональные: простые функции, используют хуки (useState, useEffect). Современный подход — функциональные + хуки. Классовые используются в legacy-кодах.",
-    "exampleAnswer": "Классовые компоненты — это ES6 классы с методом render(). Имеют state, жизненный цикл (componentDidMount, shouldComponentUpdate, componentWillUnmount). Функциональные — это функции, которые возвращают JSX. Используют хуки для state (useState) и побочных эффектов (useEffect). Преимущества функциональных: проще тестировать, нет this, легче переиспользовать логику через хуки. Классовые всё ещё встречаются в legacy-проектах.",
-    "context": "Интервьюер проверяет понимание двух парадигм React и почему хуки стали стандартом.",
-    "keyPoints": [
-      {
-        "title": "Классовые компоненты",
-        "text": "Наследование от React.Component. this.state, this.setState. Жизненный цикл через методы."
-      },
-      {
-        "title": "Функциональные компоненты",
-        "text": "Простые функции. Хуки: useState, useEffect, useContext. Нет this."
-      },
-      {
-        "title": "Хуки",
-        "text": "Позволяют использовать state и lifecycle в функциональных компонентах. Переиспользование логики."
-      },
-      {
-        "title": "Современный подход",
-        "text": "Функциональные + хуки. Классовые — только для legacy или специфических случаев."
-      }
-    ],
-    "pitfalls": [
-      "Путать this в классовых компонентах",
-      "Использовать хуки условно (не в корне компонента)",
-      "Не понимать разницу жизненного цикла",
-      "Думать, что классовые быстрее функциональных"
-    ],
-    "followUps": [
-      "Что такое хуки и зачем они нужны?"
-    ],
-    "codeSnippet": "// Классовый компонент\nclass Counter extends React.Component {\n  state = { count: 0 };\n  \n  render() {\n    return (\n      <button onClick={() => this.setState({ count: this.state.count + 1 })}>\n        {this.state.count}\n      </button>\n    );\n  }\n}\n\n// Функциональный с хуками\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <button onClick={() => setCount(count + 1)}>\n      {count}\n    </button>\n  );\n}",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Class Components",
-      "Functional Components",
-      "Hooks"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "component-lifecycle-useeffect",
-    "title": "Как работает жизненный цикл компонентов и useEffect в React?",
-    "aliases": [
-      "Lifecycle React",
-      "useEffect",
-      "Жизненный цикл компонентов"
-    ],
-    "answer": "Фазы: Mount (появление), Update (обновление props/state), Unmount (удаление). useEffect объединяет все фазы: пустой deps — mount, deps — update, return function — unmount. Аналоги: componentDidMount, componentDidUpdate, componentWillUnmount.",
-    "exampleAnswer": "useEffect — хук для побочных эффектов. Пустой массив зависимостей [] — выполнится один раз при mount (аналог componentDidMount). С зависимостями [dep1, dep2] — выполнится при изменении зависимостей (аналог componentDidUpdate). Return функция — cleanup при unmount (аналог componentWillUnmount). Комбинируя, можно покрыть все фазы жизненного цикла.",
-    "context": "Интервьюер проверяет понимание жизненного цикла React и как использовать useEffect.",
-    "keyPoints": [
-      {
-        "title": "Mount",
-        "text": "Компонент появился в DOM. useEffect с [] выполняется один раз."
-      },
-      {
-        "title": "Update",
-        "text": "Изменились props или state. useEffect с зависимостями выполняется при изменении deps."
-      },
-      {
-        "title": "Unmount",
-        "text": "Компонент удалён из DOM. Return функция в useEffect — cleanup."
-      },
-      {
-        "title": "Cleanup",
-        "text": "Вызывается перед повторным выполнением эффекта и при unmount."
-      }
-    ],
-    "pitfalls": [
-      "Использовать useEffect для инициализации (лучше useState лениво)",
-      "Забывать про cleanup (unsubscribe, abort)",
-      "Ставить объект/массив в deps без useMemo",
-      "Не понимать порядок выполнения эффектов"
-    ],
-    "followUps": [
-      "Что такое cleanup в useEffect?",
-      "Когда использовать useLayoutEffect?",
-      "Как имитировать componentDidMount с useEffect?",
-      "Что такое strict mode и как он влияет на useEffect?"
-    ],
-    "codeSnippet": "// Mount + Unmount\nuseEffect(() => {\n  const subscription = subscribe();\n  \n  // Cleanup (unmount)\n  return () => subscription.unsubscribe();\n}, []); // mount\n\n// Update\nuseEffect(() => {\n  document.title = `Count: ${count}`;\n}, [count]); // update при изменении count\n\n// Аналоги жизненного цикла:\n// [] — componentDidMount\n// [deps] — componentDidUpdate\n// return () => {} — componentWillUnmount",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "useEffect",
-      "Lifecycle",
-      "Side Effects"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "custom-hooks-rules",
-    "title": "Какие правила создания кастомных хуков в React?",
-    "aliases": [
-      "Custom Hooks",
-      "Правила хуков",
-      "Кастомные хуки"
-    ],
-    "answer": "Правила: 1) Название с префиксом use. 2) Вызываться на верхнем уровне (не в условиях, циклах, вложенных функциях). 3) Только из React-компонентов или других хуков. Кастомные хуки — переиспользование логики с хуками (state, эффекты, контекст).",
-    "exampleAnswer": "Правила хуков: 1) Начинать с use (useAuth, useFetch). 2) Вызывать на верхнем уровне — не в if/for/вложенных функциях. 3) Только из функциональных компонентов или других хуков. Кастомные хуки позволяют вынести общую логику: useFetch для запросов, useLocalStorage для хранения, useDebounce для отсрочки. Внутри могут использовать useState, useEffect и другие хуки.",
-    "context": "Интервьюер проверяет знание правил хуков и умение создавать переиспользуемую логику.",
-    "keyPoints": [
-      {
-        "title": "Префикс use",
-        "text": "Обязательно для проверки правил React (eslint-plugin-react-hooks)."
-      },
-      {
-        "title": "Уровень вызова",
-        "text": "Хуки вызываются на верхнем уровне. Это обеспечивает порядок вызовов между рендерами."
-      },
-      {
-        "title": "Переиспользование логики",
-        "text": "Кастомный хук — функция с хуками внутри. Возвращает данные/функции, которые нужны компоненту."
-      },
-      {
-        "title": "Тестируемость",
-        "text": "Кастомные хуки легко тестировать отдельно от компонентов."
-      }
-    ],
-    "pitfalls": [
-      "Нарушать правило верхнего уровня (вызывать в条件ии)",
-      "Не использовать префикс use",
-      "Создавать хуки для одного компонента (не переиспользование)",
-      "Забывать возвращать нужные данные из хука"
-    ],
-    "followUps": [
-      "Что такое хук-стек (hook stack)?",
-      "Как тестировать кастомные хуки?",
-      "Что такое Hook Form?",
-      "Как избежать дублирования логики без хуков?"
-    ],
-    "codeSnippet": "// Правила хуков\n// ✓ На верхнем уровне\nfunction MyComponent() {\n  const [a, setA] = useState(0);\n  const [b, setB] = useState(0);\n}\n\n// ✗ В условии — ОШИБКА!\nif (condition) {\n  const [a, setA] = useState(0);\n}\n\n// Кастомный хук\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    fetch(url)\n      .then(res => res.json())\n      .then(setData)\n      .finally(() => setLoading(false));\n  }, [url]);\n  \n  return { data, loading };\n}",
-    "codeLanguage": "jsx",
-    "category": "React",
-    "scope": "universal",
-    "languages": [
-      "React"
-    ],
-    "roles": [
-      "Frontend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "React",
-      "Hooks",
-      "Custom Hooks",
-      "Rules of Hooks"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
-  },
-  {
-    "id": "typescript-advantages",
-    "title": "Какие преимущества и особенности TypeScript?",
-    "aliases": [
-      "Преимущества TypeScript",
-      "TypeScript vs JavaScript",
-      "Особенности TS"
-    ],
-    "answer": "TypeScript — это JavaScript с типами. Преимущества: раннее обнаружение ошибок, лучшая поддержка IDE (автодополнение, рефакторинг), самодокументируемый код, безопасность при рефакторинге, поддержка_generics, utility types, decorators. Особенности: компиляция в JS, строгая типизация, интерфейсы, типы.",
-    "exampleAnswer": "TypeScript добавляет статическую типизацию к JavaScript. Преимущества: 1) Ошибки ловятся на этапе компиляции, а не в рантайме. 2) IDE знает типы — автодополнение, навигация, рефакторинг. 3) Код становится документацией. 4) Generics, utility types, conditional types для гибкой типизации. 5) Интерфейсы для описания структуры объектов. Особенности: типы стираются при компиляции, any —escape hatch, type assertions.",
-    "context": "Интервьюер проверяет знание преимуществ TypeScript и его особенностей.",
-    "keyPoints": [
-      {
-        "title": "Статическая типизация",
-        "text": "Типы проверяются на этапе компиляции. Ловит ошибки до запуска кода."
-      },
-      {
-        "title": "Интерфейсы и типы",
-        "text": "Описывают структуру объектов. Интерфейсы расширяемы, типы — гибче."
-      },
-      {
-        "title": "Generics",
-        "text": "Параметризованные типы. Позволяют писать переиспользуемый типизированный код."
-      },
-      {
-        "title": "Типы стираются",
-        "text": "TypeScript — это надмножество JS. В рантайме типов нет, всё компилируется в JS."
-      }
-    ],
-    "pitfalls": [
-      "Злоупотреблять any — теряется benefit типизации",
-      "Не использовать strict mode",
-      "Путать интерфейсы и типы",
-      "Думать, что TypeScript защищает от всех ошибок"
-    ],
-    "followUps": [
-      "Что такое utility types в TypeScript?",
-      "Как работает type inference?",
-      "Что такоеiscriminated union?",
-      "Когда использовать any, а когда unknown?"
-    ],
-    "codeSnippet": "// Интерфейс\ninterface User {\n  id: number;\n  name: string;\n  email?: string;\n}\n\n// Generics\nfunction identity<T>(arg: T): T {\n  return arg;\n}\n\n// Utility types\ntype Partial<User> = { [P in keyof User]?: User[P] };\ntype Pick<User, \"id\" | \"name\"> = { id: number; name: string };\n\n// Type assertion\nconst el = document.getElementById(\"app\") as HTMLDivElement;\n\n// Union type\ntype Status = \"idle\" | \"loading\" | \"error\";",
-    "codeLanguage": "typescript",
-    "category": "TypeScript",
-    "scope": "universal",
-    "languages": [
-      "TypeScript"
-    ],
-    "roles": [
-      "Frontend",
-      "Backend"
-    ],
-    "companies": [],
-    "level": "Middle",
-    "stage": "Техническое",
-    "tags": [
-      "TypeScript",
-      "Types",
-      "Generics",
-      "Type Safety"
-    ],
-    "duration": "10 мин",
-    "difficulty": 2
   }
 ]

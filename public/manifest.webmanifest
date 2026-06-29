@@ -1,0 +1,12 @@
+{
+  "name": "in.depth — подготовка к IT-интервью",
+  "short_name": "in.depth",
+  "description": "Реальные вопросы с технических интервью и JSON RAG для подготовки.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115",
+  "lang": "ru",
+  "icons": []
+}
