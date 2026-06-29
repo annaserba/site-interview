@@ -12,14 +12,20 @@ fi
 echo "→ Pulling latest changes..."
 git pull
 
+if [ -z "${DB_PASSWORD:-}" ] && [ -f .env ]; then
+  DB_PASSWORD="$(grep -E '^DB_PASSWORD=' .env | tail -n 1 | cut -d= -f2- || true)"
+  export DB_PASSWORD
+fi
+
 wait_for_db() {
   echo "→ Waiting for db..."
   for i in {1..30}; do
-    if docker compose exec -T db pg_isready -U app -d site_interview >/dev/null 2>&1; then
+    if docker compose exec -T -e PGPASSWORD="${DB_PASSWORD:-interview_secret_2024}" db psql -U app -d site_interview -c "SELECT 1" >/dev/null 2>&1; then
       return 0
     fi
     sleep 2
   done
+  echo "Database is not accepting SQL connections. Check DB_PASSWORD in .env and existing pgdata volume."
   docker compose logs --tail=80 db
   return 1
 }

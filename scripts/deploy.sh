@@ -3,17 +3,23 @@ set -Eeuo pipefail
 
 cd /root/site-interview
 
+if [ -z "${DB_PASSWORD:-}" ] && [ -f .env ]; then
+  DB_PASSWORD="$(grep -E '^DB_PASSWORD=' .env | tail -n 1 | cut -d= -f2- || true)"
+  export DB_PASSWORD
+fi
+
 echo "🔄 Pulling latest changes..."
 git pull origin main
 
 wait_for_db() {
   echo "⏳ Waiting for PostgreSQL..."
   for i in {1..40}; do
-    if docker compose exec -T db pg_isready -U app -d site_interview >/dev/null 2>&1; then
+    if docker compose exec -T -e PGPASSWORD="${DB_PASSWORD:-interview_secret_2024}" db psql -U app -d site_interview -c "SELECT 1" >/dev/null 2>&1; then
       return 0
     fi
     if [ "$i" -eq 40 ]; then
       echo "❌ PostgreSQL did not become healthy"
+      echo "   Check DB_PASSWORD in .env. If pgdata was created with another password, keep the old password or recreate the volume intentionally."
       docker compose ps
       docker compose logs --tail=120 db
       exit 1

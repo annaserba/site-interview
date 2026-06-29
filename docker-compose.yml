@@ -32,7 +32,9 @@ services:
     environment:
       # RAG и вопросы работают из JSON/S3. PostgreSQL нужен сайту для Яндекс OAuth,
       # сессий, избранного и пользовательских ответов.
-      DATABASE_URL: ${DATABASE_URL:-postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview}
+      # Внутри Docker нельзя использовать localhost для Postgres: это будет сам API-контейнер.
+      # Если нужен override именно для compose, задавайте DATABASE_URL_INTERNAL.
+      DATABASE_URL: ${DATABASE_URL_INTERNAL:-postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview}
       PORT: 3001
       NODE_ENV: production
       FRONTEND_URL: ${FRONTEND_URL:-http://192.144.59.118}

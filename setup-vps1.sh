@@ -23,6 +23,8 @@ if [ ! -f ".env" ]; then
   cat > .env << 'EOF'
 DATA_URL=https://s3.twcstorage.ru/5f60ae52-8657-407e-a83b-00b9cae4a175/data
 DB_PASSWORD=change_me_strong_password
+# Не задавайте DATABASE_URL=...localhost... для Docker Compose.
+# API внутри контейнера подключается к PostgreSQL по адресу db:5432.
 FRONTEND_URL=http://192.144.59.118
 YANDEX_CLIENT_ID=
 YANDEX_CLIENT_SECRET=

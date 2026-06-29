@@ -124,7 +124,8 @@ docker compose up -d
 DATA_URL=https://s3.twcstorage.ru/<bucket>/data
 
 # БД основного сайта для Яндекс OAuth, сессий, избранного и пользовательских ответов.
-# В docker-compose DATABASE_URL можно не задавать: он соберётся из DB_PASSWORD.
+# В docker-compose DATABASE_URL не нужен: внутри контейнеров Postgres доступен как db:5432.
+# Если нужно переопределить именно compose-подключение, используйте DATABASE_URL_INTERNAL.
 DB_PASSWORD=your_password
 
 # Яндекс OAuth
