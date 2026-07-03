@@ -6,3 +6,4 @@ dist
 *.log
 docker-compose.override.yml
 .env
+.env.example
