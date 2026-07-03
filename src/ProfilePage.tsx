@@ -158,6 +158,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [filters, setFilters] = useState<FiltersResponse | null>(null)
   const [activeCompany, setActiveCompany] = useState('all')
   const [activeType, setActiveType] = useState('all')
+  const [activeRole, setActiveRole] = useState('all')
   const [search, setSearch] = useState('')
   const [tab, setTab] = useState<'answers' | 'questions'>('answers')
   const [exporting, setExporting] = useState(false)
@@ -178,9 +179,10 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     const params: Record<string, string> = { limit: '500' }
     if (activeCompany !== 'all') params.company = activeCompany
     if (activeType !== 'all') params.type = activeType
+    if (activeRole !== 'all') params.role = activeRole
     if (search) params.search = search
     fetchQuestions(params).then((data) => setQuestions(data.questions))
-  }, [tab, activeCompany, activeType, search])
+  }, [tab, activeCompany, activeType, activeRole, search])
 
   const filteredQuestions = useMemo(() => {
     if (tab !== 'questions') return []
@@ -298,6 +300,12 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
                 <option value="all">Все типы</option>
                 {questionTypeDefinitions.map((t) => (
                   <option key={t.id} value={t.id}>{t.label}</option>
+                ))}
+              </select>
+              <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
+                <option value="all">Все роли</option>
+                {filters?.roles?.map((r) => (
+                  <option key={r} value={r}>{r}</option>
                 ))}
               </select>
             </div>
