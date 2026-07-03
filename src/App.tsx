@@ -372,25 +372,25 @@ function App() {
 
       <footer>
         <div className={s['footer-intro']}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <button
-              className={s['theme-toggle']}
-              type="button"
-              onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
-              aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
-              title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
-            >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-            <div className="brand"><span className="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
-          </div>
+          <div className="brand"><span className="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
           <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
           <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => window.location.hash = `all-questions`}>{type.label}</button>)}</div>
         </div>
-        <span>© 2026 sobes-it</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>© 2026 sobes-it</span>
+          <button
+            className={s['theme-toggle']}
+            type="button"
+            onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+            aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
+            title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+        </div>
       </footer>
       <ChatBot />
     </div>
