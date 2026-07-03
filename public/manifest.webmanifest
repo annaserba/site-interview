@@ -1,6 +1,6 @@
 {
-  "name": "in.depth — подготовка к IT-интервью",
-  "short_name": "in.depth",
+  "name": "sobes-it — подготовка к IT-интервью",
+  "short_name": "sobes-it",
   "description": "Реальные вопросы с технических интервью и JSON RAG для подготовки.",
   "start_url": "/",
   "scope": "/",

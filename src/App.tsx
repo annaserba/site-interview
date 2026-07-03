@@ -212,9 +212,9 @@ function App() {
   return (
     <div className={s['app-shell']}>
       <header className={s.topbar}>
-        <a className="brand" href="#top" aria-label="in.depth — на главную">
-          <span className="brand-mark">i<span>/</span>d</span>
-          <span>in.depth</span>
+        <a className="brand" href="#top" aria-label="sobes-it — на главную">
+          <span className="brand-mark">s<span>/</span>i</span>
+          <span>sobes-it</span>
         </a>
         <div className={s['header-stats']}>
           <span><strong>{questions.length}</strong> <small>вопросов</small></span>
@@ -381,14 +381,14 @@ function App() {
 
       <footer>
         <div className={s['footer-intro']}>
-          <div className="brand"><span className="brand-mark">i<span>/</span>d</span><span>in.depth</span></div>
+          <div className="brand"><span className="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
           <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
           <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => window.location.hash = `all-questions`}>{type.label}</button>)}</div>
         </div>
-        <span>© 2026 in.depth</span>
+        <span>© 2026 sobes-it</span>
       </footer>
       <ChatBot />
     </div>
