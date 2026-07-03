@@ -172,9 +172,10 @@ function App() {
       id: string
       url: string
       company: string
+      title: string
       publishedAt?: string
       questionIds: Set<string>
-      titles: string[]
+      questionTitles: string[]
     }>()
 
     for (const question of questions) {
@@ -187,15 +188,16 @@ function App() {
             id,
             url: source.url,
             company: source.company || question.companies.find((company) => company !== 'Несколько компаний') || 'YouTube',
+            title: (source as any).title || '',
             publishedAt: source.publishedAt || question.publishedAt,
             questionIds: new Set(),
-            titles: [],
+            questionTitles: [],
           })
         }
         const video = videos.get(id)
         if (!video) continue
         video.questionIds.add(question.id)
-        if (!video.titles.includes(question.title)) video.titles.push(question.title)
+        if (!video.questionTitles.includes(question.title)) video.questionTitles.push(question.title)
         if (!video.publishedAt && (source.publishedAt || question.publishedAt)) video.publishedAt = source.publishedAt || question.publishedAt
       }
     }
@@ -353,10 +355,10 @@ function App() {
                       <span>{video.company}</span>
                       {video.publishedAt && <small>{formatDate(video.publishedAt)}</small>}
                     </div>
-                    <h3>{video.company === 'Frontend-интервью' ? 'Frontend-интервью' : `Собеседование ${video.company}`}</h3>
+                    <h3>{video.title || `Собеседование ${video.company}`}</h3>
                     <p>{video.questionIds.size} {questionWord(video.questionIds.size)} из этого видео</p>
                     <div className={s['youtube-topics']}>
-                      {video.titles.slice(0, 3).map((title) => <span key={title}>{title}</span>)}
+                      {video.questionTitles.slice(0, 3).map((title) => <span key={title}>{title}</span>)}
                     </div>
                     <a href={video.url} target="_blank" rel="noreferrer">
                       Смотреть на YouTube <ArrowRight size={15} />
