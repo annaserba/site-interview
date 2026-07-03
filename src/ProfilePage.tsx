@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { ArrowLeft, Download, FileText, Trash2, Filter } from 'lucide-react'
+// @ts-ignore
 import html2pdf from 'html2pdf.js'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
