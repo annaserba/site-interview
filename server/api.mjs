@@ -4,6 +4,7 @@ import http from 'http'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
+import { migrate } from './db/migrate.mjs'
 
 const PHONE_SALT = process.env.PHONE_SALT || 'site-interview-salt-2024'
 function hashPhone(phone) {
@@ -14,47 +15,7 @@ let pool = null
 if (process.env.DATABASE_URL) {
   try {
     pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 5 })
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        yandex_id TEXT UNIQUE NOT NULL,
-        phone_hash TEXT UNIQUE NOT NULL,
-        display_name TEXT,
-        avatar_url TEXT,
-        default_email TEXT,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        last_login_at TIMESTAMPTZ DEFAULT NOW()
-      );
-      CREATE TABLE IF NOT EXISTS sessions (
-        token TEXT PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        expires_at TIMESTAMPTZ NOT NULL
-      );
-      CREATE TABLE IF NOT EXISTS favorites (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        question_id TEXT REFERENCES questions(id) ON DELETE CASCADE,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        UNIQUE(user_id, question_id)
-      );
-      CREATE TABLE IF NOT EXISTS user_answers (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        question_id TEXT REFERENCES questions(id) ON DELETE CASCADE,
-        answer TEXT NOT NULL,
-        context TEXT,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        updated_at TIMESTAMPTZ DEFAULT NOW()
-      );
-      CREATE INDEX IF NOT EXISTS idx_users_yandex_id ON users(yandex_id);
-      CREATE INDEX IF NOT EXISTS idx_users_phone_hash ON users(phone_hash);
-      CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
-      CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id);
-      CREATE INDEX IF NOT EXISTS idx_user_answers_user ON user_answers(user_id);
-      CREATE INDEX IF NOT EXISTS idx_user_answers_question ON user_answers(question_id);
-    `)
-    console.log('✓ DB tables ready')
+    await migrate(pool)
   } catch (e) {
     console.warn('DB init failed:', e.message)
     pool = null
