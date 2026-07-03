@@ -23,6 +23,7 @@
     "@types/pg": "^8.20.0",
     "@types/prismjs": "^1.26.6",
     "@vitejs/plugin-react": "^4.7.0",
+    "html2pdf.js": "^0.10.2",
     "lucide-react": "latest",
     "pg": "^8.22.0",
     "prismjs": "^1.30.0",
