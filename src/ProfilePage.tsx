@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { ArrowLeft, Download, FileText, Trash2, Search, Filter } from 'lucide-react'
+import { ArrowLeft, Download, FileText, Trash2, Filter } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import s from './ProfilePage.module.css'
@@ -159,9 +159,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [activeCompany, setActiveCompany] = useState('all')
   const [activeType, setActiveType] = useState('all')
   const [activeRole, setActiveRole] = useState('all')
-  const [search, setSearch] = useState('')
   const [tab, setTab] = useState<'answers' | 'questions'>('answers')
-  const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -180,9 +178,8 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     if (activeCompany !== 'all') params.company = activeCompany
     if (activeType !== 'all') params.type = activeType
     if (activeRole !== 'all') params.role = activeRole
-    if (search) params.search = search
     fetchQuestions(params).then((data) => setQuestions(data.questions))
-  }, [tab, activeCompany, activeType, activeRole, search])
+  }, [tab, activeCompany, activeType, activeRole])
 
   const filteredQuestions = useMemo(() => {
     if (tab !== 'questions') return []
@@ -281,15 +278,6 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
         <>
           <div className={s.filters}>
             <div className={s['filter-row']}>
-              <div className={s['search-box']}>
-                <Search size={14} />
-                <input
-                  type="text"
-                  placeholder="Поиск вопросов..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
               <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
                 <option value="all">Все компании</option>
                 {companyOrder.map((c) => (

@@ -245,7 +245,7 @@ function App() {
                   <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
                 )}
               </a>
-              <span className={s['user-name']}>{user.displayName}</span>
+              <a href="#profile" className={s['user-name']}>{user.displayName}</a>
               <button className={s['auth-btn-logout']} onClick={logout} title="Выйти">
                 <LogOut size={16} />
               </button>

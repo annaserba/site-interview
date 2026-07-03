@@ -81,7 +81,8 @@
   display: grid; place-items: center;
   font: 600 11px 'JetBrains Mono';
 }
-.user-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.user-name { font-size: 12px; font-weight: 600; color: var(--ink); text-decoration: none; cursor: pointer; transition: color .2s; }
+.user-name:hover { color: var(--acid); }
 
 .user-menu .auth-btn {
   background: none; border: 1px solid var(--line); padding: 6px 8px;
@@ -275,6 +276,10 @@
 
 .filters { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 18px; }
 .filters-row { display: flex; gap: 6px; width: 100%; flex-wrap: wrap; align-items: center; }
+.search-row { display: flex; gap: 6px; width: 100%; }
+.search-box { display: flex; align-items: center; gap: 8px; flex: 1; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.search-box input { flex: 1; border: none; background: none; font-size: 13px; color: var(--ink); outline: none; }
+.search-box svg { color: var(--muted); flex-shrink: 0; }
 .type-pills { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
 .type-label { font: 7px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
 .type-pill { padding: 7px 13px; border-radius: 100px; border: 1px solid var(--line); background: var(--surface); font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; box-shadow: var(--shadow-xs); }
