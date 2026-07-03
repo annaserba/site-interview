@@ -224,9 +224,6 @@ function App() {
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
-          {user && <a href="#profile" onClick={() => setMenuOpen(false)}>Мой кабинет</a>}
-        </nav>
-        <div className={s['header-actions']}>
           <button
             className={s['theme-toggle']}
             type="button"
@@ -236,6 +233,8 @@ function App() {
           >
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
+        </nav>
+        <div className={s['header-actions']}>
           {user ? (
             <div className={s['user-menu']}>
               <a href="#profile" className={s['user-avatar-link']}>
