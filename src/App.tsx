@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowRight, LogOut, Menu, Moon, Search, Sun, Users, X } from 'lucide-react'
+import { ArrowRight, Clock, LogOut, Menu, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
@@ -7,6 +7,7 @@ import { MockInterview } from './MockInterview'
 import { ProfilePage } from './ProfilePage'
 import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
+import { blogArticles } from './blog-articles'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
@@ -376,6 +377,30 @@ function App() {
                     </a>
                   </div>
                 </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {blogArticles.length > 0 && (
+          <section className={s['blog-section']}>
+            <div className={s['section-heading']}>
+              <div>
+                <h2>Блог</h2>
+                <p>Практические руководства по прохождению собеседований</p>
+              </div>
+              <a href="#blog" className={s['hero-cta-lg']}>Все статьи <ArrowRight size={18} /></a>
+            </div>
+            <div className={s['blog-grid']}>
+              {blogArticles.map((article) => (
+                <a key={article.id} href={`#article/${article.id}`} className={s['blog-card']}>
+                  <div className={s['blog-card-tags']}>
+                    {article.tags.map((tag) => <span key={tag} className={s['blog-tag']}><Tag size={10} /> {tag}</span>)}
+                  </div>
+                  <h3>{article.title}</h3>
+                  <p>{article.description}</p>
+                  <span className={s['blog-read-time']}><Clock size={12} /> {article.readTime}</span>
+                </a>
               ))}
             </div>
           </section>
