@@ -384,6 +384,7 @@ function App() {
           <button
             className={s['theme-toggle']}
             type="button"
+            style={{ marginLeft: '16px' }}
             onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
             aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
             title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
