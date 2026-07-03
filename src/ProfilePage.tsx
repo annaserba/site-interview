@@ -159,7 +159,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [activeCompany, setActiveCompany] = useState('all')
   const [activeType, setActiveType] = useState('all')
   const [activeRole, setActiveRole] = useState('all')
-  const [tab, setTab] = useState<'answers' | 'questions'>('answers')
+  const [tab, setTab] = useState<'answers' | 'questions'>('questions')
 
   useEffect(() => {
     Promise.all([
@@ -220,61 +220,15 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
       </div>
 
       <div className={s.tabs}>
-        <button className={`${s.tab} ${tab === 'answers' ? s.active : ''}`} onClick={() => setTab('answers')}>
-          Мои ответы ({totalAnswers})
-        </button>
         <button className={`${s.tab} ${tab === 'questions' ? s.active : ''}`} onClick={() => setTab('questions')}>
           Все вопросы
         </button>
+        <button className={`${s.tab} ${tab === 'answers' ? s.active : ''}`} onClick={() => setTab('answers')}>
+          Мои ответы ({totalAnswers})
+        </button>
       </div>
 
-      {tab === 'answers' ? (
-        <>
-          {totalAnswers > 0 && (
-            <div className={s['export-actions']}>
-              <button className={s['export-btn']} onClick={() => exportAnswersPDF(items)}>
-                <FileText size={16} /> PDF
-              </button>
-              <button className={s['export-btn']} onClick={() => exportAnswersMarkdown(items)}>
-                <Download size={16} /> Markdown
-              </button>
-            </div>
-          )}
-
-          {loading ? (
-            <div className={s['empty-state']}>Загрузка...</div>
-          ) : totalAnswers === 0 ? (
-            <div className={s['empty-state']}>
-              <p>У вас пока нет сохранённых ответов.</p>
-              <p>Откройте вопрос и напишите свой ответ — он сохранится здесь.</p>
-            </div>
-          ) : (
-            <div className={s['answers-list']}>
-              {Object.entries(grouped).map(([questionId, { question, answers }]) => (
-                <div key={questionId} className={s['question-card']}>
-                  <div className={s['question-header']}>
-                    <a href={`#question/${questionId}`} className={s['question-title']}>{question.title}</a>
-                    <div className={s['question-meta']}>
-                      <span>{question.companies.join(', ')}</span>
-                      <span>{question.category}</span>
-                    </div>
-                  </div>
-                  <div className={s['answers-section']}>
-                    {answers.map((answer) => (
-                      <div key={answer.id} className={s['answer-item']}>
-                        <p className={s['answer-text']}>{answer.answer}</p>
-                        <button className={s['answer-delete']} onClick={() => handleDelete(answer.id)} title="Удалить">
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      ) : (
+      {tab === 'questions' ? (
         <>
           <div className={s.filters}>
             <div className={s['filter-row']}>
@@ -327,6 +281,52 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
               </div>
             ))}
           </div>
+        </>
+      ) : (
+        <>
+          {totalAnswers > 0 && (
+            <div className={s['export-actions']}>
+              <button className={s['export-btn']} onClick={() => exportAnswersPDF(items)}>
+                <FileText size={16} /> PDF
+              </button>
+              <button className={s['export-btn']} onClick={() => exportAnswersMarkdown(items)}>
+                <Download size={16} /> Markdown
+              </button>
+            </div>
+          )}
+
+          {loading ? (
+            <div className={s['empty-state']}>Загрузка...</div>
+          ) : totalAnswers === 0 ? (
+            <div className={s['empty-state']}>
+              <p>У вас пока нет сохранённых ответов.</p>
+              <p>Откройте вопрос и напишите свой ответ — он сохранится здесь.</p>
+            </div>
+          ) : (
+            <div className={s['answers-list']}>
+              {Object.entries(grouped).map(([questionId, { question, answers }]) => (
+                <div key={questionId} className={s['question-card']}>
+                  <div className={s['question-header']}>
+                    <a href={`#question/${questionId}`} className={s['question-title']}>{question.title}</a>
+                    <div className={s['question-meta']}>
+                      <span>{question.companies.join(', ')}</span>
+                      <span>{question.category}</span>
+                    </div>
+                  </div>
+                  <div className={s['answers-section']}>
+                    {answers.map((answer) => (
+                      <div key={answer.id} className={s['answer-item']}>
+                        <p className={s['answer-text']}>{answer.answer}</p>
+                        <button className={s['answer-delete']} onClick={() => handleDelete(answer.id)} title="Удалить">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
     </div>
