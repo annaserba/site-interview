@@ -30,23 +30,6 @@
 .nav-links a:hover::before, .nav-links a.active::before { opacity: 0.3; transform: scaleX(1); }
 .nav-links a:hover, .nav-links a.active { color: var(--ink); }
 
-.nav-links .theme-toggle {
-  width: auto; height: auto;
-  padding: 10px 0;
-  background: none; border: none; box-shadow: none;
-  color: var(--muted); font-size: 15px; font-weight: 600;
-  position: relative; cursor: pointer;
-  transition: color .2s var(--ease-out);
-}
-.nav-links .theme-toggle:hover { color: var(--ink); transform: none; }
-.nav-links .theme-toggle::before {
-  content: ''; position: absolute; inset: 2px -8px;
-  background: var(--acid); border-radius: var(--radius-sm); z-index: -1;
-  opacity: 0; transform: scaleX(0.7);
-  transition: opacity .2s var(--ease-out), transform .25s var(--ease-spring);
-}
-.nav-links .theme-toggle:hover::before { opacity: 0.3; transform: scaleX(1); }
-
 .header-actions { display: flex; gap: 9px; align-items: center; }
 
 .theme-toggle {
@@ -369,7 +352,6 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   .topbar { height: 72px; padding: 0 5.5vw; }
   .nav-links { display: flex; position: static; padding: 0; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0; flex-direction: row; align-items: center; gap: 34px; z-index: auto; }
   .nav-links a { font-size: 14px; }
-  .nav-links .theme-toggle { font-size: 14px; }
   .menu-button { display: none; }
   .header-stats { display: flex; }
   .hero { padding-top: 56px; }

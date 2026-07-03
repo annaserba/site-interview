@@ -224,15 +224,6 @@ function App() {
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
-          <button
-            className={s['theme-toggle']}
-            type="button"
-            onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
-            aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
-            title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
-          >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
         </nav>
         <div className={s['header-actions']}>
           {user ? (
@@ -381,7 +372,18 @@ function App() {
 
       <footer>
         <div className={s['footer-intro']}>
-          <div className="brand"><span className="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              className={s['theme-toggle']}
+              type="button"
+              onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+              aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}
+              title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <div className="brand"><span className="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
+          </div>
           <p>Сложные интервью становятся понятнее.</p>
         </div>
         <div className={s['footer-nav']}>
