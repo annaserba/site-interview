@@ -24753,5 +24753,75 @@
     "sourceType": "aggregated",
     "videoFrequency": 0,
     "publishedAt": ""
+  },
+  {
+    "id": "system-design-twitter-feed",
+    "title": "Спроектируйте ленту Twitter",
+    "aliases": ["News Feed", "Лента новостей соцсети"],
+    "answer": "Классический system design: Write path (пользователь пишет твит → fanout-on-write или fanout-on-read) и Read path (загрузка ленты → merge from followees). Fanout-on-write: при POST все followers получают твит в свою ленту (быстро для чтения, медленно для записи, проблема celebrity users). Fanout-on-read: лента собирается на лету из подписок (медленно для чтения, быстро для записи). Гибрид:普通ные пользователи — fanout-on-write, celebrities — fanout-on-read. Хранение: лента как sorted list of tweet IDs (Redis sorted set по timestamp). Sharding: по user ID. Кеш: in-memory LRU + Redis. Пагинация: cursor-based (не offset). Timeline ranking: по relevancy, не chronological.",
+    "exampleAnswer": "Архитектура Twitter feed:\n\n**Write path:** User posts tweet → Tweet Service (storage) → Fanout Service (для normal users — push в ленты followers, для celebrities — не пушим). Tweet хранится в DB (Cassandra по tweet_id).\n\n**Read path:** Запрос ленты → Feed Service → сначала берём кешированную ленту из Redis (sorted set, score = timestamp), merge с недавними tweets от celebrities (fanout-on-read) → return. Кеш: Redis sorted set с TTL. Miss → DB.\n\n**Sharding:** По user_id для лент, по tweet_id для твитов. Consistent hashing для распределения.\n\n**Celebrity problem:** Если @elonmusk постит 100 твитов/день и у него 100M followers — fanout-on-write невозможен. Решение: hybrid approach. Normal users → fanout-on-write, celebrities → fanout-on-read (рендер при чтении).\n\n**Пагинация:** Cursor-based (last tweet timestamp + id), не offset-based — иначе пропуски при новых твитах.\n\n**Ranking:** ML model: features (recency, engagement, relationship closeness) → relevance score.",
+    "context": "Классический system design вопрос. Проверяют понимание trade-offs между write и read paths, celebrity problem, sharding и кеширования.",
+    "keyPoints": [
+      {
+        "title": "Fanout-on-write vs read",
+        "text": "Write: быстрое чтение, медленная запись, проблема celebrities. Read: быстрая запись, медленное чтение. Гибрид — оптимально."
+      },
+      {
+        "title": "Celebrity problem",
+        "text": "100M followers × fanout-on-write = катастрофа. Решение: fanout-on-read для популярных аккаунтов."
+      },
+      {
+        "title": "Хранение ленты",
+        "text": "Redis sorted set (score = timestamp). Sharding по user_id. TTL + warm-up при cold start."
+      },
+      {
+        "title": "Пагинация",
+        "text": "Cursor-based (timestamp + id), не offset — иначе дубли/пропуски при новых записях."
+      }
+    ],
+    "pitfalls": [
+      "Fanout-on-write для всех (celebrity problem)",
+      "Offset-based pagination (гонки при новых записях)",
+      "Без кеша — каждый запрос в DB",
+      "Не учитывать ranking / relevance"
+    ],
+    "followUps": [
+      "Как обрабатываете celebrity accounts?",
+      "Что если кеш ленты холодный?",
+      "Как добавить ranking / relevancy?",
+      "WebSocket для real-time обновлений?"
+    ],
+    "category": "System Design",
+    "scope": "system-design",
+    "languages": [],
+    "roles": [
+      "Backend"
+    ],
+    "companies": [
+      "Яндекс",
+      "VK"
+    ],
+    "level": "Senior",
+    "stage": "Архитектура",
+    "tags": [
+      "System Design",
+      "Feed",
+      "Fanout",
+      "Redis",
+      "Sharding"
+    ],
+    "duration": "45 мин",
+    "difficulty": 5,
+    "sources": [
+      {
+        "company": "Яндекс",
+        "url": "https://www.youtube.com/watch?v=ZCDFbrpk3WM",
+        "type": "youtube",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "youtube",
+    "videoFrequency": 1,
+    "publishedAt": ""
   }
 ]
