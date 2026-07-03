@@ -210,12 +210,18 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "candidate-report",
+        "type": "aggregated",
+        "publishedAt": ""
+      },
+      {
+        "company": "Несколько компаний",
+        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
+        "type": "youtube",
         "publishedAt": ""
       }
     ],
-    "sourceType": "candidate-report",
-    "videoFrequency": 0,
+    "sourceType": "aggregated",
+    "videoFrequency": 1,
     "publishedAt": ""
   },
   {
