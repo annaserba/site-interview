@@ -58,7 +58,6 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
-  const [search, setSearch] = useState('')
   const [visibleCount, setVisibleCount] = useState(8)
   const [dataError, setDataError] = useState('')
   const feedSentinelRef = useRef<HTMLDivElement>(null)
@@ -99,7 +98,6 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
   }, [])
 
   const filtered = useMemo(() => {
-    const searchLower = search.toLocaleLowerCase('ru-RU')
     const result = questions.filter((item) => {
       const companyMatch = activeCompany === 'Все компании' || item.companies.includes(activeCompany)
       const roleMatch = activeRole === 'Все роли' || item.roles.includes(activeRole)
@@ -107,10 +105,6 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
       const topicMatch = !topic || topic.categories.includes(item.category) || topic.terms.some((term) => item.title.toLocaleLowerCase('ru-RU').includes(term))
       const type = getQuestionType(item)
       if (!activeTypes.has(type)) return false
-      if (searchLower) {
-        const text = [item.title, ...(item.aliases || []), item.answer, ...(item.tags || [])].join(' ').toLocaleLowerCase('ru-RU')
-        if (!text.includes(searchLower)) return false
-      }
       return companyMatch && roleMatch && topicMatch
     })
     return result.sort((left, right) => {
@@ -173,17 +167,6 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
       </div>
 
       <div className={s.filters}>
-        <div className={s['search-row']}>
-          <div className={s['search-box']}>
-            <Search size={14} />
-            <input
-              type="text"
-              placeholder="Поиск вопросов..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
         <div className={s['filters-row']}>
           <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
             { value: 'Все роли', label: 'Все роли' },
