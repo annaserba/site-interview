@@ -5,6 +5,8 @@ import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
 import { MockInterview } from './MockInterview'
 import { ProfilePage } from './ProfilePage'
+import { BlogPage } from './BlogPage'
+import { ArticlePage } from './ArticlePage'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
@@ -76,6 +78,8 @@ function App() {
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')
   const [showProfile, setShowProfile] = useState(() => window.location.hash === '#profile')
+  const [showBlog, setShowBlog] = useState(() => window.location.hash === '#blog')
+  const [selectedArticleId, setSelectedArticleId] = useState(() => window.location.hash.startsWith('#article/') ? window.location.hash.slice(10) : '')
 
   useEffect(() => {
     fetchCurrentUser().then(setUser)
@@ -140,10 +144,14 @@ function App() {
       setShowProfile(false)
       return
     }
-    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); return }
+    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); return }
     setShowMockInterview(false)
-    if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); return }
+    if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowBlog(false); setSelectedArticleId(''); return }
     setShowProfile(false)
+    if (path === 'blog') { setShowBlog(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setSelectedArticleId(''); return }
+    setShowBlog(false)
+    if (path.startsWith('article/')) { setSelectedArticleId(path.slice(8)); setShowBlog(false); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); return }
+    setSelectedArticleId('')
     if (path === 'all-questions') { setShowAllQuestions(true); setSelectedQuestionId(''); return }
     setShowAllQuestions(false)
     if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
@@ -226,6 +234,7 @@ function App() {
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
+          <a href="#blog" onClick={() => setMenuOpen(false)}>Блог</a>
         </nav>
         <div className={s['header-actions']}>
           {user ? (
@@ -258,6 +267,8 @@ function App() {
         {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
          showAllQuestions ? <QuestionsPage onOpenQuestion={openQuestion} /> :
          showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
+         showBlog ? <BlogPage onOpenArticle={(id) => window.location.hash = `article/${id}`} onBack={() => window.location.hash = 'questions'} /> :
+         selectedArticleId ? <ArticlePage articleId={selectedArticleId} onBack={() => window.location.hash = 'blog'} /> :
          selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
         <section className={s.hero}>
           <div className={s['hero-copy']}>
