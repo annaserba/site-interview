@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
 import { migrate } from './db/migrate.mjs'
+import { seed } from './db/seed.mjs'
 
 const PHONE_SALT = process.env.PHONE_SALT || 'site-interview-salt-2024'
 function hashPhone(phone) {
@@ -16,6 +17,7 @@ if (process.env.DATABASE_URL) {
   try {
     pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 5 })
     await migrate(pool)
+    await seed(pool)
   } catch (e) {
     console.warn('DB init failed:', e.message)
     pool = null
