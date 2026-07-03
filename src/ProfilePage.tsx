@@ -219,6 +219,31 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
         </div>
       </div>
 
+      {tab === 'questions' && (
+        <div className={s.filters}>
+          <div className={s['filter-row']}>
+            <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
+              <option value="all">Все компании</option>
+              {companyOrder.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+            <select value={activeType} onChange={(e) => setActiveType(e.target.value)}>
+              <option value="all">Все типы</option>
+              {questionTypeDefinitions.map((t) => (
+                <option key={t.id} value={t.id}>{t.label}</option>
+              ))}
+            </select>
+            <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
+              <option value="all">Все роли</option>
+              {filters?.roles?.map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
       <div className={s.tabs}>
         <button className={`${s.tab} ${tab === 'questions' ? s.active : ''}`} onClick={() => setTab('questions')}>
           Все вопросы
@@ -230,29 +255,6 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
 
       {tab === 'questions' ? (
         <>
-          <div className={s.filters}>
-            <div className={s['filter-row']}>
-              <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
-                <option value="all">Все компании</option>
-                {companyOrder.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-              <select value={activeType} onChange={(e) => setActiveType(e.target.value)}>
-                <option value="all">Все типы</option>
-                {questionTypeDefinitions.map((t) => (
-                  <option key={t.id} value={t.id}>{t.label}</option>
-                ))}
-              </select>
-              <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
-                <option value="all">Все роли</option>
-                {filters?.roles?.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
           {filteredQuestions.length > 0 && (
             <div className={s['export-actions']}>
               <span className={s['question-count']}>{filteredQuestions.length} вопросов</span>
