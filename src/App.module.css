@@ -50,6 +50,17 @@
 }
 .theme-toggle:active { transform: scale(.96); }
 
+footer .theme-toggle {
+  border-color: #3a3c36;
+  background: rgba(255,255,255,.06);
+  color: #c7c9c1;
+}
+footer .theme-toggle:hover {
+  border-color: var(--acid);
+  background: rgba(184,255,0,.06);
+  color: var(--acid);
+}
+
 .auth-btn {
   display: inline-flex; align-items: center; gap: 6px;
   min-height: 36px; padding: 6px 12px 6px 7px; border: 1px solid var(--line); border-radius: 999px;
