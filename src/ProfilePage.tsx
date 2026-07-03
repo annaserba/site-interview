@@ -173,25 +173,31 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   }, [])
 
   useEffect(() => {
-    if (tab !== 'questions') return
     const params: Record<string, string> = { limit: '500' }
     if (activeCompany !== 'all') params.company = activeCompany
     if (activeType !== 'all') params.type = activeType
     if (activeRole !== 'all') params.role = activeRole
     fetchQuestions(params).then((data) => setQuestions(data.questions))
-  }, [tab, activeCompany, activeType, activeRole])
+  }, [activeCompany, activeType, activeRole])
 
   const filteredQuestions = useMemo(() => {
-    if (tab !== 'questions') return []
     return questions
-  }, [questions, tab])
+  }, [questions])
+
+  const filteredAnswers = useMemo(() => {
+    return items.filter((item) => {
+      if (activeCompany !== 'all' && !item.companies.includes(activeCompany)) return false
+      if (activeType !== 'all' && item.category !== activeType) return false
+      return true
+    })
+  }, [items, activeCompany, activeType])
 
   const handleDelete = async (id: number) => {
     await deleteUserAnswer(id)
     setItems((prev) => prev.filter((item) => item.id !== id))
   }
 
-  const grouped = items.reduce<Record<string, { question: UserAnswerWithQuestion; answers: UserAnswerWithQuestion[] }>>((acc, item) => {
+  const grouped = filteredAnswers.reduce<Record<string, { question: UserAnswerWithQuestion; answers: UserAnswerWithQuestion[] }>>((acc, item) => {
     if (!acc[item.question_id]) {
       acc[item.question_id] = { question: item, answers: [] }
     }
@@ -199,7 +205,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     return acc
   }, {})
 
-  const totalAnswers = items.length
+  const totalAnswers = filteredAnswers.length
   const totalQuestions = Object.keys(grouped).length
 
   return (
@@ -219,30 +225,28 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
         </div>
       </div>
 
-      {tab === 'questions' && (
-        <div className={s.filters}>
-          <div className={s['filter-row']}>
-            <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
-              <option value="all">Все компании</option>
-              {companyOrder.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-            <select value={activeType} onChange={(e) => setActiveType(e.target.value)}>
-              <option value="all">Все типы</option>
-              {questionTypeDefinitions.map((t) => (
-                <option key={t.id} value={t.id}>{t.label}</option>
-              ))}
-            </select>
-            <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
-              <option value="all">Все роли</option>
-              {filters?.roles?.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-          </div>
+      <div className={s.filters}>
+        <div className={s['filter-row']}>
+          <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
+            <option value="all">Все компании</option>
+            {companyOrder.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <select value={activeType} onChange={(e) => setActiveType(e.target.value)}>
+            <option value="all">Все типы</option>
+            {questionTypeDefinitions.map((t) => (
+              <option key={t.id} value={t.id}>{t.label}</option>
+            ))}
+          </select>
+          <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
+            <option value="all">Все роли</option>
+            {filters?.roles?.map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
         </div>
-      )}
+      </div>
 
       <div className={s.tabs}>
         <button className={`${s.tab} ${tab === 'questions' ? s.active : ''}`} onClick={() => setTab('questions')}>
@@ -288,10 +292,10 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
         <>
           {totalAnswers > 0 && (
             <div className={s['export-actions']}>
-              <button className={s['export-btn']} onClick={() => exportAnswersPDF(items)}>
+              <button className={s['export-btn']} onClick={() => exportAnswersPDF(filteredAnswers)}>
                 <FileText size={16} /> PDF
               </button>
-              <button className={s['export-btn']} onClick={() => exportAnswersMarkdown(items)}>
+              <button className={s['export-btn']} onClick={() => exportAnswersMarkdown(filteredAnswers)}>
                 <Download size={16} /> Markdown
               </button>
             </div>
