@@ -3,9 +3,9 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const blogData = JSON.parse(readFileSync(join(__dirname, '../src/blog-articles.json'), 'utf8'))
-
 const SITE_URL = 'https://sobes-it.ru'
+const articles = JSON.parse(readFileSync(join(__dirname, '../src/blog-articles.json'), 'utf8'))
+console.log(`✓ Loaded ${articles.length} articles from blog-articles.json`)
 
 function renderArticle(article) {
   return `<!DOCTYPE html>
@@ -116,14 +116,13 @@ function renderBlogIndex(articles) {
 </html>`
 }
 
-// Generate
 const outDir = join(__dirname, '../dist/blog')
 mkdirSync(outDir, { recursive: true })
 
-writeFileSync(join(outDir, 'index.html'), renderBlogIndex(blogArticles))
+writeFileSync(join(outDir, 'index.html'), renderBlogIndex(articles))
 console.log(`✓ blog/index.html`)
 
-for (const article of blogArticles) {
+for (const article of articles) {
   writeFileSync(join(outDir, `${article.id}.html`), renderArticle(article))
   console.log(`✓ blog/${article.id}.html`)
 }

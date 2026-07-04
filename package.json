@@ -16,8 +16,9 @@
     "s3:upload": "npm run index && sh scripts/upload-s3.sh",
     "test": "node --test server/rag-core.test.mjs",
     "build": "node scripts/build-content.mjs && node scripts/build-index.mjs && tsc -b && vite build",
-    "build:ci": "tsc -b && vite build",
-    "build:blog": "node scripts/gen-blog-json.mjs && node scripts/build-blog.mjs",
+    "build:ci": "npm run build:stats && tsc -b && vite build",
+    "build:stats": "node scripts/gen-stats.mjs",
+    "build:blog": "node scripts/build-blog.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

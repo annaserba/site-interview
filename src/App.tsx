@@ -70,6 +70,8 @@ const topicDefinitions = [
 
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
+  const [questionsLoaded, setQuestionsLoaded] = useState(false)
+  const [staticStats, setStaticStats] = useState<{ totalQuestions: number; companyCount: number; universalCount: number } | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [theme, setTheme] = useState<ThemeMode>(readInitialTheme)
@@ -90,6 +92,16 @@ function App() {
     document.documentElement.dataset.theme = theme
     window.localStorage.setItem('in-depth:theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    fetch('/stats.json')
+      .then((r) => r.json())
+      .then((stats) => {
+        setStaticStats(stats)
+        setQuestionsLoaded(true)
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetchQuestions({ limit: 500 })
@@ -175,7 +187,10 @@ function App() {
     })
   }, [questions])
 
-  const companyCount = useMemo(() => new Set(questions.flatMap((question) => question.companies).filter((company) => company !== 'Несколько компаний')).size, [questions])
+  const companyCount = useMemo(() => {
+    if (questions.length > 0) return new Set(questions.flatMap((question) => question.companies).filter((company) => company !== 'Несколько компаний')).size
+    return staticStats?.companyCount ?? 0
+  }, [questions, staticStats])
   const youtubeVideos = useMemo(() => {
     const videos = new Map<string, {
       id: string
@@ -213,7 +228,9 @@ function App() {
 
     return [...videos.values()].sort((left, right) => right.questionIds.size - left.questionIds.size)
   }, [questions])
-  const universalCount = questions.filter((question) => question.scope === 'universal').length
+  const universalCount = questions.length > 0
+    ? questions.filter((question) => question.scope === 'universal').length
+    : staticStats?.universalCount ?? 0
 
   const selectedQuestion = questions.find((question) => question.id === selectedQuestionId)
   const openQuestion = (id: string) => { window.location.hash = `question/${id}` }
@@ -227,8 +244,8 @@ function App() {
           <span className="brand-mark">s<span>/</span>i</span>
           <span>sobes-it</span>
         </a>
-        <div className={s['header-stats']}>
-          <span><strong>{questions.length}</strong> <small>вопросов</small></span>
+        <div className={s['header-stats']} style={{ opacity: questionsLoaded ? 1 : 0, transition: 'opacity .3s' }}>
+          <span><strong>{staticStats?.totalQuestions ?? questions.length}</strong> <small>вопросов</small></span>
           <span><strong>{companyCount}</strong> <small>компаний</small></span>
           <span><strong>{universalCount}</strong> <small>универс.</small></span>
         </div>
@@ -281,7 +298,7 @@ function App() {
 
         <section className={s['question-section']} id="questions">
           {authNotice && <div className={s['status-note']}>{authNotice}</div>}
-          <div className={s['section-heading']}>
+          <div className={s['section-heading']} style={{ opacity: questionsLoaded ? 1 : 0, transition: 'opacity .3s' }}>
             <div>
               <h2>Свежие вопросы</h2>
               <p>Восстановлены кандидатами после реальных интервью</p>
@@ -291,7 +308,7 @@ function App() {
             </a>
           </div>
 
-          <div className={s['question-grid']}>
+          <div className={s['question-grid']} style={{ opacity: questionsLoaded ? 1 : 0, transition: 'opacity .3s' }}>
             {dataError && <div className={s['empty-state']}><Search /><h3>База не отвечает</h3><p>{dataError}</p></div>}
             {filtered.slice(0, 6).map((question) => (
               <article className={s['question-card']} key={question.id} onClick={() => openQuestion(question.id)} style={{ cursor: 'pointer' }}>
