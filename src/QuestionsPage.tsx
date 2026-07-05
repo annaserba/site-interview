@@ -59,9 +59,9 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
       .then((data) => setQuestions(data.map(mapQuestion)))
       .catch(() => setDataError('База вопросов сейчас недоступна.'))
 
-    // Try API in background for fresher data
+    // Try API in background for fresher data (only if it returns actual data)
     fetchQuestions({ limit: 500 })
-      .then((data) => setQuestions(data.questions.map(mapQuestion)))
+      .then((data) => { if (data.questions.length) setQuestions(data.questions.map(mapQuestion)) })
       .catch(() => {})
   }, [])
 

@@ -30,7 +30,8 @@ export interface ApiQuestion {
   published_at?: string | null
 }
 
-export function mapQuestion(raw: Partial<ApiQuestion> & { id: string; title: string }): Question {
+export function mapQuestion(raw: Record<string, any> & { id: string; title: string }): Question {
+  const g = (snake: string, camel: string, fallback: any) => raw[snake] ?? raw[camel] ?? fallback
   return {
     id: raw.id,
     title: raw.title,
@@ -46,17 +47,17 @@ export function mapQuestion(raw: Partial<ApiQuestion> & { id: string; title: str
     languages: raw.languages || [],
     level: raw.level || 'Middle',
     duration: raw.duration || '10 мин',
-    keyPoints: raw.key_points || [],
+    keyPoints: g('key_points', 'keyPoints', []),
     pitfalls: raw.pitfalls || [],
-    followUps: raw.follow_ups || [],
-    exampleAnswer: raw.example_answer || '',
-    codeSnippet: raw.code_snippet || null,
-    codeLanguage: raw.code_language || null,
+    followUps: g('follow_ups', 'followUps', []),
+    exampleAnswer: g('example_answer', 'exampleAnswer', ''),
+    codeSnippet: g('code_snippet', 'codeSnippet', null),
+    codeLanguage: g('code_language', 'codeLanguage', null),
     sources: raw.sources || [],
-    sourceType: raw.source_type || 'aggregated',
+    sourceType: g('source_type', 'sourceType', 'aggregated'),
     scope: raw.scope || 'universal',
-    videoFrequency: raw.video_frequency ?? 0,
-    publishedAt: raw.published_at || undefined,
+    videoFrequency: g('video_frequency', 'videoFrequency', 0),
+    publishedAt: g('published_at', 'publishedAt', undefined),
   } as Question
 }
 
