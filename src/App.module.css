@@ -78,18 +78,6 @@ footer .theme-toggle:hover {
   font: 800 15px/1 Arial, sans-serif;
 }
 
-.auth-buttons {
-  display: flex; gap: 6px; align-items: center;
-}
-.hh-btn { border-color: rgba(0,119,255,.2); }
-.hh-btn:hover { border-color: rgba(0,119,255,.4); box-shadow: var(--shadow-sm), 0 16px 34px rgba(0,119,255,.08); }
-.hh-mark {
-  width: 24px; height: 24px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: #0077ff; color: white;
-  font: 800 12px/1 Arial, sans-serif;
-}
-
 .user-menu {
   display: flex; align-items: center; gap: 8px;
 }

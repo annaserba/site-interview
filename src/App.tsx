@@ -10,7 +10,7 @@ import { ArticlePage } from './ArticlePage'
 import { blogArticles } from './blog-articles'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
-import { fetchQuestions, fetchCurrentUser, loginWithYandex, loginWithHH, logout, type User } from './api'
+import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, type User } from './api'
 import s from './App.module.css'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
@@ -270,16 +270,10 @@ function App() {
               </button>
             </div>
           ) : (
-            <div className={s['auth-buttons']}>
-              <button className={s['auth-btn']} onClick={loginWithYandex} aria-label="Войти через Яндекс">
-                <span className={s['yandex-mark']} aria-hidden="true">Я</span>
-                <span>Яндекс</span>
-              </button>
-              <button className={`${s['auth-btn']} ${s['hh-btn']}`} onClick={loginWithHH} aria-label="Войти через HH">
-                <span className={s['hh-mark']} aria-hidden="true">hh</span>
-                <span>HH</span>
-              </button>
-            </div>
+            <button className={s['auth-btn']} onClick={loginWithYandex} aria-label="Войти через Яндекс">
+              <span className={s['yandex-mark']} aria-hidden="true">Я</span>
+              <span>Войти через Яндекс</span>
+            </button>
           )}
           <button className={s['menu-button']} onClick={() => setMenuOpen(!menuOpen)} aria-label="Открыть меню">
             {menuOpen ? <X /> : <Menu />}

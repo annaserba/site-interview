@@ -88,8 +88,6 @@ const statements = [
   `CREATE INDEX IF NOT EXISTS idx_questions_published_at ON questions(published_at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_users_yandex_id ON users(yandex_id)`,
   `CREATE INDEX IF NOT EXISTS idx_users_phone_hash ON users(phone_hash)`,
-  `ALTER TABLE users ADD COLUMN IF NOT EXISTS hh_id TEXT UNIQUE`,
-  `CREATE INDEX IF NOT EXISTS idx_users_hh_id ON users(hh_id)`,
   `CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id)`,
   `CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id)`,
   `CREATE INDEX IF NOT EXISTS idx_view_history_user ON view_history(user_id)`,

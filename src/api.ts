@@ -148,10 +148,6 @@ export function loginWithYandex() {
   window.location.href = `${API_BASE}/auth/yandex`
 }
 
-export function loginWithHH() {
-  window.location.href = `${API_BASE}/auth/hh`
-}
-
 export async function logout(): Promise<void> {
   await fetch(`${API_BASE}/auth/logout`, {
     method: 'POST',

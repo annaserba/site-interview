@@ -27,9 +27,6 @@ if (process.env.DATABASE_URL) {
 const YANDEX_CLIENT_ID = process.env.YANDEX_CLIENT_ID
 const YANDEX_CLIENT_SECRET = process.env.YANDEX_CLIENT_SECRET
 const YANDEX_REDIRECT_URI = process.env.YANDEX_REDIRECT_URI || 'http://192.144.59.118/api/auth/yandex/callback'
-const HH_CLIENT_ID = process.env.HH_CLIENT_ID
-const HH_CLIENT_SECRET = process.env.HH_CLIENT_SECRET
-const HH_REDIRECT_URI = process.env.HH_REDIRECT_URI || 'http://192.144.59.118/api/auth/hh/callback'
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://192.144.59.118'
 const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000 // 30 days
 const questionsPath = resolve(process.cwd(), 'public/data/questions.json')
@@ -271,70 +268,6 @@ async function createSession(userId) {
   return { token, expiresAt }
 }
 
-// ─── HH OAuth ───
-
-async function exchangeHHCodeForToken(code) {
-  const res = await fetch('https://api.hh.ru/oauth/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      code,
-      client_id: HH_CLIENT_ID,
-      client_secret: HH_CLIENT_SECRET,
-      redirect_uri: HH_REDIRECT_URI,
-    }),
-  })
-  if (!res.ok) throw new Error('HH token exchange failed')
-  return res.json()
-}
-
-async function fetchHHUserInfo(accessToken) {
-  const res = await fetch('https://api.hh.ru/me', {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  })
-  if (!res.ok) throw new Error('HH user info failed')
-  return res.json()
-}
-
-function hhInfoToUser(hhInfo) {
-  const hhId = String(hhInfo.id)
-  const firstName = hhInfo.first_name || ''
-  const lastName = hhInfo.last_name || ''
-  const displayName = [firstName, lastName].filter(Boolean).join(' ') || 'User'
-  const avatar = hhInfo.photo?.sizes?.find(s => s.size === 'original')?.url || hhInfo.photo?.sizes?.[0]?.url || null
-  return {
-    id: `hh:${hhId}`,
-    hh_id: hhId,
-    phone_hash: `no_phone_${hhId}`,
-    display_name: displayName,
-    avatar_url: avatar,
-    default_email: hhInfo.email || '',
-  }
-}
-
-async function findOrCreateHHUser(hhInfo) {
-  const userInfo = hhInfoToUser(hhInfo)
-  const { hh_id: hhId, phone_hash: phoneHash, display_name: displayName, avatar_url: avatarUrl, default_email: email } = userInfo
-
-  const existing = await pool.query('SELECT * FROM users WHERE hh_id = $1', [hhId])
-  if (existing.rows.length > 0) {
-    const user = existing.rows[0]
-    await pool.query(
-      'UPDATE users SET display_name=$1, avatar_url=$2, default_email=$3, last_login_at=NOW() WHERE id=$4',
-      [displayName, avatarUrl, email, user.id]
-    )
-    return user
-  }
-
-  const result = await pool.query(
-    `INSERT INTO users (hh_id, phone_hash, display_name, avatar_url, default_email)
-     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [hhId, phoneHash, displayName, avatarUrl, email]
-  )
-  return result.rows[0]
-}
-
 const server = http.createServer(async (req, res) => {
   const url = req.url.split('?')[0]
 
@@ -382,45 +315,6 @@ const server = http.createServer(async (req, res) => {
       return res.end()
     }
 
-    // Redirect to HH OAuth
-    if (url === '/api/auth/hh' && req.method === 'GET') {
-      if (!HH_CLIENT_ID || !HH_CLIENT_SECRET) {
-        return redirect(res, `${FRONTEND_URL}#auth-config-required`)
-      }
-      const authUrl = `https://hh.ru/oauth/authorize?response_type=code&client_id=${encodeURIComponent(HH_CLIENT_ID)}&redirect_uri=${encodeURIComponent(HH_REDIRECT_URI)}`
-      return redirect(res, authUrl)
-    }
-
-    // HH OAuth callback
-    if (url === '/api/auth/hh/callback' && req.method === 'GET') {
-      const { code, error } = parseQuery(req.url)
-      if (error || !code) {
-        return redirect(res, `${FRONTEND_URL}#auth-error`)
-      }
-
-      const tokenData = await exchangeHHCodeForToken(code)
-      const hhInfo = await fetchHHUserInfo(tokenData.access_token)
-      let session
-      if (await ensureDbAvailable()) {
-        try {
-          const user = await findOrCreateHHUser(hhInfo)
-          session = await createSession(user.id)
-        } catch (error) {
-          dbAvailable = false
-          console.warn('DB HH auth failed:', error.message)
-          session = createStatelessSession(hhInfoToUser(hhInfo))
-        }
-      } else {
-        session = createStatelessSession(hhInfoToUser(hhInfo))
-      }
-
-      res.writeHead(302, {
-        Location: FRONTEND_URL,
-        'Set-Cookie': `session_token=${session.token}; ${cookieOptions(SESSION_DURATION / 1000)}`,
-      })
-      return res.end()
-    }
-
     // Get current user
     if (url === '/api/auth/me' && req.method === 'GET') {
       const user = await getUserFromRequest(req)
@@ -456,7 +350,6 @@ const server = http.createServer(async (req, res) => {
       const databaseAvailable = await ensureDbAvailable()
       return json(res, {
         yandexConfigured: Boolean(YANDEX_CLIENT_ID && YANDEX_CLIENT_SECRET),
-        hhConfigured: Boolean(HH_CLIENT_ID && HH_CLIENT_SECRET),
         databaseConfigured: Boolean(process.env.DATABASE_URL),
         databaseAvailable,
         authStorage: databaseAvailable ? 'postgresql' : 'signed-cookie',
