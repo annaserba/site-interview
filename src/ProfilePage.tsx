@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { ArrowLeft, Download, FileText, Trash2, Filter, Link, Upload } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, fetchResume, saveResumeUrl, uploadResumePdf, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse, type ResumeInfo } from './api'
-import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
+import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
 import s from './ProfilePage.module.css'
 
@@ -160,6 +160,8 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [activeCompany, setActiveCompany] = useState('all')
   const [activeType, setActiveType] = useState('all')
   const [activeRole, setActiveRole] = useState('all')
+  const [activeTopic, setActiveTopic] = useState('all')
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [tab, setTab] = useState<'answers' | 'questions'>('questions')
   const [resume, setResume] = useState<ResumeInfo>({ hhResumeUrl: '', resumePdfPath: '' })
   const [resumeUrlInput, setResumeUrlInput] = useState('')
@@ -186,19 +188,29 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     if (activeType !== 'all') params.type = activeType
     if (activeRole !== 'all') params.role = activeRole
     fetchQuestions(params).then((data) => setQuestions(data.questions))
-  }, [activeCompany, activeType, activeRole])
+  }, [activeCompany, activeType, activeRole, activeTopic])
 
   const filteredQuestions = useMemo(() => {
-    return questions
-  }, [questions])
+    return questions.filter((q) => {
+      if (activeTypes.size < 5) {
+        const type = getQuestionType(q)
+        if (!activeTypes.has(type)) return false
+      }
+      return true
+    })
+  }, [questions, activeTypes])
 
   const filteredAnswers = useMemo(() => {
     return items.filter((item) => {
       if (activeCompany !== 'all' && !item.companies.includes(activeCompany)) return false
       if (activeType !== 'all' && item.category !== activeType) return false
+      if (activeTypes.size < 5) {
+        const type = getQuestionType(item)
+        if (!activeTypes.has(type)) return false
+      }
       return true
     })
-  }, [items, activeCompany, activeType])
+  }, [items, activeCompany, activeType, activeTypes])
 
   const handleDelete = async (id: number) => {
     await deleteUserAnswer(id)
@@ -289,14 +301,39 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
           { value: 'all', label: 'Все компании' },
           ...companyOrder.map((c) => ({ value: c, label: c })),
         ]} />
-        <FilterDropdown label="Тип" value={activeType} onChange={setActiveType} options={[
-          { value: 'all', label: 'Все типы' },
-          ...questionTypeDefinitions.map((t) => ({ value: t.id, label: t.label })),
-        ]} />
         <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
           { value: 'all', label: 'Все роли' },
           ...(filters?.roles || []).map((r) => ({ value: r, label: r })),
         ]} />
+        <FilterDropdown label="Тема" value={activeTopic} onChange={setActiveTopic} options={[
+          { value: 'all', label: 'Все темы' },
+          ...topicDefinitions.map((t) => ({ value: t.id, label: t.label })),
+        ]} />
+      </div>
+      <div className={s.filters}>
+        <div className={s['type-row']}>
+          <span className={s['type-label']}>Тип</span>
+          {questionTypeDefinitions.map((type) => (
+            <button key={type.id}
+              className={`${s['type-pill']} ${activeTypes.has(type.id) ? s.active : ''}`}
+              onClick={() => {
+                setActiveTypes(prev => {
+                  const next = new Set(prev)
+                  if (next.has(type.id)) next.delete(type.id)
+                  else next.add(type.id)
+                  return next
+                })
+              }}
+            >
+              {type.label}
+            </button>
+          ))}
+          <button className={s['type-pill-select']} onClick={() => {
+            setActiveTypes(prev => prev.size === questionTypeDefinitions.length ? new Set() : new Set(questionTypeDefinitions.map(t => t.id)))
+          }}>
+            {activeTypes.size === questionTypeDefinitions.length ? 'Снять все' : 'Все'}
+          </button>
+        </div>
       </div>
 
       <div className={s.tabs}>

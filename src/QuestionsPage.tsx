@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Search, Users } from 'lucide-react'
 import { FilterDropdown } from './FilterDropdown'
 import type { Question } from './types'
-import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
+import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { fetchQuestions } from './api'
 import s from './App.module.css'
 
@@ -36,16 +36,6 @@ const videoFrequency = (question: Question) => question.videoFrequency ?? new Se
     try { return new URL(source.url).searchParams.get('v') || source.url }
     catch { return source.url }
   })).size
-
-const topicDefinitions = [
-  { id: 'algorithms', label: 'Алгоритмы', categories: ['Algorithms', 'C++', 'Concurrency'], terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
-  { id: 'frontend', label: 'Frontend', categories: ['JavaScript', 'TypeScript', 'React', 'CSS', 'Browser', 'Browser Performance', 'Web Platform', 'Frontend Architecture'], terms: ['frontend', 'browser', 'react', 'css'] },
-  { id: 'data-ml', label: 'Данные и ML', categories: ['Machine Learning', 'Statistics', 'Data Analytics', 'Data Engineering', 'Data Quality', 'Product Analytics', 'Experimentation', 'BI'], terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
-  { id: 'arch', label: 'Архитектура', categories: ['System Design', 'Web Architecture', 'Frontend Architecture'], terms: ['system design', 'architecture'] },
-  { id: 'backend', label: 'Backend', categories: ['Java', 'Kotlin', 'Python', 'Concurrency', 'Go', 'C++'], terms: ['java', 'kotlin', 'python', 'concurrency', 'go', 'c++'] },
-  { id: 'delivery', label: 'Процессы', categories: ['Delivery', 'Performance'], terms: ['delivery'] },
-  { id: 'gamedev', label: 'Game Dev', categories: ['Game Development'], terms: ['unreal', 'game'] },
-]
 
 interface QuestionsPageProps {
   onOpenQuestion: (id: string) => void

@@ -354,3 +354,17 @@
   color: var(--muted);
   margin-right: auto;
 }
+
+.type-row { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+
+.type-label { font: 7px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
+
+.type-pill { padding: 7px 13px; border-radius: 100px; border: 1px solid var(--line); background: var(--surface); font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; box-shadow: var(--shadow-xs); }
+
+.type-pill:hover { border-color: color-mix(in srgb, var(--ink) 18%, var(--line)); background: color-mix(in srgb, var(--surface) 78%, var(--paper)); box-shadow: var(--shadow-sm); }
+
+.type-pill.active { background: var(--button-bg); color: var(--button-text); border-color: var(--button-bg); box-shadow: var(--shadow-md); }
+
+.type-pill-select { padding: 7px 13px; border-radius: 100px; border: 1px dashed var(--line); background: transparent; font-size: 10px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; }
+
+.type-pill-select:hover { border-color: color-mix(in srgb, var(--ink) 24%, var(--line)); color: var(--ink); }
