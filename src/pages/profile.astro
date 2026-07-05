@@ -4,5 +4,26 @@ import ProfileLoader from '../components/ProfileLoader'
 ---
 
 <Base>
+  <noscript>
+    <div style="text-align:center;padding:80px 20px;color:var(--muted)">
+      <p>Для работы профиля нужен JavaScript.</p>
+      <a href="/" style="color:var(--acid)">На главную</a>
+    </div>
+  </noscript>
+  <div id="profile-fallback" style="text-align:center;padding:40px 20px;color:var(--muted);font-size:14px">
+    Загрузка...
+  </div>
   <ProfileLoader client:only="react" />
 </Base>
+
+<script>
+  // Hide fallback when React mounts
+  const observer = new MutationObserver(() => {
+    const root = document.querySelector('astro-island[component-url*="ProfileLoader"]')
+    if (root && root.shadowRoot ? root.shadowRoot.childElementCount > 0 : root?.children.length > 0) {
+      document.getElementById('profile-fallback')!.style.display = 'none'
+      observer.disconnect()
+    }
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
+</script>
