@@ -384,11 +384,11 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
 /* ─── TABLET ≥761px ─── */
 @media (min-width: 761px) {
   .topbar { height: 72px; padding: 0 5.5vw; }
-  .nav-links { display: flex; position: static; padding: 0; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0; flex-direction: row; align-items: center; gap: 34px; z-index: auto; }
+  .nav-links { display: flex; position: static; padding: 0; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0; flex-direction: row; align-items: center; gap: 24px; z-index: auto; flex: 1; justify-content: center; }
   .nav-links a { font-size: 14px; }
   .nav-links a[href="#mock-interview"] { margin-right: 0; }
   .menu-button { display: none; }
-  .header-stats { display: flex; }
+  .header-stats { display: flex; margin-right: 0; }
   .hero { padding-top: 56px; }
   .hero-copy { max-width: 800px; }
   .hero-copy > p { font-size: 18px; }

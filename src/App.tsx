@@ -7,6 +7,8 @@ import { MockInterview } from './MockInterview'
 import { ProfilePage } from './ProfilePage'
 import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
+import { PrivacyPage } from './PrivacyPage'
+import { CookieConsent } from './CookieConsent'
 import { blogArticles } from './blog-articles'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
@@ -82,6 +84,7 @@ function App() {
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')
   const [showProfile, setShowProfile] = useState(() => window.location.hash === '#profile')
   const [showBlog, setShowBlog] = useState(() => window.location.hash === '#blog')
+  const [showPrivacy, setShowPrivacy] = useState(() => window.location.hash === '#privacy')
   const [selectedArticleId, setSelectedArticleId] = useState(() => window.location.hash.startsWith('#article/') ? window.location.hash.slice(10) : '')
 
   useEffect(() => {
@@ -192,11 +195,13 @@ function App() {
       setShowProfile(false)
       return
     }
-    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); return }
+    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
     setShowMockInterview(false)
-    if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowBlog(false); setSelectedArticleId(''); return }
+    if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
     setShowProfile(false)
-    if (path === 'blog') { setShowBlog(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setSelectedArticleId(''); return }
+    if (path === 'privacy') { setShowPrivacy(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); return }
+    setShowPrivacy(false)
+    if (path === 'blog') { setShowBlog(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setSelectedArticleId(''); setShowPrivacy(false); return }
     setShowBlog(false)
     if (path.startsWith('article/')) { setSelectedArticleId(path.slice(8)); setShowBlog(false); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); return }
     setSelectedArticleId('')
@@ -321,6 +326,7 @@ function App() {
          showAllQuestions ? <QuestionsPage onOpenQuestion={openQuestion} /> :
          showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
          showBlog ? <BlogPage onOpenArticle={(id) => window.location.hash = `article/${id}`} onBack={() => window.location.hash = 'questions'} /> :
+         showPrivacy ? <PrivacyPage /> :
          selectedArticleId ? <ArticlePage articleId={selectedArticleId} onBack={() => window.location.hash = 'blog'} /> :
          selectedQuestion ? <QuestionDetail question={selectedQuestion} onBack={closeQuestion} /> : <>
         <section className={s.hero}>
@@ -470,7 +476,10 @@ function App() {
           <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => window.location.hash = `all-questions`}>{type.label}</button>)}</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>© 2026 sobes-it</span>
+          <span style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <span>© 2026 sobes-it</span>
+            <a href="#privacy" style={{ color: '#777970', fontSize: '11px', textDecoration: 'underline', textUnderlineOffset: '2px' }}>Политика конфиденциальности</a>
+          </span>
           <button
             className={s['theme-toggle']}
             type="button"
@@ -484,6 +493,7 @@ function App() {
         </div>
       </footer>
       <ChatBot />
+      <CookieConsent />
     </div>
   )
 }
