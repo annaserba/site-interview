@@ -7,7 +7,6 @@ RUN npm ci
 
 COPY . .
 RUN npm run build:ci
-RUN npm run build:blog
 
 FROM nginx:alpine
 

@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro'
+import { blogArticles } from '../../blog-articles'
+
+const tags = [...new Set(blogArticles.flatMap(a => a.tags))]
+---
+
+<Base>
+  <div class="page">
+    <h1>Блог</h1>
+    <p class="subtitle">Разборы, методологии и гайды по подготовке к собеседованиям.</p>
+
+    <div class="tags">
+      {tags.map(t => <span class="tag">{t}</span>)}
+    </div>
+
+    <div class="grid">
+      {blogArticles.map(a => (
+        <a href={`/blog/${a.id}`} class="card">
+          <div class="card-tags">
+            {a.tags.map(t => <span class="card-tag">{t}</span>)}
+          </div>
+          <h3>{a.title}</h3>
+          <p>{a.description}</p>
+          <span class="read-time">{a.readTime} мин чтения</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 800px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+  .tag { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--acid); background: var(--acid-glow); padding: 3px 8px; border-radius: 999px; font-weight: 600; }
+  .grid { display: grid; gap: 10px; }
+  .card {
+    display: block; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px; text-decoration: none; color: inherit;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .card:hover { border-color: color-mix(in srgb, var(--acid) 40%, var(--line)); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .card-tag { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: var(--acid); background: var(--acid-glow); padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+  .card h3 { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
+  .card p { font-size: 12px; color: var(--muted); line-height: 1.4; margin: 0 0 8px; }
+  .read-time { font-size: 11px; color: var(--muted); }
+  @media (min-width: 761px) { .page { padding: 80px 5.5vw 100px; } h1 { font-size: 36px; } .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

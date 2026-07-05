@@ -1,0 +1,54 @@
+---
+import questionsData from '../data/questions.json'
+const totalQuestions = questionsData.length
+const companies = [...new Set(questionsData.flatMap((q: any) => q.companies).filter((c: string) => c !== 'Несколько компаний'))]
+const universal = questionsData.filter((q: any) => (q.scope || 'universal') === 'universal').length
+---
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="sobes-it — на главную">
+    <span class="brand-mark">s<span>/</span>i</span>
+    <span>sobes-it</span>
+  </a>
+  <div class="header-stats">
+    <span><strong>{totalQuestions}</strong> <small>вопросов</small></span>
+    <span><strong>{companies.length}</strong> <small>компаний</small></span>
+    <span><strong>{universal}</strong> <small>универс.</small></span>
+  </div>
+  <nav class="nav-links">
+    <a href="/questions">Вопросы</a>
+    <a href="/mock">Мок-интервью</a>
+    <a href="/blog">Блог</a>
+  </nav>
+</header>
+
+<style>
+  .topbar {
+    height: 60px; padding-inline: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line-soft);
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, var(--surface) 12%);
+    backdrop-filter: blur(22px) saturate(1.2);
+  }
+  .header-stats {
+    display: none; gap: 14px; align-items: baseline;
+  }
+  .header-stats span { display: flex; align-items: baseline; gap: 4px; color: var(--muted); }
+  .header-stats strong { font: 500 13px 'JetBrains Mono'; letter-spacing: -.04em; color: var(--ink); }
+  .header-stats small { font-size: 9px; }
+  .nav-links {
+    display: none; gap: 24px; align-items: center;
+  }
+  .nav-links a {
+    color: var(--muted); font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  @media (min-width: 761px) {
+    .topbar { height: 72px; padding: 0 5.5vw; }
+    .header-stats { display: flex; margin-left: 28px; }
+    .nav-links { display: flex; flex: 1; justify-content: center; }
+  }
+</style>

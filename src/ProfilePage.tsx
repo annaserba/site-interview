@@ -7,7 +7,7 @@ import s from './ProfilePage.module.css'
 
 interface ProfilePageProps {
   user: User
-  onBack: () => void
+  onBack?: () => void
 }
 
 function exportQuestionsMarkdown(questions: ApiQuestion[]) {
@@ -231,7 +231,11 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   return (
     <div className={s.page}>
       <div className={s.header}>
-        <button className={s.back} onClick={onBack}><ArrowLeft /> Назад</button>
+        {onBack ? (
+          <button className={s.back} onClick={onBack}><ArrowLeft /> Назад</button>
+        ) : (
+          <a href="/" className={s.back} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><ArrowLeft /> На главную</a>
+        )}
         <div className={s['user-info']}>
           {user.avatarUrl ? (
             <img src={user.avatarUrl} alt="" className={s.avatar} />

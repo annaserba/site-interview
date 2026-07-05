@@ -8,7 +8,7 @@ import type { Question } from './types'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
 import s from './QuestionDetail.module.css'
 
-type QuestionDetailProps = { question: Question; onBack: () => void }
+type QuestionDetailProps = { question: Question; onBack?: () => void }
 const formatDate = (date?: string) => {
   if (!date) return ''
   const value = new Date(date)
@@ -86,7 +86,11 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
   return (
     <article className={s['detail-page']}>
       <header className={s['detail-hero']}>
-        <button className={s['detail-back']} onClick={onBack}><ArrowLeft size={16} /> К вопросам</button>
+        {onBack ? (
+          <button className={s['detail-back']} onClick={onBack}><ArrowLeft size={16} /> К вопросам</button>
+        ) : (
+          <a href="/questions" className={s['detail-back']} style={{ textDecoration: 'none' }}><ArrowLeft size={16} /> К вопросам</a>
+        )}
         <div className={s['detail-company']}>
           <span className="company-logo" style={{ background: visual.color }}>{visual.mark}</span>
           <span><b>{question.companies.join(', ')}</b><small>{question.roles.join(' · ')}</small></span>

@@ -1,0 +1,58 @@
+---
+import Header from '../components/Header.astro'
+import { ChatBot } from '../ChatBot'
+import '../index.css'
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#161714" />
+    <title>sobes-it | Вопросы с собеседований</title>
+    <meta name="description" content="Знай, что тебя спросят. Вопросы компаний, короткие ответы и подробные разборы." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-intro">
+        <div class="brand"><span class="brand-mark">s<span>/</span>i</span><span>sobes-it</span></div>
+        <p>Сложные интервью становятся понятнее.</p>
+      </div>
+      <div class="footer-copy">
+        <span>© 2026 sobes-it</span>
+        <a href="/privacy">Политика конфиденциальности</a>
+      </div>
+    </footer>
+    <ChatBot client:only="react" />
+  </body>
+</html>
+
+<style>
+  main { min-height: 60vh; }
+  .site-footer {
+    min-height: 200px; padding: 40px 20px;
+    background: var(--dark); color: white;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .site-footer p { color: #777970; font-size: 12px; line-height: 1.6; margin: 0; }
+  .footer-intro { display: flex; flex-direction: column; gap: 8px; }
+  .footer-copy {
+    display: flex; gap: 16px; align-items: center;
+    font-size: 12px; color: #777970;
+  }
+  .footer-copy a { color: var(--acid); font-size: 11px; }
+  @media (min-width: 761px) {
+    .site-footer { flex-direction: row; gap: 55px; padding: 48px 5.5vw; }
+    .footer-copy { margin-left: auto; }
+  }
+</style>

@@ -56,9 +56,10 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled
 }
 
-type MockInterviewProps = { onBack: () => void }
+type MockInterviewProps = { onBack?: () => void }
 
 export function MockInterview({ onBack }: MockInterviewProps) {
+  // ...
   const [allQuestions, setAllQuestions] = useState<InterviewQuestion[]>(fallbackQuestions)
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeType, setActiveType] = useState('Все типы')
@@ -190,7 +191,11 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   return (
     <div className={s.page}>
       <div className={s.header}>
-        <button className={s.back} onClick={onBack}><ArrowLeft /> Назад</button>
+        {onBack ? (
+          <button className={s.back} onClick={onBack}><ArrowLeft /> Назад</button>
+        ) : (
+          <a href="/" className={s.back} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><ArrowLeft /> На главную</a>
+        )}
         <h1>Мок-интервью</h1>
         <p>Практикуйтесь отвечать на вопросы. Сначала подумайте, затем проверьте пример ответа.</p>
       </div>

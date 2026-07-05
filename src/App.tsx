@@ -10,6 +10,7 @@ import { ArticlePage } from './ArticlePage'
 import { PrivacyPage } from './PrivacyPage'
 import { CookieConsent } from './CookieConsent'
 import { blogArticles } from './blog-articles'
+import questionsData from './data/questions.json'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, mapQuestion, type User } from './api'
@@ -107,11 +108,8 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Load pre-baked SSG data instantly
-    fetch('/data/questions.json')
-      .then(res => res.json())
-      .then((data) => setQuestions(data.map(mapQuestion)))
-      .catch(() => setDataError('База вопросов сейчас недоступна.'))
+    // Questions baked at build time (SSG)
+    setQuestions((questionsData as any[]).map(mapQuestion))
 
     // Try API in background for fresher data (only if it returns actual data)
     fetchQuestions({ limit: 500 })

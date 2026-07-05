@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro'
+---
+
+<Base>
+  <div class="page">
+    <h1>Политика конфиденциальности</h1>
+    <p class="date">Дата публикации: 5 июля 2026 г.</p>
+
+    <section>
+      <h2>1. Общие положения</h2>
+      <p>Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сайта <strong>sobes-it</strong> и разработана в соответствии с Федеральным законом РФ № 152-ФЗ «О персональных данных».</p>
+      <p>Используя Сайт, вы выражаете согласие с условиями настоящей Политики.</p>
+    </section>
+
+    <section>
+      <h2>2. Какие данные мы собираем</h2>
+      <p>При авторизации через Яндекс ID мы получаем: имя и фамилию, адрес электронной почты, аватар.</p>
+      <p>При использовании Сайта мы также можем сохранять: ваши ответы на вопросы, избранные вопросы, ссылку на резюме на hh.ru, загруженный PDF-файл резюме, тему оформления.</p>
+    </section>
+
+    <section>
+      <h2>3. Файлы cookie</h2>
+      <p>Сайт использует технические файлы cookie для авторизации и сохранения темы оформления.</p>
+    </section>
+
+    <section>
+      <h2>4. Контакты</h2>
+      <p>По всем вопросам: <a href="mailto:privacy@sobes-it.ru">privacy@sobes-it.ru</a></p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page { max-width: 720px; margin: 0 auto; padding: 60px 20px 80px; color: var(--ink); line-height: 1.7; font-size: 14px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .date { color: var(--muted); font-size: 13px; margin: 0 0 40px; }
+  h2 { font-size: 17px; font-weight: 700; margin: 36px 0 12px; }
+  p { margin: 0 0 12px; }
+  a { color: var(--acid); }
+  @media (min-width: 761px) { h1 { font-size: 36px; } .page { padding: 80px 5.5vw 100px; font-size: 15px; } }
+</style>

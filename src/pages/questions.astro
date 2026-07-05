@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro'
+import { QuestionsPage } from '../QuestionsPage'
+import questionsData from '../data/questions.json'
+import type { Question } from '../types'
+import { mapQuestion } from '../api'
+
+const questions = questionsData.map((q: any) => mapQuestion(q))
+---
+
+<Base>
+  <QuestionsPage questions={questions} client:only="react" />
+</Base>

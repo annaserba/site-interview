@@ -38,8 +38,8 @@ const videoFrequency = (question: Question) => question.videoFrequency ?? new Se
 
 interface QuestionsPageProps {
   questions: Question[]
-  dataError: string
-  onOpenQuestion: (id: string) => void
+  dataError?: string
+  onOpenQuestion?: (id: string) => void
 }
 
 export function QuestionsPage({ questions, dataError, onOpenQuestion }: QuestionsPageProps) {
@@ -156,45 +156,56 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
 
       <div className={s['question-grid']}>
         {dataError && <div className={s['empty-state']}><Search /><h3>База не отвечает</h3><p>{dataError}</p></div>}
-        {visibleQuestions.map((question) => (
-          <article className={s['question-card']} key={question.id} onClick={() => onOpenQuestion(question.id)} style={{ cursor: 'pointer' }}>
-            <div className={s['card-top']}>
-              <div className={s['card-meta']}>
-                <div className={s['card-meta-row']}>
-                  <span className={s.stage}>{question.stage}</span>
-                  <span className={`${s.difficulty} ${question.difficulty <= 2 ? s.easy : question.difficulty <= 3 ? s.medium : s.hard}`}>
-                    {question.difficulty <= 2 ? 'easy' : question.difficulty <= 3 ? 'medium' : 'hard'}
-                  </span>
+        {visibleQuestions.map((question) => {
+          const questionUrl = `/question/${question.id}`
+          const openAction = onOpenQuestion
+            ? { onClick: () => onOpenQuestion(question.id) }
+            : { href: questionUrl }
+          const Tag = onOpenQuestion ? 'article' : 'a'
+          return (
+            <Tag {...openAction as any} className={s['question-card']} key={question.id} style={{ cursor: 'pointer' }}>
+              <div className={s['card-top']}>
+                <div className={s['card-meta']}>
+                  <div className={s['card-meta-row']}>
+                    <span className={s.stage}>{question.stage}</span>
+                    <span className={`${s.difficulty} ${question.difficulty <= 2 ? s.easy : question.difficulty <= 3 ? s.medium : s.hard}`}>
+                      {question.difficulty <= 2 ? 'easy' : question.difficulty <= 3 ? 'medium' : 'hard'}
+                    </span>
+                  </div>
+                  <div className={s['card-company']}>
+                    {(() => {
+                      const realCompanies = question.companies.filter(c => c !== 'Несколько компаний')
+                      return realCompanies.length > 0 && (
+                        <>
+                          <span>{realCompanies.join(', ')}</span>
+                          <div className={s['card-company-logos']}>
+                            {realCompanies.map((c) => (
+                              <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
+                            ))}
+                          </div>
+                        </>
+                      )
+                    })()}
+                  </div>
                 </div>
-                <div className={s['card-company']}>
-                  {(() => {
-                    const realCompanies = question.companies.filter(c => c !== 'Несколько компаний')
-                    return realCompanies.length > 0 && (
-                      <>
-                        <span>{realCompanies.join(', ')}</span>
-                        <div className={s['card-company-logos']}>
-                          {realCompanies.map((c) => (
-                            <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
-                          ))}
-                        </div>
-                      </>
-                    )
-                  })()}
+                <div className={s['card-left']}>
+                  <h3>{question.title}</h3>
+                  <p className={s['card-answer']}>{question.answer.slice(0, 120)}{question.answer.length > 120 ? '...' : ''}</p>
+                  <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                 </div>
               </div>
-              <div className={s['card-left']}>
-                <h3>{question.title}</h3>
-                <p className={s['card-answer']}>{question.answer.slice(0, 120)}{question.answer.length > 120 ? '...' : ''}</p>
-                <div className={s.tags}>{question.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+              <div className={s['card-footer']}>
+                <span><Users size={15} /> {videoFrequency(question)} видео</span>
+                <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} языков` : 'Любой язык')}</span>
+                {onOpenQuestion ? (
+                  <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); onOpenQuestion(question.id); }}><ArrowRight size={18} /></button>
+                ) : (
+                  <span style={{ width: 40, display: 'grid', placeItems: 'center', color: 'var(--muted)' }}><ArrowRight size={18} /></span>
+                )}
               </div>
-            </div>
-            <div className={s['card-footer']}>
-              <span><Users size={15} /> {videoFrequency(question)} видео</span>
-              <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} языков` : 'Любой язык')}</span>
-              <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); onOpenQuestion(question.id); }}><ArrowRight size={18} /></button>
-            </div>
-          </article>
-        ))}
+            </Tag>
+          )
+        })}
       </div>
       {!dataError && filtered.length === 0 && (
         <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev'])); setSortMode('default'); window.location.hash = 'all-questions' }}>Сбросить фильтры</button></div>

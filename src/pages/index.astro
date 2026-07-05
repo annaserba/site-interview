@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro'
+import questionsData from '../data/questions.json'
+
+const featured = questionsData.slice(0, 6)
+---
+
+<Base>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Знай, что тебя <em>спросят.</em></h1>
+      <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
+      <a href="/mock" class="hero-cta">Практиковаться →
+        <span style="margin-left:6px">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="question-section">
+    <div class="section-heading">
+      <div>
+        <h2>Свежие вопросы</h2>
+        <p>Восстановлены кандидатами после реальных интервью</p>
+      </div>
+      <a href="/questions" class="hero-cta-lg">Все вопросы →</a>
+    </div>
+
+    <div class="question-grid">
+      {featured.map((q: any) => (
+        <a href={`/question/${q.id}`} class="question-card">
+          <div class="card-top">
+            <div class="card-meta">
+              <div class="card-meta-row">
+                <span class="stage">{q.stage || 'Technical'}</span>
+              </div>
+              <div class="card-company">
+                {q.companies.filter((c: string) => c !== 'Несколько компаний').length > 0 && (
+                  <span>{q.companies.join(', ')}</span>
+                )}
+              </div>
+            </div>
+            <div class="card-left">
+              <h3>{q.title}</h3>
+              <p class="card-answer">{q.answer.slice(0, 120)}{q.answer.length > 120 ? '...' : ''}</p>
+              <div class="tags">{q.tags.map((t: string) => <span>{t}</span>)}</div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 28px 20px 20px; min-height: auto;
+    position: relative; overflow: hidden;
+  }
+  .hero-copy {
+    position: relative; z-index: 2; max-width: 820px;
+    padding: 20px; border: 1px solid color-mix(in srgb, var(--line-soft) 82%, transparent);
+    border-radius: 28px; background: linear-gradient(135deg, var(--glass-strong), var(--glass));
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-copy h1 { margin: 0 0 12px; font-size: 24px; }
+  .hero-copy h1 em { color: var(--acid); font-style: normal; }
+  .hero-copy p { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 12px 0 0; max-width: 610px; }
+  .hero-cta, .hero-cta-lg {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all .2s;
+  }
+  .hero-cta { background: var(--button-bg); color: var(--button-text); margin-top: 20px; }
+  .hero-cta:hover { filter: brightness(.96); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .hero-cta-lg {
+    padding: 14px 28px; background: var(--acid); color: #111210;
+    font-size: 15px; font-weight: 700;
+    box-shadow: 0 4px 20px rgba(184,255,0,.25);
+  }
+  .hero-cta-lg:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184,255,0,.35); }
+
+  .question-section { padding: 40px 20px 80px; }
+  .section-heading {
+    display: flex; flex-direction: column; gap: 16px;
+    margin-bottom: 28px; align-items: flex-start;
+  }
+  .section-heading h2 { font-size: 22px; margin: 0 0 4px; }
+  .section-heading p { color: var(--muted); font-size: 13px; margin: 0; }
+
+  .question-grid {
+    display: grid; grid-template-columns: 1fr; gap: 10px;
+  }
+
+  .question-card {
+    display: block; border: 1px solid var(--line-soft); border-radius: 22px;
+    padding: 16px 18px; text-decoration: none; color: inherit;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface-strong) 94%, transparent), color-mix(in srgb, var(--surface) 82%, transparent));
+    box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .question-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--acid) 30%, var(--line-soft)); }
+
+  .card-top { display: flex; flex-direction: column; gap: 10px; }
+  .card-meta { display: flex; flex-direction: column; gap: 6px; }
+  .card-meta-row { display: flex; gap: 8px; align-items: center; }
+  .stage { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .card-company { font-size: 11px; color: var(--muted); }
+  .card-left h3 { font-size: 15px; margin: 0 0 6px; }
+  .card-answer { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+  .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+  .tags span { font-size: 9px; padding: 2px 8px; border-radius: 999px; background: var(--surface); color: var(--muted); }
+
+  @media (min-width: 761px) {
+    .hero { padding: 56px 5.5vw 20px; }
+    .hero-copy h1 { font-size: 32px; }
+    .hero-copy p { font-size: 18px; }
+    .section-heading { flex-direction: row; align-items: flex-end; }
+    .question-section { padding: 90px 5.5vw 115px; }
+    .question-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .question-card { padding: 20px 24px; }
+  }
+</style>
