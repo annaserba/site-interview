@@ -1,29 +1,41 @@
 ---
 import Base from '../layouts/Base.astro'
-import ProfileLoader from '../components/ProfileLoader'
+import { ProfilePage } from '../ProfilePage'
 ---
 
 <Base>
-  <noscript>
-    <div style="text-align:center;padding:80px 20px;color:var(--muted)">
-      <p>Для работы профиля нужен JavaScript.</p>
-      <a href="/" style="color:var(--acid)">На главную</a>
-    </div>
-  </noscript>
-  <div id="profile-fallback" style="text-align:center;padding:40px 20px;color:var(--muted);font-size:14px">
-    Загрузка...
+  <div id="profile-root" style="max-width:800px;margin:0 auto;padding:40px 20px 80px">
+    <p style="text-align:center;color:var(--muted);font-size:14px">Загрузка...</p>
   </div>
-  <ProfileLoader client:only="react" />
 </Base>
 
-<script>
-  // Hide fallback when React mounts
-  const observer = new MutationObserver(() => {
-    const root = document.querySelector('astro-island[component-url*="ProfileLoader"]')
-    if (root && root.shadowRoot ? root.shadowRoot.childElementCount > 0 : root?.children.length > 0) {
-      document.getElementById('profile-fallback')!.style.display = 'none'
-      observer.disconnect()
-    }
-  })
-  observer.observe(document.body, { childList: true, subtree: true })
+<script type="module">
+  import { createRoot } from 'react-dom/client'
+  import { createElement, useState, useEffect } from 'react'
+  import { fetchCurrentUser } from '../api.ts'
+  import { ProfilePage } from '../ProfilePage.tsx'
+
+  function ProfileLoader() {
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
+
+    useEffect(() => {
+      fetchCurrentUser()
+        .then(u => setUser(u))
+        .catch(e => setError(e.message || 'Ошибка'))
+        .finally(() => setLoading(false))
+    }, [])
+
+    if (loading) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } }, 'Загрузка...')
+    if (error) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } }, error)
+    if (!user) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } },
+      createElement('p', null, 'Для доступа к профилю нужно'),
+      createElement('a', { href: '/api/auth/yandex', style: { color: 'var(--acid)' } }, 'войти через Яндекс'),
+    )
+    return createElement(ProfilePage, { user })
+  }
+
+  const root = createRoot(document.getElementById('profile-root'))
+  root.render(createElement(ProfileLoader))
 </script>
