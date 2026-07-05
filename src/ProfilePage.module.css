@@ -343,50 +343,10 @@
 }
 
 .filters {
-  margin-bottom: 20px;
-}
-
-.filter-row {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-wrap: wrap;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 200px;
-  padding: 8px 12px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-
-.search-box input {
-  flex: 1;
-  border: none;
-  background: none;
-  font-size: 13px;
-  color: var(--ink);
-  outline: none;
-}
-
-.search-box svg {
-  color: var(--muted);
-  flex-shrink: 0;
-}
-
-.filter-row select {
-  padding: 8px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 13px;
-  cursor: pointer;
-  min-width: 140px;
+  margin-bottom: 18px;
 }
 
 .question-count {

@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { ArrowLeft, Download, FileText, Trash2, Filter, Link, Upload } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, fetchResume, saveResumeUrl, uploadResumePdf, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse, type ResumeInfo } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
+import { FilterDropdown } from './FilterDropdown'
 import s from './ProfilePage.module.css'
 
 interface ProfilePageProps {
@@ -284,26 +285,18 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
       </div>
 
       <div className={s.filters}>
-        <div className={s['filter-row']}>
-          <select value={activeCompany} onChange={(e) => setActiveCompany(e.target.value)}>
-            <option value="all">Все компании</option>
-            {companyOrder.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-          <select value={activeType} onChange={(e) => setActiveType(e.target.value)}>
-            <option value="all">Все типы</option>
-            {questionTypeDefinitions.map((t) => (
-              <option key={t.id} value={t.id}>{t.label}</option>
-            ))}
-          </select>
-          <select value={activeRole} onChange={(e) => setActiveRole(e.target.value)}>
-            <option value="all">Все роли</option>
-            {filters?.roles?.map((r) => (
-              <option key={r} value={r}>{r}</option>
-            ))}
-          </select>
-        </div>
+        <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
+          { value: 'all', label: 'Все компании' },
+          ...companyOrder.map((c) => ({ value: c, label: c })),
+        ]} />
+        <FilterDropdown label="Тип" value={activeType} onChange={setActiveType} options={[
+          { value: 'all', label: 'Все типы' },
+          ...questionTypeDefinitions.map((t) => ({ value: t.id, label: t.label })),
+        ]} />
+        <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
+          { value: 'all', label: 'Все роли' },
+          ...(filters?.roles || []).map((r) => ({ value: r, label: r })),
+        ]} />
       </div>
 
       <div className={s.tabs}>
