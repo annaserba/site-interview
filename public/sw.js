@@ -1,4 +1,4 @@
-const VERSION = 'in-depth-offline-v1'
+const VERSION = 'in-depth-offline-v2'
 const STATIC_CACHE = `${VERSION}:static`
 const DATA_CACHE = `${VERSION}:data`
 
@@ -37,7 +37,6 @@ async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName)
   const cached = await cache.match(request)
   if (cached) return cached
-
   const response = await fetch(request)
   if (response.ok) cache.put(request, response.clone())
   return response
@@ -52,7 +51,6 @@ async function staleWhileRevalidate(request, cacheName) {
       return response
     })
     .catch(() => null)
-
   return cached || await network || Response.error()
 }
 
@@ -68,7 +66,7 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  if (url.pathname.startsWith('/assets/')) {
+  if (url.pathname.startsWith('/_astro/')) {
     event.respondWith(cacheFirst(request, STATIC_CACHE))
     return
   }
@@ -78,10 +76,10 @@ self.addEventListener('fetch', (event) => {
       fetch(request)
         .then((response) => {
           const copy = response.clone()
-          caches.open(STATIC_CACHE).then((cache) => cache.put('/index.html', copy))
+          caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy))
           return response
         })
-        .catch(async () => (await caches.match('/index.html')) || caches.match('/'))
+        .catch(async () => await caches.match(request) || caches.match('/index.html') || caches.match('/'))
     )
   }
 })

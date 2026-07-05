@@ -34,6 +34,11 @@ import '../index.css'
       </div>
     </footer>
     <ChatBot client:only="react" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    </script>
   </body>
 </html>
 

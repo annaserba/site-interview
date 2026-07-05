@@ -1,5 +1,6 @@
 ---
 import questionsData from '../data/questions.json'
+import { UserMenu } from './UserMenu'
 const totalQuestions = questionsData.length
 const companies = [...new Set(questionsData.flatMap((q: any) => q.companies).filter((c: string) => c !== 'Несколько компаний'))]
 const universal = questionsData.filter((q: any) => (q.scope || 'universal') === 'universal').length
@@ -20,6 +21,9 @@ const universal = questionsData.filter((q: any) => (q.scope || 'universal') === 
     <a href="/mock">Мок-интервью</a>
     <a href="/blog">Блог</a>
   </nav>
+  <div class="header-actions">
+    <UserMenu client:only="react" />
+  </div>
 </header>
 
 <style>
