@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Search, Users } from 'lucide-react'
 import { FilterDropdown } from './FilterDropdown'
+import { QuestionFilters } from './QuestionFilters'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import s from './App.module.css'
@@ -94,8 +95,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
     return () => observer.disconnect()
   }, [visibleCount, filtered.length])
 
-  const navigateCompany = (company: string) => { window.location.hash = company !== 'Все компании' ? `company/${encodeURIComponent(company)}` : 'all-questions' }
-  const navigateRole = (role: string) => { window.location.hash = role !== 'Все роли' ? `role/${encodeURIComponent(role)}` : 'all-questions' }
+  const filterState = { activeCompany, activeRole, activeTopic, sortMode, activeTypes }
 
   return (
     <section className={s['question-section']} id="all-questions" style={{ paddingTop: '32px' }}>
@@ -107,52 +107,17 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
             </div>
           </div>
 
-      <div className={s['company-row']}>
-        {companies.map((company) => (
-          <button
-            className={`${s['company-pill']} ${activeCompany === company.name ? s.selected : ''}`}
-            key={company.name}
-            onClick={() => navigateCompany(activeCompany === company.name ? 'Все компании' : company.name)}
-          >
-            <span className="company-logo" style={{ background: company.color }}>{company.mark}</span>
-            <span><b>{company.name}</b><small>{company.count} {questionWord(company.count)}</small></span>
-          </button>
-        ))}
-      </div>
-
-      <div className={s.filters}>
-        <div className={s['filters-row']}>
-          <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
-            { value: 'Все роли', label: 'Все роли' },
-            ...roles.map((role) => ({ value: role, label: role })),
-          ]} />
-          <FilterDropdown label="Тема" value={activeTopic} onChange={setActiveTopic} options={[
-            { value: 'Все темы', label: 'Все темы' },
-            ...topicDefinitions.map((topic) => ({ value: topic.id, label: topic.label })),
-          ]} />
-          <FilterDropdown label="Сортировка" value={sortMode} onChange={setSortMode} options={[
-            { value: 'default', label: 'По частоте' },
-            { value: 'difficulty-desc', label: 'Сложные' },
-            { value: 'difficulty-asc', label: 'Простые' },
-            { value: 'company', label: 'По компании' },
-            { value: 'title', label: 'По названию' },
-          ]} />
-        </div>
-        <div className={s['filters-row']}>
-          <div className={s['type-pills']}>
-            <span className={s['type-label']}>Тип</span>
-            {questionTypeDefinitions.map((type) => (
-              <button key={type.id} className={`${s['type-pill']} ${activeTypes.has(type.id) ? s.active : ''}`}
-                onClick={() => { setActiveTypes(prev => { const next = new Set(prev); if (next.has(type.id)) next.delete(type.id); else next.add(type.id); return next }) }}>
-                {type.label}
-              </button>
-            ))}
-            <button className={s['type-pill-select']} onClick={() => { setActiveTypes(prev => prev.size === questionTypeDefinitions.length ? new Set() : new Set(questionTypeDefinitions.map(t => t.id))) }}>
-              {activeTypes.size === questionTypeDefinitions.length ? 'Снять все' : 'Все'}
-            </button>
-          </div>
-        </div>
-      </div>
+      <QuestionFilters
+        questions={questions}
+        filterState={filterState}
+        onChange={(partial) => {
+          if ('activeCompany' in partial) setActiveCompany(partial.activeCompany!)
+          if ('activeRole' in partial) setActiveRole(partial.activeRole!)
+          if ('activeTopic' in partial) setActiveTopic(partial.activeTopic!)
+          if ('sortMode' in partial) setSortMode(partial.sortMode!)
+          if ('activeTypes' in partial) setActiveTypes(partial.activeTypes!)
+        }}
+      />
 
       <div className={s['question-grid']}>
         {dataError && <div className={s['empty-state']}><Search /><h3>База не отвечает</h3><p>{dataError}</p></div>}

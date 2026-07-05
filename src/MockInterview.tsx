@@ -1,10 +1,10 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Check, RotateCcw, Save, Shuffle, Trash2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle, Trash2 } from 'lucide-react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/github-dark.css'
-import { FilterDropdown } from './FilterDropdown'
+import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { fetchQuestions, fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
@@ -62,8 +62,9 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   // ...
   const [allQuestions, setAllQuestions] = useState<InterviewQuestion[]>(fallbackQuestions)
   const [activeCompany, setActiveCompany] = useState('Все компании')
-  const [activeType, setActiveType] = useState('Все типы')
   const [activeRole, setActiveRole] = useState('Все роли')
+  const [activeTopic, setActiveTopic] = useState('Все темы')
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [completed, setCompleted] = useState<Set<string>>(new Set())
@@ -95,14 +96,17 @@ export function MockInterview({ onBack }: MockInterviewProps) {
 
   const roles = useMemo(() => [...new Set(allQuestions.map((q) => q.role))].sort((a, b) => a.localeCompare(b, 'ru')), [allQuestions])
 
+  const filterState: FilterState = { activeCompany, activeRole, activeTopic, sortMode: 'default', activeTypes }
+
   const filteredPool = useMemo(() => {
     return allQuestions.filter((q) => {
       const companyMatch = activeCompany === 'Все компании' || q.company === activeCompany
-      const typeMatch = activeType === 'Все типы' || q.type === activeType
       const roleMatch = activeRole === 'Все роли' || q.role === activeRole
-      return companyMatch && typeMatch && roleMatch
+      const type = getQuestionType(q)
+      const typeMatch = activeTypes.has(type)
+      return companyMatch && roleMatch && typeMatch
     })
-  }, [activeCompany, activeType, activeRole])
+  }, [activeCompany, activeRole, activeTypes])
 
   // Reset interview when filters change
   useEffect(() => {
@@ -113,7 +117,7 @@ export function MockInterview({ onBack }: MockInterviewProps) {
       setShowAnswer(false)
       setCompleted(new Set())
     }
-  }, [activeCompany, activeType, activeRole])
+  }, [activeCompany, activeRole, activeTypes])
 
   const startInterview = useCallback(() => {
     const shuffled = shuffleArray(filteredPool)
@@ -200,20 +204,20 @@ export function MockInterview({ onBack }: MockInterviewProps) {
         <p>Практикуйтесь отвечать на вопросы. Сначала подумайте, затем проверьте пример ответа.</p>
       </div>
 
-      <div className={s.filters}>
-        <FilterDropdown label="Компания" value={activeCompany} onChange={setActiveCompany} options={[
-          { value: 'Все компании', label: 'Все компании' },
-          ...companyOrder.map((c) => ({ value: c, label: c })),
-        ]} />
-        <FilterDropdown label="Тип" value={activeType} onChange={setActiveType} options={[
-          { value: 'Все типы', label: 'Все типы' },
-          ...questionTypeDefinitions.map((t) => ({ value: t.id, label: t.label })),
-        ]} />
-        <FilterDropdown label="Роль" value={activeRole} onChange={setActiveRole} options={[
-          { value: 'Все роли', label: 'Все роли' },
-          ...roles.map((r) => ({ value: r, label: r })),
-        ]} />
-      </div>
+      <QuestionFilters
+        questions={questions as Question[]}
+        filterState={filterState}
+        onChange={(partial) => {
+          if ('activeCompany' in partial && partial.activeCompany) setActiveCompany(partial.activeCompany)
+          if ('activeRole' in partial && partial.activeRole) setActiveRole(partial.activeRole)
+          if ('activeTopic' in partial && partial.activeTopic) setActiveTopic(partial.activeTopic)
+          if ('activeTypes' in partial && partial.activeTypes) setActiveTypes(partial.activeTypes)
+        }}
+        showCompanyPills={false}
+        showSort={false}
+        showTypePills={true}
+        showTopic={false}
+      />
 
       {!filtersApplied ? (
         <div className={s['start-screen']}>
