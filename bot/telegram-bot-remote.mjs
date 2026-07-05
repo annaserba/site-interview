@@ -1,4 +1,4 @@
-const API_URLS = [...new Set((process.env.API_URLS || process.env.API_URL || 'http://192.144.59.118')
+const API_URLS = [...new Set((process.env.API_URLS || process.env.API_URL || 'http://sobes-it.ru/')
   .split(',')
   .map((url) => url.trim().replace(/\/$/, ''))
   .filter(Boolean))]

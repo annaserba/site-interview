@@ -37,8 +37,8 @@ services:
       DATABASE_URL: ${DATABASE_URL_INTERNAL:-postgresql://app:${DB_PASSWORD:-interview_secret_2024}@db:5432/site_interview}
       PORT: 3001
       NODE_ENV: production
-      FRONTEND_URL: ${FRONTEND_URL:-http://192.144.59.118}
-      YANDEX_REDIRECT_URI: ${YANDEX_REDIRECT_URI:-http://192.144.59.118/api/auth/yandex/callback}
+      FRONTEND_URL: ${FRONTEND_URL:-http://sobes-it.ru/}
+      YANDEX_REDIRECT_URI: ${YANDEX_REDIRECT_URI:-http://sobes-it.ru/api/auth/yandex/callback}
       YANDEX_CLIENT_ID: ${YANDEX_CLIENT_ID:-}
       YANDEX_CLIENT_SECRET: ${YANDEX_CLIENT_SECRET:-}
       PHONE_SALT: ${PHONE_SALT:-site-interview-salt-2024}
