@@ -19,11 +19,12 @@ export const topicDefinitions = [
 
 export const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK', 'Wildberries', 'Okko', 'Сбер', 'Гознак', 'Лига Ставок', 'IT One', 'Usetech', 'Rutube']
 
-export function getQuestionType(item: { tags: string[]; category: string | null; stage?: string | null }): string {
+export function getQuestionType(item: { tags?: string[]; category: string | null; stage?: string | null }): string {
+  const tags = item.tags || []
   const cat = item.category || ''
-  if (item.tags.includes('HR')) return 'hr'
+  if (tags.includes('HR')) return 'hr'
   if (cat === 'Game Development') return 'game-dev'
-  if (item.tags.includes('Management') || item.stage === 'Управление') return 'management'
+  if (tags.includes('Management') || item.stage === 'Управление') return 'management'
   if (cat === 'System Design' || cat === 'Web Architecture' || cat === 'Frontend Architecture') return 'system-design'
   if (cat === 'Behavioral') return 'behavioral'
   return 'technical'

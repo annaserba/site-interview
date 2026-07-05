@@ -1,9 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Check, RotateCcw, Shuffle, Trash2 } from 'lucide-react'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
-import 'highlight.js/styles/github-dark.css'
+import { ArrowLeft, ArrowRight, Check, RotateCcw, Save, Shuffle, Trash2 } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
@@ -344,9 +340,9 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   </div>
                   <div className={s['answer-section']}>
                     <h3>Пример ответа</h3>
-                    <div className={s['answer-text']}>
-                      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{current.exampleAnswer}</Markdown>
-                    </div>
+                      <div className={s['answer-text']} style={{ whiteSpace: 'pre-wrap' }}>
+                        {current.exampleAnswer}
+                      </div>
                   </div>
                 </div>
               )}

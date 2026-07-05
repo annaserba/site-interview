@@ -54,12 +54,12 @@ export function QuestionFilters({
 }: QuestionFiltersProps) {
   const companies = useMemo(() => companyOrder.map((name) => ({
     name,
-    count: questions.filter((q) => q.companies.includes(name)).length,
+    count: questions.filter((q) => (q.companies || []).includes(name)).length,
     ...companyStyle(name),
   })).filter((c) => c.count > 0), [questions])
 
   const roles = useMemo(() =>
-    [...new Set(questions.flatMap((q) => q.roles))].sort((a, b) => a.localeCompare(b, 'ru')),
+    [...new Set(questions.flatMap((q) => q.roles || []))].sort((a, b) => a.localeCompare(b, 'ru')),
     [questions])
 
   const toggleType = (typeId: string) => {
