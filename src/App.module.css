@@ -348,7 +348,7 @@ footer .theme-toggle:hover {
 .empty-state button:active { transform: scale(0.97); }
 
 /* Blog section on main page */
-.blog-section { padding: 0 0 60px; }
+.blog-section { padding: 0 20px 60px; }
 .blog-grid { display: grid; gap: 16px; }
 .blog-card {
   display: block; border: 1px solid var(--line); border-radius: var(--radius-lg);
@@ -406,6 +406,7 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   .video-coverage { width: 190px; grid-column: auto; }
   .company-row { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
   .question-section { padding: 90px 5.5vw 115px; }
+  .blog-section { padding: 0 5.5vw 60px; }
   .section-heading { flex-direction: row; align-items: flex-end; }
   .filters { width: auto; overflow-x: visible; padding-bottom: 0; }
   .filters-row { flex-wrap: nowrap; }
