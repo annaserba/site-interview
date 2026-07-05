@@ -134,6 +134,42 @@ function parseQuery(url) {
   return q
 }
 
+async function readBody(req) {
+  const chunks = []
+  for await (const chunk of req) chunks.push(chunk)
+  return Buffer.concat(chunks).toString()
+}
+
+function parseMultipart(buffer, boundary) {
+  const parts = []
+  const boundaryBuf = Buffer.from(`--${boundary}`)
+  let start = buffer.indexOf(boundaryBuf) + boundaryBuf.length + 2
+
+  while (true) {
+    const end = buffer.indexOf(boundaryBuf, start)
+    if (end === -1) break
+
+    const partData = buffer.slice(start, end - 2) // -2 for \r\n
+    const headerEnd = partData.indexOf('\r\n\r\n')
+    if (headerEnd === -1) { start = end + boundaryBuf.length + 2; continue }
+
+    const headers = partData.slice(0, headerEnd).toString()
+    const body = partData.slice(headerEnd + 4)
+
+    const nameMatch = headers.match(/name="([^"]+)"/)
+    const filenameMatch = headers.match(/filename="([^"]+)"/)
+
+    parts.push({
+      name: nameMatch?.[1],
+      filename: filenameMatch?.[1] || null,
+      data: body,
+    })
+
+    start = end + boundaryBuf.length + 2
+  }
+  return parts
+}
+
 async function getUserFromRequest(req) {
   const cookies = parseCookies(req)
   const token = cookies['session_token']
@@ -342,6 +378,67 @@ const server = http.createServer(async (req, res) => {
         'Set-Cookie': `session_token=; ${cookieOptions(0)}`,
       })
       return res.end(JSON.stringify({ ok: true }))
+    }
+
+    // ─── RESUME ROUTES ───
+
+    // Get resume info
+    if (url === '/api/user/resume' && req.method === 'GET') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      return json(res, {
+        hhResumeUrl: user.hh_resume_url || '',
+        resumePdfPath: user.resume_pdf_path || '',
+      })
+    }
+
+    // Save HH resume URL
+    if (url === '/api/user/resume/url' && req.method === 'POST') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      const body = await readBody(req)
+      const { hhResumeUrl } = JSON.parse(body)
+      if (!await ensureDbAvailable()) return json(res, { error: 'DB unavailable' }, 503)
+      await pool.query('UPDATE users SET hh_resume_url = $1 WHERE id = $2', [hhResumeUrl || null, user.id])
+      return json(res, { ok: true })
+    }
+
+    // Upload resume PDF
+    if (url === '/api/user/resume/pdf' && req.method === 'POST') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!await ensureDbAvailable()) return json(res, { error: 'DB unavailable' }, 503)
+
+      const contentType = req.headers['content-type'] || ''
+      if (!contentType.includes('multipart/form-data')) {
+        return json(res, { error: 'Expected multipart/form-data' }, 400)
+      }
+
+      const uploadDir = resolve(process.cwd(), 'uploads/resumes')
+      mkdirSync(uploadDir, { recursive: true })
+
+      const chunks = []
+      for await (const chunk of req) chunks.push(chunk)
+      const buffer = Buffer.concat(chunks)
+
+      const boundary = contentType.split('boundary=')[1]
+      if (!boundary) return json(res, { error: 'No boundary' }, 400)
+
+      const parts = parseMultipart(buffer, boundary)
+      const filePart = parts.find(p => p.filename)
+      if (!filePart) return json(res, { error: 'No file' }, 400)
+
+      const filename = `resume_${user.id}_${Date.now()}.pdf`
+      writeFileSync(join(uploadDir, filename), filePart.data)
+
+      // Delete old PDF if exists
+      if (user.resume_pdf_path) {
+        try { unlinkSync(resolve(process.cwd(), user.resume_pdf_path)) } catch {}
+      }
+
+      const pdfPath = `uploads/resumes/${filename}`
+      await pool.query('UPDATE users SET resume_pdf_path = $1 WHERE id = $2', [pdfPath, user.id])
+      return json(res, { ok: true, path: pdfPath })
     }
 
     // ─── EXISTING ROUTES ───
