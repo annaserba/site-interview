@@ -5,14 +5,17 @@ import s from '../App.module.css'
 
 export function UserMenu() {
   const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchCurrentUser().then(u => setUser(u))
+    fetchCurrentUser().then(u => { setUser(u); setLoading(false) })
   }, [])
 
   function handleLogout() {
     logout().then(() => setUser(null))
   }
+
+  if (loading) return null
 
   if (user) {
     return (

@@ -1,209 +1,118 @@
-# in.depth — Подготовка к IT-интервью
+# sobes-it — Подготовка к IT-интервью
 
-Сайт с **1000+ реальными вопросами** от ведущих российских IT-компаний: Яндекс, Т-Банк, Ozon, VK, Avito, Okko, Wildberries, Сбер, Гознак, IT One, Usetech, Rutube и др.
+Сайт с **372 реальными вопросами** от ведущих российских IT-компаний: Яндекс, Т-Банк, Ozon, VK, Avito, Okko, Wildberries, Сбер и др.
 
 ## Возможности
 
-- **1000+ вопросов** с примерами ответов, кодом и чек-листами
+- **372 вопроса** с примерами ответов, кодом и чек-листами
+- **SSG (Astro)** — все страницы генерируются статически на этапе билда, мгновенная загрузка
 - **Фильтрация** по компаниям, ролям, темам, типам вопросов
-- **Мок-интервью** — тренировка на случайных вопросах с таймером
-- **Личный кабинет** — сохраняйте свои ответы на вопросы
-- **Экспорт** — скачивание ответов в PDF и Markdown
+- **Мок-интервью** — тренировка на случайных вопросах
+- **Личный кабинет** — сохраняйте ответы, загружайте резюме
+- **Экспорт** — PDF и Markdown для вопросов и ответов
 - **AI-помощник** (RAG) — задайте вопрос и получите ответ из базы знаний
+- **Блог** — статьи с разборами методологий собеседований
+- **Видео-разборы** — реальные записи интервью с YouTube
 - **Авторизация** через Яндекс OAuth
-- **Адаптивный дизайн** — работает на мобильных и десктопе
-- **Деплой через Docker** на любой VPS
+- **Офлайн-режим** — Service Worker + кеширование
+- **Cookie consent** и **Политика конфиденциальности** (152-ФЗ)
 
 ## Архитектура
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│                   Frontend (React)                    │
-│  App.tsx → QuestionsPage / QuestionDetail / Profile  │
-│  MockInterview / ChatBot                             │
+│                Astro SSG (статичные HTML)             │
+│  index.astro → questions.astro → blog/[id].astro     │
+│  React-островки: MockInterview, Profile, ChatBot     │
 └──────────────────────┬───────────────────────────────┘
                        │ fetch /api/*
 ┌──────────────────────┴───────────────────────────────┐
-│                   API Server (Node.js)                │
+│                  API Server (Node.js)                 │
 │  server/api.mjs — REST API + JSON RAG                │
 └──────────┬───────────────────────┬───────────────────┘
            │                       │
     ┌──────┴──────┐         ┌──────┴──────┐
-    │ PostgreSQL  │         │  RAG Engine │
-    │ users,      │         │ rag-core.mjs│
-    │ sessions,   │         │ JSON/S3     │
-    │ favorites   │         │ questions   │
-    └─────────────┘         └──────┬──────┘
-                                   │
-                         ┌─────────┴─────────┐
-                         │ Telegram bot VPS  │
-                         │ local JSON RAG API│
-                         └───────────────────┘
+    │ PostgreSQL  │         │  RAG Engine  │
+    │ users,      │         │ rag-core.mjs │
+    │ sessions,   │         │ JSON data    │
+    │ favorites   │         └──────────────┘
+    └─────────────┘
 ```
 
-## Структура проекта
-
-```
-├── src/
-│   ├── App.tsx                 # Главная, роутинг, навигация
-│   ├── QuestionsPage.tsx       # Страница всех вопросов с фильтрами
-│   ├── QuestionDetail.tsx      # Детализация вопроса + свой ответ
-│   ├── MockInterview.tsx       # Мок-интервью (тренировка)
-│   ├── ProfilePage.tsx         # Личный кабинет + экспорт
-│   ├── ChatBot.tsx             # AI-помощник (RAG)
-│   ├── FilterDropdown.tsx      # Выпадающий фильтр
-│   ├── api.ts                  # Клиентские API-вызовы
-│   ├── filters.ts              # Определения фильтров
-│   └── types.ts                # TypeScript типы
-├── server/
-│   ├── api.mjs                 # REST API сервер
-│   ├── rag-core.mjs            # RAG: retrieval + answer
-│   └── db/
-│       ├── migrate.mjs         # Миграции PostgreSQL
-│       └── seed.mjs            # Заполнение БД вопросами
-├── docker-compose.yml          # PostgreSQL + API + web
-├── Dockerfile                  # Frontend (nginx)
-├── Dockerfile.api              # API сервер (Node.js)
-└── nginx.conf                  # Проксирование /api → api:3001
-```
-
-## Стек технологий
+## Стек
 
 | Компонент | Технология |
 |-----------|-----------|
-| Frontend | React 19, TypeScript, Vite |
+| Фреймворк | Astro 7 (SSG) |
+| Интерактив | React 19 (островки) |
 | Стили | CSS Modules, Mobile-first |
-| API | Node.js, vanilla HTTP |
-| Данные вопросов | JSON/S3 |
-| БД | PostgreSQL 16 для auth/user state |
+| API | Node.js (vanilla HTTP) |
+| БД | PostgreSQL 16 |
 | Авторизация | Yandex OAuth 2.0 |
-| RAG | Local (SHA-256 векторы, cosine similarity) |
+| RAG | SHA-256 vectors, cosine similarity |
 | Деплой | Docker Compose, nginx |
 
-## Страница вопроса
+## Структура
 
 ```
-┌─────────────────────────────┐
-│  [Hero: компания, заголовок]│
-├─────────────────────────────┤
-│  01  Что от вас хотят       │
-│  02  Краткий ответ          │
-│  03  Мои ответы (свой ввод) │
-│  04  Как строить решение    │
-│  ─── Код из интервью ─────  │
-│  05  Пример ответа          │
-│  06  Частые ошибки          │
-│  07  Что могут спросить     │
-├──────────┬──────────────────┤
-│ Sidebar  │ Чек-лист ответа  │
-│          │ Источники        │
-└──────────┴──────────────────┘
+├── src/
+│   ├── pages/                 # Astro-страницы (SSG)
+│   │   ├── index.astro        # Главная
+│   │   ├── questions.astro    # Все вопросы
+│   │   ├── mock.astro         # Мок-интервью
+│   │   ├── profile.astro      # Профиль
+│   │   ├── privacy.astro      # Политика конфиденциальности
+│   │   ├── blog/              # Блог
+│   │   └── question/[id].astro # Страница вопроса
+│   ├── components/            # React-островки + Astro-компоненты
+│   │   ├── Header.astro       # Шапка (SSG)
+│   │   ├── UserMenu.tsx       # Яндекс-авторизация (React)
+│   │   ├── ProfileLoader.tsx  # Загрузка профиля (React)
+│   │   └── ...
+│   ├── layouts/Base.astro     # Базовый layout
+│   ├── data/questions.json    # Вопросы (пре-бейк)
+│   └── *.tsx                  # Остальные React-компоненты
+├── server/                    # API сервер
+│   ├── api.mjs
+│   ├── rag-core.mjs
+│   └── db/
+├── scripts/                   # Сборка данных
+│   ├── build-content.mjs      # Генерация questions.json из Markdown
+│   ├── build-index.mjs        # Генерация поискового индекса
+│   └── gen-stats.mjs          # Статистика
+├── content/questions/         # Markdown-файлы вопросов
+├── public/                    # Статика (SW, манифест, данные)
+├── docker-compose.yml
+├── Dockerfile                 # Frontend (nginx + Astro build)
+├── Dockerfile.api             # API (Node.js)
+├── nginx.conf
+└── deploy.sh
 ```
 
 ## Быстрый старт
 
 ```bash
-# Установка
 npm install
+npm run build:ci   # полная сборка: данные → astro build
+npm run dev        # dev-сервер
+```
 
-# Разработка (только фронтенд)
-npm run dev:web
+## Деплой
 
-# Dev (фронтенд + API)
-npm run dev
-
-# Деплой через Docker
-docker compose build
-docker compose up -d
+```bash
+git pull && ./deploy.sh web    # только фронтенд
+git pull && ./deploy.sh api    # только API
+git pull && ./deploy.sh all    # полный стек
 ```
 
 ## Переменные окружения
 
 ```env
-# JSON/S3 база знаний
-DATA_URL=https://s3.twcstorage.ru/<bucket>/data
-
-# БД основного сайта для Яндекс OAuth, сессий, избранного и пользовательских ответов.
-# В docker-compose DATABASE_URL не нужен: внутри контейнеров Postgres доступен как db:5432.
-# Если нужно переопределить именно compose-подключение, используйте DATABASE_URL_INTERNAL.
 DB_PASSWORD=your_password
-
-# Яндекс OAuth
 YANDEX_CLIENT_ID=your_client_id
 YANDEX_CLIENT_SECRET=your_client_secret
-YANDEX_REDIRECT_URI=http://your-domain/api/auth/yandex/callback
-
-# Фронтенд
-FRONTEND_URL=http://your-domain
-
-# Опционально: ключ для бота/закрытого RAG endpoint
-RAG_API_KEY=optional_api_key
-```
-
-## Команды
-
-| Команда | Описание |
-|---------|----------|
-| `npm run dev:web` | Dev-сервер (только фронтенд) |
-| `npm run dev` | Dev-сервер + API |
-| `npm run build` | Сборка для продакшена |
-| `npm run db:migrate` | Миграции PostgreSQL |
-| `npm run db:seed` | Синхронизация JSON-вопросов в PostgreSQL-кэш |
-
-## Деплой
-
-### Основной VPS: сайт + JSON RAG API
-
-На основном сервере не нужно поднимать Telegram-бота. Он запускается отдельно на втором VPS.
-
-1. Запушьте код на GitHub.
-2. На VPS создайте `.env` с `DB_PASSWORD`, `FRONTEND_URL`, `YANDEX_*` и `DATA_URL` при использовании S3.
-3. Запустите мягкий деплой без остановки всего стека:
-
-```bash
-git pull origin main
-./scripts/deploy.sh
-```
-
-Или вручную:
-
-```bash
-git pull
-docker compose up -d db
-docker compose build api web
-docker compose run --rm api node server/db/migrate.mjs
-docker compose run --rm api node server/db/seed.mjs
-docker compose up -d api web
-```
-
-Сайт доступен на `http://<VPS_IP>`.
-
-### Как проверить БД и Яндекс OAuth
-
-RAG и вопросы не зависят от PostgreSQL: если база временно недоступна, сайт всё равно отдаёт вопросы из JSON/S3. Но на основном VPS PostgreSQL должен быть включён для Яндекс OAuth, сессий, избранного и пользовательских ответов.
-
-```bash
-docker compose exec -T db pg_isready -U app -d site_interview
-curl http://127.0.0.1/api/auth/status
-```
-
-В норме `/api/auth/status` показывает `yandexConfigured: true`, `databaseAvailable: true`, `authStorage: "postgresql"`.
-
-### Второй VPS: Telegram-бот + свой JSON RAG API
-
-Бот не запускается на основном сервере. На втором VPS он поднимает свой лёгкий API с тем же JSON/S3 RAG и ходит в него по внутренней docker-сети. WireGuard для этого не нужен.
-
-```bash
-cd bot
-cp .env.example .env
-# заполните BOT_TOKEN, DATA_URL и при необходимости RAG_API_KEY
-docker compose up -d --build
-```
-
-Проверка локального RAG API на VPS бота:
-
-```bash
-docker compose exec -T api node -e "fetch('http://127.0.0.1:3001/api/rag/health').then(r=>r.text()).then(console.log)"
+YANDEX_REDIRECT_URI=http://sobes-it.ru/api/auth/yandex/callback
+FRONTEND_URL=http://sobes-it.ru
 ```
 
 ## Лицензия
