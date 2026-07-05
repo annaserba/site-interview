@@ -135,7 +135,42 @@ function App() {
         })) as Question[]
         setQuestions(mapped)
       })
-      .catch(() => setDataError('База вопросов сейчас недоступна. Проверьте API и Postgres.'))
+      .catch(async () => {
+        try {
+          const res = await fetch('/data/questions.json')
+          const data = await res.json()
+          const mapped = data.map((q: any) => ({
+            id: q.id,
+            title: q.title,
+            aliases: q.aliases || [],
+            category: q.category || 'Technical',
+            stage: q.stage || 'Technical',
+            difficulty: q.difficulty,
+            answer: q.answer || '',
+            context: q.context || '',
+            companies: q.companies || [],
+            roles: q.roles || [],
+            tags: q.tags || [],
+            languages: q.languages || [],
+            level: q.level || 'Middle',
+            duration: q.duration || '10 мин',
+            keyPoints: q.key_points || [],
+            pitfalls: q.pitfalls || [],
+            followUps: q.follow_ups || [],
+            exampleAnswer: q.example_answer || '',
+            codeSnippet: q.code_snippet || null,
+            codeLanguage: q.code_language || null,
+            sources: q.sources || [],
+            sourceType: q.source_type || 'aggregated',
+            scope: q.scope || 'universal',
+            videoFrequency: q.video_frequency ?? 0,
+            publishedAt: q.published_at || undefined,
+          })) as Question[]
+          setQuestions(mapped)
+        } catch {
+          setDataError('База вопросов сейчас недоступна. Проверьте API и Postgres.')
+        }
+      })
   }, [])
 
   const applyHashFilters = (hash: string) => {
