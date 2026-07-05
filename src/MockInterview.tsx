@@ -7,8 +7,7 @@ import 'highlight.js/styles/github-dark.css'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { questionTypeDefinitions, companyOrder, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
-import { fetchQuestions, fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
-import questions from './data/questions.json'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
 
@@ -42,7 +41,7 @@ function mapQuestions(data: Question[]): InterviewQuestion[] {
   }))
 }
 
-const fallbackQuestions: InterviewQuestion[] = mapQuestions(questions as Question[])
+const fallbackQuestions: InterviewQuestion[] = []
 
 const difficultyLabel = { easy: 'Лёгкий', medium: 'Средний', hard: 'Сложный' }
 const difficultyColor = { easy: 'var(--acid)', medium: '#ffb428', hard: '#ff5a46' }
@@ -61,6 +60,8 @@ type MockInterviewProps = { onBack?: () => void }
 export function MockInterview({ onBack }: MockInterviewProps) {
   // ...
   const [allQuestions, setAllQuestions] = useState<InterviewQuestion[]>(fallbackQuestions)
+  const [rawQuestions, setRawQuestions] = useState<Question[]>([])
+  const [dataReady, setDataReady] = useState(false)
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
@@ -75,23 +76,24 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
-    fetchQuestions({ limit: 500 })
-      .then((data) => {
-        const mapped = data.questions.map((q) => ({
+    fetch('/data/questions.json')
+      .then(r => r.json())
+      .then((data: any[]) => {
+        setRawQuestions(data as Question[])
+        const mapped = data.map((q: any) => ({
           id: q.id,
           question: q.title,
           type: q.category || 'Technical',
           company: q.companies?.[0] || 'Несколько компаний',
           role: q.roles?.[0] || 'Backend',
           difficulty: difficultyMap[q.difficulty] || 'medium',
-          tips: q.key_points?.map((kp: { title: string }) => kp.title) || [],
-          exampleAnswer: q.example_answer || q.answer || '',
+          tips: q.keyPoints?.map((kp: { title: string }) => kp.title) || [],
+          exampleAnswer: q.exampleAnswer || q.answer || '',
         }))
         setAllQuestions(mapped)
+        setDataReady(true)
       })
-      .catch(() => {
-        setAllQuestions(fallbackQuestions)
-      })
+      .catch(() => setDataReady(true))
   }, [])
 
   const roles = useMemo(() => [...new Set(allQuestions.map((q) => q.role))].sort((a, b) => a.localeCompare(b, 'ru')), [allQuestions])
@@ -204,8 +206,14 @@ export function MockInterview({ onBack }: MockInterviewProps) {
         <p>Практикуйтесь отвечать на вопросы. Сначала подумайте, затем проверьте пример ответа.</p>
       </div>
 
+      {!dataReady ? (
+        <div className={s['start-screen']}>
+          <p style={{ color: 'var(--muted)' }}>Загрузка вопросов...</p>
+        </div>
+      ) : (
+      <>
       <QuestionFilters
-        questions={questions as Question[]}
+        questions={rawQuestions}
         filterState={filterState}
         onChange={(partial) => {
           if ('activeCompany' in partial && partial.activeCompany) setActiveCompany(partial.activeCompany)
@@ -355,6 +363,8 @@ export function MockInterview({ onBack }: MockInterviewProps) {
           )}
         </>
       )}
-    </div>
+      </>
+    )}
+  </div>
   )
 }

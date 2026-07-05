@@ -4,5 +4,14 @@ import { MockInterview } from '../MockInterview'
 ---
 
 <Base>
+  <noscript>
+    <div style="text-align:center;padding:80px 20px;color:var(--muted)">
+      <p>Для работы мок-интервью нужен JavaScript.</p>
+      <a href="/" style="color:var(--acid)">На главную</a>
+    </div>
+  </noscript>
+  <div id="mock-fallback" style="text-align:center;padding:40px 20px;color:var(--muted);font-size:14px">
+    Загрузка...
+  </div>
   <MockInterview client:only="react" />
 </Base>
