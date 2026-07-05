@@ -389,6 +389,7 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   .nav-links a[href="#mock-interview"] { margin-right: 0; }
   .menu-button { display: none; }
   .header-stats { display: flex; margin-right: 0; }
+  .header-actions { margin-left: 32px; }
   .hero { padding-top: 56px; }
   .hero-copy { max-width: 800px; }
   .hero-copy > p { font-size: 18px; }
