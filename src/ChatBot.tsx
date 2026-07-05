@@ -1,7 +1,6 @@
 import { FormEvent, useRef, useState } from 'react'
 import { Database, LoaderCircle, MessageCircle, Send, Sparkles, X } from 'lucide-react'
 import { fetchQuestionIndex, fetchQuestions } from './dataClient'
-import { blogArticles } from './blog-articles'
 import type { Question, RagResponse } from './types'
 import s from './ChatBot.module.css'
 
@@ -72,8 +71,7 @@ async function staticRag(query: string): Promise<RagResponse> {
   const queryTokenSet = new Set(ragTokens(query))
   const normalizedQuery = query.toLocaleLowerCase('ru-RU')
 
-  // Search questions
-  const questionSources = questions.map((question) => {
+  const sources = questions.map((question) => {
     const vector = embeddings.get(question.id) || []
     const cosine = vector.length === queryVector.length
       ? Math.max(0, vector.reduce((sum, value, position) => sum + value * queryVector[position], 0))
@@ -87,36 +85,10 @@ async function staticRag(query: string): Promise<RagResponse> {
     const metadata = [...question.companies, ...question.languages, ...question.roles, question.level]
       .some((value) => value && normalizedQuery.includes(value.toLocaleLowerCase('ru-RU'))) ? 0.12 : 0
     return { ...question, score: cosine * 0.35 + lexical * 0.65 + metadata, retrieval: 'browser-json' }
-  })
+  }).sort((left, right) => (right.score || 0) - (left.score || 0)).slice(0, 4)
 
-  // Search blog articles
-  const blogSources = blogArticles.map((article) => {
-    const text = `${article.title} ${article.description} ${article.tags.join(' ')} ${article.content}`
-    const articleTokens = new Set(ragTokens(text))
-    const overlap = (tokens: Set<string>) => queryTokenSet.size ? [...queryTokenSet].filter((token) => tokens.has(token)).length / queryTokenSet.size : 0
-    const normalize = (value: string) => value.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').replace(/[^a-zа-я0-9+#.]+/giu, ' ').trim()
-    const titleTokens = new Set(ragTokens(`${article.title} ${article.tags.join(' ')}`))
-    const exactTitleBonus = normalize(query) === normalize(article.title) ? 0.35 : 0
-    const lexical = overlap(titleTokens) * 0.65 + overlap(articleTokens) * 0.35 + exactTitleBonus
-    return {
-      id: `blog:${article.id}`,
-      title: article.title,
-      answer: article.content.slice(0, 500) + '…',
-      companies: [],
-      languages: [],
-      roles: [],
-      level: '',
-      category: 'Blog',
-      tags: article.tags,
-      score: lexical,
-      retrieval: 'blog',
-    } as Question
-  })
-
-  const allSources = [...questionSources, ...blogSources].sort((left, right) => (right.score || 0) - (left.score || 0)).slice(0, 4)
-
-  const threshold = allSources.length ? Math.max(0.1, (allSources[0].score || 0) * 0.38) : 1
-  const relevant = allSources.filter((source) => (source.score || 0) >= threshold).slice(0, 3)
+  const threshold = sources.length ? Math.max(0.1, (sources[0].score || 0) * 0.38) : 1
+  const relevant = sources.filter((source) => (source.score || 0) >= threshold).slice(0, 3)
   const primary = relevant[0]
   const answer = primary ? primary.answer : 'В базе пока нет подходящего материала.'
 
@@ -199,13 +171,7 @@ export function ChatBot() {
                         {msg.text.split('\n\n')[0].split('\n').filter(Boolean).map((line, j) => <p key={j}>{line}</p>)}
                         {msg.sources && msg.sources.length > 0 && (
                           <button className={s.cardLink}
-                            onClick={() => {
-                              setOpen(false)
-                              const src = msg.sources![0]
-                              window.location.hash = src.retrieval === 'blog'
-                                ? `article/${src.id.replace('blog:', '')}`
-                                : `question/${src.id}`
-                            }}>
+                            onClick={() => { setOpen(false); window.location.hash = `question/${msg.sources![0].id}` }}>
                             Читать полностью →
                           </button>
                         )}
@@ -217,13 +183,8 @@ export function ChatBot() {
                         {msg.sources.slice(1).map((src) => (
                           <button key={src.id}
                             className={s.sourceBtn}
-                            onClick={() => {
-                              setOpen(false)
-                              window.location.hash = src.retrieval === 'blog'
-                                ? `article/${src.id.replace('blog:', '')}`
-                                : `question/${src.id}`
-                            }}>
-                            {src.retrieval === 'blog' ? `Блог: ${src.title}` : `${src.companies[0]} — ${src.title}`}
+                            onClick={() => { setOpen(false); window.location.hash = `question/${src.id}` }}>
+                            {src.companies[0]} — {src.title}
                           </button>
                         ))}
                       </div>
