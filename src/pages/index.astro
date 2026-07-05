@@ -5,7 +5,6 @@ import questionsData from '../data/questions.json'
 
 const featured = questionsData.slice(0, 6)
 
-// Build YouTube video list
 const youtubeVideoId = (url: string) => {
   try {
     const u = new URL(url)
@@ -16,7 +15,7 @@ const youtubeVideoId = (url: string) => {
 }
 
 const videos = new Map<string, {
-  id: string; url: string; company: string; title: string;
+  id: string; url: string; company: string; title: string
   publishedAt?: string; questionIds: Set<string>; questionTitles: string[]
 }>()
 
@@ -27,13 +26,11 @@ for (const q of questionsData as any[]) {
     if (!vid) continue
     if (!videos.has(vid)) {
       videos.set(vid, {
-        id: vid,
-        url: s.url,
+        id: vid, url: s.url,
         company: s.company || q.companies.find((c: string) => c !== 'Несколько компаний') || 'YouTube',
         title: s.title || '',
         publishedAt: s.publishedAt || q.publishedAt || undefined,
-        questionIds: new Set(),
-        questionTitles: [],
+        questionIds: new Set(), questionTitles: [],
       })
     }
     const v = videos.get(vid)!
@@ -45,44 +42,64 @@ for (const q of questionsData as any[]) {
 
 const youtubeVideos = [...videos.values()].sort((a, b) => b.questionIds.size - a.questionIds.size)
 const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'вопроса' : 'вопросов'
+
+const total = questionsData.length
+const comps = [...new Set(questionsData.flatMap((q: any) => q.companies).filter((c: string) => c !== 'Несколько компаний'))]
 ---
 
 <Base>
   <section class="hero">
-    <div class="hero-copy">
-      <h1>Знай, что тебя <em>спросят.</em></h1>
-      <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
-      <a href="/mock" class="hero-cta">Практиковаться →</a>
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-orb" />
+      <div class="hero-orb secondary" />
+      <div class="hero-grid" />
+    </div>
+    <div class="hero-content">
+      <span class="hero-badge">372+ вопросов · 14 компаний</span>
+      <h1>Знай, что тебя <em>спросят</em>.</h1>
+      <p>Вопросы с реальных собеседований, разборы и практика — чтобы ты пришёл готовым.</p>
+      <div class="hero-actions">
+        <a href="/questions" class="btn-primary">Смотреть вопросы</a>
+        <a href="/mock" class="btn-ghost">Пройти мок-интервью</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>{total}</strong><span>вопросов</span></div>
+        <div class="divider" />
+        <div><strong>{comps.length}</strong><span>компаний</span></div>
+        <div class="divider" />
+        <div><strong>{youtubeVideos.length}</strong><span>видео-разборов</span></div>
+      </div>
     </div>
   </section>
 
-  <section class="question-section">
-    <div class="section-heading">
+  <section class="questions-section">
+    <div class="section-head">
       <div>
+        <span class="section-label">База знаний</span>
         <h2>Свежие вопросы</h2>
-        <p>Восстановлены кандидатами после реальных интервью</p>
       </div>
-      <a href="/questions" class="hero-cta-lg">Все вопросы →</a>
+      <a href="/questions" class="section-link">Все {total} вопросов →</a>
     </div>
 
-    <div class="question-grid">
+    <div class="questions-grid">
       {featured.map((q: any) => (
-        <a href={`/question/${q.id}`} class="question-card">
-          <div class="card-top">
-            <div class="card-meta">
-              <div class="card-meta-row">
-                <span class="stage">{q.stage || 'Technical'}</span>
-              </div>
-              <div class="card-company">
-                {q.companies.filter((c: string) => c !== 'Несколько компаний').length > 0 && (
-                  <span>{q.companies.join(', ')}</span>
-                )}
-              </div>
+        <a href={`/question/${q.id}`} class="q-card">
+          <div class="q-card-top">
+            <span class="q-stage">{q.stage || 'Technical'}</span>
+            <span class="q-diff" data-diff={q.difficulty <= 2 ? 'easy' : q.difficulty <= 3 ? 'medium' : 'hard'}>
+              {q.difficulty <= 2 ? 'easy' : q.difficulty <= 3 ? 'medium' : 'hard'}
+            </span>
+          </div>
+          <h3>{q.title}</h3>
+          <p>{q.answer.slice(0, 140)}{q.answer.length > 140 ? '…' : ''}</p>
+          <div class="q-footer">
+            <div class="q-companies">
+              {q.companies.filter((c: string) => c !== 'Несколько компаний').slice(0, 3).map((c: string) => (
+                <span class="q-company">{c}</span>
+              ))}
             </div>
-            <div class="card-left">
-              <h3>{q.title}</h3>
-              <p class="card-answer">{q.answer.slice(0, 120)}{q.answer.length > 120 ? '...' : ''}</p>
-              <div class="tags">{q.tags.map((t: string) => <span>{t}</span>)}</div>
+            <div class="q-tags">
+              {q.tags.slice(0, 3).map((t: string) => <span>{t}</span>)}
             </div>
           </div>
         </a>
@@ -91,35 +108,27 @@ const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n
   </section>
 
   {youtubeVideos.length > 0 && (
-    <section class="youtube-section">
-      <div class="section-heading">
+    <section class="video-section">
+      <div class="section-head">
         <div>
-          <h2>Видео-интервью</h2>
-          <p>Реальные записи, из которых собраны вопросы и senior-разборы</p>
-        </div>
-        <div class="youtube-total">
-          <strong>{youtubeVideos.length}</strong>
-          <span>видео</span>
+          <span class="section-label">Видео</span>
+          <h2>Разборы интервью</h2>
         </div>
       </div>
-
-      <div class="youtube-grid">
+      <div class="video-scroll">
         {youtubeVideos.map((v) => (
-          <a href={v.url} target="_blank" rel="noreferrer" class="youtube-card">
-            <div class="youtube-preview">
-              <span class="youtube-play" />
+          <a href={v.url} target="_blank" rel="noreferrer" class="v-card">
+            <div class="v-thumb">
               <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" />
+              <span class="v-play" />
+              <span class="v-duration">{v.questionIds.size} {qWord(v.questionIds.size)}</span>
             </div>
-            <div class="youtube-card-body">
-              <div class="youtube-meta">
-                <span>{v.company}</span>
-              </div>
+            <div class="v-body">
+              <span class="v-company">{v.company}</span>
               <h3>{v.title || `Собеседование ${v.company}`}</h3>
-              <p>{v.questionIds.size} {qWord(v.questionIds.size)} из этого видео</p>
-              <div class="youtube-topics">
+              <div class="v-topics">
                 {v.questionTitles.slice(0, 3).map((t: string) => <span>{t}</span>)}
               </div>
-              <span class="youtube-link">Смотреть на YouTube →</span>
             </div>
           </a>
         ))}
@@ -129,22 +138,22 @@ const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n
 
   {blogArticles.length > 0 && (
     <section class="blog-section">
-      <div class="section-heading">
+      <div class="section-head">
         <div>
-          <h2>Блог</h2>
-          <p>Практические руководства по прохождению собеседований</p>
+          <span class="section-label">Блог</span>
+          <h2>Методология</h2>
         </div>
-        <a href="/blog" class="hero-cta-lg">Все статьи →</a>
+        <a href="/blog" class="section-link">Все статьи →</a>
       </div>
       <div class="blog-grid">
         {blogArticles.map((a) => (
-          <a href={`/blog/${a.id}`} class="blog-card">
-            <div class="blog-card-tags">
-              {a.tags.map((t: string) => <span class="blog-tag">{t}</span>)}
+          <a href={`/blog/${a.id}`} class="b-card">
+            <div class="b-tags">
+              {a.tags.map((t: string) => <span>{t}</span>)}
             </div>
             <h3>{a.title}</h3>
             <p>{a.description}</p>
-            <span class="blog-read">{a.readTime} мин чтения</span>
+            <span class="b-meta">{a.readTime} мин</span>
           </a>
         ))}
       </div>
@@ -153,115 +162,313 @@ const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n
 </Base>
 
 <style>
+  /* Hero */
   .hero {
-    padding: 28px 20px 20px; min-height: auto;
     position: relative; overflow: hidden;
+    padding: 48px 20px 40px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: auto;
   }
-  .hero-copy {
-    position: relative; z-index: 2; max-width: 820px;
-    padding: 20px; border: 1px solid color-mix(in srgb, var(--line-soft) 82%, transparent);
-    border-radius: 28px; background: linear-gradient(135deg, var(--glass-strong), var(--glass));
-    box-shadow: var(--shadow-lg);
+  .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+  .hero-orb {
+    position: absolute; width: 500px; height: 500px;
+    border-radius: 50%; filter: blur(120px); opacity: .15;
+    background: var(--acid);
+    top: -150px; left: -100px;
   }
-  .hero-copy h1 { margin: 0 0 12px; font-size: 24px; }
-  .hero-copy h1 em { color: var(--acid); font-style: normal; }
-  .hero-copy p { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 12px 0 0; max-width: 610px; }
-  .hero-cta, .hero-cta-lg {
+  .hero-orb.secondary {
+    background: #6366f1;
+    top: auto; bottom: -200px; left: auto; right: -100px;
+    width: 400px; height: 400px; opacity: .08;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(184,255,0,.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(184,255,0,.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 70%);
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center;
+    max-width: 720px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 16px; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--acid) 20%, transparent);
+    background: var(--acid-glow);
+    color: var(--acid); font-size: 12px; font-weight: 600;
+    letter-spacing: .02em; margin-bottom: 24px;
+    backdrop-filter: blur(8px);
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #43bd62; box-shadow: 0 0 6px #43bd62;
+  }
+  .hero-content h1 {
+    font-size: 36px; line-height: 1.15; font-weight: 800;
+    letter-spacing: -.03em; margin: 0 0 16px;
+    background: linear-gradient(180deg, var(--ink) 0%, color-mix(in srgb, var(--ink) 70%, var(--muted)) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-content h1 em {
+    background: linear-gradient(135deg, var(--acid), #a0ff2e);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; font-style: normal;
+  }
+  .hero-content p {
+    font-size: 16px; color: var(--muted); line-height: 1.6;
+    margin: 0 0 32px; max-width: 520px; margin-left: auto; margin-right: auto;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .btn-primary {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600;
-    text-decoration: none; transition: all .2s;
+    padding: 14px 28px; border-radius: 14px;
+    background: var(--acid); color: #111210;
+    font-size: 14px; font-weight: 700; text-decoration: none;
+    transition: all .25s cubic-bezier(.16,1,.3,1);
+    box-shadow: 0 4px 24px rgba(184,255,0,.25), 0 1px 2px rgba(184,255,0,.1);
   }
-  .hero-cta { background: var(--button-bg); color: var(--button-text); margin-top: 20px; }
-  .hero-cta:hover { filter: brightness(.96); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-  .hero-cta-lg {
-    padding: 14px 28px; background: var(--acid); color: #111210;
-    font-size: 15px; font-weight: 700;
-    box-shadow: 0 4px 20px rgba(184,255,0,.25);
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 36px rgba(184,255,0,.35), 0 2px 4px rgba(184,255,0,.15);
   }
-  .hero-cta-lg:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184,255,0,.35); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px; border-radius: 14px;
+    border: 1px solid var(--line); background: transparent;
+    color: var(--ink); font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all .25s cubic-bezier(.16,1,.3,1);
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    border-color: var(--acid); color: var(--acid);
+    background: var(--acid-glow);
+  }
+  .hero-stats {
+    display: flex; justify-content: center; align-items: center;
+    gap: 0; padding: 24px 0 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .hero-stats > div {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 0 28px;
+  }
+  .hero-stats strong {
+    font: 600 28px 'JetBrains Mono'; letter-spacing: -.06em;
+    color: var(--ink);
+  }
+  .hero-stats span {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .hero-stats .divider {
+    width: 1px; height: 36px; background: var(--line-soft);
+    padding: 0;
+  }
 
-  .question-section { padding: 40px 20px 50px; }
-  .section-heading {
-    display: flex; flex-direction: column; gap: 16px;
+  /* Section shared */
+  .section-head {
+    display: flex; flex-direction: column; gap: 12px;
     margin-bottom: 28px; align-items: flex-start;
   }
-  .question-grid {
-    display: grid; grid-template-columns: 1fr; gap: 10px;
+  .section-label {
+    font: 9px 'JetBrains Mono'; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--acid);
+    margin-bottom: 6px; display: block;
   }
-  .question-card {
-    display: block; border: 1px solid var(--line-soft); border-radius: 22px;
-    padding: 16px 18px; text-decoration: none; color: inherit;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--surface-strong) 94%, transparent), color-mix(in srgb, var(--surface) 82%, transparent));
-    box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s, border-color .3s;
+  .section-head h2 {
+    font-size: 22px; font-weight: 700; letter-spacing: -.02em;
+    margin: 0;
   }
-  .question-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--acid) 30%, var(--line-soft)); }
-  .card-top { display: flex; flex-direction: column; gap: 10px; }
-  .card-meta { display: flex; flex-direction: column; gap: 6px; }
-  .card-meta-row { display: flex; gap: 8px; align-items: center; }
-  .stage { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
-  .card-company { font-size: 11px; color: var(--muted); }
-  .card-left h3 { font-size: 15px; margin: 0 0 6px; }
-  .card-answer { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
-  .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
-  .tags span { font-size: 9px; padding: 2px 8px; border-radius: 999px; background: var(--surface); color: var(--muted); }
+  .section-link {
+    color: var(--acid); font-size: 13px; font-weight: 600;
+    text-decoration: none; transition: opacity .2s;
+    white-space: nowrap;
+  }
+  .section-link:hover { opacity: .7; }
 
-  /* YouTube videos */
-  .youtube-section {
-    margin: 18px 12px 26px;
-    padding: 22px 12px 14px;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 30px;
-    background: linear-gradient(145deg, #10110f, #191a16 52%, #0d0e0c);
-    color: white;
+  /* Questions */
+  .questions-section {
+    padding: 60px 20px 50px;
   }
-  .youtube-total { display: none; }
-  .youtube-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .youtube-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: rgba(255,255,255,.04); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s; }
-  .youtube-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
-  .youtube-preview { position: relative; aspect-ratio: 16/9; overflow: hidden; }
-  .youtube-preview img { width: 100%; height: 100%; object-fit: cover; opacity: .78; }
-  .youtube-play { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.2); }
-  .youtube-play::after { content: '▶'; font-size: 32px; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
-  .youtube-card-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; }
-  .youtube-meta { font-size: 11px; color: #999; }
-  .youtube-card-body h3 { font-size: 14px; margin: 0; line-height: 1.3; }
-  .youtube-card-body > p { font-size: 11px; color: var(--acid); margin: 0; }
-  .youtube-topics { display: flex; gap: 4px; flex-wrap: wrap; }
-  .youtube-topics span { font-size: 9px; padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,.08); color: #aaa; }
-  .youtube-link { font-size: 12px; color: #888; margin-top: 4px; }
+  .questions-grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+  }
+  .q-card {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 20px; border-radius: 20px;
+    border: 1px solid var(--line-soft);
+    background: var(--surface);
+    text-decoration: none; color: inherit;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+    box-shadow: var(--shadow-xs);
+  }
+  .q-card:hover {
+    border-color: color-mix(in srgb, var(--acid) 25%, var(--line-soft));
+    box-shadow: 0 8px 32px rgba(0,0,0,.06), 0 0 0 1px color-mix(in srgb, var(--acid) 10%, transparent);
+    transform: translateY(-2px);
+  }
+  .q-card-top {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .q-stage {
+    font: 8px 'JetBrains Mono'; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted);
+    padding: 3px 10px; border-radius: 6px;
+    background: color-mix(in srgb, var(--surface-strong) 50%, transparent);
+  }
+  .q-diff {
+    font: 9px 'JetBrains Mono'; font-weight: 600;
+    padding: 3px 10px; border-radius: 6px;
+  }
+  .q-diff[data-diff="easy"] { color: #43bd62; background: rgba(67,189,98,.08); }
+  .q-diff[data-diff="medium"] { color: #f59e0b; background: rgba(245,158,11,.08); }
+  .q-diff[data-diff="hard"] { color: #ef4444; background: rgba(239,68,68,.08); }
+  .q-card h3 {
+    font-size: 16px; font-weight: 700; line-height: 1.35;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .q-card > p {
+    font-size: 13px; color: var(--muted); line-height: 1.55;
+    margin: 0; flex: 1;
+  }
+  .q-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 8px; flex-wrap: wrap;
+  }
+  .q-companies { display: flex; gap: 6px; flex-wrap: wrap; }
+  .q-company {
+    font-size: 11px; font-weight: 600; color: var(--ink);
+    padding: 3px 10px; border-radius: 8px;
+    background: color-mix(in srgb, var(--surface-strong) 70%, var(--paper));
+  }
+  .q-tags { display: flex; gap: 4px; }
+  .q-tags span {
+    font-size: 10px; color: var(--muted);
+    padding: 2px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--muted) 8%, transparent);
+  }
 
-  /* Blog section */
-  .blog-section { padding: 0 20px 60px; }
-  .blog-grid { display: grid; gap: 10px; }
-  .blog-card {
-    display: block; border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 16px; text-decoration: none; color: inherit;
-    transition: border-color .2s, box-shadow .2s, transform .2s;
+  /* Videos */
+  .video-section {
+    padding: 40px 20px 50px;
   }
-  .blog-card:hover { border-color: color-mix(in srgb, var(--acid) 40%, var(--line)); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
-  .blog-card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
-  .blog-tag {
+  .video-scroll {
+    display: flex; gap: 14px; overflow-x: auto;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+  .video-scroll::-webkit-scrollbar { height: 4px; }
+  .video-scroll::-webkit-scrollbar-track { background: transparent; }
+  .video-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+  .v-card {
+    min-width: 280px; max-width: 320px; flex-shrink: 0;
+    border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line-soft);
+    background: var(--surface);
+    text-decoration: none; color: inherit;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+    scroll-snap-align: start;
+  }
+  .v-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+  .v-thumb {
+    position: relative; aspect-ratio: 16/9; overflow: hidden;
+    background: #0a0a0a;
+  }
+  .v-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .4s;
+  }
+  .v-card:hover .v-thumb img { transform: scale(1.04); }
+  .v-play {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: rgba(0,0,0,.15); transition: background .3s;
+  }
+  .v-card:hover .v-play { background: rgba(0,0,0,.25); }
+  .v-play::after {
+    content: ''; width: 48px; height: 48px;
+    border-radius: 50%; background: rgba(0,0,0,.7);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+    background-size: 24px; background-position: 55% center; background-repeat: no-repeat;
+    transition: transform .3s;
+  }
+  .v-card:hover .v-play::after { transform: scale(1.1); }
+  .v-duration {
+    position: absolute; bottom: 8px; right: 8px;
+    padding: 3px 10px; border-radius: 6px;
+    background: rgba(0,0,0,.75); backdrop-filter: blur(8px);
+    color: white; font-size: 11px; font-weight: 600;
+  }
+  .v-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .v-company {
+    font: 8px 'JetBrains Mono'; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted);
+  }
+  .v-body h3 {
+    font-size: 14px; font-weight: 700; line-height: 1.35;
+    margin: 0; display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .v-topics { display: flex; gap: 4px; flex-wrap: wrap; }
+  .v-topics span {
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--muted) 8%, transparent);
+    color: var(--muted);
+  }
+
+  /* Blog */
+  .blog-section { padding: 40px 20px 80px; }
+  .blog-grid { display: grid; gap: 12px; }
+  .b-card {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 20px; border-radius: 20px;
+    border: 1px solid var(--line);
+    text-decoration: none; color: inherit;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+    background: var(--surface);
+  }
+  .b-card:hover {
+    border-color: color-mix(in srgb, var(--acid) 25%, var(--line));
+    box-shadow: 0 8px 32px rgba(0,0,0,.04);
+    transform: translateY(-2px);
+  }
+  .b-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .b-tags span {
     font-size: 9px; text-transform: uppercase; letter-spacing: .06em;
-    color: var(--acid); background: var(--acid-glow);
-    padding: 2px 7px; border-radius: 999px; font-weight: 600;
+    font-weight: 600; color: var(--acid);
+    padding: 3px 8px; border-radius: 6px;
+    background: var(--acid-glow);
   }
-  .blog-card h3 { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
-  .blog-card p { font-size: 12px; color: var(--muted); line-height: 1.4; margin: 0 0 8px; }
-  .blog-read { font-size: 11px; color: var(--muted); }
+  .b-card h3 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: -.01em; }
+  .b-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+  .b-meta { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
 
   @media (min-width: 761px) {
-    .hero { padding: 56px 5.5vw 20px; }
-    .hero-copy h1 { font-size: 32px; }
-    .hero-copy p { font-size: 18px; }
-    .section-heading { flex-direction: row; align-items: flex-end; }
-    .question-section { padding: 90px 5.5vw 70px; }
-    .question-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .question-card { padding: 20px 24px; }
-    .youtube-section { margin: 32px 5.5vw 48px; padding: 34px 24px 24px; border-radius: 38px; }
-    .youtube-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .youtube-total { display: flex; align-items: baseline; gap: 6px; color: var(--muted); }
-    .youtube-total strong { font: 500 20px 'JetBrains Mono'; color: white; }
-    .youtube-total span { font-size: 10px; }
-    .blog-section { padding: 0 5.5vw 60px; }
+    .hero { padding: 80px 5.5vw 56px; }
+    .hero-content h1 { font-size: 56px; }
+    .hero-content p { font-size: 18px; }
+    .hero-stats > div { padding: 0 40px; }
+    .hero-stats strong { font-size: 34px; }
+
+    .questions-section,
+    .video-section,
+    .blog-section { padding-left: 5.5vw; padding-right: 5.5vw; }
+
+    .section-head { flex-direction: row; align-items: flex-end; }
+    .questions-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .video-scroll { gap: 18px; }
+    .v-card { min-width: 320px; }
+  }
+
+  @media (min-width: 1024px) {
+    .questions-grid { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
