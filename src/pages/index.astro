@@ -1,8 +1,50 @@
 ---
 import Base from '../layouts/Base.astro'
+import { blogArticles } from '../blog-articles'
 import questionsData from '../data/questions.json'
 
 const featured = questionsData.slice(0, 6)
+
+// Build YouTube video list
+const youtubeVideoId = (url: string) => {
+  try {
+    const u = new URL(url)
+    if (u.hostname.includes('youtube.com')) return u.searchParams.get('v')
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1)
+  } catch {}
+  return null
+}
+
+const videos = new Map<string, {
+  id: string; url: string; company: string; title: string;
+  publishedAt?: string; questionIds: Set<string>; questionTitles: string[]
+}>()
+
+for (const q of questionsData as any[]) {
+  for (const s of q.sources || []) {
+    if (s.type !== 'youtube') continue
+    const vid = youtubeVideoId(s.url)
+    if (!vid) continue
+    if (!videos.has(vid)) {
+      videos.set(vid, {
+        id: vid,
+        url: s.url,
+        company: s.company || q.companies.find((c: string) => c !== 'Несколько компаний') || 'YouTube',
+        title: s.title || '',
+        publishedAt: s.publishedAt || q.publishedAt || undefined,
+        questionIds: new Set(),
+        questionTitles: [],
+      })
+    }
+    const v = videos.get(vid)!
+    v.questionIds.add(q.id)
+    if (!v.questionTitles.includes(q.title)) v.questionTitles.push(q.title)
+    if (!v.publishedAt && s.publishedAt) v.publishedAt = s.publishedAt
+  }
+}
+
+const youtubeVideos = [...videos.values()].sort((a, b) => b.questionIds.size - a.questionIds.size)
+const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'вопроса' : 'вопросов'
 ---
 
 <Base>
@@ -10,9 +52,7 @@ const featured = questionsData.slice(0, 6)
     <div class="hero-copy">
       <h1>Знай, что тебя <em>спросят.</em></h1>
       <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
-      <a href="/mock" class="hero-cta">Практиковаться →
-        <span style="margin-left:6px">→</span>
-      </a>
+      <a href="/mock" class="hero-cta">Практиковаться →</a>
     </div>
   </section>
 
@@ -49,6 +89,67 @@ const featured = questionsData.slice(0, 6)
       ))}
     </div>
   </section>
+
+  {youtubeVideos.length > 0 && (
+    <section class="youtube-section">
+      <div class="section-heading">
+        <div>
+          <h2>Видео-интервью</h2>
+          <p>Реальные записи, из которых собраны вопросы и senior-разборы</p>
+        </div>
+        <div class="youtube-total">
+          <strong>{youtubeVideos.length}</strong>
+          <span>видео</span>
+        </div>
+      </div>
+
+      <div class="youtube-grid">
+        {youtubeVideos.map((v) => (
+          <a href={v.url} target="_blank" rel="noreferrer" class="youtube-card">
+            <div class="youtube-preview">
+              <span class="youtube-play" />
+              <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" />
+            </div>
+            <div class="youtube-card-body">
+              <div class="youtube-meta">
+                <span>{v.company}</span>
+              </div>
+              <h3>{v.title || `Собеседование ${v.company}`}</h3>
+              <p>{v.questionIds.size} {qWord(v.questionIds.size)} из этого видео</p>
+              <div class="youtube-topics">
+                {v.questionTitles.slice(0, 3).map((t: string) => <span>{t}</span>)}
+              </div>
+              <span class="youtube-link">Смотреть на YouTube →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {blogArticles.length > 0 && (
+    <section class="blog-section">
+      <div class="section-heading">
+        <div>
+          <h2>Блог</h2>
+          <p>Практические руководства по прохождению собеседований</p>
+        </div>
+        <a href="/blog" class="hero-cta-lg">Все статьи →</a>
+      </div>
+      <div class="blog-grid">
+        {blogArticles.map((a) => (
+          <a href={`/blog/${a.id}`} class="blog-card">
+            <div class="blog-card-tags">
+              {a.tags.map((t: string) => <span class="blog-tag">{t}</span>)}
+            </div>
+            <h3>{a.title}</h3>
+            <p>{a.description}</p>
+            <span class="blog-read">{a.readTime} мин чтения</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </Base>
 
 <style>
@@ -79,18 +180,14 @@ const featured = questionsData.slice(0, 6)
   }
   .hero-cta-lg:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(184,255,0,.35); }
 
-  .question-section { padding: 40px 20px 80px; }
+  .question-section { padding: 40px 20px 50px; }
   .section-heading {
     display: flex; flex-direction: column; gap: 16px;
     margin-bottom: 28px; align-items: flex-start;
   }
-  .section-heading h2 { font-size: 22px; margin: 0 0 4px; }
-  .section-heading p { color: var(--muted); font-size: 13px; margin: 0; }
-
   .question-grid {
     display: grid; grid-template-columns: 1fr; gap: 10px;
   }
-
   .question-card {
     display: block; border: 1px solid var(--line-soft); border-radius: 22px;
     padding: 16px 18px; text-decoration: none; color: inherit;
@@ -98,7 +195,6 @@ const featured = questionsData.slice(0, 6)
     box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s, border-color .3s;
   }
   .question-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--acid) 30%, var(--line-soft)); }
-
   .card-top { display: flex; flex-direction: column; gap: 10px; }
   .card-meta { display: flex; flex-direction: column; gap: 6px; }
   .card-meta-row { display: flex; gap: 8px; align-items: center; }
@@ -109,13 +205,63 @@ const featured = questionsData.slice(0, 6)
   .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
   .tags span { font-size: 9px; padding: 2px 8px; border-radius: 999px; background: var(--surface); color: var(--muted); }
 
+  /* YouTube videos */
+  .youtube-section {
+    margin: 18px 12px 26px;
+    padding: 22px 12px 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 30px;
+    background: linear-gradient(145deg, #10110f, #191a16 52%, #0d0e0c);
+    color: white;
+  }
+  .youtube-total { display: none; }
+  .youtube-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .youtube-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: rgba(255,255,255,.04); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s; }
+  .youtube-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+  .youtube-preview { position: relative; aspect-ratio: 16/9; overflow: hidden; }
+  .youtube-preview img { width: 100%; height: 100%; object-fit: cover; opacity: .78; }
+  .youtube-play { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.2); }
+  .youtube-play::after { content: '▶'; font-size: 32px; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+  .youtube-card-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .youtube-meta { font-size: 11px; color: #999; }
+  .youtube-card-body h3 { font-size: 14px; margin: 0; line-height: 1.3; }
+  .youtube-card-body > p { font-size: 11px; color: var(--acid); margin: 0; }
+  .youtube-topics { display: flex; gap: 4px; flex-wrap: wrap; }
+  .youtube-topics span { font-size: 9px; padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,.08); color: #aaa; }
+  .youtube-link { font-size: 12px; color: #888; margin-top: 4px; }
+
+  /* Blog section */
+  .blog-section { padding: 0 20px 60px; }
+  .blog-grid { display: grid; gap: 10px; }
+  .blog-card {
+    display: block; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px; text-decoration: none; color: inherit;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .blog-card:hover { border-color: color-mix(in srgb, var(--acid) 40%, var(--line)); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  .blog-card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .blog-tag {
+    font-size: 9px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--acid); background: var(--acid-glow);
+    padding: 2px 7px; border-radius: 999px; font-weight: 600;
+  }
+  .blog-card h3 { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
+  .blog-card p { font-size: 12px; color: var(--muted); line-height: 1.4; margin: 0 0 8px; }
+  .blog-read { font-size: 11px; color: var(--muted); }
+
   @media (min-width: 761px) {
     .hero { padding: 56px 5.5vw 20px; }
     .hero-copy h1 { font-size: 32px; }
     .hero-copy p { font-size: 18px; }
     .section-heading { flex-direction: row; align-items: flex-end; }
-    .question-section { padding: 90px 5.5vw 115px; }
+    .question-section { padding: 90px 5.5vw 70px; }
     .question-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .question-card { padding: 20px 24px; }
+    .youtube-section { margin: 32px 5.5vw 48px; padding: 34px 24px 24px; border-radius: 38px; }
+    .youtube-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .youtube-total { display: flex; align-items: baseline; gap: 6px; color: var(--muted); }
+    .youtube-total strong { font: 500 20px 'JetBrains Mono'; color: white; }
+    .youtube-total span { font-size: 10px; }
+    .blog-section { padding: 0 5.5vw 60px; }
   }
 </style>
