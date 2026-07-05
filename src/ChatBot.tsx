@@ -1,6 +1,7 @@
 import { FormEvent, useRef, useState } from 'react'
 import { Database, LoaderCircle, MessageCircle, Send, Sparkles, X } from 'lucide-react'
 import { fetchQuestionIndex, fetchQuestions } from './dataClient'
+import { blogArticles } from './blog-articles'
 import type { Question, RagResponse } from './types'
 import s from './ChatBot.module.css'
 
@@ -90,7 +91,25 @@ async function staticRag(query: string): Promise<RagResponse> {
   const threshold = sources.length ? Math.max(0.1, (sources[0].score || 0) * 0.38) : 1
   const relevant = sources.filter((source) => (source.score || 0) >= threshold).slice(0, 3)
   const primary = relevant[0]
-  const answer = primary ? primary.answer : 'В базе пока нет подходящего материала.'
+
+  // Search blog articles
+  const blogTokens = new Set(ragTokens(query))
+  const blogHits = blogArticles
+    .map((a) => {
+      const tokens = new Set(ragTokens(`${a.title} ${a.description} ${a.tags.join(' ')} ${a.content.slice(0, 200)}`))
+      const overlap = [...blogTokens].filter(t => tokens.has(t)).length / (blogTokens.size || 1)
+      return { article: a, score: overlap }
+    })
+    .filter(a => a.score > 0.25)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 2)
+
+  let answer = primary ? primary.answer : 'В базе пока нет подходящего материала.'
+  if (blogHits.length) {
+    answer += '\n\n📖 Статьи из блога:\n' + blogHits.map(h =>
+      `• [${h.article.title}](/article/${h.article.id}) — ${h.article.description}`
+    ).join('\n')
+  }
 
   return { answer, mode: 'local', sources: relevant }
 }

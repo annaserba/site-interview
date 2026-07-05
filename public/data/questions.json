@@ -210,19 +210,12 @@
       {
         "company": "Avito",
         "url": "",
-        "type": "aggregated",
+        "type": "candidate-report",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
-    "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -3853,8 +3846,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=231s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "type": "youtube"
       },
       {
         "company": "Несколько компаний",
@@ -4069,8 +4061,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=128s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4205,8 +4196,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2515s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4272,8 +4262,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2571s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4339,8 +4328,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2623s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4479,8 +4467,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=104s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4612,8 +4599,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2651s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4678,8 +4664,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2738s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -4885,8 +4870,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2040s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "type": "youtube"
       },
       {
         "company": "Т-Банк",
@@ -4964,8 +4948,7 @@
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=183s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -5665,8 +5648,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2674s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -5731,8 +5713,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=3191s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -5802,17 +5783,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -5873,8 +5847,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=3360s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -5940,8 +5913,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2422s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -6007,8 +5979,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2532s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -6074,8 +6045,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=2985s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -6141,8 +6111,7 @@
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=467s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11419,8 +11388,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=231s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11488,8 +11456,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1816s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11558,8 +11525,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2613s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11627,8 +11593,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=933s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11703,8 +11668,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1459s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11767,8 +11731,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=251s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -11838,17 +11801,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -11980,8 +11936,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1139s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12050,8 +12005,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2317s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12187,8 +12141,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=587s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12256,8 +12209,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=419s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12324,8 +12276,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1334s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12394,8 +12345,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2478s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12463,8 +12413,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2160s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12530,8 +12479,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=1180s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12599,8 +12547,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=489s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12667,8 +12614,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1576s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12735,8 +12681,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2575s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -12803,15 +12748,13 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=262s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "type": "youtube"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=113s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "type": "youtube"
       }
     ],
     "sourceType": "youtube",
@@ -12954,8 +12897,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1996s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -13187,19 +13129,12 @@
       {
         "company": "Ozon",
         "url": "",
-        "type": "aggregated",
+        "type": "candidate-report",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
-    "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "sourceType": "candidate-report",
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -14720,17 +14655,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -14792,8 +14720,7 @@
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=4000s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование на 400к в СБЕР"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -14921,8 +14848,7 @@
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=3000s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование на 400к в СБЕР"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -14989,8 +14915,7 @@
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=4663s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование на 400к в СБЕР"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -15055,8 +14980,7 @@
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=1828s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование на 400к в СБЕР"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -16683,17 +16607,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -16758,17 +16675,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -21512,8 +21422,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=340s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -21947,29 +21856,25 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=75s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "type": "youtube"
       },
       {
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=6aIg-fGUOsY&t=63s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend-собеседование на 400к в Okko"
+        "type": "youtube"
       },
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=39s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "type": "youtube"
       },
       {
         "company": "Сбер",
         "url": "https://www.youtube.com/watch?v=C0xSErqNYeU&t=1366s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование на 400к в СБЕР"
+        "type": "youtube"
       }
     ],
     "sourceType": "youtube",
@@ -22039,8 +21944,7 @@
         "company": "Okko",
         "url": "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1391s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Okko: ФИНАЛ"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -22390,17 +22294,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -22726,8 +22623,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=487s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -22796,15 +22692,13 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1705s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "type": "youtube"
       },
       {
         "company": "Гознак",
         "url": "https://www.youtube.com/watch?v=Egvch4SA998&t=158s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Гознак на 370к"
+        "type": "youtube"
       }
     ],
     "sourceType": "youtube",
@@ -22874,17 +22768,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -22951,8 +22838,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=877s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -23081,8 +22967,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=2921s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -23149,15 +23034,13 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=621s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "type": "youtube"
       },
       {
         "company": "Frontend-интервью",
         "url": "https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2850s",
         "publishedAt": "",
-        "type": "youtube",
-        "title": "Frontend-собеседование на Middle/Senior с ЗП 280к"
+        "type": "youtube"
       }
     ],
     "sourceType": "youtube",
@@ -23224,8 +23107,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=735s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -23354,8 +23236,7 @@
         "company": "Wildberries",
         "url": "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1276s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Frontend собеседование в Wildberries на 400к"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -23435,8 +23316,7 @@
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2745s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Прохожу собеседование на Frontend Разработчика в Яндекс"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -23866,17 +23746,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -23942,17 +23815,10 @@
         "url": "",
         "type": "aggregated",
         "publishedAt": ""
-      },
-      {
-        "company": "Несколько компаний",
-        "url": "https://www.youtube.com/watch?v=SToIrImHm4Y",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "SENIOR FRONTEND самое полное МОК-ИНТЕРВЬЮ + LIVE CODING / Разбор 100 вопросов"
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 1,
+    "videoFrequency": 0,
     "publishedAt": ""
   },
   {
@@ -24161,8 +24027,7 @@
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=2397s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Прохожу собеседование на Frontend Разработчика в Яндекс"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -24358,8 +24223,7 @@
         "company": "Яндекс",
         "url": "https://www.youtube.com/watch?v=8pRGuvkzK7Y&t=465s",
         "type": "youtube",
-        "publishedAt": "",
-        "title": "Прохожу собеседование на Frontend Разработчика в Яндекс"
+        "publishedAt": ""
       }
     ],
     "sourceType": "youtube",
@@ -24888,80 +24752,6 @@
     ],
     "sourceType": "aggregated",
     "videoFrequency": 0,
-    "publishedAt": ""
-  },
-  {
-    "id": "system-design-twitter-feed",
-    "title": "Спроектируйте ленту Twitter",
-    "aliases": [
-      "News Feed",
-      "Лента новостей соцсети"
-    ],
-    "answer": "Классический system design: Write path (пользователь пишет твит → fanout-on-write или fanout-on-read) и Read path (загрузка ленты → merge from followees). Fanout-on-write: при POST все followers получают твит в свою ленту (быстро для чтения, медленно для записи, проблема celebrity users). Fanout-on-read: лента собирается на лету из подписок (медленно для чтения, быстро для записи). Гибрид:普通ные пользователи — fanout-on-write, celebrities — fanout-on-read. Хранение: лента как sorted list of tweet IDs (Redis sorted set по timestamp). Sharding: по user ID. Кеш: in-memory LRU + Redis. Пагинация: cursor-based (не offset). Timeline ranking: по relevancy, не chronological.",
-    "exampleAnswer": "Архитектура Twitter feed:\n\n**Write path:** User posts tweet → Tweet Service (storage) → Fanout Service (для normal users — push в ленты followers, для celebrities — не пушим). Tweet хранится в DB (Cassandra по tweet_id).\n\n**Read path:** Запрос ленты → Feed Service → сначала берём кешированную ленту из Redis (sorted set, score = timestamp), merge с недавними tweets от celebrities (fanout-on-read) → return. Кеш: Redis sorted set с TTL. Miss → DB.\n\n**Sharding:** По user_id для лент, по tweet_id для твитов. Consistent hashing для распределения.\n\n**Celebrity problem:** Если @elonmusk постит 100 твитов/день и у него 100M followers — fanout-on-write невозможен. Решение: hybrid approach. Normal users → fanout-on-write, celebrities → fanout-on-read (рендер при чтении).\n\n**Пагинация:** Cursor-based (last tweet timestamp + id), не offset-based — иначе пропуски при новых твитах.\n\n**Ranking:** ML model: features (recency, engagement, relationship closeness) → relevance score.",
-    "context": "Классический system design вопрос. Проверяют понимание trade-offs между write и read paths, celebrity problem, sharding и кеширования.",
-    "keyPoints": [
-      {
-        "title": "Fanout-on-write vs read",
-        "text": "Write: быстрое чтение, медленная запись, проблема celebrities. Read: быстрая запись, медленное чтение. Гибрид — оптимально."
-      },
-      {
-        "title": "Celebrity problem",
-        "text": "100M followers × fanout-on-write = катастрофа. Решение: fanout-on-read для популярных аккаунтов."
-      },
-      {
-        "title": "Хранение ленты",
-        "text": "Redis sorted set (score = timestamp). Sharding по user_id. TTL + warm-up при cold start."
-      },
-      {
-        "title": "Пагинация",
-        "text": "Cursor-based (timestamp + id), не offset — иначе дубли/пропуски при новых записях."
-      }
-    ],
-    "pitfalls": [
-      "Fanout-on-write для всех (celebrity problem)",
-      "Offset-based pagination (гонки при новых записях)",
-      "Без кеша — каждый запрос в DB",
-      "Не учитывать ranking / relevance"
-    ],
-    "followUps": [
-      "Как обрабатываете celebrity accounts?",
-      "Что если кеш ленты холодный?",
-      "Как добавить ranking / relevancy?",
-      "WebSocket для real-time обновлений?"
-    ],
-    "category": "System Design",
-    "scope": "system-design",
-    "languages": [],
-    "roles": [
-      "Backend"
-    ],
-    "companies": [
-      "Яндекс",
-      "VK"
-    ],
-    "level": "Senior",
-    "stage": "Архитектура",
-    "tags": [
-      "System Design",
-      "Feed",
-      "Fanout",
-      "Redis",
-      "Sharding"
-    ],
-    "duration": "45 мин",
-    "difficulty": 5,
-    "sources": [
-      {
-        "company": "Яндекс",
-        "url": "https://www.youtube.com/watch?v=ZCDFbrpk3WM",
-        "type": "youtube",
-        "publishedAt": "",
-        "title": "МОК-интервью по System Design / Проектируем ленту Twitter"
-      }
-    ],
-    "sourceType": "youtube",
-    "videoFrequency": 1,
     "publishedAt": ""
   }
 ]
