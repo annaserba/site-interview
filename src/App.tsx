@@ -266,7 +266,7 @@ function App() {
 
       <main id="top">
         {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
-         showAllQuestions ? <QuestionsPage onOpenQuestion={openQuestion} /> :
+         showAllQuestions ? <QuestionsPage questions={questions} dataError={dataError} onOpenQuestion={openQuestion} /> :
          showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
          showBlog ? <BlogPage onOpenArticle={(id) => window.location.hash = `article/${id}`} onBack={() => window.location.hash = 'questions'} /> :
          showPrivacy ? <PrivacyPage /> :

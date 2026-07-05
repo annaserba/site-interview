@@ -3,7 +3,6 @@ import { ArrowRight, Search, Users } from 'lucide-react'
 import { FilterDropdown } from './FilterDropdown'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
-import { fetchQuestions, mapQuestion } from './api'
 import s from './App.module.css'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
@@ -38,32 +37,19 @@ const videoFrequency = (question: Question) => question.videoFrequency ?? new Se
   })).size
 
 interface QuestionsPageProps {
+  questions: Question[]
+  dataError: string
   onOpenQuestion: (id: string) => void
 }
 
-export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
-  const [questions, setQuestions] = useState<Question[]>([])
+export function QuestionsPage({ questions, dataError, onOpenQuestion }: QuestionsPageProps) {
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
   const [visibleCount, setVisibleCount] = useState(8)
-  const [dataError, setDataError] = useState('')
   const feedSentinelRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Load pre-baked SSG data instantly
-    fetch('/data/questions.json')
-      .then(res => res.json())
-      .then((data) => setQuestions(data.map(mapQuestion)))
-      .catch(() => setDataError('База вопросов сейчас недоступна.'))
-
-    // Try API in background for fresher data (only if it returns actual data)
-    fetchQuestions({ limit: 500 })
-      .then((data) => { if (data.questions.length) setQuestions(data.questions.map(mapQuestion)) })
-      .catch(() => {})
-  }, [])
 
   const filtered = useMemo(() => {
     const result = questions.filter((item) => {
