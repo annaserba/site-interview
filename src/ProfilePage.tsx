@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { ArrowLeft, Download, FileText, Link, Trash2, Upload } from 'lucide-react'
-import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, fetchResume, saveResumeUrl, uploadResumePdf, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse, type ResumeInfo } from './api'
+import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, fetchResume, saveResumeUrl, uploadResumePdf, deleteResumePdf, resumeDownloadUrl, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse, type ResumeInfo } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
 import s from './ProfilePage.module.css'
@@ -263,15 +263,23 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
             className={s['resume-save']}
             onClick={async () => {
               setSavingResume(true)
-              await saveResumeUrl(resumeUrlInput)
-              setResume(prev => ({ ...prev, hhResumeUrl: resumeUrlInput }))
-              setSavingResume(false)
+              try {
+                const ok = await saveResumeUrl(resumeUrlInput)
+                if (ok) setResume(prev => ({ ...prev, hhResumeUrl: resumeUrlInput }))
+              } finally { setSavingResume(false) }
             }}
             disabled={savingResume}
           >
             {savingResume ? '...' : 'Сохранить'}
           </button>
         </div>
+        {resume.hhResumeUrl && (
+          <div className={s['resume-row']}>
+            <a href={resume.hhResumeUrl} target="_blank" rel="noreferrer" className={s['resume-link']}>
+              <Link size={14} /> {resume.hhResumeUrl}
+            </a>
+          </div>
+        )}
         <div className={s['resume-row']}>
           <label className={s['resume-upload']}>
             <Upload size={14} />
@@ -284,17 +292,30 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
                 const file = e.target.files?.[0]
                 if (!file) return
                 setUploadingPdf(true)
-                const path = await uploadResumePdf(file)
-                if (path) setResume(prev => ({ ...prev, resumePdfPath: path }))
-                setUploadingPdf(false)
+                try {
+                  const path = await uploadResumePdf(file)
+                  if (path) setResume(prev => ({ ...prev, resumePdfPath: path }))
+                } finally { setUploadingPdf(false) }
               }}
             />
           </label>
           {resume.resumePdfPath && (
-            <span className={s['resume-pdf-name']}>
-              <FileText size={14} />
-              {resume.resumePdfPath.split('/').pop()}
-            </span>
+            <>
+              <a href={resumeDownloadUrl()} target="_blank" className={s['resume-pdf-name']}>
+                <FileText size={14} />
+                {resume.resumePdfPath.split('/').pop()}
+              </a>
+              <button
+                className={s['resume-delete']}
+                onClick={async () => {
+                  const ok = await deleteResumePdf()
+                  if (ok) setResume(prev => ({ ...prev, resumePdfPath: '' }))
+                }}
+                title="Удалить PDF"
+              >
+                <Trash2 size={14} />
+              </button>
+            </>
           )}
           {uploadingPdf && <span className={s['resume-pdf-name']}>Загрузка...</span>}
         </div>

@@ -1,8 +1,9 @@
 import pg from 'pg'
 import crypto from 'crypto'
 import http from 'http'
-import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { readFile, stat } from 'node:fs/promises'
+import { createReadStream, mkdirSync, unlinkSync } from 'node:fs'
+import { resolve, join } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
 import { migrate } from './db/migrate.mjs'
 import { seed } from './db/seed.mjs'
@@ -439,6 +440,38 @@ const server = http.createServer(async (req, res) => {
       const pdfPath = `uploads/resumes/${filename}`
       await pool.query('UPDATE users SET resume_pdf_path = $1 WHERE id = $2', [pdfPath, user.id])
       return json(res, { ok: true, path: pdfPath })
+    }
+
+    // Download resume PDF
+    if (url === '/api/user/resume/pdf/download' && req.method === 'GET') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!user.resume_pdf_path) return json(res, { error: 'No resume PDF' }, 404)
+      const filePath = resolve(process.cwd(), user.resume_pdf_path)
+      try {
+        const fileStat = await stat(filePath)
+        res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Length': fileStat.size,
+          'Content-Disposition': 'inline; filename="resume.pdf"',
+        })
+        createReadStream(filePath).pipe(res)
+      } catch {
+        return json(res, { error: 'File not found' }, 404)
+      }
+      return
+    }
+
+    // Delete resume PDF
+    if (url === '/api/user/resume/pdf' && req.method === 'DELETE') {
+      const user = await getUserFromRequest(req)
+      if (!user) return json(res, { error: 'Unauthorized' }, 401)
+      if (!await ensureDbAvailable()) return json(res, { error: 'DB unavailable' }, 503)
+      if (user.resume_pdf_path) {
+        try { unlinkSync(resolve(process.cwd(), user.resume_pdf_path)) } catch {}
+      }
+      await pool.query('UPDATE users SET resume_pdf_path = NULL WHERE id = $1', [user.id])
+      return json(res, { ok: true })
     }
 
     // ─── EXISTING ROUTES ───

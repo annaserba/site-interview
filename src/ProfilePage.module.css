@@ -145,7 +145,25 @@
   gap: 4px;
   font-size: 12px;
   color: var(--muted);
+  text-decoration: none;
+  transition: color .2s;
 }
+.resume-pdf-name:hover { color: var(--acid); }
+
+.resume-delete {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border: 1px solid var(--line);
+  border-radius: var(--radius-sm); background: transparent;
+  color: var(--muted); cursor: pointer; transition: all .2s;
+}
+.resume-delete:hover { border-color: #e05545; color: #e05545; background: rgba(224,85,69,.06); }
+
+.resume-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--acid); text-decoration: none;
+  word-break: break-all;
+}
+.resume-link:hover { text-decoration: underline; }
 
 .stats {
   display: flex;

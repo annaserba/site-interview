@@ -224,6 +224,18 @@ export async function uploadResumePdf(file: File): Promise<string | null> {
   return data.path
 }
 
+export async function deleteResumePdf(): Promise<boolean> {
+  const res = await fetch(`${API_BASE}/user/resume/pdf`, {
+    method: 'DELETE',
+    credentials: 'include',
+  })
+  return res.ok
+}
+
+export function resumeDownloadUrl() {
+  return `${API_BASE}/user/resume/pdf/download`
+}
+
 // User Answers
 export interface UserAnswer {
   id: number
