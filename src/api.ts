@@ -1,5 +1,7 @@
 const API_BASE = '/api'
 
+import type { Question } from './types'
+
 export interface ApiQuestion {
   id: string
   title: string
@@ -26,6 +28,36 @@ export interface ApiQuestion {
   scope?: 'universal' | 'multi-language' | 'language-specific'
   video_frequency?: number
   published_at?: string | null
+}
+
+export function mapQuestion(raw: Partial<ApiQuestion> & { id: string; title: string }): Question {
+  return {
+    id: raw.id,
+    title: raw.title,
+    aliases: raw.aliases || [],
+    category: raw.category || 'Technical',
+    stage: raw.stage || 'Technical',
+    difficulty: raw.difficulty || 2,
+    answer: raw.answer || '',
+    context: raw.context || '',
+    companies: raw.companies || [],
+    roles: raw.roles || [],
+    tags: raw.tags || [],
+    languages: raw.languages || [],
+    level: raw.level || 'Middle',
+    duration: raw.duration || '10 мин',
+    keyPoints: raw.key_points || [],
+    pitfalls: raw.pitfalls || [],
+    followUps: raw.follow_ups || [],
+    exampleAnswer: raw.example_answer || '',
+    codeSnippet: raw.code_snippet || null,
+    codeLanguage: raw.code_language || null,
+    sources: raw.sources || [],
+    sourceType: raw.source_type || 'aggregated',
+    scope: raw.scope || 'universal',
+    videoFrequency: raw.video_frequency ?? 0,
+    publishedAt: raw.published_at || undefined,
+  } as Question
 }
 
 export interface FiltersResponse {

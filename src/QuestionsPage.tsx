@@ -3,7 +3,7 @@ import { ArrowRight, Search, Users } from 'lucide-react'
 import { FilterDropdown } from './FilterDropdown'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
-import { fetchQuestions } from './api'
+import { fetchQuestions, mapQuestion } from './api'
 import s from './App.module.css'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
@@ -53,71 +53,16 @@ export function QuestionsPage({ onOpenQuestion }: QuestionsPageProps) {
   const feedSentinelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Load pre-baked SSG data instantly
+    fetch('/data/questions.json')
+      .then(res => res.json())
+      .then((data) => setQuestions(data.map(mapQuestion)))
+      .catch(() => setDataError('База вопросов сейчас недоступна.'))
+
+    // Try API in background for fresher data
     fetchQuestions({ limit: 500 })
-      .then((data) => {
-        const mapped = data.questions.map((q) => ({
-          id: q.id,
-          title: q.title,
-          aliases: q.aliases || [],
-          category: q.category || 'Technical',
-          stage: q.stage || 'Technical',
-          difficulty: q.difficulty,
-          answer: q.answer || '',
-          context: q.context || '',
-          companies: q.companies || [],
-          roles: q.roles || [],
-          tags: q.tags || [],
-          languages: q.languages || [],
-          level: q.level || 'Middle',
-          duration: q.duration || '10 мин',
-          keyPoints: q.key_points || [],
-          pitfalls: q.pitfalls || [],
-          followUps: q.follow_ups || [],
-          exampleAnswer: q.example_answer || '',
-          codeSnippet: q.code_snippet || null,
-          codeLanguage: q.code_language || null,
-          sources: q.sources || [],
-          sourceType: q.source_type || 'aggregated',
-          scope: q.scope || 'universal',
-          videoFrequency: q.video_frequency ?? 0,
-          publishedAt: q.published_at || undefined,
-        })) as Question[]
-        setQuestions(mapped)
-      })
-      .catch(async () => {
-        try {
-          const res = await fetch('/data/questions.json')
-          const data = await res.json()
-          const mapped = data.map((q: any) => ({
-            id: q.id,
-            title: q.title,
-            aliases: q.aliases || [],
-            category: q.category || 'Technical',
-            stage: q.stage || 'Technical',
-            difficulty: q.difficulty || 2,
-            answer: q.answer || '',
-            context: q.context || '',
-            companies: q.companies || [],
-            roles: q.roles || [],
-            tags: q.tags || [],
-            languages: q.languages || [],
-            level: q.level || 'Middle',
-            duration: q.duration || '10 мин',
-            keyPoints: q.key_points || [],
-            pitfalls: q.pitfalls || [],
-            followUps: q.follow_ups || [],
-            exampleAnswer: q.example_answer || '',
-            codeSnippet: q.code_snippet || null,
-            codeLanguage: q.code_language || null,
-            sources: q.sources || [],
-            sourceType: q.source_type || 'aggregated',
-            scope: q.scope || 'universal',
-            videoFrequency: q.video_frequency ?? 0,
-            publishedAt: q.published_at || undefined,
-          })) as Question[]
-          setQuestions(mapped)
-        } catch { setDataError('База вопросов сейчас недоступна.') }
-      })
+      .then((data) => setQuestions(data.questions.map(mapQuestion)))
+      .catch(() => {})
   }, [])
 
   const filtered = useMemo(() => {
