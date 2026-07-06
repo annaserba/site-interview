@@ -14,7 +14,7 @@ duration: 10 мин
 difficulty: 2
 sourceType: aggregated
 sourceUrl: ""
-sourceVideos: []
+sourceVideos: [{"company":"Avito","url":"https://www.youtube.com/watch?v=R23FjSp8Z-A","title":"Что такое релизы? Feature Flags, Canary и Rollback"}]
 ---
 
 ## Короткий ответ

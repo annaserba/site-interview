@@ -3715,6 +3715,81 @@
     "publishedAt": ""
   },
   {
+    "id": "feature-flags-ab-tests",
+    "title": "Что такое Feature Flags и как они связаны с A/B-тестами?",
+    "aliases": [],
+    "answer": "Feature Flag (фича-флаг) — механизм включения/выключения функциональности без деплоя нового кода. Код деплоится заранее в выключенном состоянии, а включение происходит через конфигурацию. A/B-тест — это частный случай фича-флагов, где две версии показываются разным группам пользователей для сравнения метрик.",
+    "exampleAnswer": "",
+    "context": "Интервьюер проверяет понимание современных практик деплоя. Ожидается знание того, как фича-флаги декоррелируют деплой и релиз, позволяют делать canary-релизы, A/B-тесты и мгновенный rollback.",
+    "keyPoints": [
+      {
+        "title": "Что такое Feature Flag",
+        "text": "Фича-флаг — это условный оператор в коде, управляемый через конфигурацию (LaunchDarkly, Unleash, собственное решение). Код с новой функциональностью деплоится на прод в выключенном состоянии. Включение — изменение конфига, не требующее деплоя."
+      },
+      {
+        "title": "Связь с A/B-тестами",
+        "text": "A/B-тест — это фича-флаг, который показывает разные версии разным сегментам пользователей. Например, 50% видят старую версию, 50% — новую. Затем сравниваются метрики (конверсия, retention). Ключевое: рандомизация должна быть стабильной (user_id, не session_id)."
+      },
+      {
+        "title": "Преимущества",
+        "text": "- **Декорреляция деплоя и релиза** — код на проде, но не активен\n- **Мгновенный rollback** — выключение флага за секунды\n- **Canary releases** — постепенное включение (1% → 10% → 50% → 100%)\n- **Trunk-based development** — все коммитят в main, фичи скрыты флагами"
+      },
+      {
+        "title": "Техническая реализация",
+        "text": "```javascript\nif (featureFlags.isEnabled('new-checkout', user.id)) {\n  return <NewCheckout />\n}\nreturn <OldCheckout />\n```"
+      },
+      {
+        "title": "Очистка флагов",
+        "text": "Флаги должны быть временными. После полного раскатывания фичи флаг и старый код удаляются. Иначе накапливается technical debt."
+      },
+      {
+        "title": "Частые ошибки",
+        "text": "- Забывать удалять флаги после раскатки — код становится неподдерживаемым\n- Использовать session_id вместо user_id для A/B — пользователь видит разные версии\n- Не мониторить метрики при включении флага\n- Не иметь kill switch для аварийного выключения"
+      }
+    ],
+    "pitfalls": [],
+    "followUps": [],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "Backend",
+      "Frontend",
+      "DevOps"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Feature Flags",
+      "A/B Testing",
+      "Release",
+      "Deployment"
+    ],
+    "duration": "15 мин",
+    "difficulty": 3,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "https://www.youtube.com/watch?v=R23FjSp8Z-A",
+        "title": "Что такое релизы? Feature Flags, Canary и Rollback",
+        "publishedAt": "",
+        "type": "youtube"
+      },
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "video",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "video",
+    "videoFrequency": 1,
+    "publishedAt": ""
+  },
+  {
     "id": "frontend-browser-storage",
     "title": "В чём разница между cookie, localStorage и sessionStorage?",
     "aliases": [],
@@ -14455,6 +14530,73 @@
     "publishedAt": ""
   },
   {
+    "id": "release-vs-deploy",
+    "title": "Чем релиз отличается от деплоя?",
+    "aliases": [],
+    "answer": "Деплой (deployment) — техническая операция: выкатка новой версии кода на сервер. Релиз (release) — бизнес-событие: новая функциональность стала доступна пользователям. С фича-флагами эти понятия разделяются: код можно задеплоить, но не релизить. Обратное тоже верно: можно релизить функциональность без деплоя (переключение флага).",
+    "exampleAnswer": "",
+    "context": "Интервьюер проверяет понимание современной инженерии доставки. Ключевой инсайт: раньше деплой = релиз (выкатил код → пользователи увидели). Сейчас это два независимых процесса, что позволяет безопаснее доставлять изменения.",
+    "keyPoints": [
+      {
+        "title": "Деплой",
+        "text": "Деплой — это перемещение артефакта (кода, контейнера) на целевую среду:\n- Замена бинарников на сервере\n- Обновление контейнеров в Kubernetes\n- Копирование статики на CDN\n- Деплой может происходить много раз в день (continuous deployment)"
+      },
+      {
+        "title": "Релиз",
+        "text": "Релиз — это момент, когда пользователи получают доступ к новой функциональности:\n- Включение фича-флага\n- Изменение конфигурации балансировщика\n- Апдейт магазина приложений\n- Релиз — бизнес-решение, а не техническое"
+      },
+      {
+        "title": "Почему это важно",
+        "text": "1. **Trunk-based development** — все коммитят в main, код сразу деплоится, но скрыт флагами\n2. **Безопасность** — деплой можно делать в любое время, релиз — в рабочее с поддержкой\n3. **Decoupling** — разработчики деплоят код, продукт-менеджеры решают когда релизить\n4. **Rollback** — при проблемах выключается флаг, а не откатывается деплой"
+      },
+      {
+        "title": "Реальные примеры",
+        "text": "- Facebook деплоит сотни раз в день, но релизит фичи по готовности\n- Google Chrome: канареечные сборки деплоятся автоматически, релиз — ручной\n- Netflix: continuous deployment + feature flags для экспериментов"
+      }
+    ],
+    "pitfalls": [],
+    "followUps": [],
+    "category": "Delivery",
+    "scope": "universal",
+    "languages": [],
+    "roles": [
+      "DevOps",
+      "Backend",
+      "SRE"
+    ],
+    "companies": [
+      "Avito"
+    ],
+    "level": "Middle",
+    "stage": "Техническое",
+    "tags": [
+      "Release",
+      "Deployment",
+      "DevOps",
+      "Process"
+    ],
+    "duration": "10 мин",
+    "difficulty": 2,
+    "sources": [
+      {
+        "company": "Avito",
+        "url": "https://www.youtube.com/watch?v=R23FjSp8Z-A",
+        "title": "Что такое релизы? Feature Flags, Canary и Rollback",
+        "publishedAt": "",
+        "type": "youtube"
+      },
+      {
+        "company": "Avito",
+        "url": "",
+        "type": "video",
+        "publishedAt": ""
+      }
+    ],
+    "sourceType": "video",
+    "videoFrequency": 1,
+    "publishedAt": ""
+  },
+  {
     "id": "rendering-optimization-scripts",
     "title": "Как оптимизировать рендеринг и обрабатывать скрипты?",
     "aliases": [],
@@ -23437,7 +23579,8 @@
       "DevOps"
     ],
     "companies": [
-      "Яндекс"
+      "Яндекс",
+      "Avito"
     ],
     "level": "Middle",
     "stage": "Техническое",
@@ -23451,6 +23594,13 @@
     "difficulty": 2,
     "sources": [
       {
+        "company": "Avito",
+        "url": "https://www.youtube.com/watch?v=R23FjSp8Z-A",
+        "title": "Что такое релизы? Feature Flags, Canary и Rollback",
+        "publishedAt": "",
+        "type": "youtube"
+      },
+      {
         "company": "Яндекс",
         "url": "",
         "type": "aggregated",
@@ -23458,7 +23608,7 @@
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 0,
+    "videoFrequency": 1,
     "publishedAt": ""
   },
   {
@@ -24503,7 +24653,8 @@
       "DevOps"
     ],
     "companies": [
-      "Яндекс"
+      "Яндекс",
+      "Avito"
     ],
     "level": "Middle",
     "stage": "Техническое",
@@ -24517,6 +24668,13 @@
     "difficulty": 2,
     "sources": [
       {
+        "company": "Avito",
+        "url": "https://www.youtube.com/watch?v=R23FjSp8Z-A",
+        "title": "Что такое релизы? Feature Flags, Canary и Rollback",
+        "publishedAt": "",
+        "type": "youtube"
+      },
+      {
         "company": "Яндекс",
         "url": "",
         "type": "aggregated",
@@ -24524,7 +24682,7 @@
       }
     ],
     "sourceType": "aggregated",
-    "videoFrequency": 0,
+    "videoFrequency": 1,
     "publishedAt": ""
   },
   {
