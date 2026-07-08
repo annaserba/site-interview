@@ -79,3 +79,13 @@ fi
 echo "✓ $SERVICE deployed"
 echo ""
 echo "Logs: docker compose logs -f $SERVICE"
+
+if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "web" ]; then
+  echo ""
+  echo "→ Health check..."
+  sleep 3
+  for url in "/" "/questions/" "/blog/" "/privacy/"; do
+    status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "http://localhost${url}" 2>/dev/null || echo "000")
+    [ "$status" = "200" ] && echo "  ✓ ${url} → ${status}" || echo "  ✗ ${url} → ${status}"
+  done
+fi
