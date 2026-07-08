@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Search, Users } from 'lucide-react'
+import { ArrowRight, Printer, Search, Users } from 'lucide-react'
 import { QuestionFilters } from './QuestionFilters'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
+import { exportQuestionsPDF } from './exportPdf'
 import s from './App.module.css'
 
 const companyStyles: Record<string, { mark: string; color: string }> = {
@@ -104,6 +105,13 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
               <h2>Свежие вопросы</h2>
               <p>Восстановлены кандидатами после реальных интервью</p>
             </div>
+            <button
+              className={s['hero-cta-lg']}
+              style={{ background: 'var(--surface)', color: 'var(--ink)', border: '1px solid var(--line)', boxShadow: 'none', fontSize: 13, padding: '10px 20px' }}
+              onClick={() => exportQuestionsPDF(filtered as any[])}
+            >
+              <Printer size={16} style={{ marginRight: 6 }} /> Печать ({filtered.length})
+            </button>
           </div>
 
       <QuestionFilters

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { ArrowLeft, FileText, Trash2 } from 'lucide-react'
+import { ArrowLeft, Printer, Trash2 } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
@@ -156,7 +156,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
             <div className={s['export-actions']}>
               <span className={s['question-count']}>{filteredQuestions.length} вопросов</span>
               <button className={s['export-btn']} onClick={() => exportQuestionsPDF(filteredQuestions)}>
-                <FileText size={16} /> PDF
+                <Printer size={16} /> Печать
               </button>
             </div>
           )}
@@ -183,7 +183,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
           {totalAnswers > 0 && (
             <div className={s['export-actions']}>
               <button className={s['export-btn']} onClick={() => exportAnswersPDF(filteredAnswers)}>
-                <FileText size={16} /> PDF
+                <Printer size={16} /> Печать
               </button>
             </div>
           )}
