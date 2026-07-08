@@ -15,7 +15,5 @@ const { question } = Astro.props
 ---
 
 <Base>
-  <div style="max-width: 800px; margin: 0 auto; padding: 32px 20px 80px;">
-    <QuestionDetail question={question} client:only="react" />
-  </div>
+  <QuestionDetail question={question} client:only="react" />
 </Base>
