@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Search, Users } from 'lucide-react'
-import { FilterDropdown } from './FilterDropdown'
 import { QuestionFilters } from './QuestionFilters'
 import type { Question } from './types'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
