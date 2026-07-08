@@ -3,83 +3,12 @@ import { ArrowLeft, FileText, Trash2 } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
+import { exportQuestionsPDF, exportAnswersPDF } from './exportPdf'
 import s from './ProfilePage.module.css'
 
 interface ProfilePageProps {
   user: User
   onBack?: () => void
-}
-
-function exportQuestionsPDF(questions: ApiQuestion[]) {
-  let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Вопросы для собеседования</title>
-  <style>
-    @media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.35; }
-    h1 { font-size: 18px; margin-bottom: 16px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
-    .q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
-    .answer { background: #f0f0f0; border-left: 3px solid #666; padding: 6px 10px; margin-bottom: 6px; border-radius: 0 5px 5px 0; white-space: pre-wrap; font-size: 10px; }
-    .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }
-  </style></head><body>`
-  html += `<h1>Вопросы для собеседования (${questions.length})</h1>`
-  html += '<div class="grid">'
-
-  for (const q of questions) {
-    html += `<div class="q"><h2>${q.title}</h2>`
-    html += `<div class="label">Ответ</div><div class="answer">${q.answer || ''}</div>`
-    if (q.example_answer) html += `<div class="label">Пример ответа</div><div class="answer">${q.example_answer}</div>`
-    html += '</div>'
-  }
-
-  html += '</div></body></html>'
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'questions.html'
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-function exportAnswersPDF(items: UserAnswerWithQuestion[]) {
-  const grouped = items.reduce<Record<string, UserAnswerWithQuestion[]>>((acc, item) => {
-    if (!acc[item.question_id]) acc[item.question_id] = []
-    acc[item.question_id].push(item)
-    return acc
-  }, {})
-
-  let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Мои ответы</title>
-  <style>
-    @media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.35; }
-    h1 { font-size: 18px; margin-bottom: 16px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
-    .q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
-    .answer { background: #f0f0f0; border-left: 3px solid #666; padding: 6px 10px; margin-bottom: 6px; border-radius: 0 5px 5px 0; white-space: pre-wrap; font-size: 10px; }
-    .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }
-  </style></head><body>`
-  html += '<h1>Мои ответы на вопросы</h1>'
-  html += '<div class="grid">'
-
-  for (const [, answers] of Object.entries(grouped)) {
-    const first = answers[0]
-    html += `<div class="q"><h2>${first.title}</h2>`
-    for (const answer of answers) {
-      html += `<div class="label">Вариант ответа</div><div class="answer">${answer.answer}</div>`
-    }
-    html += '</div>'
-  }
-
-  html += '</div></body></html>'
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'my-answers.html'
-  a.click()
-  URL.revokeObjectURL(url)
 }
 
 export function ProfilePage({ user, onBack }: ProfilePageProps) {
