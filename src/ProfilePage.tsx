@@ -80,6 +80,13 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const totalAnswers = filteredAnswers.length
   const totalQuestions = Object.keys(grouped).length
 
+  const filterInfo = [
+    activeCompany !== 'all' && `Компания: ${activeCompany}`,
+    activeRole !== 'all' && `Роль: ${activeRole}`,
+    activeTopic !== 'all' && `Тема: ${topicDefinitions.find(t => t.id === activeTopic)?.label || activeTopic}`,
+    activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
+  ].filter(Boolean).join(' · ') || undefined
+
   return (
     <div className={s.page}>
       <div className={s.header}>
@@ -155,7 +162,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
           {filteredQuestions.length > 0 && (
             <div className={s['export-actions']}>
               <span className={s['question-count']}>{filteredQuestions.length} вопросов</span>
-              <button className={s['export-btn']} onClick={() => exportQuestionsPDF(filteredQuestions)}>
+              <button className={s['export-btn']} onClick={() => exportQuestionsPDF(filteredQuestions, filterInfo)}>
                 <Printer size={16} /> Печать
               </button>
             </div>

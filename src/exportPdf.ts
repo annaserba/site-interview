@@ -116,10 +116,13 @@ h1 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
 .answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 8px; background: #f0f0f0; padding: 1px 3px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
 .answer pre { margin: 3px 0 6px; padding: 6px 8px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 4px; overflow-x: auto; line-height: 1.4; max-width: 100%; white-space: pre-wrap; word-break: break-all; }
 .answer pre code { background: none; padding: 0; color: #333; font-size: 8px; white-space: pre-wrap; word-break: break-all; }
-.label { font-size: 7px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; border-bottom: 1px solid #eee; padding-bottom: 1px; display: inline-block; }`
+.label { font-size: 7px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; border-bottom: 1px solid #eee; padding-bottom: 1px; display: inline-block; }
+.filters { font-size: 11px; color: #666; margin: -8px 0 14px; }`
 
-export function exportQuestionsPDF(questions: ApiQuestion[]) {
-  let body = `<h1>Вопросы для собеседования (${questions.length})</h1><div class="grid">`
+export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string) {
+  let body = `<h1>Вопросы для собеседования (${questions.length})</h1>`
+  if (filterInfo) body += `<div class="filters">${filterInfo}</div>`
+  body += '<div class="grid">'
   for (const q of questions) {
     const example = (q as any).example_answer || (q as any).exampleAnswer || ''
     body += `<div class="q"><h2>${q.title}</h2>`

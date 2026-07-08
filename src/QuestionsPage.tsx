@@ -97,6 +97,13 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
 
   const filterState = { activeCompany, activeRole, activeTopic, sortMode, activeTypes }
 
+  const filterInfo = [
+    activeCompany !== 'Все компании' && `Компания: ${activeCompany}`,
+    activeRole !== 'Все роли' && `Роль: ${activeRole}`,
+    activeTopic !== 'Все темы' && `Тема: ${topicDefinitions.find(t => t.id === activeTopic)?.label || activeTopic}`,
+    activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
+  ].filter(Boolean).join(' · ') || undefined
+
   return (
     <section className={s['question-section']} id="all-questions" style={{ paddingTop: '32px' }}>
       {dataError && <div className={s['status-note']}>{dataError}</div>}
@@ -108,7 +115,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
             <button
               className={s['hero-cta-lg']}
               style={{ background: 'var(--surface)', color: 'var(--ink)', border: '1px solid var(--line)', boxShadow: 'none', fontSize: 13, padding: '10px 20px' }}
-              onClick={() => exportQuestionsPDF(filtered as any[])}
+              onClick={() => exportQuestionsPDF(filtered as any[], filterInfo)}
             >
               <Printer size={16} style={{ marginRight: 6 }} /> Печать ({filtered.length})
             </button>
