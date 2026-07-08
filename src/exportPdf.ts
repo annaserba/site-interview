@@ -129,7 +129,7 @@ export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string
     const companies = (q.companies || []).filter(c => c !== 'Несколько компаний')
     body += `<div class="q"><h2>${q.title}</h2>`
     if (companies.length) body += `<div class="company">${companies.join(', ')}</div>`
-    body += `<div class="label">Ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
+    body += `<div class="label">Краткий ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
     if (example) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(example)}</div>`
     body += '</div>'
   }
