@@ -14,14 +14,19 @@ import Base from '../layouts/Base.astro'
   import { fetchCurrentUser } from '../api.ts'
   import { ProfilePage } from '../ProfilePage.tsx'
 
+  function loadCache() {
+    try { return JSON.parse(localStorage.getItem('sobes_user_cache')) } catch { return null }
+  }
+
   function ProfileLoader() {
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const cached = loadCache()
+    const [user, setUser] = useState(cached)
+    const [loading, setLoading] = useState(!cached)
 
     useEffect(() => {
       fetchCurrentUser()
         .then(u => setUser(u))
-        .catch(() => setUser(null))
+        .catch(() => {})
         .finally(() => setLoading(false))
     }, [])
 
