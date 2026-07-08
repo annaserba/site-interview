@@ -17,22 +17,27 @@ import Base from '../layouts/Base.astro'
   function ProfileLoader() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
 
     useEffect(() => {
       fetchCurrentUser()
         .then(u => setUser(u))
-        .catch(e => setError(e.message || 'Ошибка'))
+        .catch(() => setUser(null))
         .finally(() => setLoading(false))
     }, [])
 
     if (loading) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } }, 'Загрузка...')
-    if (error) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } }, error)
     if (!user) return createElement('div', { style: { textAlign: 'center', padding: 40, color: 'var(--muted)' } },
       createElement('p', null, 'Для доступа к профилю нужно'),
       createElement('a', { href: '/api/auth/yandex', style: { color: 'var(--acid)' } }, 'войти через Яндекс'),
     )
-    return createElement(ProfilePage, { user })
+
+    const children = [createElement(ProfilePage, { user: { ...user, fromCache: undefined } })]
+    if (user.fromCache) {
+      children.unshift(createElement('div', {
+        style: { textAlign: 'center', padding: '6px 12px', margin: '0 0 12px', borderRadius: 8, background: 'rgba(255,180,40,.12)', color: '#b8860b', fontSize: 12 }
+      }, '⚠ Сервер недоступен — данные из кеша'))
+    }
+    return createElement('div', null, ...children)
   }
 
   const root = createRoot(document.getElementById('profile-root'))

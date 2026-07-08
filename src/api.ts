@@ -164,15 +164,28 @@ export interface User {
   avatarUrl: string | null
   email: string
   phoneHash: string
+  fromCache?: boolean
 }
 
 export async function fetchCurrentUser(): Promise<User | null> {
+  const CACHE_KEY = 'sobes_user_cache'
   try {
     const res = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' })
-    if (!res.ok) return null
+    if (!res.ok) {
+      // Session expired — clear cache
+      localStorage.removeItem(CACHE_KEY)
+      return null
+    }
     const data = await res.json()
-    return data.user
+    const user = { ...data.user, fromCache: false }
+    localStorage.setItem(CACHE_KEY, JSON.stringify(user))
+    return user
   } catch {
+    // API down — try cache
+    try {
+      const cached = localStorage.getItem(CACHE_KEY)
+      if (cached) return { ...JSON.parse(cached), fromCache: true }
+    } catch {}
     return null
   }
 }
@@ -182,6 +195,7 @@ export function loginWithYandex() {
 }
 
 export async function logout(): Promise<void> {
+  localStorage.removeItem('sobes_user_cache')
   await fetch(`${API_BASE}/auth/logout`, {
     method: 'POST',
     credentials: 'include',
