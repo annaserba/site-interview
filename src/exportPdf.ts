@@ -107,7 +107,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; m
 h1 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
 .grid { column-count: 2; column-gap: 8px; }
 .q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 8px 8px; break-inside: avoid; margin-bottom: 8px; min-width: 0; overflow: hidden; }
-.q h2 { font-size: 11px; margin: 0 0 6px; line-height: 1.3; font-weight: 700; }
+.q h2 { font-size: 11px; margin: 0 0 3px; line-height: 1.3; font-weight: 700; }
+.company { font-size: 9px; color: #888; margin-bottom: 6px; }
 .answer { margin-bottom: 6px; white-space: pre-wrap; font-size: 9px; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .answer p { margin: 0 0 3px; padding: 0; }
 .answer ul { margin: 2px 0; padding-left: 12px; }
@@ -125,7 +126,9 @@ export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string
   body += '<div class="grid">'
   for (const q of questions) {
     const example = (q as any).example_answer || (q as any).exampleAnswer || ''
+    const companies = (q.companies || []).filter(c => c !== 'Несколько компаний')
     body += `<div class="q"><h2>${q.title}</h2>`
+    if (companies.length) body += `<div class="company">${companies.join(', ')}</div>`
     body += `<div class="label">Ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
     if (example) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(example)}</div>`
     body += '</div>'
