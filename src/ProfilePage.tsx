@@ -13,15 +13,17 @@ interface ProfilePageProps {
 function exportQuestionsPDF(questions: ApiQuestion[]) {
   let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Вопросы для собеседования</title>
   <style>
-    @media print { body { padding: 0; } }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #222; line-height: 1.6; }
-    h1 { font-size: 24px; margin-bottom: 32px; }
-    .q { margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 24px; page-break-inside: avoid; }
-    .q h2 { font-size: 18px; margin: 0 0 8px; }
-    .answer { background: #f8f9fa; border-left: 3px solid #333; padding: 12px 16px; margin-bottom: 10px; border-radius: 0 4px 4px 0; white-space: pre-wrap; font-size: 14px; }
-    .label { font-size: 11px; text-transform: uppercase; color: #999; margin-bottom: 4px; font-family: monospace; letter-spacing: 0.05em; }
+    @media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.35; }
+    h1 { font-size: 18px; margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
+    .q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
+    .answer { background: #f0f0f0; border-left: 3px solid #666; padding: 6px 10px; margin-bottom: 6px; border-radius: 0 5px 5px 0; white-space: pre-wrap; font-size: 10px; }
+    .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }
   </style></head><body>`
   html += `<h1>Вопросы для собеседования (${questions.length})</h1>`
+  html += '<div class="grid">'
 
   for (const q of questions) {
     html += `<div class="q"><h2>${q.title}</h2>`
@@ -30,7 +32,7 @@ function exportQuestionsPDF(questions: ApiQuestion[]) {
     html += '</div>'
   }
 
-  html += '</body></html>'
+  html += '</div></body></html>'
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -49,28 +51,28 @@ function exportAnswersPDF(items: UserAnswerWithQuestion[]) {
 
   let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Мои ответы</title>
   <style>
-    @media print { body { padding: 0; } }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #222; line-height: 1.6; }
-    h1 { font-size: 24px; margin-bottom: 32px; }
-    .question { margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 24px; page-break-inside: avoid; }
-    .question h2 { font-size: 18px; margin: 0 0 8px; }
-    .meta { font-size: 12px; color: #666; margin-bottom: 12px; }
-    .answer { background: #f8f9fa; border-left: 3px solid #333; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 4px 4px 0; white-space: pre-wrap; font-size: 14px; }
-    .answer-label { font-size: 11px; text-transform: uppercase; color: #999; margin-bottom: 4px; font-family: monospace; letter-spacing: 0.05em; }
+    @media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.35; }
+    h1 { font-size: 18px; margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
+    .q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
+    .answer { background: #f0f0f0; border-left: 3px solid #666; padding: 6px 10px; margin-bottom: 6px; border-radius: 0 5px 5px 0; white-space: pre-wrap; font-size: 10px; }
+    .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }
   </style></head><body>`
   html += '<h1>Мои ответы на вопросы</h1>'
+  html += '<div class="grid">'
 
   for (const [, answers] of Object.entries(grouped)) {
     const first = answers[0]
-    html += `<div class="question"><h2>${first.title}</h2>`
-    html += `<div class="meta">${first.category}</div>`
+    html += `<div class="q"><h2>${first.title}</h2>`
     for (const answer of answers) {
-      html += `<div class="answer-label">Вариант ответа:</div><div class="answer">${answer.answer}</div>`
+      html += `<div class="label">Вариант ответа</div><div class="answer">${answer.answer}</div>`
     }
     html += '</div>'
   }
 
-  html += '</body></html>'
+  html += '</div></body></html>'
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
