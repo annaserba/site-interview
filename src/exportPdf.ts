@@ -100,7 +100,7 @@ function highlightCodeFallback(code: string): string {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-const pdfStyles = `@page { size: landscape; margin: 6mm; }
+const pdfStyles = `@page { size: landscape; margin: 10mm 6mm 4mm 6mm; }
 @media print { body { padding: 0; margin: 0; } }
 *, *::before, *::after { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0; color: #222; line-height: 1.35; overflow-wrap: break-word; }
