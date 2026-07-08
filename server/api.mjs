@@ -1,9 +1,8 @@
 import pg from 'pg'
 import crypto from 'crypto'
 import http from 'http'
-import { readFile, stat } from 'node:fs/promises'
-import { createReadStream, mkdirSync, unlinkSync, writeFileSync } from 'node:fs'
-import { resolve, join } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
 import { migrate } from './db/migrate.mjs'
 import { seed } from './db/seed.mjs'
@@ -379,9 +378,6 @@ const server = http.createServer(async (req, res) => {
         'Set-Cookie': `session_token=; ${cookieOptions(0)}`,
       })
       return res.end(JSON.stringify({ ok: true }))
-    }
-
-    // ─── RESUME ROUTES ───
     }
 
     // ─── EXISTING ROUTES ───
