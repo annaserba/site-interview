@@ -1,8 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
-import { QuestionDetail } from '../../QuestionDetail'
-import questionsData from '../../data/questions.json'
 import { mapQuestion } from '../../api'
+import questionsData from '../../data/questions.json'
 
 export function getStaticPaths() {
   return questionsData.map((q: any) => ({
