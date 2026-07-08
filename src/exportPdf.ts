@@ -112,9 +112,10 @@ h1 { font-size: 18px; margin-bottom: 16px; font-weight: 700; }
 export function exportQuestionsPDF(questions: ApiQuestion[]) {
   let body = `<h1>Вопросы для собеседования (${questions.length})</h1><div class="grid">`
   for (const q of questions) {
+    const example = (q as any).example_answer || (q as any).exampleAnswer || ''
     body += `<div class="q"><h2>${q.title}</h2>`
     body += `<div class="label">Ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
-    if (q.example_answer) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(q.example_answer)}</div>`
+    if (example) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(example)}</div>`
     body += '</div>'
   }
   body += '</div>'
