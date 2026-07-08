@@ -94,12 +94,12 @@ function highlightCodeFallback(code: string): string {
 }
 
 const pdfStyles = `@page { size: landscape; margin: 6mm; }
-@media print { body { padding: 0; margin: 0; } .grid { grid-template-columns: 1fr 1fr; } }
+@media print { body { padding: 0; margin: 0; } }
 *, *::before, *::after { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0; color: #222; line-height: 1.35; overflow-wrap: break-word; }
 h1 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 8px 8px; break-inside: avoid; min-width: 0; overflow: hidden; }
+.grid { column-count: 2; column-gap: 8px; }
+.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 8px 8px; break-inside: avoid; margin-bottom: 8px; min-width: 0; overflow: hidden; }
 .q h2 { font-size: 11px; margin: 0 0 6px; line-height: 1.3; font-weight: 700; }
 .answer { margin-bottom: 6px; white-space: pre-wrap; font-size: 9px; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .answer p { margin: 0 0 3px; padding: 0; }
