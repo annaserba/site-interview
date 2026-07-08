@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { ArrowLeft, Download, FileText, Trash2 } from 'lucide-react'
+import { ArrowLeft, FileText, Trash2 } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
@@ -10,38 +10,6 @@ interface ProfilePageProps {
   onBack?: () => void
 }
 
-function exportQuestionsMarkdown(questions: ApiQuestion[]) {
-  let md = '# Вопросы для собеседования\n\n'
-  for (const q of questions) {
-    md += `## ${q.title}\n`
-    md += `**Компании:** ${q.companies.join(', ') || '—'}\n`
-    md += `**Тема:** ${q.stage || q.category}\n\n`
-    md += `**Ответ:**\n${q.answer}\n\n`
-    if (q.example_answer) md += `**Пример ответа:**\n${q.example_answer}\n\n`
-    if (q.key_points?.length) {
-      md += `**Как раскрыть:**\n`
-      for (const [i, point] of q.key_points.entries()) {
-        md += `${i + 1}. **${point.title}:** ${point.text}\n`
-      }
-      md += '\n'
-    }
-    if (q.pitfalls?.length) {
-      md += `**Ловушки:**\n`
-      for (const p of q.pitfalls) md += `— ${p}\n`
-      md += '\n'
-    }
-    md += '---\n\n'
-  }
-
-  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'questions.md'
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
 function exportQuestionsPDF(questions: ApiQuestion[]) {
   let html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Вопросы для собеседования</title>
   <style>
@@ -50,28 +18,15 @@ function exportQuestionsPDF(questions: ApiQuestion[]) {
     h1 { font-size: 24px; margin-bottom: 32px; }
     .q { margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 24px; page-break-inside: avoid; }
     .q h2 { font-size: 18px; margin: 0 0 8px; }
-    .meta { font-size: 12px; color: #666; margin-bottom: 12px; }
-    .answer { background: #f8f9fa; border-left: 3px solid #333; padding: 12px 16px; margin-bottom: 12px; border-radius: 0 4px 4px 0; white-space: pre-wrap; font-size: 14px; }
+    .answer { background: #f8f9fa; border-left: 3px solid #333; padding: 12px 16px; margin-bottom: 10px; border-radius: 0 4px 4px 0; white-space: pre-wrap; font-size: 14px; }
     .label { font-size: 11px; text-transform: uppercase; color: #999; margin-bottom: 4px; font-family: monospace; letter-spacing: 0.05em; }
-    .pitfalls { color: #c0392b; }
   </style></head><body>`
   html += `<h1>Вопросы для собеседования (${questions.length})</h1>`
 
   for (const q of questions) {
     html += `<div class="q"><h2>${q.title}</h2>`
-    html += `<div class="meta">${q.companies.join(', ') || '—'} · ${q.stage || q.category}</div>`
-    html += `<div class="label">Ответ:</div><div class="answer">${q.answer}</div>`
-    if (q.example_answer) html += `<div class="label">Пример ответа:</div><div class="answer">${q.example_answer}</div>`
-    if (q.key_points?.length) {
-      html += `<div class="label">Как раскрыть:</div><div class="answer">`
-      for (const [i, p] of q.key_points.entries()) html += `${i + 1}. <b>${p.title}:</b> ${p.text}<br>`
-      html += `</div>`
-    }
-    if (q.pitfalls?.length) {
-      html += `<div class="label pitfalls">Ловушки:</div><div class="answer pitfalls">`
-      for (const p of q.pitfalls) html += `— ${p}<br>`
-      html += `</div>`
-    }
+    html += `<div class="label">Ответ</div><div class="answer">${q.answer || ''}</div>`
+    if (q.example_answer) html += `<div class="label">Пример ответа</div><div class="answer">${q.example_answer}</div>`
     html += '</div>'
   }
 
@@ -81,33 +36,6 @@ function exportQuestionsPDF(questions: ApiQuestion[]) {
   const a = document.createElement('a')
   a.href = url
   a.download = 'questions.html'
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-function exportAnswersMarkdown(items: UserAnswerWithQuestion[]) {
-  const grouped = items.reduce<Record<string, UserAnswerWithQuestion[]>>((acc, item) => {
-    if (!acc[item.question_id]) acc[item.question_id] = []
-    acc[item.question_id].push(item)
-    return acc
-  }, {})
-
-  let md = '# Мои ответы на вопросы\n\n'
-  for (const [, answers] of Object.entries(grouped)) {
-    const first = answers[0]
-    md += `## ${first.title}\n`
-    md += `**Тип:** ${first.category}\n\n`
-    for (const answer of answers) {
-      md += `### Вариант ответа\n${answer.answer}\n\n`
-    }
-    md += '---\n\n'
-  }
-
-  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'my-answers.md'
   a.click()
   URL.revokeObjectURL(url)
 }
@@ -299,9 +227,6 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
               <button className={s['export-btn']} onClick={() => exportQuestionsPDF(filteredQuestions)}>
                 <FileText size={16} /> PDF
               </button>
-              <button className={s['export-btn']} onClick={() => exportQuestionsMarkdown(filteredQuestions)}>
-                <Download size={16} /> Markdown
-              </button>
             </div>
           )}
 
@@ -328,9 +253,6 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
             <div className={s['export-actions']}>
               <button className={s['export-btn']} onClick={() => exportAnswersPDF(filteredAnswers)}>
                 <FileText size={16} /> PDF
-              </button>
-              <button className={s['export-btn']} onClick={() => exportAnswersMarkdown(filteredAnswers)}>
-                <Download size={16} /> Markdown
               </button>
             </div>
           )}
