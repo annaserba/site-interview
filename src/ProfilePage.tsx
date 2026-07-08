@@ -20,7 +20,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [activeType, setActiveType] = useState('all')
   const [activeRole, setActiveRole] = useState('all')
   const [activeTopic, setActiveTopic] = useState('all')
-  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'management', 'hr', 'game-dev']))
   const [tab, setTab] = useState<'answers' | 'questions'>('questions')
 
   useEffect(() => {

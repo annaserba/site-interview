@@ -48,7 +48,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
   const [activeRole, setActiveRole] = useState('Все роли')
   const [activeTopic, setActiveTopic] = useState('Все темы')
   const [sortMode, setSortMode] = useState('default')
-  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev']))
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'management', 'hr', 'game-dev']))
   const [visibleCount, setVisibleCount] = useState(8)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
 
