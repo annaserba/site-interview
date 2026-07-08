@@ -59,29 +59,29 @@ function formatAnswer(text: string): string {
 }
 
 const pdfStyles = `@media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.35; }
-h1 { font-size: 18px; margin-bottom: 16px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
-.q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
-.answer { background: #f3f3f3; padding: 6px 10px; margin-bottom: 6px; border-radius: 5px; white-space: pre-wrap; font-size: 10px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.4; }
+h1 { font-size: 18px; margin-bottom: 16px; font-weight: 700; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.q { border: 1px solid #d0d0d0; border-radius: 8px; padding: 14px 16px; break-inside: avoid; }
+.q h2 { font-size: 13px; margin: 0 0 8px; line-height: 1.3; font-weight: 700; }
+.answer { margin-bottom: 8px; white-space: pre-wrap; font-size: 10px; }
 .answer p { margin: 0 0 4px; }
 .answer ul { margin: 2px 0; padding-left: 16px; }
 .answer li { margin-bottom: 1px; }
-.answer strong { font-weight: 700; color: #111; }
-.answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 9px; background: #e0e0e0; padding: 1px 4px; border-radius: 3px; color: #c7254e; }
-.answer pre { margin: 4px 0; padding: 10px 12px; background: #1e1e1e; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
-.answer pre code { background: none; padding: 0; color: #d4d4d4; font-size: 9px; white-space: pre; }
-/* Syntax */
-.k { color: #569cd6; }  /* keyword */
-.s { color: #ce9178; }  /* string */
-.c { color: #6a9955; }  /* comment */
-.n { color: #b5cea8; }  /* number */
-.f { color: #dcdcaa; }  /* function */
-.t { color: #569cd6; }  /* tag */
-.a { color: #9cdcfe; }  /* attr */
-.p { color: #d7ba7d; }  /* property */
-.label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }`
+.answer strong { font-weight: 700; }
+.answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 9px; background: #f0f0f0; padding: 1px 4px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
+.answer pre { margin: 4px 0 8px; padding: 10px 12px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
+.answer pre code { background: none; padding: 0; color: #333; font-size: 9px; white-space: pre; }
+/* Syntax — light theme */
+.k { color: #0033b3; }  /* keyword */
+.s { color: #067d17; }  /* string */
+.c { color: #8c8c8c; }  /* comment */
+.n { color: #1750eb; }  /* number */
+.f { color: #6c3e9c; }  /* function */
+.t { color: #0033b3; }  /* tag */
+.a { color: #871094; }  /* attr */
+.p { color: #871094; }  /* property */
+.label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 3px; font-family: monospace; letter-spacing: 0.05em; border-bottom: 1px solid #eee; padding-bottom: 2px; display: inline-block; }`
 
 export function exportQuestionsPDF(questions: ApiQuestion[]) {
   let body = `<h1>Вопросы для собеседования (${questions.length})</h1><div class="grid">`
