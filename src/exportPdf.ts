@@ -52,23 +52,30 @@ function openPrintWindow(html: string) {
 
 function formatAnswer(text: string): string {
   if (!text) return ''
-  let html = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
 
-  // Code blocks with highlight.js
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+  // Extract code blocks before any escaping
+  const codeBlocks: string[] = []
+  let html = text.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
     const langName = lang || 'plaintext'
     try {
       const result = hljs.getLanguage(langName)
         ? hljs.highlight(code.trim(), { language: langName })
         : hljs.highlightAuto(code.trim())
-      return `<pre><code class="hljs language-${langName}">${result.value}</code></pre>`
+      codeBlocks.push(`<pre><code class="hljs language-${langName}">${result.value}</code></pre>`)
     } catch {
-      return `<pre><code class="hljs">${highlightCodeFallback(code.trim())}</code></pre>`
+      codeBlocks.push(`<pre><code class="hljs">${highlightCodeFallback(code.trim())}</code></pre>`)
     }
+    return `%%CODEBLOCK${codeBlocks.length - 1}%%`
   })
+
+  // Escape only unescaped HTML
+  html = html
+    .replace(/&(?!(?:amp|lt|gt|quot|#39|#x27);)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+
+  // Restore code blocks
+  html = html.replace(/%%CODEBLOCK(\d+)%%/g, (_, i) => codeBlocks[+i])
 
   // Inline code
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
