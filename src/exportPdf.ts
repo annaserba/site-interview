@@ -15,7 +15,7 @@ h1 { font-size: 18px; margin-bottom: 16px; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .q { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; background: #fafafa; break-inside: avoid; }
 .q h2 { font-size: 12px; margin: 0 0 5px; line-height: 1.3; }
-.answer { background: #f3f3f3; border-left: 2px solid #ccc; padding: 6px 10px 6px 12px; margin-bottom: 6px; border-radius: 0 5px 5px 0; white-space: pre-wrap; font-size: 10px; font-style: italic; }
+.answer { background: #f3f3f3; padding: 6px 10px; margin-bottom: 6px; border-radius: 5px; white-space: pre-wrap; font-size: 10px; }
 .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; }`
 
 export function exportQuestionsPDF(questions: ApiQuestion[]) {
