@@ -24653,68 +24653,6 @@
     "publishedAt": ""
   },
   {
-    "id": "yandex-maps",
-    "title": "Как Яндекс строит навигатор и карты?",
-    "aliases": [],
-    "answer": "Яндекс Карты: GPS tracking, route calculation (Dijkstra/A*), traffic prediction (ML), POI search. Ключевые: real-time traffic, route optimization, offline maps.",
-    "exampleAnswer": "Route: from A to B → graph search → traffic → optimal route. Traffic: GPS data от millions users → ML prediction → \"пробки через 20 минут\". Offline: vector tiles → compressed maps.",
-    "context": "Ключевой product для навигации. Проверяют понимание maps architecture.",
-    "keyPoints": [
-      {
-        "title": "Route calculation",
-        "text": "Graph algorithms: Dijkstra, A*. Multi-modal: car, transit, walking. Contraction hierarchies."
-      },
-      {
-        "title": "Traffic prediction",
-        "text": "ML models: historical data, real-time signals. Prediction: next 30-60 minutes."
-      },
-      {
-        "title": "GPS tracking",
-        "text": "User location streaming. Privacy: anonymization. Aggregation: traffic patterns."
-      }
-    ],
-    "pitfalls": [
-      "Не учитывать real-time traffic",
-      "Игнорировать user location",
-      "Не оптимизировать route calculation",
-      "Не делать offline support"
-    ],
-    "followUps": [
-      "How does traffic prediction work?",
-      "What is contraction hierarchy algorithm?",
-      "How to handle offline maps?"
-    ],
-    "category": "System Design",
-    "scope": "universal",
-    "languages": [],
-    "roles": [
-      "Backend"
-    ],
-    "companies": [
-      "Яндекс"
-    ],
-    "level": "Senior",
-    "stage": "Архитектура",
-    "tags": [
-      "Maps",
-      "Navigation",
-      "Real-time"
-    ],
-    "duration": "10 мин",
-    "difficulty": 5,
-    "sources": [
-      {
-        "company": "Яндекс",
-        "url": "",
-        "type": "aggregated",
-        "publishedAt": ""
-      }
-    ],
-    "sourceType": "aggregated",
-    "videoFrequency": 0,
-    "publishedAt": ""
-  },
-  {
     "id": "yandex-palindrome-two-pointers",
     "title": "Проверьте палиндром, игнорируя регистр и небуквенные символы",
     "aliases": [],
