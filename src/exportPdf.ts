@@ -93,9 +93,10 @@ function highlightCodeFallback(code: string): string {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-const pdfStyles = `@page { size: landscape; }
+const pdfStyles = `@page { size: landscape; margin: 8mm; }
 @media print { body { padding: 0; margin: 0; } .grid { grid-template-columns: 1fr 1fr; } }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0 8px; color: #222; line-height: 1.4; }
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0; color: #222; line-height: 1.4; }
 h1 { font-size: 18px; margin: 0 0 16px; font-weight: 700; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 10px 8px; break-inside: avoid; }
