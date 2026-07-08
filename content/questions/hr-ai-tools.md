@@ -17,7 +17,7 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-Популярные: ChatGPT, Claude, Gemini, Copilot, Midjourney, Stable Diffusion. Для разработки: GitHub Copilot, Cursor, Cody. Для дизайна: Figma AI, Midjourney. Для данных: ChatGPT + Code Interpreter.
+ChatGPT, Claude Code, DeepSeek — три основные нейросети для разработки. Плюс Loop Engineering как методология AI-разработки: Maker → Checker → Fix → Verify.
 
 ## Контекст
 
@@ -27,25 +27,21 @@ HR-вопрос для оценки awareness и practical usage of AI tools. П
 
 ### Для разработки
 
-GitHub Copilot: автодополнение кода. Cursor: AI-powered IDE. ChatGPT/Claude: debugging, code review, документация.
+ChatGPT — универсальный помощник: генерация кода, debugging, документация. Claude Code — глубокий анализ кодовой базы, рефакторинг, архитектурные решения. DeepSeek — опенсорс-альтернатива для проектов с ограничениями по данным.
 
-### Для дизайна
+### Loop Engineering
 
-Midjourney: генерация изображений. Figma AI: layout suggestions. Stable Diffusion: custom image generation.
-
-### Для данных
-
-ChatGPT + Code Interpreter: анализ данных. Claude: long context analysis. Gemini: multimodal.
+Методология AI-разработки: Maker генерирует решение → Checker проводит код-ревью → Fix исправляет замечания → Verify проверяет билдом. Это не замена разработчику, а ускоритель: AI берёт на себя рутину, человек принимает решения.
 
 ## Пример ответа
 
-Использую ChatGPT для debugging и code review, GitHub Copilot для автодополнения, Claude для документации и длинных текстов. На проекте: Copilot ускоряет написание boilerplate на 30%. Для прототипов: Midjourney для дизайн-макетов.
+Пользуюсь ChatGPT для быстрых ответов и генерации кода, Claude Code для сложного рефакторинга и архитектурных решений, DeepSeek как опенсорс-альтернативу для sensitive-проектов. В работе применяю Loop Engineering — методологию AI-разработки с циклом Maker → Checker → Fix → Verify: нейросеть предлагает изменения, потом проверяет их, исправляет замечания и финально верифицирует билдом.
 
 ## Частые ошибки
 
 - Не использовать AI tools вообще
 - Полностью доверять AI без проверки
-- Не знать пронаиболее   tools
+- Не знать про современные инструменты
 - Использовать только один инструмент
 
 ## Дополнительные вопросы
