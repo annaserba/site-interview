@@ -93,23 +93,23 @@ function highlightCodeFallback(code: string): string {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-const pdfStyles = `@page { size: landscape; margin: 8mm; }
+const pdfStyles = `@page { size: landscape; margin: 6mm; }
 @media print { body { padding: 0; margin: 0; } .grid { grid-template-columns: 1fr 1fr; } }
 *, *::before, *::after { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0; color: #222; line-height: 1.4; }
-h1 { font-size: 18px; margin: 0 0 16px; font-weight: 700; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 10px 8px; break-inside: avoid; }
-.q h2 { font-size: 13px; margin: 0 0 8px; line-height: 1.3; font-weight: 700; }
-.answer { margin-bottom: 8px; white-space: pre-wrap; font-size: 10px; }
-.answer p { margin: 0 0 4px; padding: 0; }
-.answer ul { margin: 2px 0; padding-left: 14px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0; color: #222; line-height: 1.35; overflow-wrap: break-word; }
+h1 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 8px 8px; break-inside: avoid; min-width: 0; overflow: hidden; }
+.q h2 { font-size: 11px; margin: 0 0 6px; line-height: 1.3; font-weight: 700; }
+.answer { margin-bottom: 6px; white-space: pre-wrap; font-size: 9px; min-width: 0; overflow-wrap: break-word; word-break: break-word; }
+.answer p { margin: 0 0 3px; padding: 0; }
+.answer ul { margin: 2px 0; padding-left: 12px; }
 .answer li { margin-bottom: 1px; }
 .answer strong { font-weight: 700; }
-.answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 9px; background: #f0f0f0; padding: 1px 4px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
-.answer pre { margin: 4px 0 8px; padding: 10px 12px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
-.answer pre code { background: none; padding: 0; color: #333; font-size: 9px; white-space: pre; }
-.label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 3px; font-family: monospace; letter-spacing: 0.05em; border-bottom: 1px solid #eee; padding-bottom: 2px; display: inline-block; }`
+.answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 8px; background: #f0f0f0; padding: 1px 3px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
+.answer pre { margin: 3px 0 6px; padding: 6px 8px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 4px; overflow-x: auto; line-height: 1.4; max-width: 100%; white-space: pre-wrap; word-break: break-all; }
+.answer pre code { background: none; padding: 0; color: #333; font-size: 8px; white-space: pre-wrap; word-break: break-all; }
+.label { font-size: 7px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; border-bottom: 1px solid #eee; padding-bottom: 1px; display: inline-block; }`
 
 export function exportQuestionsPDF(questions: ApiQuestion[]) {
   let body = `<h1>Вопросы для собеседования (${questions.length})</h1><div class="grid">`
