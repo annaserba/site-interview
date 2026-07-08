@@ -190,51 +190,6 @@ export async function logout(): Promise<void> {
 }
 
 // Resume
-export interface ResumeInfo {
-  hhResumeUrl: string
-  resumePdfPath: string
-}
-
-export async function fetchResume(): Promise<ResumeInfo> {
-  const res = await fetch(`${API_BASE}/user/resume`, { credentials: 'include' })
-  if (!res.ok) return { hhResumeUrl: '', resumePdfPath: '' }
-  return res.json()
-}
-
-export async function saveResumeUrl(url: string): Promise<boolean> {
-  const res = await fetch(`${API_BASE}/user/resume/url`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ hhResumeUrl: url }),
-  })
-  return res.ok
-}
-
-export async function uploadResumePdf(file: File): Promise<string | null> {
-  const formData = new FormData()
-  formData.append('file', file)
-  const res = await fetch(`${API_BASE}/user/resume/pdf`, {
-    method: 'POST',
-    credentials: 'include',
-    body: formData,
-  })
-  if (!res.ok) return null
-  const data = await res.json()
-  return data.path
-}
-
-export async function deleteResumePdf(): Promise<boolean> {
-  const res = await fetch(`${API_BASE}/user/resume/pdf`, {
-    method: 'DELETE',
-    credentials: 'include',
-  })
-  return res.ok
-}
-
-export function resumeDownloadUrl() {
-  return `${API_BASE}/user/resume/pdf/download`
-}
 
 // User Answers
 export interface UserAnswer {
