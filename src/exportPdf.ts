@@ -97,11 +97,11 @@ const pdfStyles = `@media print { body { padding: 0; margin: 0; } .grid { grid-t
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0; padding: 0 8px; color: #222; line-height: 1.4; }
 h1 { font-size: 18px; margin: 0 0 16px; font-weight: 700; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 10px 12px; break-inside: avoid; }
+.q { border: 1px solid #d0d0d0; border-radius: 6px; padding: 10px 8px; break-inside: avoid; }
 .q h2 { font-size: 13px; margin: 0 0 8px; line-height: 1.3; font-weight: 700; }
 .answer { margin-bottom: 8px; white-space: pre-wrap; font-size: 10px; }
-.answer p { margin: 0 0 4px; }
-.answer ul { margin: 2px 0; padding-left: 16px; }
+.answer p { margin: 0 0 4px; padding: 0; }
+.answer ul { margin: 2px 0; padding-left: 14px; }
 .answer li { margin-bottom: 1px; }
 .answer strong { font-weight: 700; }
 .answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 9px; background: #f0f0f0; padding: 1px 4px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
