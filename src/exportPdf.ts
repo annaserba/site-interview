@@ -1,4 +1,45 @@
 import type { ApiQuestion, UserAnswerWithQuestion } from './api'
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
+import python from 'highlight.js/lib/languages/python'
+import java from 'highlight.js/lib/languages/java'
+import cpp from 'highlight.js/lib/languages/cpp'
+import go from 'highlight.js/lib/languages/go'
+import rust from 'highlight.js/lib/languages/rust'
+import css from 'highlight.js/lib/languages/css'
+import xml from 'highlight.js/lib/languages/xml'
+import sql from 'highlight.js/lib/languages/sql'
+import bash from 'highlight.js/lib/languages/bash'
+import json from 'highlight.js/lib/languages/json'
+import yaml from 'highlight.js/lib/languages/yaml'
+import plaintext from 'highlight.js/lib/languages/plaintext'
+import githubCss from 'highlight.js/styles/github.css?inline'
+
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('js', javascript)
+hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('ts', typescript)
+hljs.registerLanguage('python', python)
+hljs.registerLanguage('py', python)
+hljs.registerLanguage('java', java)
+hljs.registerLanguage('cpp', cpp)
+hljs.registerLanguage('c++', cpp)
+hljs.registerLanguage('go', go)
+hljs.registerLanguage('rust', rust)
+hljs.registerLanguage('css', css)
+hljs.registerLanguage('html', xml)
+hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('sql', sql)
+hljs.registerLanguage('bash', bash)
+hljs.registerLanguage('sh', bash)
+hljs.registerLanguage('shell', bash)
+hljs.registerLanguage('json', json)
+hljs.registerLanguage('yaml', yaml)
+hljs.registerLanguage('yml', yaml)
+hljs.registerLanguage('plaintext', plaintext)
+hljs.registerLanguage('plain', plaintext)
+hljs.registerLanguage('text', plaintext)
 
 function openPrintWindow(html: string) {
   const w = window.open('', '_blank')!
@@ -9,26 +50,6 @@ function openPrintWindow(html: string) {
   w.addEventListener('afterprint', () => w.close())
 }
 
-function highlightCode(code: string): string {
-  return code
-    // Strings
-    .replace(/(["'`])(?:(?!\1)[^\\]|\\.)*\1/g, '<span class="s">$&</span>')
-    // Comments
-    .replace(/(\/\/.*$|\/\*[\s\S]*?\*\/)/gm, '<span class="c">$&</span>')
-    // Keywords
-    .replace(/\b(function|const|let|var|return|if|else|for|while|class|export|import|from|new|this|async|await|try|catch|throw|typeof|instanceof|void|delete|in|of|switch|case|break|continue|default|do|finally|with|yield|extends|super|static|get|set|private|public|protected|readonly|abstract|implements|interface|type|enum|namespace|module|require|true|false|null|undefined|NaN|Infinity)\b/g, '<span class="k">$&</span>')
-    // Numbers
-    .replace(/\b(\d+\.?\d*(?:e[+-]?\d+)?)\b/g, '<span class="n">$&</span>')
-    // Function calls
-    .replace(/\b([a-zA-Z_$][\w$]*)\(/g, '<span class="f">$1</span>(')
-    // HTML tags
-    .replace(/&lt;(\/?)(\w[\w-]*)/g, '&lt;<span class="t">$1$2</span>')
-    // HTML attributes
-    .replace(/ (\w[\w-]*)=["']/g, ' <span class="a">$1</span>=<span class="s">"</span>')
-    // CSS properties
-    .replace(/([\w-]+):/g, '<span class="p">$1</span>:')
-}
-
 function formatAnswer(text: string): string {
   if (!text) return ''
   let html = text
@@ -36,9 +57,18 @@ function formatAnswer(text: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 
-  // Code blocks with highlighting
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
-    `<pre><code class="lang-${lang || 'plain'}">${highlightCode(code.trim())}</code></pre>`)
+  // Code blocks with highlight.js
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    const langName = lang || 'plaintext'
+    try {
+      const result = hljs.getLanguage(langName)
+        ? hljs.highlight(code.trim(), { language: langName })
+        : hljs.highlightAuto(code.trim())
+      return `<pre><code class="hljs language-${langName}">${result.value}</code></pre>`
+    } catch {
+      return `<pre><code class="hljs">${highlightCodeFallback(code.trim())}</code></pre>`
+    }
+  })
 
   // Inline code
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -58,6 +88,11 @@ function formatAnswer(text: string): string {
   return parts.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('')
 }
 
+function highlightCodeFallback(code: string): string {
+  return code
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
 const pdfStyles = `@media print { body { padding: 0; } .grid { grid-template-columns: 1fr 1fr; } }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 100%; margin: 0 auto; padding: 14px; color: #222; line-height: 1.4; }
 h1 { font-size: 18px; margin-bottom: 16px; font-weight: 700; }
@@ -72,15 +107,6 @@ h1 { font-size: 18px; margin-bottom: 16px; font-weight: 700; }
 .answer code { font-family: 'SF Mono', 'JetBrains Mono', monospace; font-size: 9px; background: #f0f0f0; padding: 1px 4px; border-radius: 3px; color: #333; border: 1px solid #e0e0e0; }
 .answer pre { margin: 4px 0 8px; padding: 10px 12px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 6px; overflow-x: auto; line-height: 1.5; }
 .answer pre code { background: none; padding: 0; color: #333; font-size: 9px; white-space: pre; }
-/* Syntax — light theme */
-.k { color: #0033b3; }  /* keyword */
-.s { color: #067d17; }  /* string */
-.c { color: #8c8c8c; }  /* comment */
-.n { color: #1750eb; }  /* number */
-.f { color: #6c3e9c; }  /* function */
-.t { color: #0033b3; }  /* tag */
-.a { color: #871094; }  /* attr */
-.p { color: #871094; }  /* property */
 .label { font-size: 8px; text-transform: uppercase; color: #999; margin-bottom: 3px; font-family: monospace; letter-spacing: 0.05em; border-bottom: 1px solid #eee; padding-bottom: 2px; display: inline-block; }`
 
 export function exportQuestionsPDF(questions: ApiQuestion[]) {
@@ -92,7 +118,7 @@ export function exportQuestionsPDF(questions: ApiQuestion[]) {
     body += '</div>'
   }
   body += '</div>'
-  openPrintWindow(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Вопросы для собеседования</title><style>${pdfStyles}</style></head><body>${body}</body></html>`)
+  openPrintWindow(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Вопросы для собеседования</title><style>${githubCss}\n${pdfStyles}</style></head><body>${body}</body></html>`)
 }
 
 export function exportAnswersPDF(items: UserAnswerWithQuestion[]) {
@@ -112,5 +138,5 @@ export function exportAnswersPDF(items: UserAnswerWithQuestion[]) {
     body += '</div>'
   }
   body += '</div>'
-  openPrintWindow(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Мои ответы</title><style>${pdfStyles}</style></head><body>${body}</body></html>`)
+  openPrintWindow(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Мои ответы</title><style>${githubCss}\n${pdfStyles}</style></head><body>${body}</body></html>`)
 }
