@@ -28,6 +28,7 @@ export interface ApiQuestion {
   scope?: 'universal' | 'multi-language' | 'language-specific'
   video_frequency?: number
   published_at?: string | null
+  interviewer_expects?: string
 }
 
 export function mapQuestion(raw: Record<string, any> & { id: string; title: string }): Question {
@@ -58,6 +59,7 @@ export function mapQuestion(raw: Record<string, any> & { id: string; title: stri
     scope: raw.scope || 'universal',
     videoFrequency: g('video_frequency', 'videoFrequency', 0),
     publishedAt: g('published_at', 'publishedAt', undefined),
+    interviewerExpects: g('interviewer_expects', 'interviewerExpects', ''),
   } as Question
 }
 

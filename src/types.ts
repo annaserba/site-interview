@@ -22,6 +22,7 @@ export type Question = {
   difficulty: number
   fresh?: string
   publishedAt?: string
+  interviewerExpects?: string
   sources: Array<{ company: string; url: string; type: string; publishedAt?: string }>
   videoFrequency?: number
   score?: number

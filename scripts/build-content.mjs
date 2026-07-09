@@ -135,6 +135,7 @@ function questionFromMarkdown(source, filename) {
     aliases: metadata.aliases || [],
     answer,
     exampleAnswer: sections.get('Пример ответа') || '',
+    interviewerExpects: sections.get('Что ожидают в ответе') || '',
     context: sections.get('Контекст') || '',
     keyPoints: parseKeyPoints(sections.get('Как строить ответ')),
     pitfalls: parseList(sections.get('Частые ошибки')),
