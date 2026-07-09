@@ -18,7 +18,11 @@ sourceUrl: ""
 
 ## Короткий ответ
 
-Способ зависит от границы доверия и независимости релизов. Для изоляции стороннего или legacy-приложения используйте `iframe` с минимальным `sandbox`, строгим `allow` и версионированным `postMessage`-протоколом с проверкой `origin`. Для доверенных команд одного продукта подходят microfrontend runtime/build-time composition или Web Component: меньше изоляции, зато проще общие UX и маршрутизация. Заранее определите ownership, auth, observability, versioning контрактов, обработку ошибок и независимый rollback; не раздавайте общий mutable global state.
+Для стороннего — `iframe` с `sandbox` и `postMessage` с проверкой `origin`. Для доверенных — microfrontend или Web Components. Определите ownership, auth, контракты и rollback.
+
+## Что ожидают в ответе
+
+Проверяется выбор интеграционной границы, а не знание одного тега. Ожидается аргументированный выбор между iframe, Web Components и microfrontend в зависимости от уровня доверия и автономности команд. Важны observability, versioning контрактов, обработка ошибок и запрет общего mutable global state.
 
 ## Контекст
 
