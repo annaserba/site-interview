@@ -130,8 +130,13 @@ export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string
     const expects = (q as any).interviewerExpects || (q as any).interviewer_expects || ''
     const ctx = (q as any).context || ''
     const companies = (q.companies || []).filter(c => c !== 'Несколько компаний')
+    const stage = (q as any).stage || ''
     body += `<div class="q"><h2>${q.title}</h2>`
-    if (companies.length) body += `<div class="company">${companies.join(', ')}</div>`
+    if (companies.length) {
+      body += `<div class="company">${companies.join(', ')}${stage ? ' · ' + stage : ''}</div>`
+    } else if (stage) {
+      body += `<div class="company">${stage}</div>`
+    }
     if (expects) body += `<div class="label">Что ожидают в ответе</div><div class="answer expects">${formatAnswer(expects)}</div>`
     body += `<div class="label">Краткий ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
     if (example) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(example)}</div>`
