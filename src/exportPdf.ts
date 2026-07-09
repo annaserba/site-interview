@@ -118,6 +118,7 @@ h1 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
 .answer pre { margin: 3px 0 6px; padding: 6px 8px; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 4px; overflow-x: auto; line-height: 1.4; max-width: 100%; white-space: pre-wrap; word-break: break-all; }
 .answer pre code { background: none; padding: 0; color: #333; font-size: 8px; white-space: pre-wrap; word-break: break-all; }
 .label { font-size: 7px; text-transform: uppercase; color: #999; margin-bottom: 2px; font-family: monospace; letter-spacing: 0.04em; border-bottom: 1px solid #eee; padding-bottom: 1px; display: inline-block; }
+.expects { border-left: 2px solid #ddd; padding-left: 6px; font-style: italic; color: #555; }
 .filters { font-size: 11px; color: #666; margin: -8px 0 14px; }`
 
 export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string) {
@@ -126,9 +127,12 @@ export function exportQuestionsPDF(questions: ApiQuestion[], filterInfo?: string
   body += '<div class="grid">'
   for (const q of questions) {
     const example = (q as any).example_answer || (q as any).exampleAnswer || ''
+    const expects = (q as any).interviewerExpects || (q as any).interviewer_expects || ''
+    const ctx = (q as any).context || ''
     const companies = (q.companies || []).filter(c => c !== 'Несколько компаний')
     body += `<div class="q"><h2>${q.title}</h2>`
     if (companies.length) body += `<div class="company">${companies.join(', ')}</div>`
+    if (expects) body += `<div class="label">Что ожидают в ответе</div><div class="answer expects">${formatAnswer(expects)}</div>`
     body += `<div class="label">Краткий ответ</div><div class="answer">${formatAnswer(q.answer || '')}</div>`
     if (example) body += `<div class="label">Пример ответа</div><div class="answer">${formatAnswer(example)}</div>`
     body += '</div>'
