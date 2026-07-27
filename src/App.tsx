@@ -250,19 +250,14 @@ function App() {
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
           <a href="#blog" onClick={() => setMenuOpen(false)}>Блог</a>
-          <div className={s['nav-auth']}>
-            {user ? (
-              <>
-                <a href="#profile" onClick={() => setMenuOpen(false)}>Профиль · {user.displayName}</a>
-                <button type="button" onClick={() => { setMenuOpen(false); logout() }}>Выйти</button>
-              </>
-            ) : (
+          {!user && (
+            <div className={s['nav-auth']}>
               <button type="button" onClick={() => { setMenuOpen(false); loginWithYandex() }}>
                 <span className={s['yandex-mark']} aria-hidden="true">Я</span>
                 Войти через Яндекс
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </nav>
         <div
           className={`${s['nav-backdrop']} ${menuOpen ? s.open : ''}`}
