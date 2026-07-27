@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/rag': 'http://127.0.0.1:8787',
+      // /api/rag/* тоже обслуживает api.mjs — отдельный RAG-процесс в dev не нужен
       '/api': 'http://127.0.0.1:3001',
     },
   },

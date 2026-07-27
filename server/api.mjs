@@ -106,11 +106,26 @@ function parseCookies(req) {
   return cookies
 }
 
-function parseBody(req) {
+function parseBody(req, limit = 1_000_000) {
   return new Promise((resolve) => {
+    let size = 0
     let body = ''
-    req.on('data', (chunk) => body += chunk)
-    req.on('end', () => { try { resolve(JSON.parse(body)) } catch { resolve({}) } })
+    let aborted = false
+    req.on('data', (chunk) => {
+      if (aborted) return
+      size += chunk.length
+      if (size > limit) {
+        aborted = true
+        resolve({})
+        return
+      }
+      body += chunk
+    })
+    req.on('end', () => {
+      if (aborted) return
+      try { resolve(JSON.parse(body)) } catch { resolve({}) }
+    })
+    req.on('error', () => resolve({}))
   })
 }
 

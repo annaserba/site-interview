@@ -6,6 +6,7 @@ import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/github-dark.css'
 import type { Question } from './types'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
+import { CompanyLogo } from './CompanyLogo'
 import s from './QuestionDetail.module.css'
 
 type QuestionDetailProps = { question: Question; onBack?: () => void }
@@ -13,13 +14,6 @@ const formatDate = (date?: string) => {
   if (!date) return ''
   const value = new Date(date)
   return Number.isNaN(value.getTime()) ? '' : value.toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
-}
-
-const companyStyles: Record<string, { mark: string; color: string }> = {
-  'Яндекс': { mark: 'Я', color: '#ffcc00' },
-  Ozon: { mark: 'O', color: '#1969ff' },
-  Avito: { mark: 'A', color: '#9b4dff' },
-  'Т-Банк': { mark: 'T', color: '#ffdc2d' },
 }
 
 function answerChecklist(question: Question) {
@@ -43,8 +37,7 @@ function answerChecklist(question: Question) {
 }
 
 export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
-  const company = question.companies[0]
-  const visual = companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
+  const realCompanies = question.companies.filter((c) => c !== 'Несколько компаний')
   const videoCount = question.videoFrequency ?? new Set(question.sources.filter((source) => source.type === 'youtube').map((source) => source.url)).size
   const checklist = answerChecklist(question)
   const introRef = useRef<HTMLElement>(null)
@@ -92,7 +85,9 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           <a href="/questions" className={s['detail-back']} style={{ textDecoration: 'none' }}><ArrowLeft size={16} /> К вопросам</a>
         )}
         <div className={s['detail-company']}>
-          <span className="company-logo" style={{ background: visual.color }}>{visual.mark}</span>
+          {realCompanies.length > 0
+            ? realCompanies.map((c) => <CompanyLogo key={c} name={c} size={28} />)
+            : <CompanyLogo name={question.companies[0] || '?'} size={28} />}
           <span><b>{question.companies.join(', ')}</b><small>{question.roles.join(' · ')}</small></span>
         </div>
         <span className={s['detail-kicker']}>{question.category} / {question.stage}</span>
@@ -243,7 +238,7 @@ export function QuestionDetail({ question, onBack }: QuestionDetailProps) {
           <div className={s['sidebar-card']}>
             <span><Users size={18} /> Источник</span>
             <p className={s['source-frequency']}>Встречается в {videoCount} видео</p>
-            {(question.sources.length ? question.sources : [{ company, url: '', type: 'aggregated' }]).map((source) => (
+            {(question.sources.length ? question.sources : [{ company: realCompanies[0] || 'Несколько компаний', url: '', type: 'aggregated', publishedAt: undefined }]).map((source) => (
               <div className={s['source-item']} key={`${source.company}-${source.url}`}>
                 <p>{source.company}</p>
                 <small>{source.type === 'youtube' ? 'Запись технического интервью' : source.type === 'candidate-report' ? 'Восстановлено по отчёту кандидата' : 'Агрегированный материал'}{source.publishedAt ? ` · ${formatDate(source.publishedAt)}` : ''}</small>

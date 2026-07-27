@@ -1,18 +1,19 @@
 ---
 id: http-basics
 title: Что такое HTTP и как он работает?
+aliases: ["Что важно знать frontend-разработчику про HTTP?", "Как работает HTTP кеширование через ETag?"]
 category: JavaScript
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]
-companies: ["Несколько компаний"]
+companies: ["Wildberries"]
 level: Junior
 stage: Техническое
 tags: ["HTTP", "Protocol", "Web"]
 duration: 10 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: https://www.youtube.com/watch?v=HF7zkpSrByE&t=877s
 ---
 
 ## Короткий ответ

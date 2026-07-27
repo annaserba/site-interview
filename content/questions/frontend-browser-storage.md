@@ -6,6 +6,7 @@ scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]
 companies: ["Несколько компаний"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=1009s","title":"Браузерные хранилища, cookies и авторизация"}]
 level: Senior
 stage: Техническое
 tags: ["Cookies", "Storage", "Security"]

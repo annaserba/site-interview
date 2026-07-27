@@ -99,7 +99,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
           {user.avatarUrl ? (
             <img src={user.avatarUrl} alt="" className={s.avatar} />
           ) : (
-            <div className={s['avatar-placeholder']}>{user.displayName[0]}</div>
+            <div className={s['avatar-placeholder']}>{(user.displayName || '?')[0]}</div>
           )}
           <div>
             <h1>{user.displayName}</h1>

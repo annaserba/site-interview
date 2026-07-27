@@ -1,6 +1,7 @@
 ---
 id: klp-partitioning
 title: Что такое partitioning (шардирование) данных?
+aliases: ["Какие стратегии shard key существуют?"]
 category: System Design
 scope: universal
 languages: []

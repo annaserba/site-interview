@@ -1,6 +1,7 @@
 ---
 id: monitoring-observability
 title: Как настроить monitoring и observability для приложения?
+aliases: ["Как проектировать observability в распределённых системах?"]
 category: Delivery
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["Monitoring", "Observability", "DevOps"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

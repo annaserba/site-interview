@@ -1,6 +1,6 @@
 ---
 id: teamlead-developer-growth
-title: Как вы помогаетеjunior-ам расти и become senior?
+title: Как вы помогаете junior-разработчикам расти до senior?
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +12,7 @@ tags: ["Management", "Mentoring", "Growth"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

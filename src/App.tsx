@@ -9,37 +9,21 @@ import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
 import { PrivacyPage } from './PrivacyPage'
 import { CookieConsent } from './CookieConsent'
+import { CompanyLogo } from './CompanyLogo'
 import { blogArticles } from './blog-articles'
 import questionsData from './data/questions.json'
 import type { Question } from './types'
 import { questionTypeDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, mapQuestion, type User } from './api'
+import { safeGetItem, safeSetItem } from './safeStorage'
 import s from './App.module.css'
-
-const companyStyles: Record<string, { mark: string; color: string }> = {
-  'Яндекс': { mark: 'Я', color: '#FFCC00' },
-  Ozon: { mark: 'O', color: '#005BFF' },
-  Avito: { mark: 'A', color: '#00AAFF' },
-  'Т-Банк': { mark: 'Т', color: '#FFDD2D' },
-  VK: { mark: 'VK', color: '#0077FF' },
-  Wildberries: { mark: 'WB', color: '#EC238D' },
-  Okko: { mark: 'О', color: '#4B0A9A' },
-  Сбер: { mark: 'С', color: '#21A038' },
-  Гознак: { mark: 'Г', color: '#003366' },
-  'Лига Ставок': { mark: 'Л', color: '#FF6600' },
-  'IT One': { mark: 'IT', color: '#E53935' },
-  'Rutube': { mark: 'R', color: '#000000' },
-  'Usetech': { mark: 'Ut', color: '#1E88E5' },
-}
-
-const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 type ThemeMode = 'dark' | 'light'
 const readInitialTheme = (): ThemeMode => {
   if (typeof window === 'undefined') return 'dark'
-  const stored = window.localStorage.getItem('in-depth:theme')
+  const stored = safeGetItem('in-depth:theme')
   return stored === 'light' || stored === 'dark' ? stored : 'dark'
 }
 const formatDate = (date?: string) => {
@@ -94,7 +78,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-    window.localStorage.setItem('in-depth:theme', theme)
+    safeSetItem('in-depth:theme', theme)
   }, [theme])
 
   useEffect(() => {
@@ -242,7 +226,7 @@ function App() {
                 {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
                 ) : (
-                  <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
+                  <div className={s['user-avatar-placeholder']}>{(user.displayName || '?')[0]}</div>
                 )}
               </a>
               <a href="#profile" className={s['user-name']}>{user.displayName}</a>
@@ -307,11 +291,11 @@ function App() {
                         const realCompanies = question.companies.filter(c => c !== 'Несколько компаний')
                         return realCompanies.length > 0 && (
                           <>
-                            <span>{realCompanies.join(', ')}</span>
-                            <div className={s['card-company-logos']}>
-                              {realCompanies.map((c) => (
-                                <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
+                            <div className={s['card-company-logos']} title={realCompanies.join(', ')}>
+                              {realCompanies.slice(0, 3).map((c) => (
+                                <CompanyLogo key={c} name={c} size={22} />
                               ))}
+                              {realCompanies.length > 3 && <span className={s['card-company-more']}>+{realCompanies.length - 3}</span>}
                             </div>
                           </>
                         )

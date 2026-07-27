@@ -6,7 +6,7 @@ category: Web Platform
 scope: universal
 languages: []
 roles: ["Frontend","Backend"]
-companies: ["Яндекс"]
+companies: ["Яндекс", "VK"]
 level: Middle
 stage: Техническое
 tags: ["Security", "XSS", "CSRF", "CSP"]

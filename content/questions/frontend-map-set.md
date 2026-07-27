@@ -6,6 +6,7 @@ scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend","Backend"]
 companies: ["Несколько компаний"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=2432s","title":"Map, Set, WeakMap и WeakSet — в чём отличия"}]
 level: Senior
 stage: Техническое
 tags: ["Map", "Set", "Collections"]

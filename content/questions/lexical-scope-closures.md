@@ -1,18 +1,20 @@
 ---
 id: lexical-scope-closures
 title: Что такое лексическое окружение и замыкания в JavaScript?
+aliases: ["Что такое замыкание?"]
 category: JavaScript
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend", "Backend"]
-companies: []
+companies: ["Несколько компаний"]
+sourceVideos: [{"company":"Okko","url":"https://www.youtube.com/watch?v=6aIg-fGUOsY&t=231s"}]
 level: Middle
 stage: Техническое
 tags: ["JavaScript", "Closures", "Scope", "Lexical Environment"]
 duration: 10 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

@@ -1,6 +1,7 @@
 const API_BASE = '/api'
 
 import type { Question } from './types'
+import { safeGetItem, safeRemoveItem, safeSetItem } from './safeStorage'
 
 export interface ApiQuestion {
   id: string
@@ -81,10 +82,10 @@ export interface StatsResponse {
 }
 
 function getSessionId(): string {
-  let id = localStorage.getItem('interview_session_id')
+  let id = safeGetItem('interview_session_id')
   if (!id) {
     id = 'sess_' + Math.random().toString(36).slice(2) + Date.now().toString(36)
-    localStorage.setItem('interview_session_id', id)
+    safeSetItem('interview_session_id', id)
   }
   return id
 }
@@ -169,25 +170,46 @@ export interface User {
   fromCache?: boolean
 }
 
+// Сервер отдаёт snake_case (display_name, avatar_url), фронт работает с camelCase.
+// Нормализуем в одном месте — и для свежего ответа, и для кэша.
+function normalizeUser(raw: any): User | null {
+  if (!raw) return null
+  return {
+    id: raw.id,
+    displayName: raw.displayName || raw.display_name || 'User',
+    avatarUrl: raw.avatarUrl ?? raw.avatar_url ?? null,
+    email: raw.email ?? raw.default_email ?? '',
+    phoneHash: raw.phoneHash ?? raw.phone_hash ?? '',
+    fromCache: Boolean(raw.fromCache),
+  }
+}
+
 export async function fetchCurrentUser(): Promise<User | null> {
   const CACHE_KEY = 'sobes_user_cache'
   try {
     const res = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' })
     if (!res.ok) {
       // Session expired — clear cache
-      localStorage.removeItem(CACHE_KEY)
+      safeRemoveItem(CACHE_KEY)
       return null
     }
     const data = await res.json()
-    const user = { ...data.user, fromCache: false }
-    localStorage.setItem(CACHE_KEY, JSON.stringify(user))
+    const user = normalizeUser(data.user)
+    if (!user) {
+      safeRemoveItem(CACHE_KEY)
+      return null
+    }
+    safeSetItem(CACHE_KEY, JSON.stringify(user))
     return user
   } catch {
     // API down — try cache
-    try {
-      const cached = localStorage.getItem(CACHE_KEY)
-      if (cached) return { ...JSON.parse(cached), fromCache: true }
-    } catch {}
+    const cached = safeGetItem(CACHE_KEY)
+    if (cached) {
+      try {
+        const user = normalizeUser(JSON.parse(cached))
+        if (user) return { ...user, fromCache: true }
+      } catch {}
+    }
     return null
   }
 }
@@ -197,7 +219,7 @@ export function loginWithYandex() {
 }
 
 export async function logout(): Promise<void> {
-  localStorage.removeItem('sobes_user_cache')
+  safeRemoveItem('sobes_user_cache')
   await fetch(`${API_BASE}/auth/logout`, {
     method: 'POST',
     credentials: 'include',

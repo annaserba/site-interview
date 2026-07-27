@@ -1,18 +1,19 @@
 ---
 id: promises-methods
 title: Что такое промисы и какие методы они имеют?
+aliases: ["Что такое Promise?"]
 category: JavaScript
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend", "Backend"]
-companies: []
+companies: ["Несколько компаний"]
 level: Middle
 stage: Техническое
 tags: ["JavaScript", "Promises", "Async", "Error Handling"]
 duration: 10 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

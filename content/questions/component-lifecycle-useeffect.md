@@ -5,7 +5,7 @@ category: React
 scope: universal
 languages: ["React"]
 roles: ["Frontend"]
-companies: []
+companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["React", "useEffect", "Lifecycle", "Side Effects"]

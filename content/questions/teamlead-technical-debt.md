@@ -1,18 +1,19 @@
 ---
 id: teamlead-technical-debt
 title: Как вы управляете техническим долгом в команде?
+aliases: ["Как вы управляете техническим долгом?"]
 category: Behavioral
 scope: universal
 languages: []
 roles: ["Leadership"]
-companies: ["Несколько компаний"]
+companies: ["Т-Банк"]
 level: Senior
 stage: Управление
 tags: ["Management", "Technical Debt", "Quality"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

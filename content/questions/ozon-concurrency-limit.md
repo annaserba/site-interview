@@ -1,10 +1,11 @@
 ---
 id: ozon-concurrency-limit
 title: Ограничьте количество одновременных запросов без потери данных
+aliases: ["Как ограничить конкурентный доступ к внешнему API без потери запросов?"]
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend","Backend"]
+roles: ["Frontend", "Backend"]
 companies: ["Ozon"]
 level: Middle
 stage: Live coding
@@ -12,7 +13,7 @@ tags: ["Promises", "Concurrency", "async/await", "Rate Limiting"]
 duration: 20 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 

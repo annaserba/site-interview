@@ -1,18 +1,19 @@
 ---
 id: hr-ai-tools
 title: Какие нейросети и AI-инструменты вы используете?
+aliases: ["Какими нейросетями вы пользуетесь в работе?"]
 category: HR
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile", "Leadership"]
-companies: ["Несколько компаний"]
+companies: ["Яндекс"]
 level: Junior
 stage: HR
 tags: ["HR", "AI", "Tools"]
 duration: 5 мин
 difficulty: 1
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

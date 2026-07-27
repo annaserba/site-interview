@@ -1,6 +1,6 @@
 ---
 id: teamlead-technical-roadmap
-title: Как вы создаёте технический roadmap и.align-ите его с бизнесом?
+title: Как вы создаёте технический roadmap и согласуете его с бизнесом?
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +12,7 @@ tags: ["Management", "Roadmap", "Planning"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

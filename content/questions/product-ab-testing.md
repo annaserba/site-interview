@@ -5,7 +5,7 @@ category: Product Analytics
 scope: universal
 languages: []
 roles: ["Product Analytics"]
-companies: ["Несколько компаний"]
+companies: ["Несколько компаний", "VK"]
 level: Middle
 stage: Архитектура
 tags: ["A/B Testing", "Product Analytics", "Statistics"]

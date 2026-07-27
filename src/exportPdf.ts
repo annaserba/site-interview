@@ -42,12 +42,37 @@ hljs.registerLanguage('plain', plaintext)
 hljs.registerLanguage('text', plaintext)
 
 function openPrintWindow(html: string) {
-  const w = window.open('', '_blank')!
-  w.document.write(html)
-  w.document.close()
-  w.focus()
-  w.print()
-  w.addEventListener('afterprint', () => w.close())
+  const w = window.open('', '_blank')
+  if (w) {
+    w.document.write(html)
+    w.document.close()
+    w.focus()
+    w.print()
+    w.addEventListener('afterprint', () => w.close())
+    return
+  }
+  // Popup blocked: fall back to a hidden iframe in the current page
+  const iframe = document.createElement('iframe')
+  iframe.style.position = 'fixed'
+  iframe.style.right = '0'
+  iframe.style.bottom = '0'
+  iframe.style.width = '0'
+  iframe.style.height = '0'
+  iframe.style.border = '0'
+  document.body.appendChild(iframe)
+  const printWindow = iframe.contentWindow
+  const doc = iframe.contentDocument || printWindow?.document
+  if (!doc || !printWindow) {
+    iframe.remove()
+    alert('Браузер заблокировал окно печати. Разрешите всплывающие окна для этого сайта.')
+    return
+  }
+  doc.open()
+  doc.write(html)
+  doc.close()
+  printWindow.focus()
+  printWindow.print()
+  printWindow.addEventListener('afterprint', () => iframe.remove())
 }
 
 function formatAnswer(text: string): string {

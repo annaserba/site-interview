@@ -6,7 +6,8 @@ const port = Number(process.env.RAG_PORT || 8787)
 function send(response, status, body) {
   response.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': 'http://127.0.0.1:5174',
+    // Публичный read-only RAG без cookies — разрешаем любой origin
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   })

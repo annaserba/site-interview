@@ -1,13 +1,14 @@
 import { useState } from 'react'
+import { safeGetItem, safeSetItem } from './safeStorage'
 import s from './CookieConsent.module.css'
 
 const STORAGE_KEY = 'cookie_consent'
 
 export function CookieConsent() {
-  const [visible, setVisible] = useState(() => !localStorage.getItem(STORAGE_KEY))
+  const [visible, setVisible] = useState(() => !safeGetItem(STORAGE_KEY))
 
   function accept() {
-    localStorage.setItem(STORAGE_KEY, '1')
+    safeSetItem(STORAGE_KEY, '1')
     setVisible(false)
   }
 

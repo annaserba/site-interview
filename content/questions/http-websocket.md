@@ -6,6 +6,7 @@ scope: universal
 languages: []
 roles: ["Backend", "Frontend"]
 companies: ["Несколько компаний"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=512s","title":"HTTP, HTTPS, безопасность и WebSockets"}]
 level: Middle
 stage: Техническое
 tags: ["HTTP", "WebSocket", "Real-time"]

@@ -1,7 +1,7 @@
 ---
 id: yandex-frontend-optimization
 title: Какие методы оптимизации фронтенда вы знаете?
-aliases: []
+aliases: ["Как оптимизировать производительность в React?"]
 category: Browser Performance
 scope: universal
 languages: ["JavaScript", "TypeScript"]
@@ -13,7 +13,7 @@ tags: ["Performance", "Optimization", "Web Vitals", "Bundle"]
 duration: 15 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 

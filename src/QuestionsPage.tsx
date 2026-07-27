@@ -1,28 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Printer, Search, Users } from 'lucide-react'
 import { QuestionFilters } from './QuestionFilters'
+import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
-import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
+import { questionTypeDefinitions, getQuestionType, topicDefinitions } from './filters'
 import { exportQuestionsPDF } from './exportPdf'
 import s from './App.module.css'
-
-const companyStyles: Record<string, { mark: string; color: string }> = {
-  'Яндекс': { mark: 'Я', color: '#FFCC00' },
-  Ozon: { mark: 'O', color: '#005BFF' },
-  Avito: { mark: 'A', color: '#00AAFF' },
-  'Т-Банк': { mark: 'Т', color: '#FFDD2D' },
-  VK: { mark: 'VK', color: '#0077FF' },
-  Wildberries: { mark: 'WB', color: '#EC238D' },
-  Okko: { mark: 'О', color: '#4B0A9A' },
-  Сбер: { mark: 'С', color: '#21A038' },
-  Гознак: { mark: 'Г', color: '#003366' },
-  'Лига Ставок': { mark: 'Л', color: '#FF6600' },
-  'IT One': { mark: 'IT', color: '#E53935' },
-  'Rutube': { mark: 'R', color: '#000000' },
-  'Usetech': { mark: 'Ut', color: '#1E88E5' },
-}
-
-const companyStyle = (company: string) => companyStyles[company] || { mark: company.slice(0, 1), color: '#c9ff32' }
 
 const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 const formatDate = (date?: string) => {
@@ -74,13 +57,6 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
     })
   }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes, questions])
 
-  const companies = useMemo(() => companyOrder.map((name) => ({
-    name,
-    count: questions.filter((question) => question.companies.includes(name)).length,
-    ...companyStyle(name),
-  })).filter((company) => company.count > 0), [questions])
-
-  const roles = useMemo(() => [...new Set(questions.flatMap((question) => question.roles))].sort((left, right) => left.localeCompare(right, 'ru')), [questions])
   const visibleQuestions = filtered.slice(0, visibleCount)
 
   useEffect(() => { setVisibleCount(8) }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes])
@@ -156,11 +132,11 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
                       const realCompanies = question.companies.filter(c => c !== 'Несколько компаний')
                       return realCompanies.length > 0 && (
                         <>
-                          <span>{realCompanies.join(', ')}</span>
-                          <div className={s['card-company-logos']}>
-                            {realCompanies.map((c) => (
-                              <span key={c} className="company-logo" style={{ background: companyStyle(c).color }}>{companyStyle(c).mark}</span>
+                          <div className={s['card-company-logos']} title={realCompanies.join(', ')}>
+                            {realCompanies.slice(0, 3).map((c) => (
+                              <CompanyLogo key={c} name={c} size={22} />
                             ))}
+                            {realCompanies.length > 3 && <span className={s['card-company-more']}>+{realCompanies.length - 3}</span>}
                           </div>
                         </>
                       )
@@ -187,7 +163,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
         })}
       </div>
       {!dataError && filtered.length === 0 && (
-        <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(['technical', 'behavioral', 'system-design', 'hr', 'game-dev'])); setSortMode('default'); window.location.hash = 'all-questions' }}>Сбросить фильтры</button></div>
+        <div className={s['empty-state']}><Search /><h3>Ничего не нашли</h3><p>Для выбранных фильтров пока нет вопросов.</p><button onClick={() => { setActiveCompany('Все компании'); setActiveRole('Все роли'); setActiveTopic('Все темы'); setActiveTypes(new Set(questionTypeDefinitions.map((t) => t.id))); setSortMode('default'); window.location.hash = 'all-questions' }}>Сбросить фильтры</button></div>
       )}
       {visibleCount < filtered.length && <div className={s['feed-sentinel']} ref={feedSentinelRef} aria-label="Загрузка следующих вопросов"><i /><i /><i /></div>}
       {filtered.length > 0 && visibleCount >= filtered.length && <div className={s['feed-end']}>Все вопросы загружены · {filtered.length}</div>}

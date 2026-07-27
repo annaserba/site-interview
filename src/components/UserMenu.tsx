@@ -24,7 +24,7 @@ export function UserMenu() {
           {user.avatarUrl ? (
             <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
           ) : (
-            <div className={s['user-avatar-placeholder']}>{user.displayName[0]}</div>
+            <div className={s['user-avatar-placeholder']}>{(user.displayName || '?')[0]}</div>
           )}
         </a>
         <a href="/profile" className={s['user-name']}>{user.displayName}</a>

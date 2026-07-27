@@ -1,11 +1,12 @@
 ---
 id: okko-mentoring
 title: В чём заключался ваш опыт менторства младших коллег?
+aliases: ["Как вы менторитеjunior и middle разработчиков?"]
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend","Backend","Data Engineering","Data Science","QA","DevOps","Mobile","Leadership"]
-companies: ["Okko"]
+roles: ["Frontend", "Backend", "Data Engineering", "Data Science", "QA", "DevOps", "Mobile", "Leadership"]
+companies: ["Okko", "Т-Банк"]
 level: Senior
 stage: Командное интервью
 tags: ["Mentoring", "Onboarding", "Feedback"]
@@ -13,7 +14,7 @@ duration: 10 мин
 difficulty: 3
 sourceCompany: Okko
 sourceType: youtube
-sourceUrl: "https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2478s"
+sourceUrl: https://www.youtube.com/watch?v=WZ-mX-tttuo&t=2478s
 ---
 
 ## Короткий ответ

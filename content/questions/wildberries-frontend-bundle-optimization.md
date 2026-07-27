@@ -6,6 +6,7 @@ scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]
 companies: ["Wildberries"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=4816s","title":"Оптимизация бандла"}]
 level: Senior
 stage: Техническое
 tags: ["React", "Performance", "Bundle"]

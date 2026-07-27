@@ -5,7 +5,7 @@ category: JavaScript
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend", "Backend"]
-companies: []
+companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["JavaScript", "This", "Context", "Binding"]

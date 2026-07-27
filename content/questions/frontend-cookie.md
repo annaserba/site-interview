@@ -1,18 +1,20 @@
 ---
 id: frontend-cookie
 title: Что такое cookie и как безопасно его использовать?
+aliases: ["Как работают cookies и зачем они нужны?"]
 category: Web Platform
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend","Backend"]
+roles: ["Frontend", "Backend"]
 companies: ["Несколько компаний"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=1009s","title":"CDN, браузерные хранилища, cookies и авторизация"}]
 level: Senior
 stage: Техническое
 tags: ["Cookies", "Sessions", "Security"]
 duration: 12 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

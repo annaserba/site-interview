@@ -5,7 +5,7 @@ category: React
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]
-companies: ["Несколько компаний"]
+companies: ["Несколько компаний", "VK"]
 level: Senior
 stage: Техническое
 tags: ["React.memo", "useMemo", "useCallback"]

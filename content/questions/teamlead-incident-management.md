@@ -1,6 +1,7 @@
 ---
 id: teamlead-incident-management
-title: Как вы обрабатываете инциденты и.manage-ите кризисы?
+title: Как вы обрабатываете инциденты и управляете кризисами?
+aliases: ["Как управлять инцидентами в production?"]
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["Management", "Incident", "Crisis"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

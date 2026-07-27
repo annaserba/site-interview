@@ -1,6 +1,7 @@
 ---
 id: yandex-autocomplete
-title: Как Яндекс реализует автодополнение запросов?
+title: Как реализовать автодополнение (autocomplete) поисковых запросов?
+aliases: ["Как Яндекс реализует автодополнение запросов?"]
 category: System Design
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["Search", "Autocomplete", "Performance"]
 duration: 10 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

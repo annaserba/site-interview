@@ -1,11 +1,12 @@
 ---
 id: wildberries-websocket-sse
 title: Когда выбирать WebSocket, SSE или polling?
+aliases: ["Как реализуете real-time функционал в React-приложении?"]
 category: Web Architecture
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
-roles: ["Frontend","Backend"]
-companies: ["Wildberries"]
+roles: ["Frontend", "Backend"]
+companies: ["Wildberries", "VK"]
 level: Senior
 stage: Архитектура
 tags: ["WebSocket", "SSE", "Realtime"]
@@ -13,7 +14,7 @@ duration: 18 мин
 difficulty: 5
 sourceCompany: Wildberries
 sourceType: youtube
-sourceUrl: "https://www.youtube.com/watch?v=HF7zkpSrByE&t=1276s"
+sourceUrl: https://www.youtube.com/watch?v=HF7zkpSrByE&t=1276s
 ---
 
 ## Короткий ответ

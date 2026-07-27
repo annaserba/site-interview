@@ -1,18 +1,20 @@
 ---
 id: page-loading-rendering
 title: Как работает процесс загрузки страницы и рендеринга?
+aliases: ["Что происходит после того, как пользователь ввёл URL в адресную строку?"]
 category: Browser
 scope: universal
 languages: []
 roles: ["Frontend"]
-companies: []
+companies: ["Rutube"]
+sourceVideos: []
 level: Middle
 stage: Техническое
 tags: ["Browser", "Rendering", "DOM", "Performance"]
 duration: 10 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

@@ -1,6 +1,7 @@
 ---
 id: llm-evaluation
 title: Как оценить качество LLM приложения?
+aliases: ["Как оценить качество генеративного AI?"]
 category: System Design
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["LLM", "Evaluation", "AI"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

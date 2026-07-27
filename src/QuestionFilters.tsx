@@ -1,26 +1,10 @@
 import { useMemo } from 'react'
 import { FilterDropdown } from './FilterDropdown'
+import { CompanyLogo } from './CompanyLogo'
 import { questionTypeDefinitions, companyOrder, topicDefinitions } from './filters'
 import type { Question } from './types'
 import s from './App.module.css'
 
-const companyStyles: Record<string, { mark: string; color: string }> = {
-  'Яндекс': { mark: 'Я', color: '#FFCC00' },
-  Ozon: { mark: 'O', color: '#005BFF' },
-  Avito: { mark: 'A', color: '#00AAFF' },
-  'Т-Банк': { mark: 'Т', color: '#FFDD2D' },
-  VK: { mark: 'VK', color: '#0077FF' },
-  Wildberries: { mark: 'WB', color: '#EC238D' },
-  Okko: { mark: 'О', color: '#4B0A9A' },
-  Сбер: { mark: 'С', color: '#21A038' },
-  Гознак: { mark: 'Г', color: '#003366' },
-  'Лига Ставок': { mark: 'Л', color: '#FF6600' },
-  'IT One': { mark: 'IT', color: '#E53935' },
-  Rutube: { mark: 'R', color: '#000000' },
-  Usetech: { mark: 'Ut', color: '#1E88E5' },
-}
-
-const companyStyle = (c: string) => companyStyles[c] || { mark: c.slice(0, 1), color: '#c9ff32' }
 const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 export interface FilterState {
@@ -55,7 +39,6 @@ export function QuestionFilters({
   const companies = useMemo(() => companyOrder.map((name) => ({
     name,
     count: questions.filter((q) => (q.companies || []).includes(name)).length,
-    ...companyStyle(name),
   })).filter((c) => c.count > 0), [questions])
 
   const roles = useMemo(() =>
@@ -87,7 +70,7 @@ export function QuestionFilters({
               key={c.name}
               onClick={() => onChange({ activeCompany: filterState.activeCompany === c.name ? 'Все компании' : c.name })}
             >
-              <span className="company-logo" style={{ background: c.color }}>{c.mark}</span>
+              <CompanyLogo name={c.name} size={32} />
               <span><b>{c.name}</b><small>{c.count} {qWord(c.count)}</small></span>
             </button>
           ))}

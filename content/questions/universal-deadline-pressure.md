@@ -1,18 +1,19 @@
 ---
 id: universal-deadline-pressure
 title: Как вы справляетесь с давлением дедлайнов?
+aliases: ["Как вы работаете в условиях жёсткого дедлайна?"]
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend","Backend","Mobile","QA","DevOps"]
-companies: ["Несколько компаний"]
+roles: ["Frontend", "Backend", "Mobile", "QA", "DevOps"]
+companies: ["Okko"]
 level: Middle
 stage: Финал
 tags: ["Career", "Stress", "Time Management"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: https://www.youtube.com/watch?v=WZ-mX-tttuo&t=1139s
 ---
 
 ## Короткий ответ

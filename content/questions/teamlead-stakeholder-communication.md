@@ -1,6 +1,6 @@
 ---
 id: teamlead-stakeholder-communication
-title: Как выcommunicate-ите со stakeholders и менеджментом?
+title: Как вы выстраиваете коммуникацию со стейкхолдерами и менеджментом?
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +12,7 @@ tags: ["Management", "Communication", "Stakeholders"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

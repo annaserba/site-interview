@@ -1,6 +1,7 @@
 ---
 id: klp-consistency-models
 title: Какие модели согласованности существуют?
+aliases: ["Что такое согласованность (consistency) в распределённых системах?"]
 category: System Design
 scope: universal
 languages: []

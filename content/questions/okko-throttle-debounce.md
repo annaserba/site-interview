@@ -1,12 +1,12 @@
 ---
 id: okko-throttle-debounce
 title: Реализуйте debounce и throttle
-aliases: ["Реализуйте debounce и throttle", "Чем debounce отличается от throttle?"]
+aliases: ["Чем debounce отличается от throttle?", "Реализуйте debounce и throttle с нуля"]
 category: JavaScript
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]
-companies: ["Okko"]
+companies: ["Okko", "Яндекс"]
 level: Senior
 stage: Live coding
 tags: ["Debounce", "Throttle", "Timers", "Performance"]
@@ -14,7 +14,7 @@ duration: 25 мин
 difficulty: 4
 sourceCompany: Okko
 sourceType: candidate-report
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 

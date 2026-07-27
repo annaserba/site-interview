@@ -1,19 +1,19 @@
 ---
 id: why-left-last-job
 title: Почему ушли с последнего места работы?
-aliases: []
+aliases: ["Почему вы ушли с прошлого места работы?"]
 category: Behavioral
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile", "Leadership"]
-companies: ["Несколько компаний"]
+companies: ["Т-Банк"]
 level: Junior
 stage: HR
 tags: ["HR", "Career", "Employment"]
 duration: 5 мин
 difficulty: 1
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 

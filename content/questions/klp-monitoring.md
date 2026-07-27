@@ -1,6 +1,7 @@
 ---
 id: klp-monitoring
 title: Как проектировать monitoring для распределённых систем?
+aliases: ["Как проектировать monitoring для production систем?"]
 category: System Design
 scope: universal
 languages: []

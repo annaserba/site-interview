@@ -5,7 +5,7 @@ category: Browser
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend"]
-companies: []
+companies: ["VK"]
 level: Senior
 stage: Техническое
 tags: ["Web Workers", "Service Workers", "Concurrency", "PWA"]

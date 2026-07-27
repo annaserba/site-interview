@@ -1,18 +1,20 @@
 ---
 id: universal-disagreement-with-team
 title: Как вы поступаете, когда не согласны с решением команды?
+aliases: ["Что делать, если коллеги оспаривают ваше решение?", "Сталкивались ли вы с непониманием и конфликтами?", "Как решать конфликт с коллегой?", "Что делать при несогласии в команде?"]
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend","Backend","Leadership"]
-companies: ["Несколько компаний"]
+roles: ["Frontend", "Backend", "Leadership"]
+companies: ["Okko"]
+sourceVideos: []
 level: Senior
 stage: Финал
 tags: ["Career", "Team", "Conflict"]
 duration: 7 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

@@ -1,6 +1,6 @@
 ---
 id: teamlead-tech-stack-knowledge
-title: Как вы确保-аетеknowledge стека разработки в команде?
+title: Как вы поддерживаете актуальные знания стека разработки в команде?
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +12,7 @@ tags: ["Management", "Knowledge", "Stack"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

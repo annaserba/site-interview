@@ -6,6 +6,7 @@ scope: universal
 languages: ["React"]
 roles: ["Frontend"]
 companies: []
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=3603s","title":"Ключи в React: зачем нужны и что использовать вместо индекса"}]
 level: Middle
 stage: Техническое
 tags: ["React", "Reconciliation", "Keys", "Performance"]

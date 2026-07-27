@@ -1,19 +1,19 @@
 ---
 id: why-work-with-us
 title: Почему хотите работать у нас?
-aliases: []
+aliases: ["Почему вы хотите работать в нашей компании?"]
 category: Behavioral
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile", "Leadership"]
-companies: ["Несколько компаний"]
+companies: ["Т-Банк", "Яндекс"]
 level: Junior
 stage: HR
 tags: ["HR", "Career", "Motivation"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 

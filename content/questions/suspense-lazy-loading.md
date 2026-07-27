@@ -6,6 +6,7 @@ scope: universal
 languages: ["React"]
 roles: ["Frontend"]
 companies: []
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=4816s","title":"Оптимизация React: batching, Suspense/Lazy, оптимизация бандла"}]
 level: Middle
 stage: Техническое
 tags: ["React", "Suspense", "Lazy Loading", "Code Splitting"]

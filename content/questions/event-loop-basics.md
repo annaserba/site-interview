@@ -1,18 +1,19 @@
 ---
 id: event-loop-basics
 title: Как работает Event Loop и асинхронность в JavaScript?
+aliases: ["Что такое Event Loop? Порядок выполнения кода", "Что такое Event Loop?"]
 category: JavaScript
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend", "Backend"]
-companies: []
+companies: ["Wildberries"]
 level: Middle
 stage: Техническое
 tags: ["JavaScript", "Event Loop", "Async", "Concurrency"]
 duration: 10 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: https://www.youtube.com/watch?v=HF7zkpSrByE&t=128s
 ---
 
 ## Короткий ответ

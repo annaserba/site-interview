@@ -1,6 +1,7 @@
 ---
 id: yandex-perf-optimization
-title: Как Яндекс оптимизирует производительность поисковой выдачи?
+title: Как оптимизировать производительность поисковой выдачи?
+aliases: ["Как Яндекс оптимизирует производительность поисковой выдачи?"]
 category: System Design
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["Performance", "Search", "Architecture"]
 duration: 10 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

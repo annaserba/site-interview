@@ -10,6 +10,8 @@
 .detail-company { position: relative; z-index: 3; display: flex; align-items: center; gap: 10px; margin-top: 20px; }
 .detail-company > span:last-child { display: flex; flex-direction: column; gap: 2px; }
 .detail-company .company-logo { width: 28px; height: 28px; flex: 0 0 28px; }
+.detail-company .company-logo--img { width: auto; flex: 0 0 auto; }
+.detail-company .company-logo--img img { max-width: 64px; }
 .detail-company b { font-size: 12px; }
 .detail-company small { color: #8e9088; font-size: 9px; }
 

@@ -1,18 +1,20 @@
 ---
 id: security-auth
 title: Что такое аутентификация и авторизация? Как их реализовать?
+aliases: ["В чём разница между аутентификацией и авторизацией?"]
 category: System Design
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]
 companies: ["Несколько компаний"]
+sourceVideos: []
 level: Middle
 stage: Техническое
 tags: ["Security", "Auth", "JWT"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

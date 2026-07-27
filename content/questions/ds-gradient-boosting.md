@@ -1,6 +1,7 @@
 ---
 id: ds-gradient-boosting
 title: Что такое градиентный бустинг?
+aliases: ["Что такое бустинг?"]
 category: Machine Learning
 scope: multi-language
 languages: ["Python", "R"]
@@ -12,7 +13,7 @@ tags: ["Gradient boosting", "Trees", "Optimization"]
 duration: 15 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

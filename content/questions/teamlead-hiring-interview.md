@@ -1,18 +1,19 @@
 ---
 id: teamlead-hiring-interview
 title: Как вы проводите техническое интервью и оцениваете кандидатов?
+aliases: ["Как вы проводите техническое интервью для найма?"]
 category: Behavioral
 scope: universal
 languages: []
 roles: ["Leadership"]
-companies: ["Несколько компаний"]
+companies: ["Т-Банк"]
 level: Senior
 stage: Управление
 tags: ["Management", "Hiring", "Interview"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

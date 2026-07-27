@@ -1,18 +1,20 @@
 ---
 id: yandex-frontend-state-management
 title: Как организовать state management в крупном React-приложении?
+aliases: ["Как организовать 상태 в крупном React-приложении с Redux?"]
 category: Frontend
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]
-companies: ["Яндекс"]
+companies: ["Яндекс", "IT One"]
+sourceVideos: []
 level: Senior
 stage: Техническое
 tags: ["React", "State Management", "Redux"]
 duration: 15 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

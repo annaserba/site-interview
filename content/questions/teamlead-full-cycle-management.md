@@ -1,6 +1,7 @@
 ---
 id: teamlead-full-cycle-management
 title: Как вы управляете полным циклом от аналитики до production?
+aliases: ["Как вы организуете delivery от аналитики до production?"]
 category: Behavioral
 scope: universal
 languages: []
@@ -12,7 +13,7 @@ tags: ["Management", "Full Cycle", "Delivery"]
 duration: 15 мин
 difficulty: 4
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

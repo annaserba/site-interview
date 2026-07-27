@@ -13,7 +13,7 @@ duration: 10 мин
 difficulty: 3
 sourceType: aggregated
 sourceUrl: ""
-sourceVideos: []
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=2593s","title":"Event Loop: макрозадачи и микрозадачи"}]
 ---
 
 ## Короткий ответ

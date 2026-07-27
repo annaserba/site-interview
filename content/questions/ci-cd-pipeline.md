@@ -1,18 +1,20 @@
 ---
 id: ci-cd-pipeline
 title: Как спроектировать CI/CD pipeline?
+aliases: ["Как вы настраивали CI/CD в своих проектах?"]
 category: Delivery
 scope: universal
 languages: []
 roles: ["Backend", "DevOps"]
-companies: ["Несколько компаний"]
+companies: ["Яндекс"]
+sourceVideos: [{"company":"Avito","url":"https://www.youtube.com/watch?v=R23FjSp8Z-A","title":"Что такое релизы? Feature Flags, Canary и Rollback"}]
 level: Middle
 stage: Техническое
 tags: ["CI/CD", "Pipeline", "Automation"]
 duration: 10 мин
 difficulty: 3
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 ---
 
 ## Короткий ответ

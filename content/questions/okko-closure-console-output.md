@@ -6,6 +6,7 @@ scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend","Backend"]
 companies: ["Okko"]
+sourceVideos: [{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=5684s","title":"Лайвкодинг: задача на замыкания"}]
 level: Senior
 stage: Live coding
 tags: ["Closure", "Scope", "Shadowing"]

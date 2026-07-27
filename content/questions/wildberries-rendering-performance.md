@@ -14,7 +14,7 @@ difficulty: 4
 sourceCompany: Wildberries
 sourceType: youtube
 sourceUrl: "https://www.youtube.com/watch?v=HF7zkpSrByE&t=621s"
-sourceVideos: [{"company":"Wildberries","url":"https://www.youtube.com/watch?v=HF7zkpSrByE&t=621s"},{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2850s"}]
+sourceVideos: [{"company":"Wildberries","url":"https://www.youtube.com/watch?v=HF7zkpSrByE&t=621s"},{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=ylVbg-ftFTQ&t=2850s"},{"company":"Frontend-интервью","url":"https://www.youtube.com/watch?v=a43a-SCCHLg&t=3095s","title":"Reflow, Repaint, Composite"}]
 ---
 
 ## Короткий ответ

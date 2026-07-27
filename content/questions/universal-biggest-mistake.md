@@ -1,18 +1,19 @@
 ---
 id: universal-biggest-mistake
 title: Какую самую серьёзную ошибку вы допускали в работе?
+aliases: ["Расскажите о своём профессиональном провале"]
 category: Behavioral
 scope: universal
 languages: []
-roles: ["Frontend","Backend","Mobile","QA","DevOps","Data Engineering","Data Science"]
-companies: ["Несколько компаний"]
+roles: ["Frontend", "Backend", "Mobile", "QA", "DevOps", "Data Engineering", "Data Science"]
+companies: ["Okko"]
 level: Senior
 stage: Финал
 tags: ["Career", "Self-reflection"]
 duration: 5 мин
 difficulty: 2
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: https://www.youtube.com/watch?v=WZ-mX-tttuo&t=933s
 ---
 
 ## Короткий ответ

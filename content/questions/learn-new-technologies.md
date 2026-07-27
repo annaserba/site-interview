@@ -1,7 +1,7 @@
 ---
 id: learn-new-technologies
 title: Как вы изучаете новые технологии?
-aliases: []
+aliases: ["Как вы осваиваете новые технологии?"]
 category: Behavioral
 scope: universal
 languages: []
@@ -13,7 +13,7 @@ tags: ["HR", "Learning", "Self-development"]
 duration: 5 мин
 difficulty: 1
 sourceType: aggregated
-sourceUrl: ""
+sourceUrl: 
 sourceVideos: []
 ---
 
