@@ -3,10 +3,10 @@ id: vk-iframe-detection-protection
 title: "Как понять, что сайт открыт в iframe, и как запретить открытие во фрейме?"
 category: Browser
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: middle
+level: Middle
 stage: Техническое
 tags: ["browser", "security", "iframe", "csp", "clickjacking"]
 duration: 5

@@ -4,9 +4,9 @@ title: "Паттерны React: HOC и Render Props — что это, заче�
 category: React
 scope: universal
 languages: ["JavaScript", "TypeScript"]
-roles: ["frontend", "fullstack"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: middle
+level: Middle
 stage: Техническое
 tags: ["react", "patterns", "hoc", "render-props", "hooks"]
 duration: 7 мин

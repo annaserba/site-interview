@@ -94,6 +94,8 @@ export function QuestionFilters({
           {showSort && (
             <FilterDropdown label="Сортировка" value={filterState.sortMode} onChange={(v) => onChange({ sortMode: v })} options={[
               { value: 'default', label: 'По частоте' },
+              { value: 'frequency-companies', label: 'Чаще в компаниях' },
+              { value: 'frequency-videos', label: 'Чаще в видео' },
               { value: 'difficulty-desc', label: 'Сложные' },
               { value: 'difficulty-asc', label: 'Простые' },
               { value: 'company', label: 'По компании' },

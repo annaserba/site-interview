@@ -4,6 +4,7 @@ import http from 'http'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
+import { evaluateAnswer } from './evaluate-answer.mjs'
 import { migrate } from './db/migrate.mjs'
 import { seed } from './db/seed.mjs'
 
@@ -425,6 +426,17 @@ const server = http.createServer(async (req, res) => {
         ? await answerQuestion(query.trim(), filters)
         : { sources: await retrieve(query.trim(), filters) }
       return json(res, result)
+    }
+
+    if (url === '/api/evaluate-answer' && req.method === 'POST') {
+      const { questionId, answer } = await parseBody(req)
+      if (typeof questionId !== 'string' || !questionId.trim()) return json(res, { error: 'Не указан вопрос.' }, 400)
+      if (typeof answer !== 'string' || !answer.trim()) return json(res, { error: 'Пустой ответ нечего оценивать.' }, 400)
+      if (answer.length > 10_000) return json(res, { error: 'Ответ слишком длинный.' }, 400)
+      const questions = await loadLocalQuestions()
+      const question = questions.find((item) => item.id === questionId.trim())
+      if (!question) return json(res, { error: 'Вопрос не найден.' }, 404)
+      return json(res, evaluateAnswer(question, answer.trim()))
     }
 
     // Health check

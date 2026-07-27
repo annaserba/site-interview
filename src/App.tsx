@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Clock, LogOut, Menu, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
@@ -61,6 +61,8 @@ function App() {
   const [staticStats, setStaticStats] = useState<{ totalQuestions: number; companyCount: number; universalCount: number } | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement | null>(null)
   const [theme, setTheme] = useState<ThemeMode>(readInitialTheme)
   const [dataError, setDataError] = useState('')
   const [authNotice, setAuthNotice] = useState('')
@@ -104,6 +106,7 @@ function App() {
   const applyHashFilters = (hash: string) => {
     const path = hash.replace(/^#/, '')
     setAuthNotice('')
+    setMenuOpen(false)
     if (path === 'auth-config-required') {
       setAuthNotice('Вход через Яндекс почти готов: нужно добавить YANDEX_CLIENT_ID, YANDEX_CLIENT_SECRET и redirect URI на сервере.')
       setSelectedQuestionId('')
@@ -142,6 +145,35 @@ function App() {
     window.addEventListener('hashchange', readHash)
     return () => window.removeEventListener('hashchange', readHash)
   }, [])
+
+  // Закрытие мобильного меню по Escape
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
+  // Закрытие меню профиля по клику вне и Escape
+  useEffect(() => {
+    if (!userMenuOpen) return
+    const onPointerDown = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false)
+      }
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setUserMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onPointerDown)
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown)
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [userMenuOpen])
 
   const filtered = useMemo(() => {
     const frequency = (question: Question) => videoFrequency(question) + question.companies.filter((company) => company !== 'Несколько компаний').length
@@ -218,21 +250,61 @@ function App() {
           <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
           <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
           <a href="#blog" onClick={() => setMenuOpen(false)}>Блог</a>
+          <div className={s['nav-auth']}>
+            {user ? (
+              <>
+                <a href="#profile" onClick={() => setMenuOpen(false)}>Профиль · {user.displayName}</a>
+                <button type="button" onClick={() => { setMenuOpen(false); logout() }}>Выйти</button>
+              </>
+            ) : (
+              <button type="button" onClick={() => { setMenuOpen(false); loginWithYandex() }}>
+                <span className={s['yandex-mark']} aria-hidden="true">Я</span>
+                Войти через Яндекс
+              </button>
+            )}
+          </div>
         </nav>
+        <div
+          className={`${s['nav-backdrop']} ${menuOpen ? s.open : ''}`}
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
         <div className={s['header-actions']}>
           {user ? (
-            <div className={s['user-menu']}>
-              <a href="#profile" className={s['user-avatar-link']}>
+            <div className={s['user-menu']} ref={userMenuRef}>
+              <button
+                type="button"
+                className={s['user-trigger']}
+                onClick={() => setUserMenuOpen((v) => !v)}
+                aria-label="Меню профиля"
+                aria-expanded={userMenuOpen}
+              >
                 {user.avatarUrl ? (
                   <img src={user.avatarUrl} alt="" className={s['user-avatar']} />
                 ) : (
                   <div className={s['user-avatar-placeholder']}>{(user.displayName || '?')[0]}</div>
                 )}
-              </a>
-              <a href="#profile" className={s['user-name']}>{user.displayName}</a>
-              <button className={s['auth-btn-logout']} onClick={logout} title="Выйти">
-                <LogOut size={16} />
+                <span className={s['user-name']}>{user.displayName}</span>
               </button>
+              <div className={`${s['user-dropdown']} ${userMenuOpen ? s.open : ''}`}>
+                <div className={s['user-dropdown-head']}>
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt="" className={s['user-avatar-lg']} />
+                  ) : (
+                    <div className={s['user-avatar-placeholder-lg']}>{(user.displayName || '?')[0]}</div>
+                  )}
+                  <div className={s['user-dropdown-id']}>
+                    <b>{user.displayName}</b>
+                    {user.email && <span>{user.email}</span>}
+                  </div>
+                </div>
+                <a href="#profile" className={s['user-dropdown-link']} onClick={() => setUserMenuOpen(false)}>
+                  Открыть профиль
+                </a>
+                <button type="button" className={s['user-dropdown-logout']} onClick={() => { setUserMenuOpen(false); logout() }}>
+                  <LogOut size={15} /> Выйти
+                </button>
+              </div>
             </div>
           ) : (
             <button className={s['auth-btn']} onClick={loginWithYandex} aria-label="Войти через Яндекс">

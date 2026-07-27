@@ -3,10 +3,10 @@ id: video-interview-preparation
 title: "Как эффективно готовиться к техническому собеседованию и почему AI-помощник не заменяет подготовку?"
 category: Behavioral
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "backend", "fullstack"]
+languages: []
+roles: ["Frontend", "Backend", "Fullstack"]
 companies: []
-level: any
+level: Junior
 stage: Скрининг
 tags: ["soft-skills", "interview", "preparation", "ai-tools"]
 duration: 5 мин

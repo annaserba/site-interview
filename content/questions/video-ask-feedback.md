@@ -3,10 +3,10 @@ id: video-ask-feedback
 title: "Стоит ли просить обратную связь в конце собеседования?"
 category: Behavioral
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "backend", "fullstack"]
+languages: []
+roles: ["Frontend", "Backend", "Fullstack"]
 companies: []
-level: any
+level: Junior
 stage: Финал
 tags: ["soft-skills", "interview", "feedback"]
 duration: 4 мин

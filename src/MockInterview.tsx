@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Clock, Flag, RotateCcw, Save, Shuffle, Trash2 } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, Check, Clock, Flag, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2 } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
-import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, type UserAnswer } from './api'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, type UserAnswer, type AnswerEvaluation } from './api'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -78,6 +78,17 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   const [answerText, setAnswerText] = useState('')
   const [isSaving, setIsSaving] = useState(false)
 
+  // Voice input
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+  const [isRecording, setIsRecording] = useState(false)
+  const [interimText, setInterimText] = useState('')
+  const [speechError, setSpeechError] = useState('')
+  const speechSupported = typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition)
+
+  // AI evaluation
+  const [evaluation, setEvaluation] = useState<AnswerEvaluation | null>(null)
+  const [isEvaluating, setIsEvaluating] = useState(false)
+
   useEffect(() => {
     fetch('/data/questions.json')
       .then((r) => r.json())
@@ -133,14 +144,18 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   }, [current?.id])
 
   const goNext = () => {
+    stopRecording()
     setShowAnswer(false)
     setAnswerText('')
+    setEvaluation(null)
     if (currentIndex < session.length - 1) setCurrentIndex(currentIndex + 1)
     else setPhase('done')
   }
 
   const goPrev = () => {
+    stopRecording()
     setShowAnswer(false)
+    setEvaluation(null)
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1)
   }
 
@@ -177,6 +192,74 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   const handleDeleteAnswer = async (answerId: number, questionId: string) => {
     await deleteUserAnswer(answerId)
     setUserAnswers((prev) => ({ ...prev, [questionId]: (prev[questionId] || []).filter((a) => a.id !== answerId) }))
+  }
+
+  function stopRecording() {
+    recognitionRef.current?.stop()
+    recognitionRef.current = null
+    setIsRecording(false)
+    setInterimText('')
+  }
+
+  const toggleRecording = () => {
+    if (isRecording) {
+      stopRecording()
+      return
+    }
+    const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!Ctor) return
+    const recognition = new Ctor()
+    recognition.lang = 'ru-RU'
+    recognition.continuous = true
+    recognition.interimResults = true
+    recognition.onresult = (event) => {
+      let finalChunk = ''
+      let interim = ''
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i].item(0).transcript
+        if (event.results[i].isFinal) finalChunk += transcript + ' '
+        else interim += transcript
+      }
+      if (finalChunk) {
+        setAnswerText((prev) => (prev ? prev.trimEnd() + ' ' : '') + finalChunk.trim())
+        setEvaluation(null)
+      }
+      setInterimText(interim)
+    }
+    recognition.onerror = (event) => {
+      setSpeechError(
+        event.error === 'not-allowed' || event.error === 'service-not-allowed'
+          ? 'Нет доступа к микрофону. Разрешите доступ в браузере.'
+          : event.error === 'no-speech'
+            ? 'Речь не распознана — попробуйте говорить громче.'
+            : `Ошибка распознавания: ${event.error}`,
+      )
+      stopRecording()
+    }
+    recognition.onend = () => {
+      recognitionRef.current = null
+      setIsRecording(false)
+      setInterimText('')
+    }
+    setSpeechError('')
+    recognitionRef.current = recognition
+    setIsRecording(true)
+    recognition.start()
+  }
+
+  // Stop recording when leaving the page
+  useEffect(() => () => recognitionRef.current?.stop(), [])
+
+  const handleEvaluate = async () => {
+    if (!current || !answerText.trim()) return
+    setIsEvaluating(true)
+    try {
+      const result = await evaluateAnswer(current.id, answerText)
+      if (result) setEvaluation(result)
+      else setSpeechError('Не удалось получить оценку. Проверьте, что сервер запущен.')
+    } finally {
+      setIsEvaluating(false)
+    }
   }
 
   // Results
@@ -333,14 +416,40 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   ))}
                 </div>
               )}
-              <textarea
-                className={s['user-answer-input']}
-                value={answerText}
-                onChange={(e) => setAnswerText(e.target.value)}
-                placeholder="Проговорите ответ вслух, затем запишите ключевые тезисы..."
-                rows={3}
-              />
+              <div className={s['user-answer-input-wrap']}>
+                <textarea
+                  className={s['user-answer-input']}
+                  value={answerText}
+                  onChange={(e) => { setAnswerText(e.target.value); setEvaluation(null) }}
+                  placeholder="Ответьте голосом или напишите текст, затем нажмите «Оценить ИИ»..."
+                  rows={3}
+                />
+                {speechSupported && (
+                  <button
+                    className={`${s['mic-btn']} ${isRecording ? s.recording : ''}`}
+                    onClick={toggleRecording}
+                    title={isRecording ? 'Остановить запись' : 'Ответить голосом'}
+                    type="button"
+                  >
+                    {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+                  </button>
+                )}
+              </div>
+              {isRecording && (
+                <p className={s['speech-status']}>
+                  <span className={s['recording-dot']} /> Идёт запись{interimText ? `: ${interimText}` : '...'}
+                </p>
+              )}
+              {speechError && <p className={s['speech-error']}>{speechError}</p>}
               <div className={s['user-answer-actions']}>
+                <button
+                  className={s['eval-btn']}
+                  onClick={handleEvaluate}
+                  disabled={isEvaluating || !answerText.trim()}
+                >
+                  <Sparkles size={14} />
+                  {isEvaluating ? 'Оцениваю...' : 'Оценить ИИ'}
+                </button>
                 <button
                   className={s['user-answer-save']}
                   onClick={handleSaveAnswer}
@@ -350,6 +459,34 @@ export function MockInterview({ onBack }: MockInterviewProps) {
                   {isSaving ? '...' : 'Сохранить'}
                 </button>
               </div>
+
+              {evaluation && (
+                <div className={s['eval-panel']}>
+                  <div className={s['eval-head']}>
+                    <span className={s['eval-verdict']} style={{ color: ratingMeta[evaluation.verdict].color, borderColor: ratingMeta[evaluation.verdict].color }}>
+                      ИИ: {ratingMeta[evaluation.verdict].label}
+                    </span>
+                    <div className={s['eval-score-bar']}>
+                      <div
+                        className={s['eval-score-fill']}
+                        style={{ width: `${evaluation.score}%`, background: ratingMeta[evaluation.verdict].color }}
+                      />
+                    </div>
+                    <span className={s['eval-score-num']}>{evaluation.score}%</span>
+                  </div>
+                  <p className={s['eval-feedback']}>{evaluation.feedback}</p>
+                  {evaluation.missedPoints.length > 0 && (
+                    <p className={s['eval-missed']}>Добавить: {evaluation.missedPoints.join(' · ')}</p>
+                  )}
+                  <button
+                    className={s['eval-apply']}
+                    onClick={() => rate(evaluation.verdict)}
+                    type="button"
+                  >
+                    <Check size={14} /> Поставить эту оценку
+                  </button>
+                </div>
+              )}
             </div>
 
             {!showAnswer ? (

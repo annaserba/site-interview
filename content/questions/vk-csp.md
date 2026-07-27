@@ -3,10 +3,10 @@ id: vk-csp
 title: "Что такое CSP (Content Security Policy) в браузере?"
 category: Browser
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: middle
+level: Middle
 stage: Техническое
 tags: ["security", "csp", "xss", "http-headers"]
 duration: 6

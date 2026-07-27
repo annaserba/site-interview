@@ -3,10 +3,10 @@ id: video-self-presentation-mistakes
 title: "Какие ошибки в самопрезентации чаще всего допускают кандидаты?"
 category: Behavioral
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "backend", "fullstack"]
+languages: []
+roles: ["Frontend", "Backend", "Fullstack"]
 companies: []
-level: any
+level: Junior
 stage: Скрининг
 tags: ["soft-skills", "self-presentation", "interview"]
 duration: 6 мин

@@ -22134,16 +22134,14 @@
     ],
     "category": "Behavioral",
     "scope": "universal",
-    "languages": [
-      "ru"
-    ],
+    "languages": [],
     "roles": [
-      "frontend",
-      "backend",
-      "fullstack"
+      "Frontend",
+      "Backend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "any",
+    "level": "Junior",
     "stage": "Финал",
     "tags": [
       "soft-skills",
@@ -22207,14 +22205,14 @@
     "category": "Browser",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "junior-middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "cdn",
@@ -22283,11 +22281,11 @@
       "TypeScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "junior-middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -22357,12 +22355,12 @@
       "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "backend",
-      "fullstack"
+      "Frontend",
+      "Backend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "junior",
+    "level": "Junior",
     "stage": "Лайвкодинг",
     "tags": [
       "javascript",
@@ -22431,11 +22429,11 @@
       "TypeScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -22499,11 +22497,11 @@
       "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "javascript",
@@ -22566,16 +22564,14 @@
     ],
     "category": "Behavioral",
     "scope": "universal",
-    "languages": [
-      "ru"
-    ],
+    "languages": [],
     "roles": [
-      "frontend",
-      "backend",
-      "fullstack"
+      "Frontend",
+      "Backend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "any",
+    "level": "Junior",
     "stage": "Скрининг",
     "tags": [
       "soft-skills",
@@ -22644,11 +22640,11 @@
       "TypeScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -22709,16 +22705,14 @@
     ],
     "category": "Behavioral",
     "scope": "universal",
-    "languages": [
-      "ru"
-    ],
+    "languages": [],
     "roles": [
-      "frontend",
-      "backend",
-      "fullstack"
+      "Frontend",
+      "Backend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "any",
+    "level": "Junior",
     "stage": "Скрининг",
     "tags": [
       "soft-skills",
@@ -22785,11 +22779,11 @@
       "TypeScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Лайвкодинг",
     "tags": [
       "typescript",
@@ -22853,11 +22847,11 @@
       "TypeScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -23215,18 +23209,16 @@
     ],
     "category": "Soft Skills",
     "scope": "universal",
-    "languages": [
-      "ru"
-    ],
+    "languages": [],
     "roles": [
-      "frontend",
-      "backend",
-      "fullstack"
+      "Frontend",
+      "Backend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "junior-middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "code-quality",
@@ -23289,16 +23281,16 @@
     "category": "Browser",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "security",
@@ -23575,16 +23567,16 @@
     "category": "Browser",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "browser",
@@ -23838,16 +23830,16 @@
     "category": "React",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "junior",
+    "level": "Junior",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -23980,16 +23972,16 @@
     "category": "React",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "junior-middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -24191,16 +24183,16 @@
     "category": "React",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",
@@ -24257,16 +24249,16 @@
     "category": "React",
     "scope": "universal",
     "languages": [
-      "ru"
+      "JavaScript"
     ],
     "roles": [
-      "frontend",
-      "fullstack"
+      "Frontend",
+      "Fullstack"
     ],
     "companies": [
       "VK"
     ],
-    "level": "junior-middle",
+    "level": "Middle",
     "stage": "Техническое",
     "tags": [
       "react",

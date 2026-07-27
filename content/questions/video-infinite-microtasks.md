@@ -4,9 +4,9 @@ title: "Что будет, если микрозадача бесконечно 
 category: JavaScript
 scope: universal
 languages: ["JavaScript"]
-roles: ["frontend", "fullstack"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: middle
+level: Middle
 stage: Техническое
 tags: ["javascript", "event-loop", "microtasks", "macrotasks"]
 duration: 5 мин

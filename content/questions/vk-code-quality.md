@@ -3,10 +3,10 @@ id: vk-code-quality
 title: "Как контролировать качество написания кода?"
 category: Soft Skills
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "backend", "fullstack"]
+languages: []
+roles: ["Frontend", "Backend", "Fullstack"]
 companies: ["VK"]
-level: junior-middle
+level: Middle
 stage: Техническое
 tags: ["code-quality", "eslint", "prettier", "code-review", "ci", "testing"]
 duration: 6

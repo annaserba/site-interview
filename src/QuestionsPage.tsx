@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Printer, Search, Users } from 'lucide-react'
+import { ArrowRight, Building2, Printer, Search, Users } from 'lucide-react'
 import { QuestionFilters } from './QuestionFilters'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
@@ -50,10 +50,24 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion }: Question
       if (sortMode === 'difficulty-asc') return left.difficulty - right.difficulty
       if (sortMode === 'company') return left.companies[0].localeCompare(right.companies[0], 'ru')
       if (sortMode === 'title') return left.title.localeCompare(right.title, 'ru')
-      const frequency = (question: Question) => videoFrequency(question) + question.companies.filter((company) => company !== 'Несколько компаний').length
+      const companiesCount = (question: Question) => question.companies.filter((company) => company !== 'Несколько компаний').length
+      const frequency = (question: Question) => videoFrequency(question) + companiesCount(question)
+      const byDate = (Date.parse(right.publishedAt || '') || 0) - (Date.parse(left.publishedAt || '') || 0)
+      if (sortMode === 'frequency-companies') {
+        const byCompanies = companiesCount(right) - companiesCount(left)
+        if (byCompanies) return byCompanies
+        const byVideos = videoFrequency(right) - videoFrequency(left)
+        return byVideos || byDate
+      }
+      if (sortMode === 'frequency-videos') {
+        const byVideos = videoFrequency(right) - videoFrequency(left)
+        if (byVideos) return byVideos
+        const byCompanies = companiesCount(right) - companiesCount(left)
+        return byCompanies || byDate
+      }
       const byFrequency = frequency(right) - frequency(left)
       if (byFrequency) return byFrequency
-      return (Date.parse(right.publishedAt || '') || 0) - (Date.parse(left.publishedAt || '') || 0)
+      return byDate
     })
   }, [activeCompany, activeRole, activeTopic, sortMode, activeTypes, questions])
 

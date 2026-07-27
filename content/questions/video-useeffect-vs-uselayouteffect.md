@@ -4,9 +4,9 @@ title: "Чем useEffect отличается от useLayoutEffect и когда
 category: React
 scope: universal
 languages: ["JavaScript", "TypeScript"]
-roles: ["frontend", "fullstack"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: middle
+level: Middle
 stage: Техническое
 tags: ["react", "hooks", "useeffect", "uselayouteffect", "rendering"]
 duration: 6 мин

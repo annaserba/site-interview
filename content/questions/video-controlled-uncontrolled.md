@@ -4,9 +4,9 @@ title: "Controlled и uncontrolled формы в React: в чём разница
 category: React
 scope: universal
 languages: ["JavaScript", "TypeScript"]
-roles: ["frontend", "fullstack"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: junior-middle
+level: Middle
 stage: Техническое
 tags: ["react", "forms", "controlled", "uncontrolled"]
 duration: 7 мин

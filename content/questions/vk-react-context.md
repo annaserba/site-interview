@@ -3,10 +3,10 @@ id: vk-react-context
 title: "Что такое контекст в React?"
 category: React
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: junior-middle
+level: Middle
 stage: Техническое
 tags: ["react", "context", "useContext", "provider"]
 duration: 5

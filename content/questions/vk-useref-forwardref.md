@@ -3,10 +3,10 @@ id: vk-useref-forwardref
 title: "Для чего нужны хуки useRef и forwardRef в React?"
 category: React
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: junior-middle
+level: Middle
 stage: Техническое
 tags: ["react", "hooks", "useRef", "forwardRef", "dom"]
 duration: 5

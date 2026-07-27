@@ -3,10 +3,10 @@ id: video-cdn
 title: "Что такое CDN, как он работает и зачем нужен фронтендеру?"
 category: Browser
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: junior-middle
+level: Middle
 stage: Техническое
 tags: ["cdn", "network", "performance", "caching"]
 duration: 6 мин

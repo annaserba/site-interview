@@ -3,10 +3,10 @@ id: vk-state-managers
 title: "Что такое стейт-менеджеры и какой выбрать для React-приложения?"
 category: React
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: middle
+level: Middle
 stage: Техническое
 tags: ["react", "redux", "zustand", "mobx", "effector", "state-management"]
 duration: 7

@@ -283,3 +283,26 @@ export async function fetchAllUserAnswers(): Promise<UserAnswerWithQuestion[]> {
   const data = await res.json()
   return data.items || []
 }
+
+export interface AnswerEvaluation {
+  score: number
+  verdict: 'yes' | 'partial' | 'no'
+  feedback: string
+  coveredPoints: string[]
+  missedPoints: string[]
+}
+
+export async function evaluateAnswer(questionId: string, answer: string): Promise<AnswerEvaluation | null> {
+  try {
+    const res = await fetch(`${API_BASE}/evaluate-answer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ questionId, answer }),
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
+  }
+}

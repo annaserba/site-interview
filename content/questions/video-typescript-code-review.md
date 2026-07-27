@@ -4,9 +4,9 @@ title: "Задача: code review TypeScript-кода — какие типич�
 category: TypeScript
 scope: universal
 languages: ["TypeScript"]
-roles: ["frontend", "fullstack"]
+roles: ["Frontend", "Fullstack"]
 companies: []
-level: middle
+level: Middle
 stage: Лайвкодинг
 tags: ["typescript", "code-review", "types", "generics"]
 duration: 8 мин

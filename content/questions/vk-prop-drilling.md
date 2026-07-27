@@ -3,10 +3,10 @@ id: vk-prop-drilling
 title: "Что такое prop drilling и как его избежать?"
 category: React
 scope: universal
-languages: ["ru"]
-roles: ["frontend", "fullstack"]
+languages: ["JavaScript"]
+roles: ["Frontend", "Fullstack"]
 companies: ["VK"]
-level: junior
+level: Junior
 stage: Техническое
 tags: ["react", "props", "context", "composition"]
 duration: 4

@@ -4,9 +4,9 @@ title: "Лайвкодинг: найти дубликаты в массиве �
 category: Algorithms
 scope: universal
 languages: ["JavaScript"]
-roles: ["frontend", "backend", "fullstack"]
+roles: ["Frontend", "Backend", "Fullstack"]
 companies: []
-level: junior
+level: Junior
 stage: Лайвкодинг
 tags: ["javascript", "algorithms", "set", "livecoding"]
 duration: 6 мин
