@@ -5,7 +5,7 @@ import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
-import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, type UserAnswer, type AnswerEvaluation } from './api'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation } from './api'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -51,11 +51,12 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const formatTime = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 
-type MockInterviewProps = { onBack?: () => void }
+type MockInterviewProps = { onBack?: () => void; initialFormat?: 'mixed' | 'design' }
 
-export function MockInterview({ onBack }: MockInterviewProps) {
+export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   const [rawQuestions, setRawQuestions] = useState<Question[]>([])
   const [dataReady, setDataReady] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
 
   // Filters
   const [activeCompany, setActiveCompany] = useState('Все компании')
@@ -65,7 +66,7 @@ export function MockInterview({ onBack }: MockInterviewProps) {
   const [activeDifficulty, setActiveDifficulty] = useState('all')
   const [questionCount, setQuestionCount] = useState('10')
   const [timeLimit, setTimeLimit] = useState('0')
-  const [format, setFormat] = useState<'mixed' | 'design'>('mixed')
+  const [format, setFormat] = useState<'mixed' | 'design'>(initialFormat ?? 'mixed')
 
   // Session
   const [phase, setPhase] = useState<Phase>('setup')
@@ -103,6 +104,7 @@ export function MockInterview({ onBack }: MockInterviewProps) {
         setDataReady(true)
       })
       .catch(() => setDataReady(true))
+    fetchCurrentUser().then(setUser)
   }, [])
 
   const filteredPool = useMemo(() => {
@@ -400,7 +402,8 @@ export function MockInterview({ onBack }: MockInterviewProps) {
         <button
           className={s['eval-btn']}
           onClick={() => handleEvaluate(target)}
-          disabled={isEvaluating || !answerText.trim()}
+          disabled={!user || isEvaluating || !answerText.trim()}
+          title={!user ? 'Доступно после входа' : undefined}
         >
           <Sparkles size={14} />
           {isEvaluating ? 'Оцениваю...' : 'Оценить ИИ'}
@@ -408,12 +411,21 @@ export function MockInterview({ onBack }: MockInterviewProps) {
         <button
           className={s['user-answer-save']}
           onClick={() => handleSaveAnswer(target)}
-          disabled={isSaving || !answerText.trim()}
+          disabled={!user || isSaving || !answerText.trim()}
+          title={!user ? 'Доступно после входа' : undefined}
         >
           <Save size={14} />
           {isSaving ? '...' : 'Сохранить'}
         </button>
       </div>
+      {!user && (
+        <p className={s['login-hint']}>
+          Оценка ИИ и сохранение ответов доступны после входа.{' '}
+          <button type="button" className={s['login-hint-btn']} onClick={loginWithYandex}>
+            Войти через Яндекс
+          </button>
+        </p>
+      )}
 
       {evaluation && (
         <div className={s['eval-panel']}>

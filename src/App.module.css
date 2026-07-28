@@ -543,3 +543,40 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   footer { padding: 32px 16px; gap: 24px; }
   footer > span { white-space: normal; }
 }
+
+/* ─── DESIGN TILE ─── */
+.design-tile {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: 16px; padding: 18px 22px;
+  border: 1px solid color-mix(in srgb, var(--acid) 32%, var(--line));
+  border-radius: 20px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--acid) 9%, var(--surface)), color-mix(in srgb, var(--surface) 92%, transparent));
+  text-decoration: none; color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.07);
+  transition: transform .2s var(--ease-out), border-color .2s var(--ease-out), box-shadow .25s var(--ease-out);
+}
+.design-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--acid);
+  box-shadow: var(--shadow-sm), 0 22px 50px color-mix(in srgb, var(--acid) 10%, rgba(0,0,0,.08));
+}
+.design-tile:active { transform: scale(.985); }
+.design-tile-icon {
+  width: 52px; height: 52px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  background: var(--acid); color: var(--paper);
+}
+.design-tile-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.design-tile-text b { font-size: 17px; letter-spacing: -.02em; }
+.design-tile-text small { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.design-tile-cta {
+  display: inline-flex; align-items: center; gap: 5px;
+  flex-shrink: 0;
+  font-size: 13px; font-weight: 700; color: var(--acid);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .design-tile { flex-wrap: wrap; padding: 16px; }
+  .design-tile-cta { width: 100%; justify-content: flex-end; }
+}

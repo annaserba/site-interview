@@ -56,9 +56,9 @@ const CHECKLIST: ChecklistStage[] = [
   },
 ]
 
-const storageKey = (userId: number) => `sobes_prep_checklist:${userId}`
+const storageKey = (userId?: number) => `sobes_prep_checklist:${userId ?? 'guest'}`
 
-const readChecked = (userId: number): string[] => {
+const readChecked = (userId?: number): string[] => {
   try {
     const raw = safeGetItem(storageKey(userId))
     const parsed = raw ? JSON.parse(raw) : []
@@ -66,7 +66,7 @@ const readChecked = (userId: number): string[] => {
   } catch { return [] }
 }
 
-export function PrepChecklist({ userId }: { userId: number }) {
+export function PrepChecklist({ userId }: { userId?: number }) {
   const [checked, setChecked] = useState<string[]>(() => readChecked(userId))
 
   useEffect(() => { safeSetItem(storageKey(userId), JSON.stringify(checked)) }, [checked, userId])

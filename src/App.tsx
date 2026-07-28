@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Clock, LogOut, Menu, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
+import { ArrowRight, Clock, Layers3, LogOut, Menu, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
 import { MockInterview } from './MockInterview'
 import { RoadmapsPage } from './RoadmapsPage'
+import { ChecklistPage } from './ChecklistPage'
 import { ProfilePage } from './ProfilePage'
 import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
@@ -60,7 +61,9 @@ function App() {
   const [dataError, setDataError] = useState('')
   const [authNotice, setAuthNotice] = useState('')
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
-  const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
+  const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview' || window.location.hash === '#design-session')
+  const [mockFormat, setMockFormat] = useState<'mixed' | 'design' | undefined>(() => window.location.hash === '#design-session' ? 'design' : undefined)
+  const [showChecklist, setShowChecklist] = useState(() => window.location.hash === '#checklist')
   const [showRoadmaps, setShowRoadmaps] = useState(() => window.location.hash === '#roadmaps')
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')
   const [showProfile, setShowProfile] = useState(() => window.location.hash === '#profile')
@@ -118,8 +121,11 @@ function App() {
       setShowProfile(false)
       return
     }
-    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); return }
+    if (path === 'mock-interview') { setShowMockInterview(true); setMockFormat(undefined); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
+    if (path === 'design-session') { setShowMockInterview(true); setMockFormat('design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
     setShowMockInterview(false)
+    if (path === 'checklist') { setShowChecklist(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); return }
+    setShowChecklist(false)
     if (path === 'roadmaps') { setShowRoadmaps(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
     setShowRoadmaps(false)
     if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
@@ -322,7 +328,8 @@ function App() {
       </header>
 
       <main id="top">
-        {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
+        {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} initialFormat={mockFormat} /> :
+         showChecklist ? <ChecklistPage userId={user?.id} onBack={() => window.location.hash = 'questions'} /> :
          showRoadmaps ? <RoadmapsPage questions={questions} onBack={() => window.location.hash = 'questions'} /> :
          showAllQuestions ? <QuestionsPage questions={questions} dataError={dataError} onOpenQuestion={openQuestion} initialTopic={initialTopic} /> :
          showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
@@ -335,6 +342,14 @@ function App() {
             <h1>Знай, что тебя <em>спросят.</em></h1>
             <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
             <a href="#mock-interview" className={s['hero-cta']}>Практиковаться <ArrowRight /></a>
+            <a href="#design-session" className={s['design-tile']}>
+              <span className={s['design-tile-icon']}><Layers3 size={26} /></span>
+              <span className={s['design-tile-text']}>
+                <b>Системный дизайн</b>
+                <small>Дизайн-сессия: кейс «спроектируйте систему» и 5 этапов с вопросами интервьюера</small>
+              </span>
+              <span className={s['design-tile-cta']}>Начать <ArrowRight size={15} /></span>
+            </a>
           </div>
         </section>
 
@@ -471,6 +486,11 @@ function App() {
         <div className={s['footer-nav']}>
           <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
           <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => window.location.hash = `all-questions`}>{type.label}</button>)}</div>
+          <div><b>Подготовка</b>
+            <button onClick={() => window.location.hash = 'checklist'}>Чеклист перед собеседованием</button>
+            <button onClick={() => window.location.hash = 'roadmaps'}>Роадмапы по ролям</button>
+            <button onClick={() => window.location.hash = 'design-session'}>Дизайн-сессия</button>
+          </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
