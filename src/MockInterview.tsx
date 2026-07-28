@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
-import { questionTypeDefinitions, topicDefinitions, getQuestionType, topicMatches } from './filters'
+import { questionTypeDefinitions, topicDefinitions, getQuestionType, topicMatches, caseWord } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateCode, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type CodeEvaluation, type DesignSessionEvaluation } from './api'
@@ -705,7 +705,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
             ) : (
               <>
                 <div className={s['pool-info']}>
-                  <span>{designCasesCount} {designCasesCount === 1 ? 'кейс' : 'кейсов'} «спроектируйте систему»</span>
+                  <span>{designCasesCount} {caseWord(designCasesCount)} «спроектируйте систему»</span>
                   <span>5 этапов: требования → масштаб → архитектура → данные → надёжность</span>
                   {limit > 0 && <span>На каждый этап: {formatTime(limit)}</span>}
                 </div>

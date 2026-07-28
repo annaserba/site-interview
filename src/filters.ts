@@ -21,6 +21,17 @@ export const roleOrder = ['Frontend', 'Backend', 'Fullstack', 'Mobile', 'QA', 'D
 
 export const companyOrder = ['Яндекс', 'Ozon', 'Avito', 'Т-Банк', 'VK', 'Wildberries', 'Okko', 'Сбер', 'Гознак', 'Лига Ставок', 'IT One', 'Usetech', 'Rutube']
 
+// Русская плюрализация: pluralRu(5, 'вопрос', 'вопроса', 'вопросов') → 'вопросов'
+export function pluralRu(n: number, one: string, few: string, many: string): string {
+  if (n % 10 === 1 && n % 100 !== 11) return one
+  if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few
+  return many
+}
+
+export const questionWord = (n: number) => pluralRu(n, 'вопрос', 'вопроса', 'вопросов')
+export const caseWord = (n: number) => pluralRu(n, 'кейс', 'кейса', 'кейсов')
+export const languageWord = (n: number) => pluralRu(n, 'язык', 'языка', 'языков')
+
 // Категория → темы. Если категория вопроса уже принадлежит какой-то теме,
 // по терминам заголовка его в другие темы не тащим (иначе 'java' ловит JavaScript и т.п.)
 const claimedCategories = new Set(topicDefinitions.flatMap((t) => t.categories))

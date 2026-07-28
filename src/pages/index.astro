@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'
 import { blogArticles } from '../blog-articles'
+import { questionWord as qWord } from '../filters'
 import questionsData from '../data/questions.json'
 
 const featured = questionsData.slice(0, 6)
@@ -41,7 +42,6 @@ for (const q of questionsData as any[]) {
 }
 
 const youtubeVideos = [...videos.values()].sort((a, b) => b.questionIds.size - a.questionIds.size)
-const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 const total = questionsData.length
 const comps = [...new Set(questionsData.flatMap((q: any) => q.companies).filter((c: string) => c !== 'Несколько компаний'))]

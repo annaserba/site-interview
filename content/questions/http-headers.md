@@ -1,7 +1,7 @@
 ---
 id: http-headers
 title: Какие HTTP заголовки важны и зачем они нужны?
-category: JavaScript
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["react", "redux", "zustand", "mobx", "effector", "state-management"]
-duration: 7
+duration: 7 мин
 difficulty: 3
 sourceType: candidate-report
 sourceUrl: ""

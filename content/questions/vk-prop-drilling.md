@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Junior
 stage: Техническое
 tags: ["react", "props", "context", "composition"]
-duration: 4
+duration: 4 мин
 difficulty: 1
 sourceType: candidate-report
 sourceUrl: ""

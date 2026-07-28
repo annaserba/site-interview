@@ -1,7 +1,7 @@
 ---
 id: http-caching
 title: Как работает HTTP кеширование?
-category: JavaScript
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

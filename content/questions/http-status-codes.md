@@ -1,7 +1,7 @@
 ---
 id: http-status-codes
 title: Какие HTTP статус-коды и когда их использовать?
-category: JavaScript
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

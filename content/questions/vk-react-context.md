@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["react", "context", "useContext", "provider"]
-duration: 5
+duration: 5 мин
 difficulty: 2
 sourceType: candidate-report
 sourceUrl: ""

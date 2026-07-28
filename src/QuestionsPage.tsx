@@ -3,11 +3,10 @@ import { ArrowRight, Building2, Printer, Search, Users } from 'lucide-react'
 import { QuestionFilters } from './QuestionFilters'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
-import { questionTypeDefinitions, getQuestionType, topicDefinitions, topicMatches } from './filters'
+import { questionTypeDefinitions, getQuestionType, topicDefinitions, topicMatches, languageWord } from './filters'
 import { exportQuestionsPDF } from './exportPdf'
 import s from './App.module.css'
 
-const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 const formatDate = (date?: string) => {
   if (!date) return ''
   const value = new Date(date)
@@ -170,7 +169,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion, initialTop
               </div>
               <div className={s['card-footer']}>
                 <span><Users size={15} /> {videoFrequency(question)} видео</span>
-                <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} языков` : 'Любой язык')}</span>
+                <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} ${languageWord(question.languages.length)}` : 'Любой язык')}</span>
                 {onOpenQuestion ? (
                   <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); onOpenQuestion(question.id); }}><ArrowRight size={18} /></button>
                 ) : (

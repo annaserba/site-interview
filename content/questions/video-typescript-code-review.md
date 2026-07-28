@@ -7,7 +7,7 @@ languages: ["TypeScript"]
 roles: ["Frontend", "Fullstack"]
 companies: []
 level: Middle
-stage: Лайвкодинг
+stage: Live coding
 tags: ["typescript", "code-review", "types", "generics"]
 duration: 8 мин
 difficulty: 3

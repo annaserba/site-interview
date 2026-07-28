@@ -1,7 +1,7 @@
 ---
 id: http-websocket
 title: Что такое WebSocket и когда его использовать?
-category: JavaScript
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

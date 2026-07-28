@@ -1,11 +1,9 @@
 import { useMemo } from 'react'
 import { FilterDropdown } from './FilterDropdown'
 import { CompanyLogo } from './CompanyLogo'
-import { questionTypeDefinitions, companyOrder, topicDefinitions, roleOrder } from './filters'
+import { questionTypeDefinitions, companyOrder, topicDefinitions, roleOrder, questionWord } from './filters'
 import type { Question } from './types'
 import s from './App.module.css'
-
-const qWord = (n: number) => n % 10 === 1 && n % 100 !== 11 ? 'вопрос' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 export interface FilterState {
   activeCompany: string
@@ -72,7 +70,7 @@ export function QuestionFilters({
               onClick={() => onChange({ activeCompany: filterState.activeCompany === c.name ? 'Все компании' : c.name })}
             >
               <CompanyLogo name={c.name} size={32} />
-              <span><b>{c.name}</b><small>{c.count} {qWord(c.count)}</small></span>
+              <span><b>{c.name}</b><small>{c.count} {questionWord(c.count)}</small></span>
             </button>
           ))}
         </div>

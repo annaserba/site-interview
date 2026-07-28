@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, Check, ChevronDown, Map, Route } from 'lucide-react'
 import { roadmaps, roadmapGroups, matchTopicQuestions, countStepQuestions, type Roadmap, type RoadmapTopic } from './roadmaps'
+import { questionWord } from './filters'
 import type { Question } from './types'
 import { safeGetItem, safeSetItem } from './safeStorage'
 import s from './RoadmapsPage.module.css'
@@ -17,10 +18,6 @@ const readProgress = (): ProgressMap => {
     return parsed && typeof parsed === 'object' ? parsed : {}
   } catch { return {} }
 }
-
-const questionWord = (count: number) =>
-  count % 10 === 1 && count % 100 !== 11 ? 'вопрос' :
-  count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 interface TopicRowProps {
   roadmapId: string

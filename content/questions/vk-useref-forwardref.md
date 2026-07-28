@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["react", "hooks", "useRef", "forwardRef", "dom"]
-duration: 5
+duration: 5 мин
 difficulty: 2
 sourceType: candidate-report
 sourceUrl: ""

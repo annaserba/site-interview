@@ -1,7 +1,7 @@
 ---
 id: http-methods
 title: Какие HTTP методы существуют и когда их использовать?
-category: JavaScript
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

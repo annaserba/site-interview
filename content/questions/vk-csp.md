@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["security", "csp", "xss", "http-headers"]
-duration: 6
+duration: 6 мин
 difficulty: 3
 sourceType: candidate-report
 sourceUrl: ""

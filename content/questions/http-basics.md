@@ -1,8 +1,8 @@
 ---
 id: http-basics
 title: Что такое HTTP и как он работает?
-aliases: ["Что важно знать frontend-разработчику про HTTP?", "Как работает HTTP кеширование через ETag?"]
-category: JavaScript
+aliases: ["Что важно знать frontend-разработчику про HTTP?"]
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]

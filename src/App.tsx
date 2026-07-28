@@ -16,12 +16,10 @@ import { CompanyLogo } from './CompanyLogo'
 import { blogArticles } from './blog-articles'
 import questionsData from './data/questions.json'
 import type { Question } from './types'
-import { questionTypeDefinitions, topicDefinitions } from './filters'
+import { questionTypeDefinitions, topicDefinitions, questionWord, languageWord } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, mapQuestion, type User } from './api'
 import { safeGetItem, safeSetItem } from './safeStorage'
 import s from './App.module.css'
-
-const questionWord = (count: number) => count % 10 === 1 && count % 100 !== 11 ? 'вопрос' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? 'вопроса' : 'вопросов'
 
 type ThemeMode = 'dark' | 'light'
 const readInitialTheme = (): ThemeMode => {
@@ -457,7 +455,7 @@ function App() {
                 </div>
                 <div className={s['card-footer']}>
                   <span><Users size={15} /> {videoFrequency(question)} видео</span>
-                  <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} языков` : 'Любой язык')}</span>
+                  <span>{formatDate(question.publishedAt) || (question.languages.length ? `${question.languages.length} ${languageWord(question.languages.length)}` : 'Любой язык')}</span>
                   <button aria-label="Открыть вопрос" onClick={(e) => { e.stopPropagation(); openQuestion(question.id); }}><ArrowRight size={18} /></button>
                 </div>
               </article>

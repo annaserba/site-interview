@@ -9,7 +9,7 @@ companies: ["VK"]
 level: Middle
 stage: Техническое
 tags: ["code-quality", "eslint", "prettier", "code-review", "ci", "testing"]
-duration: 6
+duration: 6 мин
 difficulty: 2
 sourceType: candidate-report
 sourceUrl: ""

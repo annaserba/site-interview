@@ -6327,8 +6327,7 @@
     "id": "http-basics",
     "title": "Что такое HTTP и как он работает?",
     "aliases": [
-      "Что важно знать frontend-разработчику про HTTP?",
-      "Как работает HTTP кеширование через ETag?"
+      "Что важно знать frontend-разработчику про HTTP?"
     ],
     "answer": "HTTP (HyperText Transfer Protocol): Stateless request-response protocol. Методы: GET, POST, PUT, DELETE, PATCH. Статус-коды: 2xx (success), 3xx (redirect), 4xx (client error), 5xx (server error).",
     "exampleAnswer": "GET /api/users → 200 OK, [{id: 1, name: \"Анна\"}]. POST /api/users → 201 Created. GET /api/users/999 → 404 Not Found. DELETE /api/users/1 → 204 No Content.",
@@ -6359,7 +6358,7 @@
       "Что такое idempotency в HTTP?",
       "Как работает Content-Type negotiation?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6423,7 +6422,7 @@
       "Что такое ETag и как его генерировать?",
       "Как связаны CDN и HTTP caching?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6487,7 +6486,7 @@
       "Что такое Cache-Control directives?",
       "Как связаны headers и CORS?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6551,7 +6550,7 @@
       "Как связаны HTTP methods и REST?",
       "Когда использовать HEAD vs GET?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6678,7 +6677,7 @@
       "Что такое 304 Not Found и caching?",
       "Как документировать статус-коды в API?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6742,7 +6741,7 @@
       "Что такое Server-Sent Events?",
       "Как масштабировать WebSocket connections?"
     ],
-    "category": "JavaScript",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -15479,7 +15478,7 @@
       "Что такое credentials в CORS?",
       "Как связаны CORS и CSRF?"
     ],
-    "category": "Backend",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -20564,7 +20563,7 @@
       "Несколько компаний"
     ],
     "level": "Middle",
-    "stage": "Техническое интервью",
+    "stage": "Техническое",
     "tags": [
       "Unreal Engine",
       "Blueprints",
@@ -20632,7 +20631,7 @@
       "Несколько компаний"
     ],
     "level": "Middle",
-    "stage": "Техническое интервью",
+    "stage": "Техническое",
     "tags": [
       "Unreal Engine",
       "GC",
@@ -22666,7 +22665,7 @@
     ],
     "companies": [],
     "level": "Junior",
-    "stage": "Лайвкодинг",
+    "stage": "Live coding",
     "tags": [
       "javascript",
       "algorithms",
@@ -23089,7 +23088,7 @@
     ],
     "companies": [],
     "level": "Middle",
-    "stage": "Лайвкодинг",
+    "stage": "Live coding",
     "tags": [
       "typescript",
       "code-review",
@@ -23533,7 +23532,7 @@
       "ci",
       "testing"
     ],
-    "duration": 6,
+    "duration": "6 мин",
     "difficulty": 2,
     "sources": [
       {
@@ -23603,7 +23602,7 @@
       "xss",
       "http-headers"
     ],
-    "duration": 6,
+    "duration": "6 мин",
     "difficulty": 3,
     "sources": [
       {
@@ -23890,7 +23889,7 @@
       "csp",
       "clickjacking"
     ],
-    "duration": 5,
+    "duration": "5 мин",
     "difficulty": 3,
     "sources": [
       {
@@ -24152,7 +24151,7 @@
       "context",
       "composition"
     ],
-    "duration": 4,
+    "duration": "4 мин",
     "difficulty": 1,
     "sources": [
       {
@@ -24294,7 +24293,7 @@
       "useContext",
       "provider"
     ],
-    "duration": 5,
+    "duration": "5 мин",
     "difficulty": 2,
     "sources": [
       {
@@ -24507,7 +24506,7 @@
       "effector",
       "state-management"
     ],
-    "duration": 7,
+    "duration": "7 мин",
     "difficulty": 3,
     "sources": [
       {
@@ -24572,7 +24571,7 @@
       "forwardRef",
       "dom"
     ],
-    "duration": 5,
+    "duration": "5 мин",
     "difficulty": 2,
     "sources": [
       {

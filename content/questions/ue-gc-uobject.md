@@ -7,7 +7,7 @@ languages: ["C++"]
 roles: ["Game Dev"]
 companies: ["Несколько компаний"]
 level: Middle
-stage: Техническое интервью
+stage: Техническое
 tags: ["Unreal Engine", "GC", "Memory", "UObject"]
 duration: 15 мин
 difficulty: 3

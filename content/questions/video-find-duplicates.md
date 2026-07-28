@@ -7,7 +7,7 @@ languages: ["JavaScript"]
 roles: ["Frontend", "Backend", "Fullstack"]
 companies: []
 level: Junior
-stage: Лайвкодинг
+stage: Live coding
 tags: ["javascript", "algorithms", "set", "livecoding"]
 duration: 6 мин
 difficulty: 2

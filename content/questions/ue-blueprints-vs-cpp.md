@@ -7,7 +7,7 @@ languages: ["C++", "Blueprint"]
 roles: ["Game Dev"]
 companies: ["Несколько компаний"]
 level: Middle
-stage: Техническое интервью
+stage: Техническое
 tags: ["Unreal Engine", "Blueprints", "C++", "Architecture"]
 duration: 15 мин
 difficulty: 3

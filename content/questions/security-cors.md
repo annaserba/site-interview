@@ -1,7 +1,7 @@
 ---
 id: security-cors
 title: Что такое CORS и как его настроить?
-category: Backend
+category: Browser
 scope: universal
 languages: []
 roles: ["Backend", "Frontend"]
