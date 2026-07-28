@@ -14,7 +14,6 @@ export const topicDefinitions = [
   { id: 'arch', label: 'Архитектура', categories: ['System Design', 'Frontend Architecture'], terms: ['system design', 'architecture'] },
   { id: 'algorithms', label: 'Алгоритмы', categories: ['Algorithms'], terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
   { id: 'delivery', label: 'Процессы', categories: ['Delivery'], terms: ['delivery'] },
-  { id: 'gamedev', label: 'Game Dev', categories: ['Game Development'], terms: ['unreal', 'game'] },
 ]
 
 export const roleOrder = ['Frontend', 'Backend', 'Fullstack', 'Mobile', 'QA', 'DevOps', 'Data Engineering', 'Data Science', 'Product Analytics', 'Leadership', 'Game Dev']

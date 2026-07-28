@@ -36,6 +36,19 @@
 }
 .start-btn:disabled { opacity: .4; cursor: default; }
 .start-btn:active:not(:disabled) { transform: scale(.97); }
+.theory-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border: 1px solid var(--line); border-radius: 16px;
+  background: var(--surface); color: var(--ink);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out), transform .2s var(--ease-out);
+}
+.theory-btn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--acid) 45%, var(--line));
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+.theory-btn:disabled { opacity: .4; cursor: default; }
 .empty-hint { margin: 8px 0 0; font-size: 13px; color: color-mix(in srgb, var(--muted) 60%, #ef4444); }
 
 /* Progress */

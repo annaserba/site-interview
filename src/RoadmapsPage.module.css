@@ -41,22 +41,30 @@
   gap: 8px;
   margin-bottom: 14px;
 }
+/* Группы — как type-pill на странице вопросов: активная = инверсия button-bg */
 .group {
-  border: 1px solid var(--line-soft);
-  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border: 1px solid var(--line);
+  background: var(--surface);
   color: var(--muted);
   border-radius: 999px;
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color .15s, color .15s, background .15s;
+  box-shadow: var(--shadow-xs);
+  transition: all .2s var(--ease-out);
 }
-.group:hover { color: var(--ink); }
-.group.active {
-  border-color: var(--acid);
-  background: color-mix(in srgb, var(--acid) 14%, var(--surface));
+.group:hover {
+  border-color: color-mix(in srgb, var(--ink) 18%, var(--line));
+  background: color-mix(in srgb, var(--surface) 78%, var(--paper));
   color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.group.active {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-color: var(--button-bg);
+  box-shadow: var(--shadow-md);
 }
 
 .tracks {
@@ -65,22 +73,27 @@
   gap: 8px;
   margin-bottom: 28px;
 }
+/* Треки — как type-pill-select: пунктир, активный = acid-контур + glow */
 .track {
-  border: 1px dashed var(--line-soft);
-  background: none;
+  border: 1px dashed var(--line);
+  background: transparent;
   color: var(--muted);
   border-radius: 999px;
   padding: 6px 14px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color .15s, color .15s;
+  transition: all .2s var(--ease-out);
 }
-.track:hover { color: var(--ink); }
+.track:hover {
+  border-color: color-mix(in srgb, var(--ink) 24%, var(--line));
+  color: var(--ink);
+}
 .track.active {
   border-style: solid;
   border-color: var(--acid);
-  color: var(--acid);
+  background: var(--acid-glow);
+  color: var(--ink);
 }
 
 .roadmap-head {

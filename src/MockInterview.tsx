@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Binary, BookOpen, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
-import { questionTypeDefinitions, topicDefinitions, getQuestionType, topicMatches, caseWord } from './filters'
+import { questionTypeDefinitions, topicDefinitions, getQuestionType, topicMatches, caseWord, questionWord } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateCode, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type CodeEvaluation, type DesignSessionEvaluation } from './api'
@@ -142,7 +142,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     })
   }, [rawQuestions, format, activeCompany, activeRole, activeTopic, activeTypes, activeDifficulty])
 
-  // Пул под выбранную секцию мок-интервью
+  // Пул под выбранную секцию мок-интервью. Секции соответствуют типам на странице вопросов:
+  // техническая = type 'technical', дизайн = type 'system-design' и т.д. (+ форматы: алгоритмы, самопрезентация)
   const sectionPool = useMemo(() => {
     // codeSnippet бывает markdown/text (структуры ответа, не код) — в алго-секцию берём только настоящий код
     const isRealCode = (q: Question) => Boolean(q.codeSnippet) && !['markdown', 'text', 'md'].includes((q.codeLanguage || 'text').toLowerCase())
@@ -162,9 +163,18 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     if (format === 'self-intro') {
       return filteredPool.filter(isSelfIntro)
     }
-    // Техническая секция: всё, кроме поведенческих/HR/управленческих
-    return filteredPool.filter((q) => !['behavioral', 'hr', 'management'].includes(getQuestionType(q)))
-  }, [filteredPool, format])
+    if (format === 'design') {
+      // Вся теория системного дизайна — для режима «Практика теории» (кейс-сессия берёт свой пул отдельно)
+      return filteredPool.filter((q) => getQuestionType(q) === 'system-design')
+    }
+    // Техническая секция = type 'technical'. Game Dev — только если явно выбрана эта роль,
+    // иначе в общем моке ловили бы вопросы по Unreal Engine
+    return filteredPool.filter((q) => {
+      const type = getQuestionType(q)
+      if (type !== 'technical' && type !== 'game-dev') return false
+      return type === 'technical' || activeRole === 'Game Dev'
+    })
+  }, [filteredPool, format, activeRole])
 
   const startInterview = (pool: Question[], count?: number) => {
     stopRecording()
@@ -718,6 +728,13 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
                   disabled={designCasesCount === 0}
                 >
                   <Layers3 /> Начать дизайн-сессию
+                </button>
+                <button
+                  className={s['theory-btn']}
+                  onClick={() => startInterview(sectionPool)}
+                  disabled={sectionPool.length === 0}
+                >
+                  <BookOpen size={16} /> Практика теории ({sectionPool.length} {questionWord(sectionPool.length)})
                 </button>
                 {designCasesCount === 0 && (
                   <p className={s['empty-hint']}>В базе пока нет кейсов системного дизайна.</p>
