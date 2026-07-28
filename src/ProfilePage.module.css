@@ -266,13 +266,6 @@
   border-bottom-color: var(--ink);
 }
 
-.filters {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
 .question-count {
   font-size: 13px;
   color: var(--muted);
@@ -281,7 +274,7 @@
 
 .type-row { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
 
-.type-label { font: 7px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
+.type-label { font: 9px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
 
 .type-pill { padding: 7px 13px; border-radius: 100px; border: 1px solid var(--line); background: var(--surface); font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s var(--ease-out); white-space: nowrap; box-shadow: var(--shadow-xs); }
 

@@ -4,8 +4,6 @@
 .header h1 { font-size: clamp(36px, 6vw, 56px); letter-spacing: -.04em; margin: 16px 0 8px; line-height: 1; font-weight: 800; }
 .header p { color: var(--muted); font-size: 15px; margin: 0; line-height: 1.5; max-width: 560px; }
 
-.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
-
 .back {
   display: inline-flex; align-items: center; gap: 6px;
   border: 0; background: none; color: var(--muted);
@@ -597,7 +595,7 @@
   transition: all .2s var(--ease-out);
 }
 .design-step:hover { border-color: var(--acid); color: var(--ink); }
-.design-step.active { background: var(--acid); border-color: var(--acid); color: var(--paper); }
+.design-step.active { background: var(--acid); border-color: var(--acid); color: #111210; }
 .design-step.complete:not(.active) { border-color: color-mix(in srgb, var(--acid) 45%, var(--line)); color: var(--acid); }
 
 .stage-hint { color: var(--muted); font-size: 14px; line-height: 1.6; margin: -6px 0 14px; max-width: 640px; }

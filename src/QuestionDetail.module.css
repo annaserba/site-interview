@@ -24,7 +24,7 @@
 
 .detail-meta { padding: 0; min-height: 0; display: grid; grid-template-columns: repeat(2, 1fr); border-bottom: 1px solid var(--line); }
 .detail-meta > div { min-height: 56px; padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: center; flex-direction: column; gap: 4px; border-right: 1px solid var(--line); }
-.detail-meta small { color: #8a8b85; font: 7px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; }
+.detail-meta small { color: #8a8b85; font: 9px 'JetBrains Mono'; text-transform: uppercase; letter-spacing: .08em; }
 .detail-meta strong { display: flex; align-items: center; gap: 6px; font-size: 11px; }
 
 .detail-layout { max-width: 1180px; margin: 0 auto; padding: 36px 20px 60px; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
