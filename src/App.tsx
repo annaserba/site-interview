@@ -62,7 +62,7 @@ function App() {
   const [authNotice, setAuthNotice] = useState('')
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview' || window.location.hash === '#design-session')
-  const [mockFormat, setMockFormat] = useState<'mixed' | 'design' | undefined>(() => window.location.hash === '#design-session' ? 'design' : undefined)
+  const [mockFormat, setMockFormat] = useState<'technical' | 'design' | undefined>(() => window.location.hash === '#design-session' ? 'design' : undefined)
   const [showChecklist, setShowChecklist] = useState(() => window.location.hash === '#checklist')
   const [showRoadmaps, setShowRoadmaps] = useState(() => window.location.hash === '#roadmaps')
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')

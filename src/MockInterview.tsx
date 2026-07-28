@@ -51,7 +51,9 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const formatTime = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 
-type MockInterviewProps = { onBack?: () => void; initialFormat?: 'mixed' | 'design' }
+type Format = 'technical' | 'algorithms' | 'behavioral' | 'design'
+
+type MockInterviewProps = { onBack?: () => void; initialFormat?: Format }
 
 export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   const [rawQuestions, setRawQuestions] = useState<Question[]>([])
@@ -66,7 +68,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   const [activeDifficulty, setActiveDifficulty] = useState('all')
   const [questionCount, setQuestionCount] = useState('10')
   const [timeLimit, setTimeLimit] = useState('0')
-  const [format, setFormat] = useState<'mixed' | 'design'>(initialFormat ?? 'mixed')
+  const [format, setFormat] = useState<Format>(initialFormat ?? 'technical')
 
   // Session
   const [phase, setPhase] = useState<Phase>('setup')
@@ -121,6 +123,18 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       return companyMatch && roleMatch && topicMatch && typeMatch && difficultyMatch
     })
   }, [rawQuestions, activeCompany, activeRole, activeTopic, activeTypes, activeDifficulty])
+
+  // Пул под выбранную секцию мок-интервью
+  const sectionPool = useMemo(() => {
+    if (format === 'algorithms') {
+      return filteredPool.filter((q) => getQuestionType(q) === 'technical' && (q.category === 'Algorithms' || Boolean(q.codeSnippet)))
+    }
+    if (format === 'behavioral') {
+      return filteredPool.filter((q) => ['behavioral', 'hr'].includes(getQuestionType(q)))
+    }
+    // Техническая секция: всё, кроме поведенческих/HR
+    return filteredPool.filter((q) => !['behavioral', 'hr'].includes(getQuestionType(q)))
+  }, [filteredPool, format])
 
   const startInterview = (pool: Question[], count?: number) => {
     const shuffled = shuffleArray(pool)
@@ -532,9 +546,11 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
           />
 
           <div className={s['setup-row']}>
-            <FilterDropdown label="Формат" value={format} onChange={(v) => setFormat(v as 'mixed' | 'design')} options={[
-              { value: 'mixed', label: 'Обычное интервью' },
-              { value: 'design', label: 'Дизайн-сессия' },
+            <FilterDropdown label="Секция" value={format} onChange={(v) => setFormat(v as Format)} options={[
+              { value: 'technical', label: 'Техническая' },
+              { value: 'algorithms', label: 'Алгоритмическая' },
+              { value: 'behavioral', label: 'Поведенческая' },
+              { value: 'design', label: 'Системный дизайн' },
             ]} />
             <FilterDropdown label="Сложность" value={activeDifficulty} onChange={setActiveDifficulty} options={[
               { value: 'all', label: 'Любая' },
@@ -542,28 +558,35 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
               { value: 'medium', label: 'Средний' },
               { value: 'hard', label: 'Сложный' },
             ]} />
-            {format === 'mixed' && <FilterDropdown label="Длина" value={questionCount} onChange={setQuestionCount} options={countOptions} />}
+            {format !== 'design' && <FilterDropdown label="Длина" value={questionCount} onChange={setQuestionCount} options={countOptions} />}
             <FilterDropdown label={format === 'design' ? 'Таймер на этап' : 'Таймер на вопрос'} value={timeLimit} onChange={setTimeLimit} options={timerOptions} />
           </div>
 
           <div className={s['start-screen']}>
             <InterviewerAvatar size={80} />
-            {format === 'mixed' ? (
+            {format !== 'design' ? (
               <>
                 <div className={s['pool-info']}>
-                  <span>{filteredPool.length} вопросов в пуле</span>
-                  <span>Будут выбраны случайно: {Math.min(Number(questionCount), filteredPool.length)}</span>
+                  <span>{sectionPool.length} вопросов в пуле</span>
+                  <span>Будут выбраны случайно: {Math.min(Number(questionCount), sectionPool.length)}</span>
                   {limit > 0 && <span>На каждый вопрос: {formatTime(limit)}</span>}
                 </div>
-                {setupSummary && <p className={s['setup-summary']}>{setupSummary}</p>}
+                <p className={s['setup-summary']}>
+                  {format === 'algorithms'
+                    ? 'Алгоритмическая секция: задачи на код и структуры данных. Пишите решение в поле ответа — ИИ проверит подход и сложность.'
+                    : format === 'behavioral'
+                      ? 'Поведенческая секция: софт-скиллы, конфликты, мотивация и работа в команде. Отвечайте по модели STAR.'
+                      : 'Техническая секция: вопросы по языкам, фреймворкам и технологиям вашей роли.'}
+                  {setupSummary ? ` ${setupSummary}` : ''}
+                </p>
                 <button
                   className={s['start-btn']}
-                  onClick={() => startInterview(filteredPool)}
-                  disabled={filteredPool.length === 0}
+                  onClick={() => startInterview(sectionPool)}
+                  disabled={sectionPool.length === 0}
                 >
                   <Shuffle /> Начать интервью
                 </button>
-                {filteredPool.length === 0 && (
+                {sectionPool.length === 0 && (
                   <p className={s['empty-hint']}>Нет вопросов по выбранным фильтрам. Измените параметры.</p>
                 )}
               </>
