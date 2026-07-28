@@ -10,6 +10,7 @@ import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
 import { PrivacyPage } from './PrivacyPage'
 import { CookieConsent } from './CookieConsent'
+import { YtThumb } from './YtThumb'
 import { CompanyLogo } from './CompanyLogo'
 import { blogArticles } from './blog-articles'
 import questionsData from './data/questions.json'
@@ -414,11 +415,7 @@ function App() {
                 <article className={s['youtube-card']} key={video.id}>
                   <div className={s['youtube-preview']}>
                     <span className={s['youtube-play']} aria-hidden="true" />
-                    <img
-                      src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
-                      alt=""
-                      loading="lazy"
-                    />
+                    <YtThumb videoId={video.id} />
                   </div>
                   <div className={s['youtube-card-body']}>
                     <div className={s['youtube-meta']}>

@@ -12,6 +12,7 @@
     "db:seed": "node server/db/seed.mjs",
     "db:setup": "npm run db:migrate && npm run db:seed",
     "content": "node scripts/build-content.mjs",
+    "thumbnails": "node scripts/fetch-thumbnails.mjs",
     "index": "node scripts/build-content.mjs && node scripts/build-index.mjs",
     "s3:upload": "npm run index && sh scripts/upload-s3.sh",
     "test": "node --test server/*.test.mjs",
