@@ -9,6 +9,7 @@ import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, eva
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
+import { CodeHighlight } from './CodeHighlight'
 
 type Rating = 'yes' | 'partial' | 'no'
 type Phase = 'setup' | 'interview' | 'done'
@@ -450,8 +451,15 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
         </div>
       )}
       <div className={s['user-answer-input-wrap']}>
+        {(target.codeSnippet || format === 'algorithms') && (opts?.value ?? answerText) && (
+          <CodeHighlight
+            className={s['code-overlay']}
+            code={(opts?.value ?? answerText) + '\n'}
+            language={target.codeLanguage}
+          />
+        )}
         <textarea
-          className={`${s['user-answer-input']} ${target.codeSnippet || format === 'algorithms' ? s.mono : ''}`}
+          className={`${s['user-answer-input']} ${target.codeSnippet || format === 'algorithms' ? s.mono : ''} ${(target.codeSnippet || format === 'algorithms') && (opts?.value ?? answerText) ? s['code-editing'] : ''}`}
           value={opts?.value ?? answerText}
           onChange={(e) => { (opts?.onChange ?? setAnswerText)(e.target.value); setEvaluation(null) }}
           placeholder={format === 'algorithms'
@@ -460,6 +468,14 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
               ? 'Напишите код решения или объясните подход, затем нажмите «Оценить ИИ»...'
               : 'Ответьте голосом или напишите текст, затем нажмите «Оценить ИИ»...'}
           rows={target.codeSnippet || format === 'algorithms' ? 8 : 3}
+          spellCheck={!(target.codeSnippet || format === 'algorithms')}
+          onScroll={(e) => {
+            const pre = e.currentTarget.previousElementSibling as HTMLElement | null
+            if (pre?.classList.contains(s['code-overlay'])) {
+              pre.scrollTop = e.currentTarget.scrollTop
+              pre.scrollLeft = e.currentTarget.scrollLeft
+            }
+          }}
         />
         {speechSupported && (
           <button
@@ -878,9 +894,17 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
                 {(current.exampleAnswer || current.answer) && (
                   <div className={s['answer-section']}>
                     <h3>Пример ответа</h3>
-                    <div className={s['answer-text']} style={{ whiteSpace: 'pre-wrap' }}>
-                      {current.exampleAnswer || current.answer}
-                    </div>
+                    {format === 'algorithms' ? (
+                      <CodeHighlight
+                        className={s['answer-code']}
+                        code={current.exampleAnswer || current.answer}
+                        language={current.codeLanguage}
+                      />
+                    ) : (
+                      <div className={s['answer-text']} style={{ whiteSpace: 'pre-wrap' }}>
+                        {current.exampleAnswer || current.answer}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
