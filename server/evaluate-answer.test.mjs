@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { evaluateAnswer, evaluateDesignSession } from './evaluate-answer.mjs'
+import { evaluateAnswer, evaluateCode, evaluateDesignSession } from './evaluate-answer.mjs'
 
 const question = {
   id: 'test-question',
@@ -92,4 +92,73 @@ test('weak off-topic session gets no verdict', () => {
   ])
   assert.equal(result.verdict, 'no')
   assert.ok(result.score < 35, `score ${result.score} should be < 35`)
+})
+
+// ─── evaluateCode ───
+
+const codeQuestion = {
+  id: 'test-two-sum',
+  title: 'Даны массив чисел и target. Найдите индексы двух чисел, дающих в сумме target.',
+  answer: 'Оптимально: один проход с хэш-таблицей. Храним в Map число и его индекс, для каждого элемента проверяем target - num. Сложность O(n) по времени, O(n) по памяти. Наивное решение — вложенные циклы за O(n²).',
+  exampleAnswer: 'function twoSum(nums, target) { const seen = new Map(); for (let i = 0; i < nums.length; i++) { const diff = target - nums[i]; if (seen.has(diff)) return [seen.get(diff), i]; seen.set(nums[i], i); } return []; }',
+  keyPoints: [
+    { title: 'Хэш-таблица', text: 'Set или Map для поиска дополнения за O(1)' },
+    { title: 'Сложность', text: 'O(n) время, O(n) память против O(n²) у перебора' },
+    { title: 'Edge-cases', text: 'пустой массив, нет решения, дубликаты' },
+  ],
+}
+
+test('hash-based one-pass solution scores well with O(n) detected', () => {
+  const result = evaluateCode(codeQuestion, `
+function twoSum(nums, target) {
+  if (nums.length === 0) return [];
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+    if (seen.has(diff)) return [seen.get(diff), i];
+    seen.set(nums[i], i);
+  }
+  return [];
+}`)
+  assert.ok(['yes', 'partial'].includes(result.verdict), `verdict ${result.verdict}`)
+  assert.equal(result.complexity, 'O(n)')
+  assert.ok(result.codePatterns.some((p) => p.includes('хэш')))
+  assert.ok(result.edgeCases.length >= 1, 'edge-cases detected')
+})
+
+test('nested loops solution is flagged with optimization hint', () => {
+  const result = evaluateCode(codeQuestion, `
+function twoSum(nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) return [i, j];
+    }
+  }
+  return [];
+}`)
+  assert.ok(result.feedback.includes('хэш-таблиц'), 'suggests hash table optimization')
+  assert.ok(result.feedback.includes('сложност'), 'mentions complexity')
+})
+
+test('mentioning Big-O in comments is rewarded', () => {
+  const withBigO = evaluateCode(codeQuestion, `
+// Сложность O(n) по времени, O(n) по памяти — хэш-таблица
+function twoSum(nums, target) {
+  if (!nums || nums.length <= 1) return [];
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+    if (seen.has(diff)) return [seen.get(diff), i];
+    seen.set(nums[i], i);
+  }
+  return [];
+}`)
+  assert.ok(withBigO.complexityMentioned)
+})
+
+test('non-code answer is rejected', () => {
+  const result = evaluateCode(codeQuestion, 'Нужно пройтись по массиву и найти два числа')
+  assert.equal(result.score, 0)
+  assert.equal(result.verdict, 'no')
+  assert.equal(result.complexity, null)
 })

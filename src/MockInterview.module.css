@@ -599,3 +599,21 @@
   margin-bottom: 4px;
 }
 .session-stage-head span:last-child { font-size: 12px; white-space: nowrap; }
+
+/* ─── CODE EVALUATION ─── */
+.code-eval-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.code-eval-chip {
+  font: 10px 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 3px 10px;
+  border: 1px solid color-mix(in srgb, var(--acid) 45%, var(--line));
+  border-radius: 999px;
+  color: var(--acid);
+  white-space: nowrap;
+}

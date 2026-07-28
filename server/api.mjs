@@ -4,7 +4,7 @@ import http from 'http'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { answerQuestion, retrieve } from './rag-core.mjs'
-import { evaluateAnswer, evaluateDesignSession } from './evaluate-answer.mjs'
+import { evaluateAnswer, evaluateCode, evaluateDesignSession } from './evaluate-answer.mjs'
 import { migrate } from './db/migrate.mjs'
 import { seed } from './db/seed.mjs'
 
@@ -437,6 +437,17 @@ const server = http.createServer(async (req, res) => {
       const question = questions.find((item) => item.id === questionId.trim())
       if (!question) return json(res, { error: 'Вопрос не найден.' }, 404)
       return json(res, evaluateAnswer(question, answer.trim()))
+    }
+
+    if (url === '/api/evaluate-code' && req.method === 'POST') {
+      const { questionId, code } = await parseBody(req)
+      if (typeof questionId !== 'string' || !questionId.trim()) return json(res, { error: 'Не указан вопрос.' }, 400)
+      if (typeof code !== 'string' || !code.trim()) return json(res, { error: 'Пустое решение нечего оценивать.' }, 400)
+      if (code.length > 20_000) return json(res, { error: 'Решение слишком длинное.' }, 400)
+      const questions = await loadLocalQuestions()
+      const question = questions.find((item) => item.id === questionId.trim())
+      if (!question) return json(res, { error: 'Вопрос не найден.' }, 404)
+      return json(res, evaluateCode(question, code.trim()))
     }
 
     if (url === '/api/evaluate-design-session' && req.method === 'POST') {

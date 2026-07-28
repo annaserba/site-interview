@@ -5,7 +5,7 @@ import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
-import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type DesignSessionEvaluation } from './api'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateCode, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type CodeEvaluation, type DesignSessionEvaluation } from './api'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -98,7 +98,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   const speechSupported = typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition)
 
   // AI evaluation
-  const [evaluation, setEvaluation] = useState<AnswerEvaluation | null>(null)
+  const [evaluation, setEvaluation] = useState<AnswerEvaluation | CodeEvaluation | null>(null)
   const [isEvaluating, setIsEvaluating] = useState(false)
 
   useEffect(() => {
@@ -363,7 +363,10 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     if (!target || !answerText.trim()) return
     setIsEvaluating(true)
     try {
-      const result = await evaluateAnswer(target.id, answerText)
+      // В алгоритмической секции — код-ревью: сложность, паттерны, edge-cases
+      const result = format === 'algorithms'
+        ? await evaluateCode(target.id, answerText)
+        : await evaluateAnswer(target.id, answerText)
       if (result) setEvaluation(result)
       else setSpeechError('Не удалось получить оценку. Проверьте, что сервер запущен.')
     } finally {
@@ -429,13 +432,15 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       )}
       <div className={s['user-answer-input-wrap']}>
         <textarea
-          className={`${s['user-answer-input']} ${target.codeSnippet ? s.mono : ''}`}
+          className={`${s['user-answer-input']} ${target.codeSnippet || format === 'algorithms' ? s.mono : ''}`}
           value={opts?.value ?? answerText}
           onChange={(e) => { (opts?.onChange ?? setAnswerText)(e.target.value); setEvaluation(null) }}
-          placeholder={target.codeSnippet
-            ? 'Напишите код решения или объясните подход, затем нажмите «Оценить ИИ»...'
-            : 'Ответьте голосом или напишите текст, затем нажмите «Оценить ИИ»...'}
-          rows={target.codeSnippet ? 8 : 3}
+          placeholder={format === 'algorithms'
+            ? 'Напишите код решения, затем нажмите «Проверить код» — ИИ оценит подход, сложность и edge-cases...'
+            : target.codeSnippet
+              ? 'Напишите код решения или объясните подход, затем нажмите «Оценить ИИ»...'
+              : 'Ответьте голосом или напишите текст, затем нажмите «Оценить ИИ»...'}
+          rows={target.codeSnippet || format === 'algorithms' ? 8 : 3}
         />
         {speechSupported && (
           <button
@@ -463,7 +468,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
             title={!user ? 'Доступно после входа' : undefined}
           >
             <Sparkles size={14} />
-            {isEvaluating ? 'Оцениваю...' : 'Оценить ИИ'}
+            {isEvaluating ? 'Оцениваю...' : format === 'algorithms' ? 'Проверить код' : 'Оценить ИИ'}
           </button>
         )}
         <button
@@ -499,6 +504,15 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
             </div>
             <span className={s['eval-score-num']}>{evaluation.score}%</span>
           </div>
+          {'complexity' in evaluation && evaluation.complexity && (
+            <div className={s['code-eval-meta']}>
+              <span className={s['code-eval-chip']}>~{evaluation.complexity}</span>
+              {evaluation.codePatterns.map((p) => (
+                <span key={p} className={s['code-eval-chip']}>{p}</span>
+              ))}
+              {evaluation.complexityMentioned && <span className={s['code-eval-chip']}>Big-O указан</span>}
+            </div>
+          )}
           <p className={s['eval-feedback']}>{evaluation.feedback}</p>
           {evaluation.missedPoints.length > 0 && (
             <p className={s['eval-missed']}>Добавить: {evaluation.missedPoints.join(' · ')}</p>

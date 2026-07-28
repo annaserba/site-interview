@@ -307,6 +307,28 @@ export async function evaluateAnswer(questionId: string, answer: string): Promis
   }
 }
 
+export interface CodeEvaluation extends AnswerEvaluation {
+  complexity: string | null
+  complexityMentioned: boolean
+  codePatterns: string[]
+  edgeCases: string[]
+}
+
+export async function evaluateCode(questionId: string, code: string): Promise<CodeEvaluation | null> {
+  try {
+    const res = await fetch(`${API_BASE}/evaluate-code`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ questionId, code }),
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
+  }
+}
+
 export interface DesignStageEvaluation {
   title: string
   score: number
