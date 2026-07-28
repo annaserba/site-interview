@@ -11,7 +11,7 @@ export type Question = {
   codeSnippet?: string
   codeLanguage?: string
   category: string
-  scope: 'universal' | 'multi-language' | 'language-specific'
+  scope: 'universal' | 'multi-language' | 'language-specific' | 'system-design' | 'game-dev'
   languages: string[]
   roles: string[]
   companies: string[]
