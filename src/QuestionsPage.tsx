@@ -96,7 +96,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion, initialTop
     activeCompany !== 'Все компании' && `Компания: ${activeCompany}`,
     activeRole !== 'Все роли' && `Роль: ${activeRole}`,
     activeTopic !== 'Все темы' && `Тема: ${topicDefinitions.find(t => t.id === activeTopic)?.label || activeTopic}`,
-    activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
+    activeTypes.size > 0 && activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
   ].filter(Boolean).join(' · ') || undefined
 
   return (

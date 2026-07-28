@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
@@ -14,10 +14,11 @@ import { CodeHighlight } from './CodeHighlight'
 type Rating = 'yes' | 'partial' | 'no'
 type Phase = 'setup' | 'interview' | 'done'
 
+// Единая шкала с карточками вопросов: 1-2 easy, 3 medium, 4-5 hard
 const difficultyMap: Record<number, 'easy' | 'medium' | 'hard'> = {
   1: 'easy', 2: 'easy',
-  3: 'medium', 4: 'medium',
-  5: 'hard',
+  3: 'medium',
+  4: 'hard', 5: 'hard',
 }
 
 const difficultyLabel = { easy: 'Лёгкий', medium: 'Средний', hard: 'Сложный' }
@@ -27,6 +28,14 @@ const ratingMeta: Record<Rating, { label: string; color: string }> = {
   yes: { label: 'Уверенно', color: 'var(--acid)' },
   partial: { label: 'Частично', color: '#ffb428' },
   no: { label: 'Не ответил', color: '#ff5a46' },
+}
+
+// LLM иногда возвращает вердикт вне словаря — приводим по скору, иначе UI падает на ratingMeta[verdict]
+const toRating = (verdict: unknown, score?: number): Rating => {
+  if (verdict === 'yes' || verdict === 'partial' || verdict === 'no') return verdict
+  const value = Number(score)
+  if (!Number.isFinite(value)) return 'no'
+  return value >= 80 ? 'yes' : value >= 40 ? 'partial' : 'no'
 }
 
 const countOptions = [
@@ -158,6 +167,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }, [filteredPool, format])
 
   const startInterview = (pool: Question[], count?: number) => {
+    stopRecording()
     const shuffled = shuffleArray(pool)
     setDesign(null)
     setSession(shuffled.slice(0, Math.min(count ?? Number(questionCount), shuffled.length)))
@@ -169,6 +179,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }
 
   const startDesignSession = () => {
+    stopRecording()
     const session = buildDesignSession(filteredPool)
     if (!session) return
     setSession([])
@@ -186,6 +197,11 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
 
   const current = session[currentIndex]
   const designStage = design?.stages[stageIndex]
+  // Приёмник голосового ввода: обработчик onresult живёт в замыкании распознавателя
+  // с момента старта записи — актуального адресата держим в ref, иначе после рестарта
+  // сессии или смены этапа текст продолжает писаться в старый этап/режим
+  const speechSinkRef = useRef<{ stageId: string | null }>({ stageId: null })
+  speechSinkRef.current = { stageId: design && designStage ? designStage.id : null }
   // Вопрос, к которому привязаны ответ/ИИ-оценка на этапе дизайн-сессии
   const designQuestion = designStage ? (designStage.questions[0] ?? design?.caseQuestion) : undefined
   const ratedCount = design
@@ -195,8 +211,9 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   const progress = totalUnits > 0 ? (ratedCount / totalUnits) * 100 : 0
   const limit = Number(timeLimit)
 
-  // Per-question countdown
-  useEffect(() => {
+  // Per-question countdown. useLayoutEffect — сброс до отрисовки, иначе на смену
+  // вопроса на один кадр мелькает «Время!» от предыдущего таймера
+  useLayoutEffect(() => {
     if (phase !== 'interview' || limit === 0) return
     setSecondsLeft(limit)
     const id = setInterval(() => setSecondsLeft((v) => (v > 0 ? v - 1 : 0)), 1000)
@@ -205,13 +222,18 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
 
   // Load saved user answers for current question
   const answerQuestionId = design ? designQuestion?.id : canonicalAnswerId(current)
+  // Смена пользователя (логин/логаут) инвалидирует кэш — у гостя ответов нет, после входа нужно перезагрузить.
+  // Загруженные id держим в ref: setUserAnswers в эффекте выше не виден эффекту ниже в том же проходе.
+  const userId = user?.id ?? 0
+  const answersLoadedRef = useRef<Set<string>>(new Set())
+  useEffect(() => { answersLoadedRef.current.clear(); setUserAnswers({}) }, [userId])
   useEffect(() => {
-    if (answerQuestionId && !userAnswers[answerQuestionId]) {
-      fetchUserAnswers(answerQuestionId).then((answers) => {
-        setUserAnswers((prev) => ({ ...prev, [answerQuestionId]: answers }))
-      })
-    }
-  }, [answerQuestionId])
+    if (!answerQuestionId || answersLoadedRef.current.has(answerQuestionId)) return
+    answersLoadedRef.current.add(answerQuestionId)
+    fetchUserAnswers(answerQuestionId).then((answers) => {
+      setUserAnswers((prev) => ({ ...prev, [answerQuestionId]: answers }))
+    })
+  }, [answerQuestionId, userId])
 
   const goNextDesignStage = () => {
     stopRecording()
@@ -251,6 +273,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }
 
   const backToSetup = () => {
+    stopRecording()
     setPhase('setup')
     setSession([])
     setDesign(null)
@@ -294,13 +317,20 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       }))
       const result = await evaluateDesignSession(design.caseQuestion.id, stages)
       if (result) {
-        setDesignEvaluation(result)
+        // Этапы отправляем по порядку — и сопоставляем по индексу, а не по заголовку:
+        // LLM может переформулировать title, и тогда оценка этапа терялась
+        const normalized: DesignSessionEvaluation = {
+          ...result,
+          verdict: toRating(result.verdict, result.score),
+          stages: (result.stages || []).map((st) => ({ ...st, verdict: toRating(st.verdict, st.score) })),
+        }
+        setDesignEvaluation(normalized)
         // Автоматически проставляем оценки этапам из разбора
         const nextRatings = { ...ratings }
-        for (const st of design.stages) {
-          const stageResult = result.stages.find((item) => item.title === st.title)
+        design.stages.forEach((st, i) => {
+          const stageResult = normalized.stages[i]
           if (stageResult) nextRatings[st.id] = stageResult.verdict
-        }
+        })
         setRatings(nextRatings)
       } else {
         setSpeechError('Не удалось получить оценку. Проверьте, что сервер запущен.')
@@ -343,10 +373,11 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       }
       if (finalChunk) {
         const chunk = finalChunk.trim()
-        if (design && designStage) {
+        const stageId = speechSinkRef.current.stageId
+        if (stageId) {
           setStageAnswers((prev) => {
-            const cur = prev[designStage.id] ?? ''
-            return { ...prev, [designStage.id]: (cur ? cur.trimEnd() + ' ' : '') + chunk }
+            const cur = prev[stageId] ?? ''
+            return { ...prev, [stageId]: (cur ? cur.trimEnd() + ' ' : '') + chunk }
           })
           setDesignEvaluation(null)
         } else {
@@ -389,7 +420,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       const result = format === 'algorithms'
         ? await evaluateCode(target.id, answerText)
         : await evaluateAnswer(target.id, answerText)
-      if (result) setEvaluation(result)
+      if (result) setEvaluation({ ...result, verdict: toRating(result.verdict, result.score) })
       else setSpeechError('Не удалось получить оценку. Проверьте, что сервер запущен.')
     } finally {
       setIsEvaluating(false)
@@ -431,7 +462,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
 
   const interviewerOrg = activeCompany !== 'Все компании'
     ? activeCompany
-    : current?.companies?.filter((c) => c !== 'Несколько компаний')[0] || 'IT'
+    : (current ?? design?.caseQuestion)?.companies?.filter((c) => c !== 'Несколько компаний')[0] || 'IT'
 
   // Поле ответа: голосовой ввод, сохранение, ИИ-оценка. Общее для обычных вопросов и этапов дизайн-сессии.
   // opts.hideEval — без поэтапной ИИ-оценки (дизайн-сессия оценивается целиком в конце).

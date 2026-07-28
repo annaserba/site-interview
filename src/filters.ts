@@ -46,7 +46,7 @@ export function topicMatches(question: { category: string | null; title: string 
 export function getQuestionType(item: { tags?: string[]; category: string | null; stage?: string | null }): string {
   const tags = item.tags || []
   const cat = item.category || ''
-  if (tags.includes('HR')) return 'hr'
+  if (tags.includes('HR') || item.stage === 'HR') return 'hr'
   if (cat === 'Game Development') return 'game-dev'
   if (tags.includes('Management') || item.stage === 'Управление') return 'management'
   if (cat === 'System Design' || cat === 'Frontend Architecture') return 'system-design'

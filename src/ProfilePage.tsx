@@ -41,7 +41,8 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     if (activeType !== 'all') params.type = activeType
     if (activeRole !== 'all') params.role = activeRole
     fetchQuestions(params).then((data) => setQuestions(data.questions))
-  }, [activeCompany, activeType, activeRole, activeTopic])
+    // activeTopic фильтруется на клиенте — в API не уходит, рефетчить вопросы по нему не нужно
+  }, [activeCompany, activeType, activeRole])
 
   const filteredQuestions = useMemo(() => {
     return questions.filter((q) => {
@@ -65,7 +66,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
       if (activeTopic !== 'all' && !topicMatches(item, activeTopic)) return false
       return true
     })
-  }, [items, activeCompany, activeType, activeTypes])
+  }, [items, activeCompany, activeType, activeTypes, activeTopic])
 
   const handleDelete = async (id: number) => {
     await deleteUserAnswer(id)
@@ -87,7 +88,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
     activeCompany !== 'all' && `Компания: ${activeCompany}`,
     activeRole !== 'all' && `Роль: ${activeRole}`,
     activeTopic !== 'all' && `Тема: ${topicDefinitions.find(t => t.id === activeTopic)?.label || activeTopic}`,
-    activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
+    activeTypes.size > 0 && activeTypes.size < questionTypeDefinitions.length && `Тип: ${questionTypeDefinitions.filter(t => activeTypes.has(t.id)).map(t => t.label).join(', ')}`,
   ].filter(Boolean).join(' · ') || undefined
 
   return (
