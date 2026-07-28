@@ -5,7 +5,7 @@ import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
-import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation } from './api'
+import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type DesignSessionEvaluation } from './api'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
 import s from './MockInterview.module.css'
@@ -79,6 +79,9 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   // Design session
   const [design, setDesign] = useState<DesignSession | null>(null)
   const [stageIndex, setStageIndex] = useState(0)
+  const [stageAnswers, setStageAnswers] = useState<Record<string, string>>({})
+  const [designEvaluation, setDesignEvaluation] = useState<DesignSessionEvaluation | null>(null)
+  const [isEvaluatingSession, setIsEvaluatingSession] = useState(false)
 
   // User answers
   const [userAnswers, setUserAnswers] = useState<Record<string, UserAnswer[]>>({})
@@ -136,6 +139,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     setSession([])
     setDesign(session)
     setStageIndex(0)
+    setStageAnswers({})
+    setDesignEvaluation(null)
     setCurrentIndex(0)
     setShowAnswer(false)
     setRatings({})
@@ -210,35 +215,62 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     if (id) setRatings((prev) => ({ ...prev, [id]: r }))
   }
 
-  // Вопрос, к которому привязано поле ответа (в дизайн-сессии — вопрос этапа)
-  const answerTarget = design ? designQuestion : current
-
   const backToSetup = () => {
     setPhase('setup')
     setSession([])
     setDesign(null)
     setStageIndex(0)
+    setStageAnswers({})
+    setDesignEvaluation(null)
     setCurrentIndex(0)
     setShowAnswer(false)
     setRatings({})
   }
 
-  const handleSaveAnswer = async (question?: Question) => {
+  const handleSaveAnswer = async (question?: Question, text?: string) => {
     const target = question ?? current
-    if (!target || !answerText.trim()) return
+    const value = (text ?? answerText).trim()
+    if (!target || !value) return
     setIsSaving(true)
     try {
-      const id = await saveUserAnswer(target.id, answerText)
+      const id = await saveUserAnswer(target.id, value)
       if (id) {
         const newAnswer: UserAnswer = {
-          id, user_id: 0, question_id: target.id, answer: answerText,
+          id, user_id: 0, question_id: target.id, answer: value,
           context: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString()
         }
         setUserAnswers((prev) => ({ ...prev, [target.id]: [newAnswer, ...(prev[target.id] || [])] }))
-        setAnswerText('')
+        if (text === undefined) setAnswerText('')
       }
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  const handleEvaluateSession = async () => {
+    if (!design) return
+    setIsEvaluatingSession(true)
+    try {
+      const stages = design.stages.map((st) => ({
+        questionId: st.questions[0]?.id,
+        title: st.title,
+        answer: stageAnswers[st.id] ?? '',
+      }))
+      const result = await evaluateDesignSession(design.caseQuestion.id, stages)
+      if (result) {
+        setDesignEvaluation(result)
+        // Автоматически проставляем оценки этапам из разбора
+        const nextRatings = { ...ratings }
+        for (const st of design.stages) {
+          const stageResult = result.stages.find((item) => item.title === st.title)
+          if (stageResult) nextRatings[st.id] = stageResult.verdict
+        }
+        setRatings(nextRatings)
+      } else {
+        setSpeechError('Не удалось получить оценку. Проверьте, что сервер запущен.')
+      }
+    } finally {
+      setIsEvaluatingSession(false)
     }
   }
 
@@ -274,8 +306,17 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
         else interim += transcript
       }
       if (finalChunk) {
-        setAnswerText((prev) => (prev ? prev.trimEnd() + ' ' : '') + finalChunk.trim())
-        setEvaluation(null)
+        const chunk = finalChunk.trim()
+        if (design && designStage) {
+          setStageAnswers((prev) => {
+            const cur = prev[designStage.id] ?? ''
+            return { ...prev, [designStage.id]: (cur ? cur.trimEnd() + ' ' : '') + chunk }
+          })
+          setDesignEvaluation(null)
+        } else {
+          setAnswerText((prev) => (prev ? prev.trimEnd() + ' ' : '') + chunk)
+          setEvaluation(null)
+        }
       }
       setInterimText(interim)
     }
@@ -354,7 +395,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     : current?.companies?.filter((c) => c !== 'Несколько компаний')[0] || 'IT'
 
   // Поле ответа: голосовой ввод, сохранение, ИИ-оценка. Общее для обычных вопросов и этапов дизайн-сессии.
-  const renderAnswerBox = (target: Question, rateKey?: string) => (
+  // opts.hideEval — без поэтапной ИИ-оценки (дизайн-сессия оценивается целиком в конце).
+  const renderAnswerBox = (target: Question, rateKey?: string, opts?: { hideEval?: boolean; value?: string; onChange?: (v: string) => void }) => (
     <div className={s['user-answer-box']}>
       <div className={s['user-answer-head']}>
         <span>Ваш ответ ({(userAnswers[target.id] || []).length})</span>
@@ -374,8 +416,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       <div className={s['user-answer-input-wrap']}>
         <textarea
           className={`${s['user-answer-input']} ${target.codeSnippet ? s.mono : ''}`}
-          value={answerText}
-          onChange={(e) => { setAnswerText(e.target.value); setEvaluation(null) }}
+          value={opts?.value ?? answerText}
+          onChange={(e) => { (opts?.onChange ?? setAnswerText)(e.target.value); setEvaluation(null) }}
           placeholder={target.codeSnippet
             ? 'Напишите код решения или объясните подход, затем нажмите «Оценить ИИ»...'
             : 'Ответьте голосом или напишите текст, затем нажмите «Оценить ИИ»...'}
@@ -399,19 +441,21 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       )}
       {speechError && <p className={s['speech-error']}>{speechError}</p>}
       <div className={s['user-answer-actions']}>
-        <button
-          className={s['eval-btn']}
-          onClick={() => handleEvaluate(target)}
-          disabled={!user || isEvaluating || !answerText.trim()}
-          title={!user ? 'Доступно после входа' : undefined}
-        >
-          <Sparkles size={14} />
-          {isEvaluating ? 'Оцениваю...' : 'Оценить ИИ'}
-        </button>
+        {!opts?.hideEval && (
+          <button
+            className={s['eval-btn']}
+            onClick={() => handleEvaluate(target)}
+            disabled={!user || isEvaluating || !answerText.trim()}
+            title={!user ? 'Доступно после входа' : undefined}
+          >
+            <Sparkles size={14} />
+            {isEvaluating ? 'Оцениваю...' : 'Оценить ИИ'}
+          </button>
+        )}
         <button
           className={s['user-answer-save']}
-          onClick={() => handleSaveAnswer(target)}
-          disabled={!user || isSaving || !answerText.trim()}
+          onClick={() => handleSaveAnswer(target, opts?.value)}
+          disabled={!user || isSaving || !(opts?.value ?? answerText).trim()}
           title={!user ? 'Доступно после входа' : undefined}
         >
           <Save size={14} />
@@ -427,7 +471,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
         </p>
       )}
 
-      {evaluation && (
+      {evaluation && !opts?.hideEval && (
         <div className={s['eval-panel']}>
           <div className={s['eval-head']}>
             <span className={s['eval-verdict']} style={{ color: ratingMeta[evaluation.verdict].color, borderColor: ratingMeta[evaluation.verdict].color }}>
@@ -622,7 +666,11 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
               </div>
             )}
 
-            {designQuestion && renderAnswerBox(designQuestion, designStage.id)}
+            {designQuestion && renderAnswerBox(designQuestion, designStage.id, {
+              hideEval: true,
+              value: stageAnswers[designStage.id] ?? '',
+              onChange: (v) => { setStageAnswers((prev) => ({ ...prev, [designStage.id]: v })); setDesignEvaluation(null) },
+            })}
 
             {!showAnswer ? (
               <button className={s['show-btn']} onClick={() => setShowAnswer(true)}>
@@ -793,6 +841,64 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
             <span style={{ color: ratingMeta.partial.color }}>Частично: {designResults.counts.partial}</span>
             <span style={{ color: ratingMeta.no.color }}>Не ответил: {designResults.counts.no}</span>
             {designResults.counts.skip > 0 && <span>Без оценки: {designResults.counts.skip}</span>}
+          </div>
+
+          <div className={s['session-eval']}>
+            {!designEvaluation ? (
+              <>
+                <button
+                  className={s['eval-btn']}
+                  onClick={handleEvaluateSession}
+                  disabled={!user || isEvaluatingSession || design.stages.every((st) => !(stageAnswers[st.id] ?? '').trim())}
+                  title={!user ? 'Доступно после входа' : undefined}
+                >
+                  <Sparkles size={14} />
+                  {isEvaluatingSession ? 'Оцениваю сессию...' : 'Оценить сессию ИИ'}
+                </button>
+                <span className={s['session-eval-hint']}>ИИ разберёт все этапы и сам проставит оценки</span>
+                {!user && (
+                  <p className={s['login-hint']}>
+                    Оценка сессии доступна после входа.{' '}
+                    <button type="button" className={s['login-hint-btn']} onClick={loginWithYandex}>
+                      Войти через Яндекс
+                    </button>
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className={s['eval-panel']}>
+                <div className={s['eval-head']}>
+                  <span className={s['eval-verdict']} style={{ color: ratingMeta[designEvaluation.verdict].color, borderColor: ratingMeta[designEvaluation.verdict].color }}>
+                    ИИ: {ratingMeta[designEvaluation.verdict].label}
+                  </span>
+                  <div className={s['eval-score-bar']}>
+                    <div
+                      className={s['eval-score-fill']}
+                      style={{ width: `${designEvaluation.score}%`, background: ratingMeta[designEvaluation.verdict].color }}
+                    />
+                  </div>
+                  <span className={s['eval-score-num']}>{designEvaluation.score}%</span>
+                </div>
+                <p className={s['eval-feedback']}>{designEvaluation.feedback}</p>
+                {designEvaluation.stages.map((stage) => (
+                  <div key={stage.title} className={s['session-stage-eval']}>
+                    <div className={s['session-stage-head']}>
+                      <span>{stage.title}</span>
+                      <span style={{ color: ratingMeta[stage.verdict].color }}>
+                        {ratingMeta[stage.verdict].label} · {stage.score}%
+                      </span>
+                    </div>
+                    <p className={s['eval-feedback']}>{stage.feedback}</p>
+                    {stage.missedPoints.length > 0 && (
+                      <p className={s['eval-missed']}>Добавить: {stage.missedPoints.join(' · ')}</p>
+                    )}
+                  </div>
+                ))}
+                {designEvaluation.missedPoints.length > 0 && (
+                  <p className={s['eval-missed']}>По кейсу в целом добавить: {designEvaluation.missedPoints.join(' · ')}</p>
+                )}
+              </div>
+            )}
           </div>
 
           <div className={s['result-list']}>

@@ -75,7 +75,7 @@ export function buildDesignSession(questions: Question[], random: () => number =
       .map((q) => ({ q, score: countMatches(q, def.terms) }))
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.q.difficulty - b.q.difficulty)
-      .slice(0, 2)
+      .slice(0, 4)
     matched.forEach((entry) => used.add(entry.q.id))
     return { id: def.id, title: def.title, hint: def.hint, questions: matched.map((entry) => entry.q) }
   })

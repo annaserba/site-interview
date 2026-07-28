@@ -61,3 +61,51 @@ export function evaluateAnswer(question, userAnswer) {
 
   return { score, verdict, feedback: lines.join(' '), coveredPoints, missedPoints }
 }
+
+// Оценка всей дизайн-сессии: среднее по этапам + покрытие ключевых точек кейса полным транскриптом
+export function evaluateDesignSession(caseQuestion, stageEntries) {
+  const answered = stageEntries.filter((entry) => entry && typeof entry.answer === 'string' && entry.answer.trim())
+  if (!answered.length) {
+    return { score: 0, verdict: 'no', feedback: 'Нет ответов для оценки.', stages: [], coveredPoints: [], missedPoints: [] }
+  }
+
+  const stageResults = answered.map((entry) => {
+    const target = entry.question || caseQuestion
+    const result = evaluateAnswer(target, entry.answer.trim())
+    return {
+      title: entry.title || 'Этап',
+      score: result.score,
+      verdict: result.verdict,
+      feedback: result.feedback,
+      missedPoints: result.missedPoints,
+    }
+  })
+
+  // Полный транскрипт против кейса: покрывает ли кандидат ключевые аспекты задачи в целом
+  const transcript = answered.map((entry) => entry.answer.trim()).join('\n')
+  const caseResult = evaluateAnswer(caseQuestion, transcript)
+
+  const stageAverage = Math.round(stageResults.reduce((sum, item) => sum + item.score, 0) / stageResults.length)
+  const score = Math.round(0.5 * stageAverage + 0.5 * caseResult.score)
+  const verdict = score >= 60 ? 'yes' : score >= 35 ? 'partial' : 'no'
+
+  const strong = stageResults.filter((item) => item.verdict === 'yes').map((item) => item.title)
+  const weak = stageResults.filter((item) => item.verdict === 'no').map((item) => item.title)
+
+  const lines = []
+  if (verdict === 'yes') lines.push('Сильная дизайн-сессия: этапы раскрыты, ключевые аспекты кейса покрыты.')
+  else if (verdict === 'partial') lines.push('Сессия в правильном направлении, но часть этапов или аспектов кейса упущена.')
+  else lines.push('Сессия пока слабая: рассуждения мало пересекаются с эталонным разбором кейса.')
+  if (strong.length) lines.push(`Сильные этапы: ${strong.join('; ')}.`)
+  if (weak.length) lines.push(`Слабые этапы: ${weak.join('; ')}.`)
+  if (caseResult.missedPoints.length) lines.push(`По кейсу стоит добавить: ${caseResult.missedPoints.join('; ')}.`)
+
+  return {
+    score,
+    verdict,
+    feedback: lines.join(' '),
+    stages: stageResults,
+    coveredPoints: caseResult.coveredPoints,
+    missedPoints: caseResult.missedPoints,
+  }
+}

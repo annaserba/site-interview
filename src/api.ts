@@ -306,3 +306,33 @@ export async function evaluateAnswer(questionId: string, answer: string): Promis
     return null
   }
 }
+
+export interface DesignStageEvaluation {
+  title: string
+  score: number
+  verdict: 'yes' | 'partial' | 'no'
+  feedback: string
+  missedPoints: string[]
+}
+
+export interface DesignSessionEvaluation extends AnswerEvaluation {
+  stages: DesignStageEvaluation[]
+}
+
+export async function evaluateDesignSession(
+  caseId: string,
+  stages: { questionId?: string; title: string; answer: string }[],
+): Promise<DesignSessionEvaluation | null> {
+  try {
+    const res = await fetch(`${API_BASE}/evaluate-design-session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ caseId, stages }),
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
+  }
+}
