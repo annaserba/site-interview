@@ -152,7 +152,7 @@ export function RagAssistant({ variant = 'section' }: RagAssistantProps) {
             </div>
             <div className={s['hero-rag-sources']}>
               <small>Источники · {result.sources.length}</small>
-              {result.sources.map((source) => <a href={`#question/${source.id}`} key={source.id}>{source.companies[0]} — {source.title}<ExternalLink size={13} /></a>)}
+              {result.sources.map((source) => <a href={`#question/${source.id}`} key={source.id}>{source.companies[0] || 'Общий'} — {source.title}<ExternalLink size={13} /></a>)}
             </div>
           </div>
         )}

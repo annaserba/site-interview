@@ -3,7 +3,7 @@ import { ArrowRight, Building2, Printer, Search, Users } from 'lucide-react'
 import { QuestionFilters } from './QuestionFilters'
 import { CompanyLogo } from './CompanyLogo'
 import type { Question } from './types'
-import { questionTypeDefinitions, getQuestionType, topicDefinitions } from './filters'
+import { questionTypeDefinitions, getQuestionType, topicDefinitions, topicMatches } from './filters'
 import { exportQuestionsPDF } from './exportPdf'
 import s from './App.module.css'
 
@@ -45,8 +45,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion, initialTop
     const result = questions.filter((item) => {
       const companyMatch = activeCompany === 'Все компании' || item.companies.includes(activeCompany)
       const roleMatch = activeRole === 'Все роли' || item.roles.includes(activeRole)
-      const topic = topicDefinitions.find((candidate) => candidate.id === activeTopic)
-      const topicMatch = !topic || topic.categories.includes(item.category) || topic.terms.some((term) => item.title.toLocaleLowerCase('ru-RU').includes(term))
+      const topicMatch = topicMatches(item, activeTopic)
       const type = getQuestionType(item)
       if (!activeTypes.has(type)) return false
       return companyMatch && roleMatch && topicMatch
@@ -54,7 +53,7 @@ export function QuestionsPage({ questions, dataError, onOpenQuestion, initialTop
     return result.sort((left, right) => {
       if (sortMode === 'difficulty-desc') return right.difficulty - left.difficulty
       if (sortMode === 'difficulty-asc') return left.difficulty - right.difficulty
-      if (sortMode === 'company') return left.companies[0].localeCompare(right.companies[0], 'ru')
+      if (sortMode === 'company') return (left.companies[0] || 'яя').localeCompare(right.companies[0] || 'яя', 'ru')
       if (sortMode === 'title') return left.title.localeCompare(right.title, 'ru')
       const companiesCount = (question: Question) => question.companies.filter((company) => company !== 'Несколько компаний').length
       const frequency = (question: Question) => videoFrequency(question) + companiesCount(question)

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
-import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
+import { questionTypeDefinitions, topicDefinitions, getQuestionType, topicMatches } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, evaluateCode, evaluateDesignSession, fetchCurrentUser, loginWithYandex, type User, type UserAnswer, type AnswerEvaluation, type CodeEvaluation, type DesignSessionEvaluation } from './api'
@@ -121,33 +121,37 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }, [])
 
   const filteredPool = useMemo(() => {
+    // Фильтр темы имеет смысл только для технической секции — в остальных он скрыт и не должен действовать
+    const applyTopic = format === 'technical'
     return rawQuestions.filter((q) => {
       const companyMatch = activeCompany === 'Все компании' || (q.companies || []).includes(activeCompany)
       const roleMatch = activeRole === 'Все роли' || (q.roles || []).includes(activeRole)
-      const topic = topicDefinitions.find((t) => t.id === activeTopic)
-      const topicMatch = !topic || topic.categories.includes(q.category) || topic.terms.some((term) => q.title.toLocaleLowerCase('ru-RU').includes(term))
+      const topicMatch = !applyTopic || topicMatches(q, activeTopic)
       const typeMatch = activeTypes.has(getQuestionType(q))
       const difficultyMatch = activeDifficulty === 'all' || difficultyMap[q.difficulty] === activeDifficulty
       return companyMatch && roleMatch && topicMatch && typeMatch && difficultyMatch
     })
-  }, [rawQuestions, activeCompany, activeRole, activeTopic, activeTypes, activeDifficulty])
+  }, [rawQuestions, format, activeCompany, activeRole, activeTopic, activeTypes, activeDifficulty])
 
   // Пул под выбранную секцию мок-интервью
   const sectionPool = useMemo(() => {
+    // codeSnippet бывает markdown/text (структуры ответа, не код) — в алго-секцию берём только настоящий код
+    const isRealCode = (q: Question) => Boolean(q.codeSnippet) && !['markdown', 'text', 'md'].includes((q.codeLanguage || 'text').toLowerCase())
+    const isSelfIntro = (q: Question) => (q.tags || []).includes(SELF_INTRO_TAG)
     if (format === 'algorithms') {
-      return filteredPool.filter((q) => getQuestionType(q) === 'technical' && (q.category === 'Algorithms' || Boolean(q.codeSnippet)))
+      return filteredPool.filter((q) => getQuestionType(q) === 'technical' && (q.category === 'Algorithms' || isRealCode(q)))
     }
     if (format === 'behavioral') {
-      return filteredPool.filter((q) => getQuestionType(q) === 'behavioral')
+      return filteredPool.filter((q) => getQuestionType(q) === 'behavioral' && !isSelfIntro(q))
     }
     if (format === 'hr') {
-      return filteredPool.filter((q) => getQuestionType(q) === 'hr')
+      return filteredPool.filter((q) => getQuestionType(q) === 'hr' && !isSelfIntro(q))
     }
     if (format === 'management') {
       return filteredPool.filter((q) => getQuestionType(q) === 'management')
     }
     if (format === 'self-intro') {
-      return filteredPool.filter((q) => (q.tags || []).includes(SELF_INTRO_TAG))
+      return filteredPool.filter(isSelfIntro)
     }
     // Техническая секция: всё, кроме поведенческих/HR/управленческих
     return filteredPool.filter((q) => !['behavioral', 'hr', 'management'].includes(getQuestionType(q)))
@@ -165,7 +169,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }
 
   const startDesignSession = () => {
-    const session = buildDesignSession(rawQuestions)
+    const session = buildDesignSession(filteredPool)
     if (!session) return
     setSession([])
     setDesign(session)
@@ -412,14 +416,14 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     return { counts, score }
   }, [design, ratings])
 
-  const designCasesCount = useMemo(() => designPool(rawQuestions).filter(isDesignCase).length, [rawQuestions])
+  const designCasesCount = useMemo(() => designPool(filteredPool).filter(isDesignCase).length, [filteredPool])
 
   const filterState: FilterState = { activeCompany, activeRole, activeTopic, sortMode: 'default', activeTypes }
 
   const setupSummary = [
     activeCompany !== 'Все компании' && activeCompany,
     activeRole !== 'Все роли' && activeRole,
-    activeTopic !== 'Все темы' && (topicDefinitions.find((t) => t.id === activeTopic)?.label || activeTopic),
+    format === 'technical' && activeTopic !== 'Все темы' && (topicDefinitions.find((t) => t.id === activeTopic)?.label || activeTopic),
     activeDifficulty !== 'all' && difficultyLabel[activeDifficulty as 'easy' | 'medium' | 'hard'],
     activeTypes.size < questionTypeDefinitions.length &&
       questionTypeDefinitions.filter((t) => activeTypes.has(t.id)).map((t) => t.label).join(', '),

@@ -203,7 +203,7 @@ export function ChatBot() {
                           <button key={src.id}
                             className={s.sourceBtn}
                             onClick={() => { setOpen(false); window.location.hash = `question/${src.id}` }}>
-                            {src.companies[0]} — {src.title}
+                            {src.companies[0] || 'Общий'} — {src.title}
                           </button>
                         ))}
                       </div>

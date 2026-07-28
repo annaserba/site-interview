@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { ArrowLeft, Printer, Trash2 } from 'lucide-react'
 import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, type UserAnswerWithQuestion, type User, type ApiQuestion, type FiltersResponse } from './api'
-import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
+import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions, topicMatches } from './filters'
 import { FilterDropdown } from './FilterDropdown'
 import { exportQuestionsPDF, exportAnswersPDF } from './exportPdf'
 import { PrepChecklist } from './PrepChecklist'
@@ -45,22 +45,24 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
 
   const filteredQuestions = useMemo(() => {
     return questions.filter((q) => {
-      if (activeTypes.size < 5) {
+      if (activeTypes.size < questionTypeDefinitions.length) {
         const type = getQuestionType(q)
         if (!activeTypes.has(type)) return false
       }
+      if (activeTopic !== 'all' && !topicMatches(q, activeTopic)) return false
       return true
     })
-  }, [questions, activeTypes])
+  }, [questions, activeTypes, activeTopic])
 
   const filteredAnswers = useMemo(() => {
     return items.filter((item) => {
       if (activeCompany !== 'all' && !item.companies.includes(activeCompany)) return false
       if (activeType !== 'all' && item.category !== activeType) return false
-      if (activeTypes.size < 5) {
+      if (activeTypes.size < questionTypeDefinitions.length) {
         const type = getQuestionType(item)
         if (!activeTypes.has(type)) return false
       }
+      if (activeTopic !== 'all' && !topicMatches(item, activeTopic)) return false
       return true
     })
   }, [items, activeCompany, activeType, activeTypes])
