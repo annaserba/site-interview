@@ -1,7 +1,7 @@
 ---
 id: ds-python-decorator
 title: Что такое декоратор в Python?
-category: Python
+category: Backend
 scope: language-specific
 languages: ["Python"]
 roles: ["Data Science","Data Engineering"]

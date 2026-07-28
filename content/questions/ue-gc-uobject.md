@@ -1,10 +1,10 @@
 ---
 id: ue-gc-uobject
 title: Как работает сборка мусора (GC) в Unreal Engine?
-category: C++
+category: Game Development
 scope: game-dev
 languages: ["C++"]
-roles: ["Game Dev","C++"]
+roles: ["Game Dev"]
 companies: ["Несколько компаний"]
 level: Middle
 stage: Техническое интервью

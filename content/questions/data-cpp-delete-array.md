@@ -1,10 +1,10 @@
 ---
 id: data-cpp-delete-array
 title: В чём разница между delete и delete[] в C++?
-category: C++
+category: Backend
 scope: language-specific
 languages: ["C++"]
-roles: ["Data Science","C++"]
+roles: ["Data Science","Backend"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

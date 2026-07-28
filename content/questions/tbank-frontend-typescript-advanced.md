@@ -1,7 +1,7 @@
 ---
 id: tbank-frontend-typescript-advanced
 title: Как используете продвинутые возможности TypeScript в React?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["TypeScript"]
 roles: ["Frontend"]

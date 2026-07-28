@@ -1,7 +1,7 @@
 ---
 id: sber-frontend-accessibility
 title: Как обеспечиваете accessibility в React-приложении?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

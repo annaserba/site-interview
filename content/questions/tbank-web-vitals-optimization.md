@@ -1,7 +1,7 @@
 ---
 id: tbank-web-vitals-optimization
 title: Как оптимизировать Core Web Vitals в крупном SPA?
-category: Browser Performance
+category: Browser
 scope: universal
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

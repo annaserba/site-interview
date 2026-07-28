@@ -1,7 +1,7 @@
 ---
 id: ozon-frontend-microfrontend
 title: Как организовать микрофронтендную архитектуру?
-category: Frontend
+category: Frontend Architecture
 scope: universal
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

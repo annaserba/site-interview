@@ -1,7 +1,7 @@
 ---
 id: data-sql-vs-python
 title: В чём у вас больше опыта — в SQL или Python?
-category: Data Analytics
+category: Product Analytics
 scope: multi-language
 languages: ["SQL", "Python"]
 roles: ["Data Science"]

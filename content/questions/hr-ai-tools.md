@@ -2,7 +2,7 @@
 id: hr-ai-tools
 title: Какие нейросети и AI-инструменты вы используете?
 aliases: ["Какими нейросетями вы пользуетесь в работе?"]
-category: HR
+category: Behavioral
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile", "Leadership"]

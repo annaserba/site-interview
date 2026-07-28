@@ -1,7 +1,7 @@
 ---
 id: vk-code-quality
 title: "Как контролировать качество написания кода?"
-category: Soft Skills
+category: Delivery
 scope: universal
 languages: []
 roles: ["Frontend", "Backend", "Fullstack"]

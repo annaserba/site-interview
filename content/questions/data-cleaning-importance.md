@@ -1,7 +1,7 @@
 ---
 id: data-cleaning-importance
 title: В чём важность очистки данных?
-category: Data Quality
+category: Data Engineering
 scope: multi-language
 languages: ["SQL", "Python", "R"]
 roles: ["Data Science","Data Engineering"]

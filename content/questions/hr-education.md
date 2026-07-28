@@ -1,7 +1,7 @@
 ---
 id: hr-education
 title: Где вы учились и что читали профессионально?
-category: HR
+category: Behavioral
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile"]

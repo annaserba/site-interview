@@ -1,7 +1,7 @@
 ---
 id: frontend-browser-storage
 title: В чём разница между cookie, localStorage и sessionStorage?
-category: Web Platform
+category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

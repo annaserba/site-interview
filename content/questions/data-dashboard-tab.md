@@ -1,7 +1,7 @@
 ---
 id: data-dashboard-tab
 title: Как должна выглядеть вкладка на главном дашборде?
-category: BI
+category: Product Analytics
 scope: multi-language
 languages: ["SQL", "Python"]
 roles: ["Data Science"]

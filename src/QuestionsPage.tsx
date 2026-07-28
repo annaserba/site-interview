@@ -24,16 +24,22 @@ interface QuestionsPageProps {
   questions: Question[]
   dataError?: string
   onOpenQuestion?: (id: string) => void
+  initialTopic?: string
 }
 
-export function QuestionsPage({ questions, dataError, onOpenQuestion }: QuestionsPageProps) {
+export function QuestionsPage({ questions, dataError, onOpenQuestion, initialTopic }: QuestionsPageProps) {
   const [activeCompany, setActiveCompany] = useState('Все компании')
   const [activeRole, setActiveRole] = useState('Все роли')
-  const [activeTopic, setActiveTopic] = useState('Все темы')
+  const [activeTopic, setActiveTopic] = useState(initialTopic || 'Все темы')
   const [sortMode, setSortMode] = useState('default')
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'management', 'hr', 'game-dev']))
   const [visibleCount, setVisibleCount] = useState(8)
   const feedSentinelRef = useRef<HTMLDivElement>(null)
+
+  // Переход по #topic/<id> из футера, когда страница уже открыта
+  useEffect(() => {
+    if (initialTopic) setActiveTopic(initialTopic)
+  }, [initialTopic])
 
   const filtered = useMemo(() => {
     const result = questions.filter((item) => {

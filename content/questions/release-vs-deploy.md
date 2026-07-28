@@ -5,7 +5,7 @@ aliases: []
 category: Delivery
 scope: universal
 languages: []
-roles: ["DevOps","Backend","SRE"]
+roles: ["DevOps","Backend"]
 companies: ["Avito"]
 level: Middle
 stage: Техническое

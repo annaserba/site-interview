@@ -1,7 +1,7 @@
 ---
 id: tbank-fetch-return-value
 title: Какой тип возвращает fetch и когда он отклоняет Promise?
-category: Web Platform
+category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend","Backend"]

@@ -1,7 +1,7 @@
 ---
 id: usetech-industrial-platform-performance
 title: Как оптимизировать производительность тяжёлого промышленного UI с таблицами на 100K строк?
-category: Browser Performance
+category: Browser
 scope: universal
 languages: ["TypeScript"]
 roles: ["Frontend"]

@@ -2,7 +2,7 @@
 id: yandex-xss-csrf-protection
 title: Как защитить веб-приложение от XSS и CSRF атак?
 aliases: []
-category: Web Platform
+category: Browser
 scope: universal
 languages: []
 roles: ["Frontend","Backend"]

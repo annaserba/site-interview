@@ -1,7 +1,7 @@
 ---
 id: data-ab-tests-experience
 title: Проводили ли вы A/B-тесты?
-category: Experimentation
+category: Statistics
 scope: multi-language
 languages: ["SQL", "Python", "R"]
 roles: ["Data Science"]

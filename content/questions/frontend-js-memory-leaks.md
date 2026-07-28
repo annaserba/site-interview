@@ -1,7 +1,7 @@
 ---
 id: frontend-js-memory-leaks
 title: Почему возникают утечки памяти в JavaScript и как их искать?
-category: Browser Performance
+category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend","Backend"]

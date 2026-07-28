@@ -1,7 +1,7 @@
 ---
 id: wildberries-frontend-bundle-optimization
 title: Как оптимизируете bundle size в React-приложении?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

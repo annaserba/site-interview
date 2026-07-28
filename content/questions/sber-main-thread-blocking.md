@@ -1,7 +1,7 @@
 ---
 id: sber-main-thread-blocking
 title: Как найти и устранить блокировку главного потока браузера?
-category: Browser Performance
+category: Browser
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

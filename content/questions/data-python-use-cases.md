@@ -1,7 +1,7 @@
 ---
 id: data-python-use-cases
 title: В каких ситуациях аналитик использует Python?
-category: Data Analytics
+category: Product Analytics
 scope: language-specific
 languages: ["Python", "SQL"]
 roles: ["Data Science"]

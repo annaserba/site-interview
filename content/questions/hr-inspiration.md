@@ -1,7 +1,7 @@
 ---
 id: hr-inspiration
 title: Где вы черпаете профессиональное вдохновение?
-category: HR
+category: Behavioral
 scope: universal
 languages: []
 roles: ["Backend", "Frontend", "Data Engineering", "DevOps", "Mobile"]

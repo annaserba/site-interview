@@ -2,7 +2,7 @@
 id: wildberries-websocket-sse
 title: Когда выбирать WebSocket, SSE или polling?
 aliases: ["Как реализуете real-time функционал в React-приложении?"]
-category: Web Architecture
+category: System Design
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend", "Backend"]

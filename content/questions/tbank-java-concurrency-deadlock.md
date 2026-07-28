@@ -1,7 +1,7 @@
 ---
 id: tbank-java-concurrency-deadlock
 title: "Найдите deadlock в коде и предложите исправление"
-category: Concurrency
+category: Backend
 scope: language-specific
 languages: ["Java", "Kotlin"]
 roles: ["Backend"]

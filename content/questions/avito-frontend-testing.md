@@ -1,7 +1,7 @@
 ---
 id: avito-frontend-testing
 title: Как организуете тестирование React-приложений?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

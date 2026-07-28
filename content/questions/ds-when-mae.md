@@ -5,7 +5,7 @@ aliases: ["Когда использовать MAE вместо MSE?", "В ка�
 category: Machine Learning
 scope: multi-language
 languages: ["Python", "SQL"]
-roles: ["Data Scientist", "Data Analyst"]
+roles: ["Data Science"]
 companies: ["Несколько компаний"]
 level: Senior
 stage: Техническое

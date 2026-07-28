@@ -258,7 +258,7 @@
       "Кактестируете hooks?",
       "Кактестируете edge cases?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -806,7 +806,7 @@
     ],
     "codeSnippet": "import pandas as pd\n\nsteps = [\"page_view\", \"add_to_cart\", \"purchase\"]\nevents = pd.read_sql(\"SELECT user_id, event, ts FROM events\", conn)\n\nfunnel = (events[events.event.isin(steps)]\n    .groupby(\"event\")[\"user_id\"].nunique()\n    .reindex(steps))\n\nprint((funnel / funnel.iloc[0] * 100).round(1).astype(str) + \"%\")",
     "codeLanguage": "python",
-    "category": "Experimentation",
+    "category": "Statistics",
     "scope": "multi-language",
     "languages": [
       "SQL",
@@ -1010,7 +1010,7 @@
     ],
     "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
     "codeLanguage": "python",
-    "category": "Data Quality",
+    "category": "Data Engineering",
     "scope": "multi-language",
     "languages": [
       "SQL",
@@ -1147,14 +1147,14 @@
     ],
     "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
     "codeLanguage": "python",
-    "category": "C++",
+    "category": "Backend",
     "scope": "language-specific",
     "languages": [
       "C++"
     ],
     "roles": [
       "Data Science",
-      "C++"
+      "Backend"
     ],
     "companies": [
       "Несколько компаний"
@@ -1214,7 +1214,7 @@
     ],
     "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
     "codeLanguage": "python",
-    "category": "BI",
+    "category": "Product Analytics",
     "scope": "multi-language",
     "languages": [
       "SQL",
@@ -1744,7 +1744,7 @@
     ],
     "codeSnippet": "import pandas as pd\n\n# loc vs iloc\ndf = pd.DataFrame({\"name\": [\"A\",\"B\",\"C\"], \"value\": [10,20,30]})\n\n# loc — по метке (включительно)\ndf.loc[df[\"value\"] > 15, \"name\"]\n\n# iloc — по позиции (не включительно)\ndf.iloc[0:2, 0]\n\n# Полезные паттерны\ndf.assign(ratio=lambda d: d[\"value\"] / d[\"value\"].sum())\ndf.pivot_table(values=\"value\", index=\"name\", aggfunc=\"sum\")",
     "codeLanguage": "python",
-    "category": "Python",
+    "category": "Data Engineering",
     "scope": "language-specific",
     "languages": [
       "Python"
@@ -1879,7 +1879,7 @@
     ],
     "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
     "codeLanguage": "python",
-    "category": "Data Analytics",
+    "category": "Product Analytics",
     "scope": "language-specific",
     "languages": [
       "Python",
@@ -1946,7 +1946,7 @@
     ],
     "codeSnippet": "## Модель ответа (STAR/SAR)\n\n| Шаг | Что говорить | Пример |\n|-----|-------------|--------|\n| **Situation** | Контекст и ограничения | \"Команда из 5, дедлайн 2 недели\" |\n| **Task** | Ваша зона ответственности | \"Вести архитектуру нового модуля\" |\n| **Action** | Конкретные шаги | \"Спроектировал event-driven подход\" |\n| **Result** | Измеримый эффект | \"Запустили в срок, 0 инцидентов\" |\n\n> Совет: Говорите о своём вкладе, а не команды. Называйте метрики.",
     "codeLanguage": "markdown",
-    "category": "Data Analytics",
+    "category": "Product Analytics",
     "scope": "multi-language",
     "languages": [
       "SQL",
@@ -2221,7 +2221,7 @@
     ],
     "codeSnippet": "## Модель ответа (STAR/SAR)\n\n| Шаг | Что говорить | Пример |\n|-----|-------------|--------|\n| **Situation** | Контекст и ограничения | \"Команда из 5, дедлайн 2 недели\" |\n| **Task** | Ваша зона ответственности | \"Вести архитектуру нового модуля\" |\n| **Action** | Конкретные шаги | \"Спроектировал event-driven подход\" |\n| **Result** | Измеримый эффект | \"Запустили в срок, 0 инцидентов\" |\n\n> Совет: Говорите о своём вкладе, а не команды. Называйте метрики.",
     "codeLanguage": "markdown",
-    "category": "Data Analytics",
+    "category": "Product Analytics",
     "scope": "multi-language",
     "languages": [
       "SQL",
@@ -3018,7 +3018,7 @@
     ],
     "codeSnippet": "from sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\nprint(classification_report(y_test, y_pred))\n\n# Важность признаков\nimport pandas as pd\nfi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)\nprint(fi.head(10))",
     "codeLanguage": "python",
-    "category": "Python",
+    "category": "Backend",
     "scope": "language-specific",
     "languages": [
       "Python"
@@ -3625,8 +3625,7 @@
       "SQL"
     ],
     "roles": [
-      "Data Scientist",
-      "Data Analyst"
+      "Data Science"
     ],
     "companies": [
       "Несколько компаний"
@@ -3983,7 +3982,7 @@
     ],
     "codeSnippet": "// Сравнение хранилищ браузера\n\n// localStorage — 5MB, синхронно, персистентно\nlocalStorage.setItem(\"user\", JSON.stringify({ name: \"Alice\" }));\n\n// sessionStorage — 5MB, per-tab\nsessionStorage.setItem(\"tabId\", crypto.randomUUID());\n\n// cookies — 4KB, отправляются с запросами\ndocument.cookie = \"theme=dark; max-age=86400; SameSite=Lax\";\n\n// IndexedDB — большие объёмы, асинхронно\nconst db = await idb.open(\"mydb\", 1, (upgradeDB) => {\n  upgradeDB.createObjectStore(\"users\", { keyPath: \"id\" });\n});",
     "codeLanguage": "typescript",
-    "category": "Web Platform",
+    "category": "Browser",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -4065,7 +4064,7 @@
     ],
     "codeSnippet": "// Cookie: small text sent with every request to matching origin\n// Security flags for session cookies\ndocument.cookie =\n  \"sessionId=abc123; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600\";\n\n// Read-only from JS (HttpOnly cookies are inaccessible)\ndocument.cookie; // \"sessionId=abc123\" (non-HttpOnly ones)\n\n// __Host- prefix enforces HTTPS, host-only, Path=/\ndocument.cookie = \"__Host-token=xyz; Secure; Path=/\";\n\n// Expiry strategies\n// Session cookie (deleted when browser closes):\ndocument.cookie = \"theme=dark; Path=/\";\n\n// Persistent cookie (survives browser restart):\ndocument.cookie = \"lang=en; Max-Age=31536000; Path=/\";\n\n// SameSite controls cross-site sending:\n// Lax (default) — sent on top-level GET from other site\n// Strict — never sent cross-site\n// None — sent everywhere (requires Secure)\ndocument.cookie = \"tracking=1; SameSite=None; Secure\";",
     "codeLanguage": "typescript",
-    "category": "Web Platform",
+    "category": "Browser",
     "scope": "multi-language",
     "languages": [
       "JavaScript",
@@ -4346,7 +4345,7 @@
     ],
     "codeSnippet": "// Типичные утечки памяти в React\n\n// 1. Неочищенный listener\nuseEffect(() => {\n  const handler = () => {};\n  window.addEventListener(\"resize\", handler);\n  return () => window.removeEventListener(\"resize\", handler);\n}, []);\n\n// 2. Неотменённый таймер\nuseEffect(() => {\n  const id = setInterval(() => {}, 1000);\n  return () => clearInterval(id);\n}, []);",
     "codeLanguage": "typescript",
-    "category": "Browser Performance",
+    "category": "Browser",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -5696,7 +5695,7 @@
       "Как保护-аете sensitive data?",
       "Кактестируете security?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -6094,7 +6093,7 @@
       "Какие ограничения AI вы замечали?",
       "Как оцениваете качество AI-generated код?"
     ],
-    "category": "HR",
+    "category": "Behavioral",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6161,7 +6160,7 @@
       "Как вы применяете знания из книг на практике?",
       "Что читаете сейчас?"
     ],
-    "category": "HR",
+    "category": "Behavioral",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -6227,7 +6226,7 @@
       "Посещали ли вы конференции?",
       "Участвуете ли в open-source?"
     ],
-    "category": "HR",
+    "category": "Behavioral",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -11443,7 +11442,7 @@
       "Какoptimiz-ируете video loading?",
       "Какhandling-аете buffering?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -12720,7 +12719,7 @@
       "Кактестируете микрофронтенды?",
       "Какобновляете shared dependencies?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "universal",
     "languages": [
       "JavaScript",
@@ -13943,8 +13942,7 @@
     "languages": [],
     "roles": [
       "DevOps",
-      "Backend",
-      "SRE"
+      "Backend"
     ],
     "companies": [
       "Avito"
@@ -14298,7 +14296,7 @@
       "Какhandling-аете focus в модалках?",
       "Каксоздаётеaccessible forms?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -14629,7 +14627,7 @@
     ],
     "codeSnippet": "// Пример реализации\nfunction solve(input) {\n  const result = {};\n  for (const item of input) {\n    const key = item.type || \"default\";\n    result[key] = (result[key] || 0) + 1;\n  }\n  return result;\n}\n\nconst test = [{ type: \"a\" }, { type: \"b\" }, { type: \"a\" }];\nconsole.log(solve(test)); // { a: 2, b: 1 }",
     "codeLanguage": "javascript",
-    "category": "Browser Performance",
+    "category": "Browser",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -16806,7 +16804,7 @@
     ],
     "codeSnippet": "// Promise.allSettled — все результаты\nconst urls = [\"/api/users\", \"/api/posts\", \"/api/comments\"];\nconst results = await Promise.allSettled(\n  urls.map(url => fetch(url).then(r => r.json()))\n);\n\nresults.forEach((result, i) => {\n  if (result.status === \"fulfilled\") {\n    console.log(\"URL \" + i + \": OK\", result.value);\n  } else {\n    console.error(\"URL \" + i + \": FAILED\", result.reason);\n  }\n});",
     "codeLanguage": "typescript",
-    "category": "Web Platform",
+    "category": "Browser",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -16877,7 +16875,7 @@
       "Какtестируете components?",
       "Какmigration-аете на новые versions?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "universal",
     "languages": [
       "JavaScript",
@@ -16947,7 +16945,7 @@
       "Как типизируете event handlers?",
       "Как типизируете API responses?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "TypeScript"
@@ -17154,7 +17152,7 @@
     ],
     "codeSnippet": "public class Bank {\n    // Deadlock: два потока захватывают в обратном порядке\n    public synchronized void transferA(Bank other, int amount) {\n        this.balance -= amount;\n        other.deposit(amount);  // вызов synchronized метода другого объекта\n    }\n\n    // Поток 1: bank1.transferA(bank2, 100)\n    // Поток 2: bank2.transferA(bank1, 50)\n    // → DEADLOCK\n\n    // Исправление: lock ordering по hashCode\n    public void safeTransfer(Bank other, int amount) {\n        Bank first = System.identityHashCode(this) < System.identityHashCode(other) ? this : other;\n        Bank second = first == this ? other : this;\n\n        synchronized (first) {\n            synchronized (second) {\n                first.balance -= amount;\n                second.deposit(amount);\n            }\n        }\n    }\n}",
     "codeLanguage": "java",
-    "category": "Concurrency",
+    "category": "Backend",
     "scope": "language-specific",
     "languages": [
       "Java",
@@ -17427,7 +17425,7 @@
     ],
     "codeSnippet": "// Запуск корутины\nviewModelScope.launch(Dispatchers.IO) {\n    val data = repository.fetchData() // suspend function\n    withContext(Dispatchers.Main) {\n        uiState.value = data\n    }\n}\n\n// Structured concurrency\nsuspend fun loadUser() = coroutineScope {\n    val profile = async { fetchProfile() }\n    val settings = async { fetchSettings() }\n    User(profile.await(), settings.await())\n}",
     "codeLanguage": "kotlin",
-    "category": "C++",
+    "category": "Backend",
     "scope": "language-specific",
     "languages": [
       "Kotlin"
@@ -18624,7 +18622,7 @@
     ],
     "codeSnippet": "// LCP: preload critical image\nconst link = document.createElement(\"link\");\nlink.rel = \"preload\";\nlink.as = \"image\";\nlink.href = \"/hero.webp\";\ndocument.head.appendChild(link);\n\n// FID: defer heavy computation\nasync function processData(data: unknown[]) {\n  // Yield to main thread\n  await new Promise((resolve) => setTimeout(resolve, 0));\n  return data.map((item) => heavyTransform(item));\n}\n\n// CLS: reserve space for images\n// CSS: .ad-container { min-height: 250px; }\n\n// Measure with PerformanceObserver\nconst observer = new PerformanceObserver((list) => {\n  for (const entry of list.getEntries()) {\n    if (entry.entryType === \"largest-contentful-paint\") {\n      console.log(\"LCP:\", entry.startTime);\n    }\n  }\n});\nobserver.observe({ type: \"largest-contentful-paint\", buffered: true });",
     "codeLanguage": "typescript",
-    "category": "Browser Performance",
+    "category": "Browser",
     "scope": "universal",
     "languages": [
       "JavaScript",
@@ -20251,8 +20249,7 @@
       "Blueprint"
     ],
     "roles": [
-      "Game Dev",
-      "C++"
+      "Game Dev"
     ],
     "companies": [
       "Несколько компаний"
@@ -20314,14 +20311,13 @@
     ],
     "codeSnippet": "// Создание объекта через GC\nUObject* Obj = NewObject<UMyClass>(GetOuter());\n\n// Слабая ссылка\nTWeakObjectPtr<UObject> WeakRef = Obj;\n\n// Принудительная сборка мусора\nGEngine->ForceGarbageCollection(true);\n\n// Проверка валидности слабой ссылки\nif (WeakRef.IsValid()) {\n    // Объект жив\n}",
     "codeLanguage": "cpp",
-    "category": "C++",
+    "category": "Game Development",
     "scope": "game-dev",
     "languages": [
       "C++"
     ],
     "roles": [
-      "Game Dev",
-      "C++"
+      "Game Dev"
     ],
     "companies": [
       "Несколько компаний"
@@ -22008,7 +22004,7 @@
     ],
     "codeSnippet": "// Virtual table with react-window\nimport { FixedSizeList as List } from 'react-window';\nimport { useMemo, useCallback, memo } from 'react';\n\ninterface TableRowProps {\n  index: number;\n  style: React.CSSProperties;\n  data: { rows: Row[] };\n}\n\nconst TableRow = memo(({ index, style, data }: TableRowProps) => {\n  const row = data.rows[index];\n  return (\n    <div style={style} className=\"table-row\">\n      <span>{row.id}</span>\n      <span>{row.name}</span>\n      <span>{row.value}</span>\n    </div>\n  );\n});\n\nfunction VirtualTable({ rows }: { rows: Row[] }) {\n  const itemData = useMemo(() => ({ rows }), [rows]);\n\n  return (\n    <List\n      height={600}\n      itemCount={rows.length}\n      itemSize={35}\n      itemData={itemData}\n      width=\"100%\"\n    >\n      {TableRow}\n    </List>\n  );\n}\n\n// Debounced search\nfunction useDebounce<T>(value: T, delay: number): T {\n  const [debouncedValue, setDebouncedValue] = useState(value);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setDebouncedValue(value), delay);\n    return () => clearTimeout(timer);\n  }, [value, delay]);\n\n  return debouncedValue;\n}\n\n// Web Worker for heavy computation\n// worker.ts\nself.onmessage = (e: MessageEvent) => {\n  const { data, sortKey, filter } = e.data;\n  let result = [...data];\n  if (filter) result = result.filter(row => row[filter.key] === filter.value);\n  result.sort((a, b) => a[sortKey] - b[sortKey]);\n  self.postMessage(result);\n};",
     "codeLanguage": "typescript",
-    "category": "Browser Performance",
+    "category": "Browser",
     "scope": "universal",
     "languages": [
       "TypeScript"
@@ -23207,7 +23203,7 @@
       "Что такое технический долг и как с ним работать?",
       "Какие метрики качества кода отслеживал бы?"
     ],
-    "category": "Soft Skills",
+    "category": "Delivery",
     "scope": "universal",
     "languages": [],
     "roles": [
@@ -24680,7 +24676,7 @@
       "Какtree shake-аете libraries?",
       "Какlazy load-ите images?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -25099,7 +25095,7 @@
     ],
     "codeSnippet": "// Сравнение: WebSocket vs SSE vs Polling\n\n// === WebSocket ===\nconst ws = new WebSocket(\"wss://api.example.com\");\nws.onmessage = (e) => handleEvent(JSON.parse(e.data));\nws.send(JSON.stringify({ type: \"message\", data: \"hi\" }));\n\n// === SSE ===\nconst es = new EventSource(\"/api/events\");\nes.onmessage = (e) => handleEvent(JSON.parse(e.data));\nes.onerror = () => es.close(); // auto-reconnect built-in\n\n// === Polling ===\nsetInterval(async () => {\n  const res = await fetch(\"/api/updates?since=\" + lastId);\n  const data = await res.json();\n  handleEvent(data);\n}, 5000);",
     "codeLanguage": "yaml",
-    "category": "Web Architecture",
+    "category": "System Design",
     "scope": "multi-language",
     "languages": [
       "JavaScript",
@@ -25395,7 +25391,7 @@
     ],
     "codeSnippet": "// Динамическая загрузка компонента (code splitting + lazy)\nconst Dashboard = React.lazy(() => import('./Dashboard'));\n\nfunction App() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <Dashboard />\n    </Suspense>\n  );\n}\n\n// Lazy loading изображения с IntersectionObserver\nfunction LazyImage({ src, alt }) {\n  const [visible, setVisible] = React.useState(false);\n  const ref = React.useRef();\n\n  React.useEffect(() => {\n    const observer = new IntersectionObserver(([entry]) => {\n      if (entry.isIntersecting) {\n        setVisible(true);\n        observer.disconnect();\n      }\n    });\n    if (ref.current) observer.observe(ref.current);\n    return () => observer.disconnect();\n  }, []);\n\n  return (\n    <div ref={ref}>\n      {visible && <img src={src} alt={alt} loading=\"lazy\" />}\n    </div>\n  );\n}",
     "codeLanguage": "javascript",
-    "category": "Browser Performance",
+    "category": "Browser",
     "scope": "universal",
     "languages": [
       "JavaScript",
@@ -25466,7 +25462,7 @@
       "Какcaching-аете SSR pages?",
       "Какdebug-аете hydration issues?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -25538,7 +25534,7 @@
       "Как используете selectors?",
       "Какобновляете normalized state?"
     ],
-    "category": "Frontend",
+    "category": "Frontend Architecture",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -25616,7 +25612,7 @@
     ],
     "codeSnippet": "<img class=\"lazy\" data-src=\"image.jpg\" src=\"placeholder.jpg\" alt=\"Lazy loaded\">\n```\n\n```javascript\nfunction lazyLoadImages() {\n  const images = document.querySelectorAll('img.lazy');\n\n  if (!('IntersectionObserver' in window)) {\n    // Fallback: загружаем все\n    images.forEach((img) => {\n      img.src = img.dataset.src;\n    });\n    return;\n  }\n\n  const observer = new IntersectionObserver(\n    (entries) => {\n      entries.forEach((entry) => {\n        if (entry.isIntersecting) {\n          const img = entry.target;\n          img.src = img.dataset.src;\n          img.classList.remove('lazy');\n          observer.unobserve(img);\n        }\n      });\n    },\n    {\n      rootMargin: '200px 0px', // Начать загрузку за 200px до появления\n      threshold: 0.01,\n    }\n  );\n\n  images.forEach((img) => observer.observe(img));\n}\n\n// Запуск после загрузки DOM\ndocument.addEventListener('DOMContentLoaded', lazyLoadImages);\n\n// React-компонент\nfunction LazyImage({ src, alt, placeholder }) {\n  const imgRef = React.useRef(null);\n  const [loaded, setLoaded] = React.useState(false);\n\n  React.useEffect(() => {\n    const img = imgRef.current;\n    if (!img) return;\n\n    if (!('IntersectionObserver' in window)) {\n      img.src = src;\n      setLoaded(true);\n      return;\n    }\n\n    const observer = new IntersectionObserver(\n      ([entry]) => {\n        if (entry.isIntersecting) {\n          img.src = src;\n          img.onload = () => setLoaded(true);\n          observer.unobserve(img);\n        }\n      },\n      { rootMargin: '200px' }\n    );\n\n    observer.observe(img);\n    return () => observer.disconnect();\n  }, [src]);\n\n  return (\n    <img\n      ref={imgRef}\n      src={placeholder || ''}\n      alt={alt}\n      style={{ opacity: loaded ? 1 : 0.5, transition: 'opacity 0.3s' }}\n    />\n  );\n}",
     "codeLanguage": "html",
-    "category": "Web Platform",
+    "category": "Browser",
     "scope": "universal",
     "languages": [
       "JavaScript"
@@ -25753,7 +25749,7 @@
     ],
     "codeSnippet": "// Hidden O(n²): spread inside loop\nconst flatten = (arr: number[][]): number[] => {\n  let result: number[] = [];\n  for (const inner of arr) {\n    result = [...result, ...inner]; // O(n) copy each iteration\n  }\n  return result;\n};\n\n// O(n) fix: use concat or push\nconst flattenOptimized = (arr: number[][]): number[] => {\n  return arr.reduce((acc, inner) => acc.concat(inner), []);\n};\n\n// Hidden O(n²): push + reverse\nconst buildPath = (parents: Map<string, string | null>, target: string): string[] => {\n  const path: string[] = [];\n  let current: string | null = target;\n  while (current !== null) {\n    path.push(current);          // O(1) amortized\n    current = parents.get(current) ?? null;\n  }\n  return path.reverse();         // single O(n)\n};",
     "codeLanguage": "typescript",
-    "category": "Performance",
+    "category": "Algorithms",
     "scope": "language-specific",
     "languages": [
       "JavaScript",
@@ -26433,7 +26429,7 @@
     ],
     "codeSnippet": "// Пример CSP policy (HTTP-заголовок)\n// Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-abc123'; style-src 'self' 'unsafe-inline'\n\n// DOMPurify — санитизация HTML\nimport DOMPurify from 'dompurify';\n\nfunction renderComment(html) {\n  return DOMPurify.sanitize(html, {\n    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],\n    ALLOWED_ATTR: ['href'],\n  });\n}\n\n// CSRF-токен в форме\nfunction generateForm() {\n  const token = getCsrfToken(); // из серверного рендера\n  return `\n    <form method=\"POST\" action=\"/api/transfer\">\n      <input type=\"hidden\" name=\"_csrf\" value=\"${token}\">\n      <input name=\"amount\">\n      <button type=\"submit\">Отправить</button>\n    </form>\n  `;\n}\n\n// Проверка SameSite cookie (серверная часть)\n// Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Lax; Path=/\n\n// Trusted Types API (browser)\n// policy.createScriptURL(url) — валидация URL перед вставкой в script.src",
     "codeLanguage": "javascript",
-    "category": "Web Platform",
+    "category": "Browser",
     "scope": "universal",
     "languages": [],
     "roles": [

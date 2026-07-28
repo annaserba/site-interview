@@ -1,7 +1,7 @@
 ---
 id: yandex-frontend-ssr
 title: Как реализуете SSR в React-приложении?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

@@ -1,7 +1,7 @@
 ---
 id: yandex-js-hidden-quadratic-complexity
 title: Найдите скрытую квадратичную сложность в работе с массивами
-category: Performance
+category: Algorithms
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend","Backend"]

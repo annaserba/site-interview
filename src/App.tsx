@@ -4,6 +4,7 @@ import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
 import { MockInterview } from './MockInterview'
+import { RoadmapsPage } from './RoadmapsPage'
 import { ProfilePage } from './ProfilePage'
 import { BlogPage } from './BlogPage'
 import { ArticlePage } from './ArticlePage'
@@ -13,7 +14,7 @@ import { CompanyLogo } from './CompanyLogo'
 import { blogArticles } from './blog-articles'
 import questionsData from './data/questions.json'
 import type { Question } from './types'
-import { questionTypeDefinitions } from './filters'
+import { questionTypeDefinitions, topicDefinitions } from './filters'
 import { fetchQuestions, fetchCurrentUser, loginWithYandex, logout, mapQuestion, type User } from './api'
 import { safeGetItem, safeSetItem } from './safeStorage'
 import s from './App.module.css'
@@ -45,15 +46,6 @@ const youtubeVideoId = (url: string) => {
       : parsed.searchParams.get('v') || ''
   } catch { return '' }
 }
-const topicDefinitions = [
-  { id: 'algorithms', label: 'Алгоритмы', categories: ['Algorithms', 'C++', 'Concurrency'], terms: ['algorithm', 'алгоритм', 'complexity', 'сложность', 'data structures'] },
-  { id: 'frontend', label: 'Frontend', categories: ['JavaScript', 'TypeScript', 'React', 'CSS', 'Browser', 'Browser Performance', 'Web Platform', 'Frontend Architecture'], terms: ['frontend', 'browser', 'react', 'css'] },
-  { id: 'data-ml', label: 'Данные и ML', categories: ['Machine Learning', 'Statistics', 'Data Analytics', 'Data Engineering', 'Data Quality', 'Product Analytics', 'Experimentation', 'BI'], terms: ['machine learning', 'statistics', 'data ', 'analytics', 'sql', 'метрик'] },
-  { id: 'arch', label: 'Архитектура', categories: ['System Design', 'Web Architecture', 'Frontend Architecture'], terms: ['system design', 'architecture'] },
-  { id: 'backend', label: 'Backend', categories: ['Java', 'Kotlin', 'Python', 'Concurrency', 'Go', 'C++'], terms: ['java', 'kotlin', 'python', 'concurrency', 'go', 'c++'] },
-  { id: 'delivery', label: 'Процессы', categories: ['Delivery', 'Performance'], terms: ['delivery'] },
-  { id: 'gamedev', label: 'Game Dev', categories: ['Game Development'], terms: ['unreal', 'game'] },
-]
 
 function App() {
   const [questions, setQuestions] = useState<Question[]>([])
@@ -68,11 +60,13 @@ function App() {
   const [authNotice, setAuthNotice] = useState('')
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview')
+  const [showRoadmaps, setShowRoadmaps] = useState(() => window.location.hash === '#roadmaps')
   const [showAllQuestions, setShowAllQuestions] = useState(() => window.location.hash === '#all-questions')
   const [showProfile, setShowProfile] = useState(() => window.location.hash === '#profile')
   const [showBlog, setShowBlog] = useState(() => window.location.hash === '#blog')
   const [showPrivacy, setShowPrivacy] = useState(() => window.location.hash === '#privacy')
   const [selectedArticleId, setSelectedArticleId] = useState(() => window.location.hash.startsWith('#article/') ? window.location.hash.slice(10) : '')
+  const [initialTopic, setInitialTopic] = useState(() => window.location.hash.startsWith('#topic/') ? window.location.hash.slice(7) : '')
 
   useEffect(() => {
     fetchCurrentUser().then(setUser)
@@ -123,8 +117,10 @@ function App() {
       setShowProfile(false)
       return
     }
-    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
+    if (path === 'mock-interview') { setShowMockInterview(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); return }
     setShowMockInterview(false)
+    if (path === 'roadmaps') { setShowRoadmaps(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
+    setShowRoadmaps(false)
     if (path === 'profile') { setShowProfile(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); return }
     setShowProfile(false)
     if (path === 'privacy') { setShowPrivacy(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); return }
@@ -133,6 +129,8 @@ function App() {
     setShowBlog(false)
     if (path.startsWith('article/')) { setSelectedArticleId(path.slice(8)); setShowBlog(false); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); return }
     setSelectedArticleId('')
+    if (path.startsWith('topic/')) { setInitialTopic(path.slice(6)); setShowAllQuestions(true); setSelectedQuestionId(''); return }
+    setInitialTopic('')
     if (path === 'all-questions') { setShowAllQuestions(true); setSelectedQuestionId(''); return }
     setShowAllQuestions(false)
     if (path.startsWith('question/')) { setSelectedQuestionId(path.slice(9)); return }
@@ -154,6 +152,14 @@ function App() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
+  // Блокировка скролла страницы при открытом мобильном меню
+  useEffect(() => {
+    if (!menuOpen) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previous }
   }, [menuOpen])
 
   // Закрытие меню профиля по клику вне и Escape
@@ -247,9 +253,10 @@ function App() {
           <span><strong>{universalCount}</strong> <small>универс.</small></span>
         </div>
         <nav className={`${s['nav-links']} ${menuOpen ? s.open : ''}`}>
-          <a href="#all-questions" onClick={() => setMenuOpen(false)}>Вопросы</a>
-          <a href="#mock-interview" onClick={() => setMenuOpen(false)}>Мок-интервью</a>
-          <a href="#blog" onClick={() => setMenuOpen(false)}>Блог</a>
+          <a href="#all-questions" className={showAllQuestions || selectedQuestionId ? s.active : undefined} onClick={() => setMenuOpen(false)}>Вопросы</a>
+          <a href="#roadmaps" className={showRoadmaps ? s.active : undefined} onClick={() => setMenuOpen(false)}>Роадмапы</a>
+          <a href="#mock-interview" className={showMockInterview ? s.active : undefined} onClick={() => setMenuOpen(false)}>Мок-интервью</a>
+          <a href="#blog" className={showBlog || selectedArticleId ? s.active : undefined} onClick={() => setMenuOpen(false)}>Блог</a>
           {!user && (
             <div className={s['nav-auth']}>
               <button type="button" onClick={() => { setMenuOpen(false); loginWithYandex() }}>
@@ -315,7 +322,8 @@ function App() {
 
       <main id="top">
         {showMockInterview ? <MockInterview onBack={() => window.location.hash = 'questions'} /> :
-         showAllQuestions ? <QuestionsPage questions={questions} dataError={dataError} onOpenQuestion={openQuestion} /> :
+         showRoadmaps ? <RoadmapsPage questions={questions} onBack={() => window.location.hash = 'questions'} /> :
+         showAllQuestions ? <QuestionsPage questions={questions} dataError={dataError} onOpenQuestion={openQuestion} initialTopic={initialTopic} /> :
          showProfile && user ? <ProfilePage user={user} onBack={() => window.location.hash = 'questions'} /> :
          showBlog ? <BlogPage onOpenArticle={(id) => window.location.hash = `article/${id}`} onBack={() => window.location.hash = 'questions'} /> :
          showPrivacy ? <PrivacyPage /> :

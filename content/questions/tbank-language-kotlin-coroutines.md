@@ -1,7 +1,7 @@
 ---
 id: tbank-language-kotlin-coroutines
 title: Как работают корутины в Kotlin? Чем отличаются от потоков?
-category: C++
+category: Backend
 scope: language-specific
 languages: ["Kotlin"]
 roles: ["Backend","Mobile"]

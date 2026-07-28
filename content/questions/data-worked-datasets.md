@@ -1,7 +1,7 @@
 ---
 id: data-worked-datasets
 title: С какими данными вы работали?
-category: Data Analytics
+category: Product Analytics
 scope: multi-language
 languages: ["SQL", "Python", "R"]
 roles: ["Data Science","Data Engineering"]

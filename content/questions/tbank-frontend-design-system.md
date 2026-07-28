@@ -1,7 +1,7 @@
 ---
 id: tbank-frontend-design-system
 title: Как создаёте и поддерживаете design system?
-category: Frontend
+category: Frontend Architecture
 scope: universal
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

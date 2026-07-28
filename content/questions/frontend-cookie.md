@@ -2,7 +2,7 @@
 id: frontend-cookie
 title: Что такое cookie и как безопасно его использовать?
 aliases: ["Как работают cookies и зачем они нужны?"]
-category: Web Platform
+category: Browser
 scope: multi-language
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend", "Backend"]

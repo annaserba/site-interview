@@ -2,7 +2,7 @@
 id: yandex-intersection-observer-lazy-load
 title: Реализуйте lazy loading изображений с помощью Intersection Observer
 aliases: []
-category: Web Platform
+category: Browser
 scope: universal
 languages: ["JavaScript"]
 roles: ["Frontend"]

@@ -1,7 +1,7 @@
 ---
 id: goznak-frontend-security
 title: Как обеспечиваете безопасность React-приложения?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

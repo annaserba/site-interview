@@ -4,6 +4,7 @@ import { fetchAllUserAnswers, deleteUserAnswer, fetchQuestions, fetchFilters, ty
 import { questionTypeDefinitions, companyOrder, getQuestionType, topicDefinitions } from './filters'
 import { FilterDropdown } from './FilterDropdown'
 import { exportQuestionsPDF, exportAnswersPDF } from './exportPdf'
+import { PrepChecklist } from './PrepChecklist'
 import s from './ProfilePage.module.css'
 
 interface ProfilePageProps {
@@ -21,7 +22,7 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
   const [activeRole, setActiveRole] = useState('all')
   const [activeTopic, setActiveTopic] = useState('all')
   const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set(['technical', 'behavioral', 'system-design', 'management', 'hr', 'game-dev']))
-  const [tab, setTab] = useState<'answers' | 'questions'>('questions')
+  const [tab, setTab] = useState<'answers' | 'questions' | 'checklist'>('checklist')
 
   useEffect(() => {
     Promise.all([
@@ -149,6 +150,9 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
       </div>
 
       <div className={s.tabs}>
+        <button className={`${s.tab} ${tab === 'checklist' ? s.active : ''}`} onClick={() => setTab('checklist')}>
+          Подготовка
+        </button>
         <button className={`${s.tab} ${tab === 'questions' ? s.active : ''}`} onClick={() => setTab('questions')}>
           Все вопросы
         </button>
@@ -157,7 +161,9 @@ export function ProfilePage({ user, onBack }: ProfilePageProps) {
         </button>
       </div>
 
-      {tab === 'questions' ? (
+      {tab === 'checklist' ? (
+        <PrepChecklist userId={user.id} />
+      ) : tab === 'questions' ? (
         <>
           {filteredQuestions.length > 0 && (
             <div className={s['export-actions']}>

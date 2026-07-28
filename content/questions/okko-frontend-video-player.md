@@ -1,7 +1,7 @@
 ---
 id: okko-frontend-video-player
 title: Как реализуете видеоплеер на React?
-category: Frontend
+category: Frontend Architecture
 scope: language-specific
 languages: ["JavaScript", "TypeScript"]
 roles: ["Frontend"]

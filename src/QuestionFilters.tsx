@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { FilterDropdown } from './FilterDropdown'
 import { CompanyLogo } from './CompanyLogo'
-import { questionTypeDefinitions, companyOrder, topicDefinitions } from './filters'
+import { questionTypeDefinitions, companyOrder, topicDefinitions, roleOrder } from './filters'
 import type { Question } from './types'
 import s from './App.module.css'
 
@@ -41,9 +41,10 @@ export function QuestionFilters({
     count: questions.filter((q) => (q.companies || []).includes(name)).length,
   })).filter((c) => c.count > 0), [questions])
 
-  const roles = useMemo(() =>
-    [...new Set(questions.flatMap((q) => q.roles || []))].sort((a, b) => a.localeCompare(b, 'ru')),
-    [questions])
+  const roles = useMemo(() => {
+    const present = new Set(questions.flatMap((q) => q.roles || []))
+    return roleOrder.filter((role) => present.has(role))
+  }, [questions])
 
   const toggleType = (typeId: string) => {
     const next = new Set(filterState.activeTypes)
