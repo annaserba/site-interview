@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Binary, Clock, Code2, Layers3, LogOut, Menu, MessagesSquare, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
+import { ArrowRight, Binary, Clock, Code2, HeartHandshake, Layers3, LogOut, Menu, MessagesSquare, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
@@ -62,11 +62,11 @@ function App() {
   const [authNotice, setAuthNotice] = useState('')
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview' || window.location.hash === '#design-session')
-  const [mockFormat, setMockFormat] = useState<'technical' | 'algorithms' | 'behavioral' | 'design' | undefined>(() => {
+  const [mockFormat, setMockFormat] = useState<'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design' | undefined>(() => {
     const hash = window.location.hash
     if (hash === '#design-session') return 'design'
-    const match = hash.match(/^#mock-interview\/(technical|algorithms|behavioral|design)$/)
-    return match ? (match[1] as 'technical' | 'algorithms' | 'behavioral' | 'design') : undefined
+    const match = hash.match(/^#mock-interview\/(technical|algorithms|behavioral|hr|management|design)$/)
+    return match ? (match[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design') : undefined
   })
   const [showChecklist, setShowChecklist] = useState(() => window.location.hash === '#checklist')
   const [showRoadmaps, setShowRoadmaps] = useState(() => window.location.hash === '#roadmaps')
@@ -127,8 +127,8 @@ function App() {
       return
     }
     if (path === 'mock-interview') { setShowMockInterview(true); setMockFormat(undefined); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
-    const mockSectionMatch = path.match(/^mock-interview\/(technical|algorithms|behavioral|design)$/)
-    if (mockSectionMatch) { setShowMockInterview(true); setMockFormat(mockSectionMatch[1] as 'technical' | 'algorithms' | 'behavioral' | 'design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
+    const mockSectionMatch = path.match(/^mock-interview\/(technical|algorithms|behavioral|hr|management|design)$/)
+    if (mockSectionMatch) { setShowMockInterview(true); setMockFormat(mockSectionMatch[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
     if (path === 'design-session') { setShowMockInterview(true); setMockFormat('design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
     setShowMockInterview(false)
     if (path === 'checklist') { setShowChecklist(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); return }
@@ -371,6 +371,22 @@ function App() {
                 <span className={s['design-tile-text']}>
                   <b>Поведенческая секция</b>
                   <small>Софт-скиллы, конфликты и мотивация — отвечайте по STAR</small>
+                </span>
+                <span className={s['design-tile-cta']}>Начать <ArrowRight size={15} /></span>
+              </a>
+              <a href="#mock-interview/hr" className={s['design-tile']}>
+                <span className={s['design-tile-icon']}><HeartHandshake size={24} /></span>
+                <span className={s['design-tile-text']}>
+                  <b>HR-секция</b>
+                  <small>Мотивация, зарплатные ожидания и карьерные планы</small>
+                </span>
+                <span className={s['design-tile-cta']}>Начать <ArrowRight size={15} /></span>
+              </a>
+              <a href="#mock-interview/management" className={s['design-tile']}>
+                <span className={s['design-tile-icon']}><Users size={24} /></span>
+                <span className={s['design-tile-text']}>
+                  <b>Управленческая секция</b>
+                  <small>Лидерство, найм, процессы и развитие команды</small>
                 </span>
                 <span className={s['design-tile-cta']}>Начать <ArrowRight size={15} /></span>
               </a>

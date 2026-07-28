@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
@@ -51,7 +51,7 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const formatTime = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 
-type Format = 'technical' | 'algorithms' | 'behavioral' | 'design'
+type Format = 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design'
 
 type MockInterviewProps = { onBack?: () => void; initialFormat?: Format }
 
@@ -130,10 +130,16 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       return filteredPool.filter((q) => getQuestionType(q) === 'technical' && (q.category === 'Algorithms' || Boolean(q.codeSnippet)))
     }
     if (format === 'behavioral') {
-      return filteredPool.filter((q) => ['behavioral', 'hr'].includes(getQuestionType(q)))
+      return filteredPool.filter((q) => getQuestionType(q) === 'behavioral')
     }
-    // Техническая секция: всё, кроме поведенческих/HR
-    return filteredPool.filter((q) => !['behavioral', 'hr'].includes(getQuestionType(q)))
+    if (format === 'hr') {
+      return filteredPool.filter((q) => getQuestionType(q) === 'hr')
+    }
+    if (format === 'management') {
+      return filteredPool.filter((q) => getQuestionType(q) === 'management')
+    }
+    // Техническая секция: всё, кроме поведенческих/HR/управленческих
+    return filteredPool.filter((q) => !['behavioral', 'hr', 'management'].includes(getQuestionType(q)))
   }, [filteredPool, format])
 
   const startInterview = (pool: Question[], count?: number) => {
@@ -557,6 +563,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
               if ('activeTypes' in partial && partial.activeTypes) setActiveTypes(partial.activeTypes)
             }}
             showSort={false}
+            showTypePills={false}
+            showTopic={format === 'technical'}
           />
 
           <div className={s['section-picker']}>
@@ -564,6 +572,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
               { id: 'technical', icon: <Code2 size={20} />, label: 'Техническая', desc: 'Языки, фреймворки, технологии роли' },
               { id: 'algorithms', icon: <Binary size={20} />, label: 'Алгоритмическая', desc: 'Задачи на код, сложность, edge-cases' },
               { id: 'behavioral', icon: <MessagesSquare size={20} />, label: 'Поведенческая', desc: 'Софт-скиллы и работа в команде' },
+              { id: 'hr', icon: <HeartHandshake size={20} />, label: 'HR', desc: 'Мотивация, ожидания, культура' },
+              { id: 'management', icon: <Users size={20} />, label: 'Управленческая', desc: 'Лидерство, процессы, найм' },
               { id: 'design', icon: <Layers3 size={20} />, label: 'Системный дизайн', desc: 'Кейс «спроектируйте систему»' },
             ] as const).map((item) => (
               <button
@@ -606,7 +616,11 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
                     ? 'Алгоритмическая секция: задачи на код и структуры данных. Пишите решение в поле ответа — ИИ проверит подход и сложность.'
                     : format === 'behavioral'
                       ? 'Поведенческая секция: софт-скиллы, конфликты, мотивация и работа в команде. Отвечайте по модели STAR.'
-                      : 'Техническая секция: вопросы по языкам, фреймворкам и технологиям вашей роли.'}
+                      : format === 'hr'
+                        ? 'HR-секция: мотивация, зарплатные ожидания, культура и карьерные планы. Будьте честны, но структурированы.'
+                        : format === 'management'
+                          ? 'Управленческая секция: лидерство, найм, процессы и развитие команды. Приводите примеры из практики.'
+                          : 'Техническая секция: вопросы по языкам, фреймворкам и технологиям вашей роли.'}
                   {setupSummary ? ` ${setupSummary}` : ''}
                 </p>
                 <button
