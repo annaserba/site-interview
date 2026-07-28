@@ -4,7 +4,6 @@ import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
 import { InterviewerAvatar } from './InterviewerAvatar'
-import { CodeBlock } from './CodeBlock'
 import { buildDesignSession, designPool, isDesignCase, type DesignSession } from './designSession'
 import { fetchUserAnswers, saveUserAnswer, deleteUserAnswer, evaluateAnswer, type UserAnswer, type AnswerEvaluation } from './api'
 import { CompanyLogo } from './CompanyLogo'
@@ -715,10 +714,6 @@ export function MockInterview({ onBack }: MockInterviewProps) {
             >
               Открыть детализацию вопроса →
             </a>
-
-            {current.codeSnippet && (
-              <CodeBlock code={current.codeSnippet} language={current.codeLanguage} />
-            )}
 
             {renderAnswerBox(current)}
 
