@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, HeartHandshake, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Speech, Trash2, Users } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
@@ -51,7 +51,7 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const formatTime = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 
-type Format = 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design'
+type Format = 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'self-intro' | 'design'
 
 type MockInterviewProps = { onBack?: () => void; initialFormat?: Format }
 
@@ -137,6 +137,9 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     }
     if (format === 'management') {
       return filteredPool.filter((q) => getQuestionType(q) === 'management')
+    }
+    if (format === 'self-intro') {
+      return filteredPool.filter((q) => (q.tags || []).includes('Self presentation'))
     }
     // Техническая секция: всё, кроме поведенческих/HR/управленческих
     return filteredPool.filter((q) => !['behavioral', 'hr', 'management'].includes(getQuestionType(q)))
@@ -569,6 +572,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
 
           <div className={s['section-picker']}>
             {([
+              { id: 'self-intro', icon: <Speech size={20} />, label: 'Самопрезентация', desc: '«Расскажите о себе» — шаблоны по STAR' },
               { id: 'technical', icon: <Code2 size={20} />, label: 'Техническая', desc: 'Языки, фреймворки, технологии роли' },
               { id: 'algorithms', icon: <Binary size={20} />, label: 'Алгоритмическая', desc: 'Задачи на код, сложность, edge-cases' },
               { id: 'behavioral', icon: <MessagesSquare size={20} />, label: 'Поведенческая', desc: 'Софт-скиллы и работа в команде' },
@@ -612,7 +616,9 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
                   {limit > 0 && <span>На каждый вопрос: {formatTime(limit)}</span>}
                 </div>
                 <p className={s['setup-summary']}>
-                  {format === 'algorithms'
+                  {format === 'self-intro'
+                    ? 'Самопрезентация: «Расскажите о себе» с готовыми шаблонами по STAR под бигтех, финтех, e-commerce и геймдев. Расскажите свой вариант вслух — ИИ сравнит с эталоном.'
+                    : format === 'algorithms'
                     ? 'Алгоритмическая секция: задачи на код и структуры данных. Пишите решение в поле ответа — ИИ проверит подход и сложность.'
                     : format === 'behavioral'
                       ? 'Поведенческая секция: софт-скиллы, конфликты, мотивация и работа в команде. Отвечайте по модели STAR.'

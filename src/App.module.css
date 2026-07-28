@@ -586,7 +586,7 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 4px;
+  margin-top: 20px;
 }
 .mock-tiles .design-tile { margin-top: 0; padding: 16px 18px; gap: 14px; }
 .mock-tiles .design-tile-icon { width: 44px; height: 44px; }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Binary, Clock, Code2, HeartHandshake, Layers3, LogOut, Menu, MessagesSquare, Moon, Search, Sun, Tag, Users, X } from 'lucide-react'
+import { ArrowRight, Binary, Clock, Code2, HeartHandshake, Layers3, LogOut, Menu, MessagesSquare, Moon, Search, Speech, Sun, Tag, Users, X } from 'lucide-react'
 import { ChatBot } from './ChatBot'
 import { QuestionDetail } from './QuestionDetail'
 import { QuestionsPage } from './QuestionsPage'
@@ -62,11 +62,11 @@ function App() {
   const [authNotice, setAuthNotice] = useState('')
   const [selectedQuestionId, setSelectedQuestionId] = useState(() => window.location.hash.startsWith('#question/') ? window.location.hash.slice(10) : '')
   const [showMockInterview, setShowMockInterview] = useState(() => window.location.hash === '#mock-interview' || window.location.hash === '#design-session')
-  const [mockFormat, setMockFormat] = useState<'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design' | undefined>(() => {
+  const [mockFormat, setMockFormat] = useState<'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'self-intro' | 'design' | undefined>(() => {
     const hash = window.location.hash
     if (hash === '#design-session') return 'design'
-    const match = hash.match(/^#mock-interview\/(technical|algorithms|behavioral|hr|management|design)$/)
-    return match ? (match[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design') : undefined
+    const match = hash.match(/^#mock-interview\/(technical|algorithms|behavioral|hr|management|self-intro|design)$/)
+    return match ? (match[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'self-intro' | 'design') : undefined
   })
   const [showChecklist, setShowChecklist] = useState(() => window.location.hash === '#checklist')
   const [showRoadmaps, setShowRoadmaps] = useState(() => window.location.hash === '#roadmaps')
@@ -127,8 +127,8 @@ function App() {
       return
     }
     if (path === 'mock-interview') { setShowMockInterview(true); setMockFormat(undefined); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
-    const mockSectionMatch = path.match(/^mock-interview\/(technical|algorithms|behavioral|hr|management|design)$/)
-    if (mockSectionMatch) { setShowMockInterview(true); setMockFormat(mockSectionMatch[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
+    const mockSectionMatch = path.match(/^mock-interview\/(technical|algorithms|behavioral|hr|management|self-intro|design)$/)
+    if (mockSectionMatch) { setShowMockInterview(true); setMockFormat(mockSectionMatch[1] as 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'self-intro' | 'design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
     if (path === 'design-session') { setShowMockInterview(true); setMockFormat('design'); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); setShowChecklist(false); return }
     setShowMockInterview(false)
     if (path === 'checklist') { setShowChecklist(true); setSelectedQuestionId(''); setShowAllQuestions(false); setShowProfile(false); setShowBlog(false); setSelectedArticleId(''); setShowPrivacy(false); setShowRoadmaps(false); return }
@@ -348,8 +348,15 @@ function App() {
           <div className={s['hero-copy']}>
             <h1>Знай, что тебя <em>спросят.</em></h1>
             <p>Вопросы компаний, короткие ответы и подробные разборы.</p>
-            <a href="#mock-interview" className={s['hero-cta']}>Практиковаться <ArrowRight /></a>
             <div className={s['mock-tiles']}>
+              <a href="#mock-interview/self-intro" className={s['design-tile']}>
+                <span className={s['design-tile-icon']}><Speech size={24} /></span>
+                <span className={s['design-tile-text']}>
+                  <b>Самопрезентация</b>
+                  <small>«Расскажите о себе» — шаблоны по STAR под бигтех, финтех, e-commerce и геймдев</small>
+                </span>
+                <span className={s['design-tile-cta']}>Начать <ArrowRight size={15} /></span>
+              </a>
               <a href="#mock-interview/technical" className={s['design-tile']}>
                 <span className={s['design-tile-icon']}><Code2 size={24} /></span>
                 <span className={s['design-tile-text']}>
