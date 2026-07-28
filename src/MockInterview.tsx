@@ -51,6 +51,13 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const formatTime = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
 
+// «Расскажите о себе» — один и тот же вопрос во всех отраслевых вариантах самопрезентации.
+// Сохранённые ответы складываем в канонический id, чтобы они были общими для всех шаблонов.
+const SELF_INTRO_TAG = 'Self presentation'
+const SELF_INTRO_CANONICAL_ID = 'universal-tell-about-yourself'
+const canonicalAnswerId = (q?: { id: string; tags?: string[] }) =>
+  q && (q.tags || []).includes(SELF_INTRO_TAG) ? SELF_INTRO_CANONICAL_ID : q?.id
+
 type Format = 'technical' | 'algorithms' | 'behavioral' | 'hr' | 'management' | 'self-intro' | 'design'
 
 type MockInterviewProps = { onBack?: () => void; initialFormat?: Format }
@@ -139,7 +146,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
       return filteredPool.filter((q) => getQuestionType(q) === 'management')
     }
     if (format === 'self-intro') {
-      return filteredPool.filter((q) => (q.tags || []).includes('Self presentation'))
+      return filteredPool.filter((q) => (q.tags || []).includes(SELF_INTRO_TAG))
     }
     // Техническая секция: всё, кроме поведенческих/HR/управленческих
     return filteredPool.filter((q) => !['behavioral', 'hr', 'management'].includes(getQuestionType(q)))
@@ -192,7 +199,7 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
   }, [phase, currentIndex, stageIndex, limit])
 
   // Load saved user answers for current question
-  const answerQuestionId = design ? designQuestion?.id : current?.id
+  const answerQuestionId = design ? designQuestion?.id : canonicalAnswerId(current)
   useEffect(() => {
     if (answerQuestionId && !userAnswers[answerQuestionId]) {
       fetchUserAnswers(answerQuestionId).then((answers) => {
@@ -254,15 +261,16 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
     const target = question ?? current
     const value = (text ?? answerText).trim()
     if (!target || !value) return
+    const answerId = canonicalAnswerId(target) || target.id
     setIsSaving(true)
     try {
-      const id = await saveUserAnswer(target.id, value)
+      const id = await saveUserAnswer(answerId, value)
       if (id) {
         const newAnswer: UserAnswer = {
-          id, user_id: 0, question_id: target.id, answer: value,
+          id, user_id: 0, question_id: answerId, answer: value,
           context: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString()
         }
-        setUserAnswers((prev) => ({ ...prev, [target.id]: [newAnswer, ...(prev[target.id] || [])] }))
+        setUserAnswers((prev) => ({ ...prev, [answerId]: [newAnswer, ...(prev[answerId] || [])] }))
         if (text === undefined) setAnswerText('')
       }
     } finally {
@@ -422,17 +430,19 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
 
   // Поле ответа: голосовой ввод, сохранение, ИИ-оценка. Общее для обычных вопросов и этапов дизайн-сессии.
   // opts.hideEval — без поэтапной ИИ-оценки (дизайн-сессия оценивается целиком в конце).
-  const renderAnswerBox = (target: Question, rateKey?: string, opts?: { hideEval?: boolean; value?: string; onChange?: (v: string) => void }) => (
+  const renderAnswerBox = (target: Question, rateKey?: string, opts?: { hideEval?: boolean; value?: string; onChange?: (v: string) => void }) => {
+    const answersKey = canonicalAnswerId(target) || target.id
+    return (
     <div className={s['user-answer-box']}>
       <div className={s['user-answer-head']}>
-        <span>Ваш ответ ({(userAnswers[target.id] || []).length})</span>
+        <span>Ваш ответ ({(userAnswers[answersKey] || []).length})</span>
       </div>
-      {(userAnswers[target.id] || []).length > 0 && (
+      {(userAnswers[answersKey] || []).length > 0 && (
         <div className={s['user-answers-list']}>
-          {(userAnswers[target.id] || []).map((item) => (
+          {(userAnswers[answersKey] || []).map((item) => (
             <div key={item.id} className={s['user-answer-item']}>
               <p>{item.answer}</p>
-              <button className={s['user-answer-delete']} onClick={() => handleDeleteAnswer(item.id, target.id)} title="Удалить ответ">
+              <button className={s['user-answer-delete']} onClick={() => handleDeleteAnswer(item.id, answersKey)} title="Удалить ответ">
                 <Trash2 size={14} />
               </button>
             </div>
@@ -536,7 +546,8 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
         </div>
       )}
     </div>
-  )
+    )
+  }
 
   return (
     <div className={s.page}>
