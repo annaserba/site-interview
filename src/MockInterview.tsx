@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Clock, Flag, Layers3, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Binary, Check, Clock, Code2, Flag, Layers3, MessagesSquare, Mic, MicOff, RotateCcw, Save, Shuffle, Sparkles, Trash2 } from 'lucide-react'
 import { QuestionFilters, type FilterState } from './QuestionFilters'
 import { FilterDropdown } from './FilterDropdown'
 import { questionTypeDefinitions, topicDefinitions, getQuestionType } from './filters'
@@ -559,13 +559,29 @@ export function MockInterview({ onBack, initialFormat }: MockInterviewProps) {
             showSort={false}
           />
 
+          <div className={s['section-picker']}>
+            {([
+              { id: 'technical', icon: <Code2 size={20} />, label: 'Техническая', desc: 'Языки, фреймворки, технологии роли' },
+              { id: 'algorithms', icon: <Binary size={20} />, label: 'Алгоритмическая', desc: 'Задачи на код, сложность, edge-cases' },
+              { id: 'behavioral', icon: <MessagesSquare size={20} />, label: 'Поведенческая', desc: 'Софт-скиллы и работа в команде' },
+              { id: 'design', icon: <Layers3 size={20} />, label: 'Системный дизайн', desc: 'Кейс «спроектируйте систему»' },
+            ] as const).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`${s['section-card']} ${format === item.id ? s['section-card-active'] : ''}`}
+                onClick={() => setFormat(item.id)}
+              >
+                <span className={s['section-card-icon']}>{item.icon}</span>
+                <span className={s['section-card-text']}>
+                  <b>{item.label}</b>
+                  <small>{item.desc}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+
           <div className={s['setup-row']}>
-            <FilterDropdown label="Секция" value={format} onChange={(v) => setFormat(v as Format)} options={[
-              { value: 'technical', label: 'Техническая' },
-              { value: 'algorithms', label: 'Алгоритмическая' },
-              { value: 'behavioral', label: 'Поведенческая' },
-              { value: 'design', label: 'Системный дизайн' },
-            ]} />
             <FilterDropdown label="Сложность" value={activeDifficulty} onChange={setActiveDifficulty} options={[
               { value: 'all', label: 'Любая' },
               { value: 'easy', label: 'Лёгкий' },

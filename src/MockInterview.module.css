@@ -600,6 +600,51 @@
 }
 .session-stage-head span:last-child { font-size: 12px; white-space: nowrap; }
 
+/* ─── SECTION PICKER ─── */
+.section-picker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.section-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .15s;
+}
+.section-card:hover { border-color: color-mix(in srgb, var(--acid) 50%, var(--line)); }
+.section-card:active { transform: scale(.98); }
+.section-card-active {
+  border-color: var(--acid);
+  background: color-mix(in srgb, var(--acid) 8%, var(--surface));
+}
+.section-card-icon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--paper-dim);
+  color: var(--muted);
+}
+.section-card-active .section-card-icon { background: var(--acid); color: #111210; }
+.section-card-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.section-card-text b { font-size: 13.5px; letter-spacing: -.01em; }
+.section-card-text small { font-size: 11.5px; line-height: 1.4; color: var(--muted); }
+@media (max-width: 760px) {
+  .section-picker { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* ─── CODE EVALUATION ─── */
 .code-eval-meta {
   display: flex;

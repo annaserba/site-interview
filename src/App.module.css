@@ -580,3 +580,17 @@ footer > span { color: #5d5f58; font: 9px 'JetBrains Mono'; white-space: nowrap;
   .design-tile { flex-wrap: wrap; padding: 16px; }
   .design-tile-cta { width: 100%; justify-content: flex-end; }
 }
+
+/* ─── MOCK SECTION TILES GRID ─── */
+.mock-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 4px;
+}
+.mock-tiles .design-tile { margin-top: 0; padding: 16px 18px; gap: 14px; }
+.mock-tiles .design-tile-icon { width: 44px; height: 44px; }
+.mock-tiles .design-tile-text b { font-size: 15px; }
+@media (max-width: 640px) {
+  .mock-tiles { grid-template-columns: 1fr; }
+}
