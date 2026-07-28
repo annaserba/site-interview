@@ -1,4 +1,4 @@
-.page { max-width: 800px; margin: 0 auto; padding: 24px 20px 80px; }
+.page { max-width: 1080px; margin: 0 auto; padding: 24px 20px 80px; }
 
 .header { margin-bottom: 40px; }
 .header h1 { font-size: clamp(36px, 6vw, 56px); letter-spacing: -.04em; margin: 16px 0 8px; line-height: 1; font-weight: 800; }
@@ -515,3 +515,52 @@
 .eval-apply:hover {
   opacity: 0.85;
 }
+
+/* ─── CODING ─── */
+.user-answer-input.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.55; }
+
+/* ─── DESIGN SESSION ─── */
+.design-case {
+  border: 1px solid color-mix(in srgb, var(--acid) 30%, var(--line));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--acid) 7%, var(--surface));
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.design-case-label {
+  font: 8px 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+.design-case h3 { margin: 4px 0 6px; font-size: 17px; line-height: 1.4; }
+.design-case a { font-size: 12px; font-weight: 600; color: var(--acid); text-decoration: none; }
+.design-case a:hover { text-decoration: underline; }
+
+.design-steps { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.design-step {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font: 700 13px 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all .2s var(--ease-out);
+}
+.design-step:hover { border-color: var(--acid); color: var(--ink); }
+.design-step.active { background: var(--acid); border-color: var(--acid); color: var(--paper); }
+.design-step.complete:not(.active) { border-color: color-mix(in srgb, var(--acid) 45%, var(--line)); color: var(--acid); }
+
+.stage-hint { color: var(--muted); font-size: 14px; line-height: 1.6; margin: -6px 0 14px; max-width: 640px; }
+
+.followups {
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+.followups-label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 6px; }
+.followups ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.followups a { color: var(--ink); font-size: 13px; text-decoration: none; line-height: 1.45; }
+.followups a:hover { color: var(--acid); }
