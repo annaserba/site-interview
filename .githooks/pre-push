@@ -1,0 +1,20 @@
+#!/bin/sh
+# pre-push: контентный линт markdown-источников вопросов.
+# Битый контент (категории, stage, duration, дубли) не уезжает в репозиторий.
+# Быстрый (~0.2s). Полный прогон перед пушем: npm run check && npm test && npm run build.
+# Обход в исключительных случаях: git push --no-verify
+
+echo "pre-push: контентный линт вопросов..."
+node --test server/content-lint.test.mjs > /dev/null 2>&1
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "✖ Контентный линт не прошёл — пуш отменён."
+  echo "  Подробности: node --test server/content-lint.test.mjs"
+  echo "  Исправьте content/questions/*.md (или git push --no-verify на свой риск)."
+  exit 1
+fi
+
+echo "✔ Контентный линт прошёл"
+exit 0

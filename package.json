@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "dev": "node scripts/build-content.mjs && node scripts/build-index.mjs && node scripts/dev.mjs",
     "dev:web": "vite",
     "rag": "node server/index.mjs",
