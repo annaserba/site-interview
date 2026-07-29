@@ -544,7 +544,6 @@ function App() {
           <div><b>Темы</b>{topicDefinitions.map((topic) => <button key={topic.id} onClick={() => navigateTopic(topic.id)}>{topic.label}</button>)}</div>
           <div><b>Типы</b>{questionTypeDefinitions.map((type) => <button key={type.id} onClick={() => window.location.hash = `all-questions`}>{type.label}</button>)}</div>
           <div><b>Подготовка</b>
-            <button onClick={() => window.location.hash = 'checklist'}>Чеклист перед собеседованием</button>
             <button onClick={() => window.location.hash = 'roadmaps'}>Роадмапы по ролям</button>
             <button onClick={() => window.location.hash = 'design-session'}>Дизайн-сессия</button>
           </div>
