@@ -269,6 +269,9 @@ function App() {
           <a href="#roadmaps" className={showRoadmaps ? s.active : undefined} onClick={() => setMenuOpen(false)}>Роадмапы</a>
           <a href="#mock-interview" className={showMockInterview ? s.active : undefined} onClick={() => setMenuOpen(false)}>Мок-интервью</a>
           <a href="#blog" className={showBlog || selectedArticleId ? s.active : undefined} onClick={() => setMenuOpen(false)}>Блог</a>
+          {user && (
+            <a href="#checklist" className={showChecklist ? s.active : undefined} onClick={() => setMenuOpen(false)}>Чеклист</a>
+          )}
           {!user && (
             <div className={s['nav-auth']}>
               <button type="button" onClick={() => { setMenuOpen(false); loginWithYandex() }}>
